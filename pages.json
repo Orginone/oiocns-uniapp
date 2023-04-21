@@ -1,16 +1,151 @@
 {
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/connect/connect",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "沟通",
+				"enablePullDownRefresh": false
 			}
+
+		},
+		{
+			"path": "pages/work/work",
+			"style": {
+				"navigationBarTitleText": "办事",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/warehouse/warehouse",
+			"style": {
+				"navigationBarTitleText": "仓库",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/shop/shop",
+			"style": {
+				"navigationBarTitleText": "商店",
+				"enablePullDownRefresh": false
+			}
+		}
+
+
+		, {
+			"path": "pages/warehouse/page1/page1",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+				// "navigationStyle": "custom"
+			},
+			"app-plus": {
+				"titleNView": false
+			}
+
+		}, {
+			"path": "pages/warehouse/page2/page2",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+
+			}
+		}, {
+			"path": "pages/warehouse/page3/page3",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+
+			}
+		}, {
+			"path": "pages/warehouse/page4/page4",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+
+			},
+			"app-plus": {
+				"titleNView": false
+			}
+
+		}, {
+			"path": "pages/warehouse/page5/page5",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			},
+			"app-plus": {
+				"titleNView": false
+			}
+
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"pageOrientation": "portrait",
+		"navigationBarTitleText": "Hello uniapp",
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#F5F4FB",
+		"backgroundColor": "#F5F4FB",
+		"backgroundColorTop": "#F5F4FB",
+		"backgroundColorBottom": "#F5F4FB",
+		"enablePullDownRefresh": true,
+		"onReachBottomDistance": 1,
+		"mp-360": {
+			"navigationStyle": "custom"
+		},
+		"mp-weixin": {
+			"navigationStyle": "default",
+			"navigationBarTextStyle": "black"
+		},
+		"app-plus": {
+			"navigationStyle": "default",
+			"navigationBarTextStyle": "black"
+		},
+		"h5": {
+			"navigationBarTextStyle": "black",
+			"navigationBarBackgroundColor": "#FFFFFF"
+		},
+		"navigationStyle": "default",
+		"style": {
+			"app-plus": {
+				"titleNView": false
+			}
+		}
+
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#007AFF",
+		"borderStyle": "black",
+		"backgroundColor": "#FFFFFF",
+		"list": [{
+				"pagePath": "pages/connect/connect",
+				"iconPath": "static/tabbar-ico/goutong.png",
+				"selectedIconPath": "static/tabbar-ico/goutong1.png",
+				"text": "沟通"
+			},
+			{
+				"pagePath": "pages/warehouse/warehouse",
+				"iconPath": "static/tabbar-ico/cangku.png",
+				"selectedIconPath": "static/tabbar-ico/cangku1.png",
+				"text": "仓库"
+			},
+			{
+				"pagePath": "pages/work/work",
+				"iconPath": "static/tabbar-ico/banshi.png",
+				"selectedIconPath": "static/tabbar-ico/banshi1.png",
+				"text": "办事"
+			},
+			{
+				"pagePath": "pages/shop/shop",
+				"iconPath": "static/tabbar-ico/shangdian.png",
+				"selectedIconPath": "static/tabbar-ico/shangdian1.png",
+				"text": "商店"
+			}
+		]
 	}
 }

@@ -1,0 +1,11 @@
+{
+  "name": "oiocns-uniapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "superfish058 <1079685992@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "element-ui": "^2.15.13",
+    "vant": "^2.12.54"
+  }
+}
