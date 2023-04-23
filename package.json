@@ -7,5 +7,18 @@
   "dependencies": {
     "element-ui": "^2.15.13",
     "vant": "^2.12.54"
-  }
+  },
+  "description": "<p align=\"center\">     <img alt=\"logo\" src=\"https://uviewui.com/common/logo.png\" width=\"120\" height=\"120\" style=\"margin-bottom: 10px;\"> </p> <h3 align=\"center\" style=\"margin: 30px 0 30px;font-weight: bold;font-size:40px;\">uView</h3> <h3 align=\"center\">多平台快速开发的UI框架</h3>",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Orginone/oiocns-uniapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Orginone/oiocns-uniapp/issues"
+  },
+  "homepage": "https://github.com/Orginone/oiocns-uniapp#readme"
 }

@@ -6,7 +6,10 @@
 				<view class="box"></view>
 				<view class="name" >{{item.name}}</view>
 				<view class="right" @tap="turnDetailPage(item)">
-					<img src="../../static/base/chat.png" alt="" v-if="chat">
+					<!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
+					<view class="dotPlus">
+						<img :src="'../../static/base/dotPlus.png'" alt="" v-if="icon=='dotPlus'" >
+					</view>
 					<img src="../../static/base/right.png" alt="">
 				</view>
 			</view>
@@ -32,6 +35,9 @@
 			},
 			url:{
 				default:'/pages/warehouse/page2/page2'
+			},
+			icon:{
+				default:''
 			}
 		},
 		data() {
@@ -87,11 +93,17 @@
 					display: flex;
 					justify-content: flex-end;
 					transform: translateY(2upx);
-
+					
 					img {
 						margin-left: 28upx;
 						height: 28upx;
 						width: 28upx;
+					}
+					.dotPlus{
+						img{
+							height: 28upx;
+							width:6upx;
+						}
 					}
 				}
 			}

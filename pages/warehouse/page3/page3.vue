@@ -1,7 +1,10 @@
 <template>
 	<view>
 		<headbar :localList="localList"></headbar>
-		<personList :listInfo="listInfo"  :url="'/pages/warehouse/page4/page4'"></personList>
+		<div class="objName">
+			物品名称
+		</div>
+		
 	</view>
 </template>
 
@@ -43,5 +46,9 @@
 </script>
 
 <style lang="scss">
-
+	.objName{
+		display: flex;
+		justify-content: center;
+		margin-top: 20upx;
+	}
 </style>

@@ -33,7 +33,7 @@
 			</view>
 			<!-- 切换登录 -->
 			<view class="switch">
-				<view class="ico"><img src="../../../static/base/switch.png" alt=""></view>
+				<view class="ico"><img src="../../static/base/switch.png" alt=""></view>
 				<view class="item1" v-if="switchMode" @click="switchMode=!switchMode;haveCatpcha=0">手机号码登录</view>
 				<view class="item2" v-if="!switchMode" @click="switchMode=!switchMode;haveCatpcha=0">
 					账号密码登录

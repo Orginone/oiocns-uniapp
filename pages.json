@@ -20,6 +20,15 @@
 
 		},
 		{
+		    "path" : "pages/main/main",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "奥集能",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
 			"path": "pages/warehouse/warehouse",
 			"style": {
 				"navigationBarTitleText": "仓库",
@@ -83,7 +92,25 @@
 			}
 
 		}
-	],
+        ,{
+            "path" : "pages/warehouse/menu/menu",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/login/login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"pageOrientation": "portrait",
 		"navigationBarTitleText": "Hello uniapp",
@@ -133,6 +160,12 @@
 				"iconPath": "static/tabbar-ico/cangku.png",
 				"selectedIconPath": "static/tabbar-ico/cangku1.png",
 				"text": "仓库"
+			},
+			{
+				"pagePath": "pages/main/main",
+				"iconPath": "static/tabbar-ico/logo.png",
+				"selectedIconPath": "static/tabbar-ico/logo.png",
+				"text": ""
 			},
 			{
 				"pagePath": "pages/work/work",

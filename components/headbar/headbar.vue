@@ -2,19 +2,26 @@
 	<view>
 		<view class="header">
 			<!-- 返回 -->
-			<view class="back" @tap="back()">
-				<img src="../../static/base/back.png" alt="">
+			<view class="back" @tap="back()" v-if="left=='back'">
+				<img :src="'../../static/base/back.png'" alt="" >
+			</view>
+			<!-- 更多 -->
+			<view class="more"  v-if="left=='more'" @tap="turnUrl()">
+				<img :src="'../../static/base/more.png'" alt="">
 			</view>
 			<!-- 文字内容 -->
-			<view class="content">
+			<view class="content" >
 				<view class="sub">
 					{{first}}
 				</view>
-				<view class="append" v-for="item,index in localList" :key="index">
+				<view class="append" v-for="item,index in localList" :key="index" v-if="localList.length">
 					<view class="dot">
 						.
 					</view>
-					<view class="main">
+					<view class="main" v-if="color">
+						{{item}}
+					</view>
+					<view class="main" style="color:#9A9A9A" v-if="!color">
 						{{item}}
 					</view>
 				</view>
@@ -24,12 +31,12 @@
 				<view class="search">
 					<img src="../../static/base/search2.png" alt="">
 				</view>
-				<view class="add" v-if="localList.length>1">
+				<!-- <view class="add" v-if="localList.length>1">
 					<img src="../../static/base/add.png" alt="">
 				</view>
 				<view class="dotPlus" v-if="localList.length>1">
 					<img src="../../static/base/dotPlus.png" alt="">
-				</view>
+				</view> -->
 			</view>
 		</view>
 	</view>
@@ -43,7 +50,18 @@
 				default: '协作'
 			},
 			localList: {
-				default: []
+				default: ()=>{
+					return []
+				}
+			},
+			color:{
+				default:true
+			},
+			left:{
+				default:'back'
+			},
+			url:{
+				default:''
 			}
 		},
 		data() {
@@ -54,6 +72,16 @@
 		methods: {
 			back() {
 				uni.navigateBack()
+			},
+			// 跳转路由
+			turnUrl(){
+				console.log(1,this.url);
+				if(this.url == 'back'){
+					return this.back()
+				}
+				uni.navigateTo({
+					url:this.url
+				})
 			}
 		}
 	}
@@ -67,16 +95,21 @@
 		box-sizing: border-box;
 		align-items: center;
 
-		.back {
+		.back,.more {
 			padding-left: 10upx;
 
 			img {
 				height: 40upx;
-				width: 24upx;
+				width: 26upx;
 			}
-
+ 
 			transform: translateY(5upx);
 
+		}
+		.more{
+			img{
+				width: 46upx;
+			}
 		}
 
 		.content {
