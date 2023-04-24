@@ -11,11 +11,8 @@
 			</view>
 			<!-- 文字内容 -->
 			<view class="content" >
-				<view class="sub">
-					{{first}}
-				</view>
-				<view class="append" v-for="item,index in localList" :key="index" v-if="localList.length">
-					<view class="dot">
+				<view class="append" v-for="item,index in localListPlus" :key="index">
+					<view class="dot" v-if="index>0">
 						.
 					</view>
 					<view class="main" v-if="color">
@@ -46,13 +43,8 @@
 	export default {
 		name: 'headbar',
 		props: {
-			first: {
-				default: '协作'
-			},
 			localList: {
-				default: ()=>{
-					return []
-				}
+				defalut:''
 			},
 			color:{
 				default:true
@@ -66,8 +58,13 @@
 		},
 		data() {
 			return {
-
+				
 			};
+		},
+		computed:{
+			localListPlus(){
+				return this.localList.split(',')
+			}
 		},
 		methods: {
 			back() {
@@ -91,9 +88,10 @@
 	.header {
 		width: 100%;
 		display: flex;
-		padding: 20upx 10upx;
+		padding: 10upx 10upx;
 		box-sizing: border-box;
 		align-items: center;
+		
 
 		.back,.more {
 			padding-left: 10upx;

@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<headbar :first="'仓库'" :color="false" :left="'more'" :url="url"></headbar>
-		<personList :listInfo='listInfo' :title="'个人'" :chat="false"></personList>
-		<personList :listInfo='listInfo2' :title="'组织'" :chat="false"></personList>
+		<headbar :localList="'仓库'" :color="false" :left="'more'" :url="'back'"></headbar>
+		<personList :listInfo='listInfo' :title="'个人'" :chat="false"  :localList="'仓库'" ></personList>
+		<personList :listInfo='listInfo2' :title="'组织'" :chat="false" :localList="'仓库'"  ></personList>
 	</view>
 </template>
 
@@ -10,7 +10,6 @@
 	export default {
 		data() {
 			return {
-				url:'back',
 				listInfo:[
 					{
 						name:'应用'

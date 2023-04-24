@@ -23,7 +23,7 @@
 		data() {
 			return {
 				itemList:[1,2,3,4,5],
-				localList:['最近打开'],
+				localList:'最近打开',
 				topList:['商业监管','资产处置','通用报表','公物仓','公益仓'],
 				url:'/pages/warehouse/menu/menu'
 			};

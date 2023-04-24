@@ -1,9 +1,20 @@
 <template>
-	<view>
+	<view class="BaseLayout">
 		<headbar :localList="localList"></headbar>
-		<div class="objName">
+		<view class="objName">
 			物品名称
-		</div>
+		</view>
+		<view class="switchBar">
+			<view :class="selectIndex==0?'active':'item'" @click="selectIndex = 0">基本信息</view>
+			<view :class="selectIndex==1?'active':'item'" @click="selectIndex = 1">历史痕迹</view>
+		</view>
+		<view class="select1" v-show="selectIndex==0">
+			<basicForm :formData="formData1"></basicForm>
+			<basicForm :formData="formData2" :title="'财务信息'"></basicForm>
+		</view>
+		<view class="select2" v-show="selectIndex==1">
+			<historyList :listForm="listForm"></historyList>
+		</view>
 		
 	</view>
 </template>
@@ -12,43 +23,106 @@
 	export default {
 		data() {
 			return {
-				listInfo:[
-					{
-						name:'办公室'
+				localList: '', //路由信息
+				selectIndex: 0, //当前切换栏下标
+				formData1: [{
+						name: '名称',
+						value: '关系管理'
 					},
 					{
-						name:'科研室'
+						name: '规格',
+						value: '奥集能平台'
 					},
 					{
-						name:'财务室'
+						name: '型号',
+						value: '123456789'
 					},
 					{
-						name:'科研处'
+						name: '创建人',
+						value: '张三'
 					},
 					{
-						name:'学生处'
+						name: '创建时间',
+						value: '2022.11.11'
+					},
+					{
+						name: '备注',
+						value: '111'
 					}
 				],
-				localList:[]
-			};
+				formData2: [{
+						name: '账面原值',
+						value: '关系管理'
+					},
+					{
+						name: '累计折旧',
+						value: '奥集能平台'
+					},
+					{
+						name: '资金来源',
+						value: '123456789'
+					},
+					{
+						name: '创建人',
+						value: '张三'
+					},
+					{
+						name: '创建时间',
+						value: '2022.11.11'
+					},
+					{
+						name: '备注',
+						value: '111'
+					}
+				],
+				listForm:['1','2','3']
+			}
 		},
 		onLoad(options) {
-			let data = JSON.parse(options.data)
-			this.localList = uni.getStorageSync('localList').slice(0,3)
-			this.localList[2]=data.name
-			console.log(this.localList);
-			uni.setStorageSync('localList',this.localList)
+			let data = JSON.parse(options.data);
+			this.localList = data.localList
 		},
 		methods: {
-			
-		}
+
+		},
 	}
 </script>
 
-<style lang="scss">
-	.objName{
+<style lang="scss" scoped>
+	.BaseLayout{
+		padding: 0 22upx;
+	}
+	
+	.objName {
 		display: flex;
 		justify-content: center;
-		margin-top: 20upx;
+		height: 80upx;
+		align-items: center;
+		margin-top: 10upx;
+		border-top: 2upx solid #e7e7e7;
+		border-bottom: 2upx solid #e7e7e7;
+
+	}
+
+	.switchBar {
+		padding: 14upx 0upx;
+		font-size: 32upx;
+		display: flex;
+		margin-bottom: 20upx;
+		padding-left: 10upx;
+
+		.item {
+			margin-right: 40upx;
+			line-height: 1.6;
+			color: #6F6F6F;
+			border-bottom: 4upx solid transparent;
+		}
+
+		.active {
+			margin-right: 40upx;
+			line-height: 1.6;
+			color: #2F3033;
+			border-bottom: 4upx solid #3d5ed1;
+		}
 	}
 </style>

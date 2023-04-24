@@ -1,6 +1,6 @@
 <template>
 	<view class="listArea">
-		<view class="total">{{title}}</view>
+		<view class="total" v-if="title">{{title}}</view>
 		<view class="itemArea" >
 			<view class="listItem" v-for="item,index in listInfo" :key="index" >
 				<view class="box"></view>
@@ -22,16 +22,18 @@
 		name: "personList",
 		props: {
 			listInfo: {
-				default:[]
+				default:()=>{
+					return []
+				}
+			},
+			localList: {
+				default:''
 			},
 			title: {
 				default:''
 			},
 			chat: {
 				default: true
-			},
-			local:{
-				default:''
 			},
 			url:{
 				default:'/pages/warehouse/page2/page2'
@@ -47,6 +49,8 @@
 		},
 		methods: {
 			turnDetailPage(item) {
+				item['localList'] = this.localList+','+item.name
+				console.log(item);
 				uni.navigateTo({
 					url: this.url+'?data=' + JSON.stringify(item)
 				})
