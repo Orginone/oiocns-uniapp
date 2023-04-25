@@ -24,7 +24,9 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "奥集能",
-		        "enablePullDownRefresh": false
+		        "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#3D5ED1",
+				"navigationBarTextStyle": "#fff"
 		    }
 		    
 		},
