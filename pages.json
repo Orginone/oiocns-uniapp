@@ -4,6 +4,15 @@
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+		    "path" : "pages/login/login",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "登录界面",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
 			"path": "pages/connect/connect",
 			"style": {
 				"navigationBarTitleText": "沟通",
@@ -44,20 +53,7 @@
 				"enablePullDownRefresh": false
 			}
 		}
-
-
-		, {
-			"path": "pages/warehouse/page1/page1",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-				// "navigationStyle": "custom"
-			},
-			"app-plus": {
-				"titleNView": false
-			}
-
-		}, {
+		 , {
 			"path": "pages/warehouse/page2/page2",
 			"style": {
 				"navigationBarTitleText": "",
@@ -71,28 +67,6 @@
 				"enablePullDownRefresh": false
 
 			}
-		}, {
-			"path": "pages/warehouse/page4/page4",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-
-			},
-			"app-plus": {
-				"titleNView": false
-			}
-
-		}, {
-			"path": "pages/warehouse/page5/page5",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			},
-			"app-plus": {
-				"titleNView": false
-			}
-
 		}
         ,{
             "path" : "pages/warehouse/menu/menu",
@@ -103,11 +77,85 @@
             }
             
         }
+        
         ,{
-            "path" : "pages/login/login",
+            "path" : "pages/work/menu/menu",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "待办详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/work/page2/page2",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/work/page1/page1",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/work/page3/page3",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+
+        ,{
+            "path" : "pages/work/page5/page5",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "资产处置",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/menu/menu",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/page2/page2",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/appList/appList",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/appDetail/appDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "应用详情",
                 "enablePullDownRefresh": false
             }
             

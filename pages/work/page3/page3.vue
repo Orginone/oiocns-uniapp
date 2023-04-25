@@ -1,10 +1,9 @@
 <template>
 	<view class="baseLayout">
-		<headbar :localList="localList" :left="'more'" :url="url" style="width: 100%;"></headbar>
-		<view class="dealList" v-for="item,index in dealList" :key="index">
-			<dealItem :itemInfo="item"></dealItem>
+		<headbar :localList="localList" right :left="'more'" :url="'/pages/work/work'" style="width: 100%;"></headbar>
+		<view class="dealList" v-for="item,index in dealList" :key="index" @click="turnpage()">
+			<dealItem :itemInfo="item" :btn="false"></dealItem>
 		</view>
-		
 	</view>
 </template>
 
@@ -12,8 +11,7 @@
 	export default {
 		data() {
 			return {
-				url:'/pages/work/menu/menu',
-				localList:'办事,待办详情',
+				localList:'办事,资产管理,资产处置,已办',
 				dealList: [{
 						title: '这是一张审批单',
 						sub: '资金审批，望通过',
@@ -35,16 +33,23 @@
 						type: '好友申请',
 					},
 				]
-			}
+			};
 		},
-		methods: {
-
+		onLoad(options) {
+			
+		},
+		methods:{
+			turnpage(){
+				uni.navigateTo({
+					url:'/pages/work/page4/page4'
+				})
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.baseLayout {
+	.baseLayout{
 		display: flex;
 		flex-direction: column;
 		align-items: center;

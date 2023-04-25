@@ -91,6 +91,7 @@
 <style lang="scss" scoped>
 	.BaseLayout{
 		padding: 0 22upx;
+		padding-bottom: 40upx;
 	}
 	
 	.objName {
