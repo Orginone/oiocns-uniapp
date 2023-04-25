@@ -44,6 +44,9 @@
 	<view class="search inlet">
         <indexSearch></indexSearch>
 	</view>
+	<view class="appList inlet">
+        <appList></appList>
+	</view>
 	
   </view>
 </template>

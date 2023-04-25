@@ -8,7 +8,7 @@
                  </view>
                  <view class="item_name">{{item.name}}</view>
               </view>
-              <view class="item">
+              <view class="item" @click="getMore()">
                      <view class="item_icon">
                     <view class="add">+</view>
                  </view>
@@ -25,7 +25,12 @@
 			return {
               appList:[{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},]
 			};
-		}
+		},
+        methods: {
+            getMore(){
+                uni.navigateTo({ url: '/pages/shop/appList/appList' })
+            }
+        },
 	}
 </script>
 
