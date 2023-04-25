@@ -13,9 +13,9 @@
     </view>
     <view class="topTab">
       <view class="topTab_box">
-        <view class="topTab_item" v-for="(item, index) in tabList" :key="index">
+        <view class="topTab_item" v-for="(item, index) in tabList" :key="index" @click="tabActive=index">
           {{ item.name }}
-          <view class="topTab_item_line"></view>
+          <view :class="tabActive==index?'topTab_item_line':''"></view>
         </view>
       </view>
 
@@ -75,7 +75,8 @@ export default {
 	  imgList:['https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png',
 	  'https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png',
 	  'https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png'],
-	  color:"#fff"
+	  color:"#fff",
+	  tabActive:0,
 
     };
   },
@@ -133,6 +134,7 @@ page {
       align-items: center;
       background: #3d5ed1;
       padding: 26upx 0;
+	  padding-bottom: 0;
       .more {
         padding-right: 26upx;
         .more_point {
@@ -152,6 +154,15 @@ page {
         padding: 0 26upx;
         font-size: 22upx;
         color: #ffffff;
+		text-align: center;
+		.topTab_item_line{
+			width: 36upx;
+height: 4upx;
+background: #FFFFFF;
+opacity: 1;
+margin: 0 auto;
+margin-top: 13upx;
+		}
       }
     }
 	.banner{
