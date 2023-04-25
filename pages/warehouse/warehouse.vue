@@ -5,8 +5,8 @@
 				跳转页面{{item}}
 			</view>
 		</view>
-		<headbar :localList="localList" :first="'仓库'" :color="false" :left="'more'" :url="url"></headbar>
-		<view class="topArea">
+		<headbar :localList="localList"  :color="false" :left="'more'" :url="url"></headbar>
+		<view class="topArea" >
 			<view class="item" v-for="item,index in topList" :key="index">
 				<view class="img">
 					<img src="../../static/base/topIcon.png" alt="">

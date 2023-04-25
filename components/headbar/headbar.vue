@@ -28,12 +28,12 @@
 				<view class="search">
 					<img src="../../static/base/search2.png" alt="">
 				</view>
-				<!-- <view class="add" v-if="localList.length>1">
+				<view class="add" v-if="right">
 					<img src="../../static/base/add.png" alt="">
 				</view>
-				<view class="dotPlus" v-if="localList.length>1">
+				<view class="dotPlus" v-if="right">
 					<img src="../../static/base/dotPlus.png" alt="">
-				</view> -->
+				</view>
 			</view>
 		</view>
 	</view>
@@ -54,6 +54,9 @@
 			},
 			url:{
 				default:''
+			},
+			right:{
+				default:false
 			}
 		},
 		data() {
@@ -67,31 +70,39 @@
 			}
 		},
 		methods: {
-			back() {
-				uni.navigateBack()
-			},
 			// 跳转路由
 			turnUrl(){
 				console.log(1,this.url);
 				if(this.url == 'back'){
-					return this.back()
+					return uni.navigateBack()
+				}else{
+					let arr = this.url.split('/')
+					console.log(arr);
+					if(arr.length==4){
+						uni.switchTab({
+							url:this.url
+						})
+					}else{
+						uni.navigateTo({
+							url:this.url
+						})
+					}
+					
 				}
-				uni.navigateTo({
-					url:this.url
-				})
+				
 			}
 		}
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.header {
 		width: 100%;
 		display: flex;
 		padding: 10upx 10upx;
 		box-sizing: border-box;
 		align-items: center;
-		
+		background-color: #fff;
 
 		.back,.more {
 			padding-left: 10upx;
@@ -147,6 +158,12 @@
 			}
 			.search{
 				transform: translateY(2upx);
+			}
+			
+			.dotPlus{
+				img{
+					width: 7upx;
+				}
 			}
 
 		}

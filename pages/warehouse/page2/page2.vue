@@ -9,7 +9,7 @@
 	export default {
 		data() {
 			return {
-				localList: ['仓库'], //当前页
+				localList: '仓库', //当前页
 				listInfo1: [{
 						name: '本证维度',
 					},

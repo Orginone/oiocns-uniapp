@@ -121,7 +121,7 @@
 			<!-- 下一步 -->
 			<view :class="ready?'btn-area': 'btn-area notready'" v-if="stepState!=1">
 				<view class="btns" v-if="haveCatpcha==0">
-					<view class="btn1" v-show="switchMode">
+					<view class="btn1" v-show="switchMode"  @click="turnPage()">
 						下一步
 					</view>
 					<view class="btn2" v-show="!switchMode" @click="haveCatpcha=1">
@@ -130,7 +130,7 @@
 				</view>
 				
 				<view class="btns"  v-if="stepState==2">
-					<view class="btn1">
+					<view class="btn1" @click="turnPage()">
 						下一步
 					</view>
 				</view>
@@ -184,6 +184,12 @@
 			clearInterval(this.timer);
 		},
 		methods: {
+			//跳转页面
+			turnPage(){
+				uni.switchTab({
+					url:'/pages/connect/connect'
+				})
+			},
 			//返回上一页
 			turnBack() {
 				this.stepState = 0

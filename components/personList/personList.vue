@@ -64,11 +64,12 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		padding: 0 40upx;
+		padding: 0 20upx;
 		box-sizing: border-box;
+		margin-top: 20upx;
 
 		.total {
-			margin-bottom: 20upx;
+			padding: 0upx 30upx;
 		}
 
 		.itemArea {
@@ -76,10 +77,14 @@
 
 			.listItem {
 				display: flex;
-				margin-bottom: 28upx;
+				padding: 16upx 30upx;
 				align-items: center;
 				box-sizing: border-box;
-
+				
+				&:hover{
+					background-color: #edeffc;
+					border-radius: 10upx;
+				}
 				.box {
 					width: 84upx;
 					height: 84upx;
