@@ -40,6 +40,7 @@
 		},
 		methods:{
 			turnpage(){
+				console.log(1);
 				uni.navigateTo({
 					url:'/pages/work/page4/page4'
 				})

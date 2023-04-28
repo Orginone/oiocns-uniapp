@@ -4,10 +4,7 @@
 		<view class="objName">
 			物品名称
 		</view>
-		<view class="switchBar">
-			<view :class="selectIndex==0?'active':'item'" @click="selectIndex = 0">基本信息</view>
-			<view :class="selectIndex==1?'active':'item'" @click="selectIndex = 1">历史痕迹</view>
-		</view>
+		<switchBar @change="change"></switchBar>
 		<view class="select1" v-show="selectIndex==0">
 			<basicForm :formData="formData1"></basicForm>
 			<basicForm :formData="formData2" :title="'财务信息'"></basicForm>
@@ -83,7 +80,9 @@
 			this.localList = data.localList
 		},
 		methods: {
-
+			change(e){
+				this.selectIndex = e
+			}
 		},
 	}
 </script>

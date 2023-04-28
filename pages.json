@@ -116,7 +116,7 @@
         }
 
         ,{
-            "path" : "pages/work/page5/page5",
+            "path" : "pages/work/page4/page4",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "资产处置",
@@ -156,6 +156,24 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "应用详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/setPage/setPage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设置",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/setPage/member/member",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "部门成员",
                 "enablePullDownRefresh": false
             }
             
