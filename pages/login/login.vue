@@ -20,7 +20,8 @@
 					</view>
 					<view class="password">
 						<view class="name">密码</view>
-						<view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"/></view>
+						<view class="input"><u-input type="password" placeholder="请设置密码"
+								:password-icon="passwordIcon" /></view>
 					</view>
 				</view>
 				<view class="mode2" v-if="!switchMode">
@@ -98,12 +99,13 @@
 					</view>
 					<view class="username">
 						<view class="name">密码 </view>
-						<view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"></u-input></view>
+						<view class="input"><u-input type="password" placeholder="请设置密码"
+								:password-icon="passwordIcon"></u-input></view>
 					</view>
 				</view>
-				
+
 			</view>
-			
+
 		</view>
 
 		<!-- 勾选同意 -->
@@ -119,17 +121,17 @@
 				</view>
 			</view>
 			<!-- 下一步 -->
-			<view :class="ready?'btn-area': 'btn-area notready'" v-if="stepState!=1">
+			<view :class="checked?'btn-area': 'btn-area notready'" v-if="stepState!=1">
 				<view class="btns" v-if="haveCatpcha==0">
-					<view class="btn1" v-show="switchMode"  @click="turnPage()">
+					<view class="btn1" v-show="switchMode" @click="turnPage()">
 						下一步
 					</view>
-					<view class="btn2" v-show="!switchMode" @click="haveCatpcha=1">
+					<view class="btn2" v-show="!switchMode" @click="sendCaptcha()">
 						发送验证码
 					</view>
 				</view>
-				
-				<view class="btns"  v-if="stepState==2">
+
+				<view class="btns" v-if="stepState==2">
 					<view class="btn1" @click="turnPage()">
 						下一步
 					</view>
@@ -149,7 +151,7 @@
 	export default {
 		data() {
 			return {
-				checked: true, //勾选标识
+				checked: false, //勾选标识
 				showtip: 0, //未勾选提示框
 				ready: 1, //判断表示/下一步
 				switchMode: 1, //账号密码登录模式
@@ -165,7 +167,7 @@
 				timer: '', //定时器
 				showGetCaptcha: 0, //显示重新获取
 				needSet: true, //判断是否为初次使用
-				passwordIcon:'',//密码可见
+				passwordIcon: '', //密码可见
 				actionSheetList: [{
 						value: '+86',
 						text: '+86'
@@ -184,10 +186,30 @@
 			clearInterval(this.timer);
 		},
 		methods: {
+			//发送验证码
+			sendCaptcha(){
+				if (!this.checked) {
+					return uni.showToast({
+						title: '请勾选服务条款',
+						icon: 'none'
+					})
+				}else if(!this.ready){
+					return
+				}
+				this.haveCatpcha = 1
+			},
 			//跳转页面
-			turnPage(){
+			turnPage() {
+				if (!this.checked) {
+					return uni.showToast({
+						title: '请勾选服务条款',
+						icon: 'none'
+					})
+				}else if(!this.ready){
+					return
+				}
 				uni.switchTab({
-					url:'/pages/connect/connect'
+					url: '/pages/connect/connect'
 				})
 			},
 			//返回上一页
@@ -223,10 +245,10 @@
 				if (e == this.tureCaptcha) {
 					this.captchaRight = 2
 					if (this.needSet) {
-						setTimeout(()=>{
+						setTimeout(() => {
 							this.stepState = 2
-						},1000)
-						
+						}, 1000)
+
 					} else {
 						console.log('直接登录');
 					}
@@ -256,13 +278,18 @@
 </script>
 
 <style lang="scss">
+	page{
+		height: 100%;
+	}
 	.loginPage {
 		width: 100%;
+		height: 100%;
 		padding: 0 52upx;
 		display: flex;
 		flex-direction: column;
 
-		.login,.signup {
+		.login,
+		.signup {
 			width: 100%;
 			margin-top: 360upx;
 
@@ -485,8 +512,10 @@
 		}
 
 		.nextstep {
+			flex: 1;
+			flex-direction: column;
+			justify-content: center;
 			display: flex;
-			margin-top: 170upx;
 			flex-wrap: wrap;
 
 			.agree {

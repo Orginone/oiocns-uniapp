@@ -178,6 +178,34 @@
             }
             
         }
+        ,{
+            "path" : "pages/transPage/transPage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"navigationStyle":"custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/cardPage/index/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "卡包",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cardPage/itemDetail/itemDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "卡包",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"pageOrientation": "portrait",
@@ -219,33 +247,34 @@
 		"backgroundColor": "#FFFFFF",
 		"list": [{
 				"pagePath": "pages/connect/connect",
-				"iconPath": "static/tabbar-ico/goutong.png",
-				"selectedIconPath": "static/tabbar-ico/goutong1.png",
+				"iconPath": "static/tabbar-ico/gt.png",
+				"selectedIconPath": "static/tabbar-ico/gt1.png",
 				"text": "沟通"
 			},
-			{
-				"pagePath": "pages/warehouse/warehouse",
-				"iconPath": "static/tabbar-ico/cangku.png",
-				"selectedIconPath": "static/tabbar-ico/cangku1.png",
-				"text": "仓库"
-			},
-			{
-				"pagePath": "pages/main/main",
-				"iconPath": "static/tabbar-ico/logo.png",
-				"selectedIconPath": "static/tabbar-ico/logo.png",
-				"text": ""
-			},
+			
 			{
 				"pagePath": "pages/work/work",
-				"iconPath": "static/tabbar-ico/banshi.png",
-				"selectedIconPath": "static/tabbar-ico/banshi1.png",
+				"iconPath": "static/tabbar-ico/bs.png",
+				"selectedIconPath": "static/tabbar-ico/bs1.png",
 				"text": "办事"
 			},
 			{
+				"pagePath": "pages/main/main",
+				"iconPath": "static/tabbar-ico/mh.png",
+				"selectedIconPath": "static/tabbar-ico/mh1.png",
+				"text": "门户"
+			},
+			{
+				"pagePath": "pages/warehouse/warehouse",
+				"iconPath": "static/tabbar-ico/cc.png",
+				"selectedIconPath": "static/tabbar-ico/cc1.png",
+				"text": "存储"
+			},
+			{
 				"pagePath": "pages/shop/shop",
-				"iconPath": "static/tabbar-ico/shangdian.png",
-				"selectedIconPath": "static/tabbar-ico/shangdian1.png",
-				"text": "商店"
+				"iconPath": "static/tabbar-ico/lt.png",
+				"selectedIconPath": "static/tabbar-ico/lt1.png",
+				"text": "流通"
 			}
 		]
 	}

@@ -90,6 +90,10 @@
 					
 				}
 				
+			},
+			// 返回上一页
+			back(){
+				uni.navigateBack()
 			}
 		}
 	}
@@ -103,6 +107,8 @@
 		box-sizing: border-box;
 		align-items: center;
 		background-color: #fff;
+		position: relative;
+		z-index: 999;
 
 		.back,.more {
 			padding-left: 10upx;
@@ -162,7 +168,7 @@
 			
 			.dotPlus{
 				img{
-					width: 7upx;
+					width: 9upx;
 				}
 			}
 

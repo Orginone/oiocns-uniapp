@@ -43,7 +43,7 @@
 					},
 					{
 						name:'工艺仓',
-						url:'/pages/setPage/setPage'
+						url:'/pages/cardPage/index/index'
 					}
 				],
 				url:'/pages/shop/menu/menu'

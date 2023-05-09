@@ -14,7 +14,27 @@
 
 //uview
 @import 'uview-ui/theme.scss';
+
+// 字体
+page{
+	font-family: 'Source Han Sans SC';
+}
+
 /* 颜色变量 */
+$main-font:#303133;
+$sub-font:#606266;
+$main-blue:#3D5ED1;
+$sub-blue:#EDEFFC;
+$error:#F76C6F;
+$warn:#F1B463;
+
+
+
+
+
+
+
+
 
 /* 行为相关颜色 */
 $uni-color-primary: #007aff;
