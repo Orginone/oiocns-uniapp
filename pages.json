@@ -206,6 +206,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/cardPage/search/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "通用-添加",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cardPage/transfer/transfer",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "转账",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"pageOrientation": "portrait",

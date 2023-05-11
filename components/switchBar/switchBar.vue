@@ -1,8 +1,7 @@
 <template>
 	<view>
-		<view class="switchBar">
-			<view :class="selectIndex==0?'active':'item'" @click="selectIndex = 0">基本信息</view>
-			<view :class="selectIndex==1?'active':'item'" @click="selectIndex = 1">历史痕迹</view>
+		<view :class="mode =='scale'?'switchBar scale':'switchBar'">
+			<view :class="selectIndex==index?'active item':'item'" @click="selectIndex = index" v-for="item,index in menuList" :key="index">{{item}}</view>
 		</view>
 	</view>
 </template>
@@ -10,6 +9,14 @@
 <script>
 	export default {
 		name:"switchBar",
+		props:{
+			menuList:{
+				default:()=> ['基本信息','历史痕迹']
+			},
+			mode:{
+				default:''
+			}
+		},
 		data() {
 			return {
 				selectIndex:0
@@ -39,10 +46,28 @@
 		}
 	
 		.active {
-			margin-right: 40upx;
-			line-height: 1.6;
 			color: #2F3033;
 			border-bottom: 4upx solid #3d5ed1;
+		}
+	}
+	
+	.scale{
+		width: 100%;
+		display: flex;
+		justify-content: space-around;
+		padding-left: 0;
+		.item{
+			width: 33.3%;
+			display: flex;
+			line-height: 2;
+			margin-right: 0;
+			justify-content: center;
+			padding-bottom: 10upx;
+		}
+		.active {
+			color: #2F3033;
+			border-bottom: 4upx solid #3d5ed1;
+			color:  #3d5ed1;
 		}
 	}
 </style>

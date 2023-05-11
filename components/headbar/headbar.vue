@@ -2,9 +2,9 @@
 	<view>
 		<view class="header">
 			<!-- 返回 -->
-			<view class="back" @tap="back()" v-if="left=='back'">
+			<!-- <view class="back" @tap="back()" v-if="left=='back'">
 				<img :src="'../../static/base/back.png'" alt="" >
-			</view>
+			</view> -->
 			<!-- 更多 -->
 			<view class="more"  v-if="left=='more'" @tap="turnUrl()">
 				<img :src="'../../static/base/more.png'" alt="">

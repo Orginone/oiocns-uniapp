@@ -67,7 +67,7 @@
 				</view>
 				<view class="success" v-if="captchaRight==2">
 					<view class="ico">
-						√
+						✔
 					</view>
 					验证完成
 				</view>
@@ -187,13 +187,13 @@
 		},
 		methods: {
 			//发送验证码
-			sendCaptcha(){
+			sendCaptcha() {
 				if (!this.checked) {
 					return uni.showToast({
 						title: '请勾选服务条款',
 						icon: 'none'
 					})
-				}else if(!this.ready){
+				} else if (!this.ready) {
 					return
 				}
 				this.haveCatpcha = 1
@@ -205,7 +205,7 @@
 						title: '请勾选服务条款',
 						icon: 'none'
 					})
-				}else if(!this.ready){
+				} else if (!this.ready) {
 					return
 				}
 				uni.switchTab({
@@ -222,7 +222,6 @@
 			},
 			/* 校验结果回调函数 */
 			verifyResult(res) {
-				console.log(res);
 				this.resultData = res;
 				this.sliderRes = res.flag
 				if (this.sliderRes == true) {
@@ -259,6 +258,9 @@
 			},
 			//倒计时
 			setCountdown() {
+				if(this.timer){
+					return
+				}
 				this.countdown = 60
 				this.timer = setInterval(() => {
 					this.countdown--
@@ -270,6 +272,7 @@
 			},
 			//获取验证码
 			getCaptcha() {
+				this.timer = ''
 				this.setCountdown()
 				this.showGetCaptcha = 0
 			}
@@ -278,9 +281,10 @@
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		height: 100%;
 	}
+
 	.loginPage {
 		width: 100%;
 		height: 100%;
@@ -327,9 +331,9 @@
 						height: 86upx;
 						display: flex;
 						border-bottom: 2upx solid #9A9A9A;
+						
 						display: flex;
 						align-items: center;
-
 						.name {
 							width: 105upx;
 							font-size: 32upx;
@@ -340,7 +344,7 @@
 							flex: 1;
 
 							input {
-								color: #9A9A9A;
+								color: #000;
 							}
 						}
 					}

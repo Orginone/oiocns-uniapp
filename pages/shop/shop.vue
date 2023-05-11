@@ -15,6 +15,7 @@
 			</view>
 			<view class="bottomLine"></view>
 		</view>
+		<lostPage mode="noContent"></lostPage>
 	</view>
 </template>
 

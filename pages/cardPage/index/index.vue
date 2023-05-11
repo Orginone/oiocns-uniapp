@@ -21,24 +21,45 @@
 					账户余额：￥{{'125.30'}}
 				</view>
 				<view class="add">
-					<img src="@/static/basePlus/add.png" alt="">
+					<img src="@/static/basePlus/add.png" alt="" @click="showpop=true">
 				</view>
 			</view>
 		</view>
 		<!-- 按钮区域 -->
 		<view class="btnArea">
-			<view class="create">创建</view>
+			<view class="create" @click="turnSearch">创建</view>
 			<view class="add">添加</view>
 		</view>
 		<!-- 列表区 -->
 		<view class="listArea">
-			<view class="listItem" v-for="item,index in lists" :key="index">
+			<view class="listItem" v-for="item,index in lists" :key="index" @click="turnDetail(item)">
 				<view class="ico"></view>
 				<view class="name">{{item.name}}</view>
 				<view class="sub">（{{item.sub}}）</view>
 				<view class="count">￥{{'125.30'}}</view>
 			</view>
 		</view>
+		<!-- 弹出层 -->
+		<u-popup v-model="showpop" mode="bottom" border-radius="34">
+			<view class="popArea">
+				<view class="text">收款</view>
+				<view class="code">
+					<img src="@/static/basePlus/code.png" alt="">
+				</view>
+				<view class="sub">
+					扫描地址以接收付款
+				</view>
+				<view class="copyArea">
+					<view class="copyText">
+						{{randomCode}}
+					</view>
+					<view class="copyIco" @click="copy">复制</view>
+				</view>
+				<view class="btn">
+					请求付款
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -46,6 +67,8 @@
 	export default {
 		data() {
 			return {
+				showpop: false,
+				randomCode: '1s32d1a5d1asd5asd13a5sd',
 				lists: [{
 						name: 'AS',
 						sub: '资产链'
@@ -67,6 +90,29 @@
 					}
 				]
 			};
+		},
+		methods: {
+			// 跳转详情页
+			turnDetail(item) {
+				uni.navigateTo({
+					url: '/pages/cardPage/itemDetail/itemDetail?data=' + JSON.stringify(item)
+				})
+			},
+			// 跳转搜索页
+			turnSearch() {
+				uni.navigateTo({
+					url: '/pages/cardPage/search/search'
+				})
+			},
+			//复制
+			copy() {
+				uni.setClipboardData({
+					data: String(this.randomCode), // 必须字符串
+					success: function() {
+						console.log('success');
+					}
+				});
+			}
 		}
 	}
 </script>
@@ -175,7 +221,8 @@
 
 		.listArea {
 			margin-top: 40upx;
-			.listItem{
+
+			.listItem {
 				width: 100%;
 				height: 150upx;
 				background: #FFFFFF;
@@ -186,29 +233,100 @@
 				padding: 30upx;
 				display: flex;
 				align-items: center;
-				.ico{
+
+				.ico {
 					width: 80upx;
 					height: 80upx;
 					background-color: #d9d9d9;
 					border-radius: 50%;
 				}
-				.name{
+
+				.name {
 					margin-left: 24upx;
 					font-size: 36upx;
 					color: $main-font;
 				}
-				.sub{
+
+				.sub {
 					color: #808080;
 				}
-				.count{
-					flex:1;
+
+				.count {
+					flex: 1;
 					display: flex;
 					justify-content: flex-end;
 					font-size: 32upx;
 					color: $main-font;
 				}
 			}
-			
+
+		}
+
+		.popArea {
+			padding: 40upx 70upx;
+			border-radius: 10upx;
+			height: 55%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			.text {
+				color: $main-font;
+				font-size: 28upx;
+			}
+
+			.code {
+				margin-top: 30upx;
+
+				img {
+					width: 300upx;
+					height: 300upx;
+				}
+			}
+
+			.sub {
+				margin-top: 20upx;
+				font-size: 24upx;
+				color: #808080;
+			}
+
+			.copyArea {
+				margin-top: 40upx;
+				height: 70upx;
+				padding: 0 30upx;
+				border-radius: 35upx;
+				align-items: center;
+				background-color: #f6f7ff;
+				font-size: 24upx;
+				color: #808080;
+				display: flex;
+
+				.copyIco {
+					margin-left: 20upx;
+					display: flex;
+					align-items: center;
+					height: 40upx;
+					border-radius: 20upx;
+					padding: 4upx 10upx;
+					border: 2upx solid $main-blue;
+					color: $main-blue;
+
+				}
+			}
+
+			.btn {
+				margin-top: 80upx;
+				width: 470upx;
+				height: 90upx;
+				color: #fff;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 34upx;
+				background: $main-blue;
+				border-radius: 50upx;
+				margin-bottom: 50upx;
+			}
 		}
 	}
 </style>
