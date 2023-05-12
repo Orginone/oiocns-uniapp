@@ -20,8 +20,8 @@
 					</view>
 					<view class="password">
 						<view class="name">密码</view>
-						<view class="input"><u-input type="password" placeholder="请设置密码"
-								:password-icon="passwordIcon" /></view>
+						<view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"
+								placeholder-style="color:#808080" /></view>
 					</view>
 				</view>
 				<view class="mode2" v-if="!switchMode">
@@ -99,8 +99,8 @@
 					</view>
 					<view class="username">
 						<view class="name">密码 </view>
-						<view class="input"><u-input type="password" placeholder="请设置密码"
-								:password-icon="passwordIcon"></u-input></view>
+						<view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"
+								placeholder-style="color:#808080"></u-input></view>
 					</view>
 				</view>
 
@@ -158,7 +158,7 @@
 				showList: 0, //手机号前缀下拉
 				selectValue: '+86', //手机号前缀下拉选择值
 				haveCatpcha: 0, //是否获取验证码
-				resultData: {}, //滑动值对象
+				resultData: null, //滑动值对象
 				sliderRes: false, //滑动通过标识
 				stepState: 0, //登录进度
 				captchaRight: 0, //验证码正确标识
@@ -167,7 +167,7 @@
 				timer: '', //定时器
 				showGetCaptcha: 0, //显示重新获取
 				needSet: true, //判断是否为初次使用
-				passwordIcon: '', //密码可见
+				passwordIcon: true, //密码可见
 				actionSheetList: [{
 						value: '+86',
 						text: '+86'
@@ -258,7 +258,7 @@
 			},
 			//倒计时
 			setCountdown() {
-				if(this.timer){
+				if (this.timer) {
 					return
 				}
 				this.countdown = 60
@@ -331,9 +331,10 @@
 						height: 86upx;
 						display: flex;
 						border-bottom: 2upx solid #9A9A9A;
-						
+
 						display: flex;
 						align-items: center;
+
 						.name {
 							width: 105upx;
 							font-size: 32upx;

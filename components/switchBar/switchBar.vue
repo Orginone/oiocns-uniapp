@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view :class="mode =='scale'?'switchBar scale':'switchBar'">
+		<view :class="mode =='scale'?'switchBar scale':'switchBar'" :style="{'font-size': size+'upx'}">
 			<view :class="selectIndex==index?'active item':'item'" @click="selectIndex = index" v-for="item,index in menuList" :key="index">{{item}}</view>
 		</view>
 	</view>
@@ -15,6 +15,9 @@
 			},
 			mode:{
 				default:''
+			},
+			size:{
+				default:32
 			}
 		},
 		data() {

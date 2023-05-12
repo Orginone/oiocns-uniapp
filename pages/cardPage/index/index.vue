@@ -27,8 +27,8 @@
 		</view>
 		<!-- 按钮区域 -->
 		<view class="btnArea">
-			<view class="create" @click="turnSearch">创建</view>
-			<view class="add">添加</view>
+			<view class="create" @click="turnCreate">创建</view>
+			<view class="add" @click="turnSearch">添加</view>
 		</view>
 		<!-- 列表区 -->
 		<view class="listArea">
@@ -102,6 +102,12 @@
 			turnSearch() {
 				uni.navigateTo({
 					url: '/pages/cardPage/search/search'
+				})
+			},
+			// 跳转搜索页
+			turnCreate() {
+				uni.navigateTo({
+					url: '/pages/cardPage/create/create'
 				})
 			},
 			//复制

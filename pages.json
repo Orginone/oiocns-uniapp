@@ -224,6 +224,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/cardPage/create/create",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "创建",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"pageOrientation": "portrait",
