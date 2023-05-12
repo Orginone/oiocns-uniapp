@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<headbar :localList="localList" :color="false"></headbar>
-		<personList :listInfo="listInfo1"  :url="'/pages/warehouse/page3/page3'" icon="dotPlus" :localList="localList"></personList>
+		<personList :listInfo="listInfo1"  :url="'/pages/warehouse/page3/page3'" icon="dotPlus right" :localList="localList"></personList>
 	</view>
 </template>
 

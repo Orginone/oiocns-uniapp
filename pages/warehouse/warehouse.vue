@@ -15,6 +15,7 @@
 			</view>
 			<view class="bottomLine"></view>
 		</view>
+		<lostPage :mode="'net'"></lostPage>
 	</view>
 </template>
 

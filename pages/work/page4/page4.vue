@@ -6,10 +6,7 @@
 			<view class="objName">
 				资产处置
 			</view>
-			<view class="switchBar">
-				<view :class="selectIndex==0?'active':'item'" @click="selectIndex = 0">基本信息</view>
-				<view :class="selectIndex==1?'active':'item'" @click="selectIndex = 1">历史痕迹</view>
-			</view>
+			<switchBar @change="change"></switchBar>
 		</view>
 
 		<view class="select1" v-show="selectIndex==0">
@@ -19,7 +16,14 @@
 			</view>
 			<!-- 子表信息 -->
 			<view class="subForm">
-				<subForm></subForm>
+				<uni-table>
+					<uni-tr>
+						<uni-th v-for="item,index in formTitle" :key="index">{{item.name}}</uni-th>
+					</uni-tr>
+					<uni-tr v-for="item,index in formList" :key="index">
+						<uni-td v-for="it,ind in Object.values(item)" :key="ind">{{it}}</uni-td>
+					</uni-tr>
+				</uni-table>
 			</view>
 			<!-- 意见填写 -->
 			<view class="comment">
@@ -49,6 +53,42 @@
 			return {
 				localList: '办事,已完结,详情',
 				selectIndex: 0, //切换栏标识
+				formTitle: [{
+						name: '账号',
+						value: 'account'
+					},
+					{
+						name: '昵称',
+						value: 'username'
+					},
+					{
+						name: '姓名',
+						value: 'name'
+					},
+					{
+						name: '手机号',
+						value: 'phone'
+					},
+					{
+						name: '签名',
+						value: 'sign'
+					},
+				],
+				formList: [{
+						account: 'abc',
+						username: 'winnie',
+						name: '张三',
+						phone: '13312358856',
+						sign: '一个人哭，真爱无敌'
+					},
+					{
+						account: 'abssssssssc',
+						username: 'winnssssssssie',
+						name: '张三',
+						phone: '133ssssssssss12358856',
+						sign: '真爱无敌'
+					}
+				],
 				formData1: [{
 						name: '单据编号',
 						value: '12345679'
@@ -71,6 +111,11 @@
 					}
 				],
 			};
+		},
+		methods:{
+			change(e){
+				this.selectIndex = e
+			}
 		}
 	}
 </script>
@@ -97,28 +142,6 @@
 		border-top: 2upx solid #e7e7e7;
 		border-bottom: 2upx solid #e7e7e7;
 
-	}
-
-	.switchBar {
-		padding: 14upx 0upx;
-		font-size: 32upx;
-		display: flex;
-		margin-bottom: 20upx;
-		padding-left: 10upx;
-
-		.item {
-			margin-right: 40upx;
-			line-height: 1.6;
-			color: #6F6F6F;
-			border-bottom: 4upx solid transparent;
-		}
-
-		.active {
-			margin-right: 40upx;
-			line-height: 1.6;
-			color: #2F3033;
-			border-bottom: 4upx solid #3d5ed1;
-		}
 	}
 
 	.select1{

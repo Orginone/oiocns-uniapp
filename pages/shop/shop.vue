@@ -9,12 +9,13 @@
 		<view class="topArea">
 			<view class="item" v-for="item,index in topList" :key="index">
 				<view class="img">
-					<img src="../../static/base/topIcon.png" alt="">
+					<img src="../../static/base/topIcon.png" alt="" @click="turnPages(item)">
 				</view>
-				<view class="text">{{item}}</view>
+				<view class="text">{{item.name}}</view>
 			</view>
 			<view class="bottomLine"></view>
 		</view>
+		<lostPage mode="noContent"></lostPage>
 	</view>
 </template>
 
@@ -24,17 +25,42 @@
 			return {
 				itemList:[1,2,3,4,5],
 				localList:'商店，最近浏览',
-				topList:['商业监管','资产处置','通用报表','公物仓','公益仓'],
+				topList:[
+					{
+						name:'商业监管',
+						url:'/pages/setPage/setPage'
+					},
+					{
+						name:'资产处置',
+						url:'/pages/setPage/member/member'
+					},
+					{
+						name:'通用报表',
+						url:'/pages/setPage/setPage'
+					},
+					{
+						name:'公务仓',
+						url:'/pages/setPage/setPage'
+					},
+					{
+						name:'工艺仓',
+						url:'/pages/cardPage/index/index'
+					}
+				],
 				url:'/pages/shop/menu/menu'
 			};
 		},
 		methods:{
 			turnPage(item){
-				
 				let url = '/pages/warehouse/page'+item+'/page'+item
 				console.log(url);
 				uni.navigateTo({
 					url
+				})
+			},
+			turnPages(item){
+				uni.navigateTo({
+					url:item.url
 				})
 			}
 		}

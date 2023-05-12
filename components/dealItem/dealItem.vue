@@ -81,18 +81,17 @@
 					align-items: center;
 
 					.tag {
-
-						font-size: 12upx;
-						padding: 1upx 4upx;
+						font-size: 18upx;
+						padding: 1upx 10upx 4upx 8upx;
 						box-sizing: border-box;
-						border-radius: 12upx;
-						margin-left: 20upx;
+						border-radius: 99upx;
+						margin-left: 16upx;
 						display: flex;
 						justify-content: center;
 						align-items: center;
-						height: 26upx;
 						color: #3D5ED1;
 						border: 1upx solid #3D5ED1;
+						transform: translateY(2upx);
 					}
 				}
 

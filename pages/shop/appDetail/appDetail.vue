@@ -1,33 +1,33 @@
 <template>
 	<view class="baseLayout">
 		<headbar :localList="'商店,开放市场,应用A'" :left="'none'" :url="'back'"></headbar>
-		<div class="basicInfo">
-			<div class="img">
+		<view class="basicInfo">
+			<view class="img">
 				<img src="../../../static/base/appIco.png" alt="">
-			</div>
-			<div class="subscribe">
-				<div class="title">应用A</div>
-				<div class="detail">应用描述应用描述应用描述应用描述应应用描述</div>
-			</div>
-		</div>
-		<div class="subArea">
-			<div class="sub">评价</div>
-			<div class="sub">介绍</div>
-			<div class="sub">版本</div>
-		</div>
-		<div class="bottom">
-			<div class="store">商店</div>
-			<div class="like">收藏</div>
-			<div class="service">客服</div>
-			<div class="func">
-				<div class="add">
+			</view>
+			<view class="subscribe">
+				<view class="title">应用A</view>
+				<view class="detail">应用描述应用描述应用描述应用描述应应用描述</view>
+			</view>
+		</view>
+		<view class="subArea">
+			<view class="sub">评价</view>
+			<view class="sub">介绍</view>
+			<view class="sub">版本</view>
+		</view>
+		<view class="bottom">
+			<view class="store">商店</view>
+			<view class="like">收藏</view>
+			<view class="service">客服</view>
+			<view class="func">
+				<view class="add">
 					加入购物车
-				</div>
-				<div class="get">
+				</view>
+				<view class="get">
 					获取
-				</div>
-			</div>
-		</div>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 

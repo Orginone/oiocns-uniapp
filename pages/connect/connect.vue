@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="head">
-			111
+			<lostPage mode="noMessage"></lostPage>
 		</view>
 	</view>
 </template>
@@ -16,6 +16,6 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 </style>

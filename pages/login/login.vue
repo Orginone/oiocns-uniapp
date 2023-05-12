@@ -20,7 +20,8 @@
 					</view>
 					<view class="password">
 						<view class="name">密码</view>
-						<view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"/></view>
+						<view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"
+								placeholder-style="color:#808080" /></view>
 					</view>
 				</view>
 				<view class="mode2" v-if="!switchMode">
@@ -66,7 +67,7 @@
 				</view>
 				<view class="success" v-if="captchaRight==2">
 					<view class="ico">
-						√
+						✔
 					</view>
 					验证完成
 				</view>
@@ -98,12 +99,13 @@
 					</view>
 					<view class="username">
 						<view class="name">密码 </view>
-						<view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"></u-input></view>
+						<view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"
+								placeholder-style="color:#808080"></u-input></view>
 					</view>
 				</view>
-				
+
 			</view>
-			
+
 		</view>
 
 		<!-- 勾选同意 -->
@@ -119,17 +121,17 @@
 				</view>
 			</view>
 			<!-- 下一步 -->
-			<view :class="ready?'btn-area': 'btn-area notready'" v-if="stepState!=1">
+			<view :class="checked?'btn-area': 'btn-area notready'" v-if="stepState!=1">
 				<view class="btns" v-if="haveCatpcha==0">
-					<view class="btn1" v-show="switchMode"  @click="turnPage()">
+					<view class="btn1" v-show="switchMode" @click="turnPage()">
 						下一步
 					</view>
-					<view class="btn2" v-show="!switchMode" @click="haveCatpcha=1">
+					<view class="btn2" v-show="!switchMode" @click="sendCaptcha()">
 						发送验证码
 					</view>
 				</view>
-				
-				<view class="btns"  v-if="stepState==2">
+
+				<view class="btns" v-if="stepState==2">
 					<view class="btn1" @click="turnPage()">
 						下一步
 					</view>
@@ -149,14 +151,14 @@
 	export default {
 		data() {
 			return {
-				checked: true, //勾选标识
+				checked: false, //勾选标识
 				showtip: 0, //未勾选提示框
 				ready: 1, //判断表示/下一步
 				switchMode: 1, //账号密码登录模式
 				showList: 0, //手机号前缀下拉
 				selectValue: '+86', //手机号前缀下拉选择值
 				haveCatpcha: 0, //是否获取验证码
-				resultData: {}, //滑动值对象
+				resultData: null, //滑动值对象
 				sliderRes: false, //滑动通过标识
 				stepState: 0, //登录进度
 				captchaRight: 0, //验证码正确标识
@@ -165,7 +167,7 @@
 				timer: '', //定时器
 				showGetCaptcha: 0, //显示重新获取
 				needSet: true, //判断是否为初次使用
-				passwordIcon:'',//密码可见
+				passwordIcon: true, //密码可见
 				actionSheetList: [{
 						value: '+86',
 						text: '+86'
@@ -184,10 +186,30 @@
 			clearInterval(this.timer);
 		},
 		methods: {
+			//发送验证码
+			sendCaptcha() {
+				if (!this.checked) {
+					return uni.showToast({
+						title: '请勾选服务条款',
+						icon: 'none'
+					})
+				} else if (!this.ready) {
+					return
+				}
+				this.haveCatpcha = 1
+			},
 			//跳转页面
-			turnPage(){
+			turnPage() {
+				if (!this.checked) {
+					return uni.showToast({
+						title: '请勾选服务条款',
+						icon: 'none'
+					})
+				} else if (!this.ready) {
+					return
+				}
 				uni.switchTab({
-					url:'/pages/connect/connect'
+					url: '/pages/connect/connect'
 				})
 			},
 			//返回上一页
@@ -200,7 +222,6 @@
 			},
 			/* 校验结果回调函数 */
 			verifyResult(res) {
-				console.log(res);
 				this.resultData = res;
 				this.sliderRes = res.flag
 				if (this.sliderRes == true) {
@@ -223,10 +244,10 @@
 				if (e == this.tureCaptcha) {
 					this.captchaRight = 2
 					if (this.needSet) {
-						setTimeout(()=>{
+						setTimeout(() => {
 							this.stepState = 2
-						},1000)
-						
+						}, 1000)
+
 					} else {
 						console.log('直接登录');
 					}
@@ -237,6 +258,9 @@
 			},
 			//倒计时
 			setCountdown() {
+				if (this.timer) {
+					return
+				}
 				this.countdown = 60
 				this.timer = setInterval(() => {
 					this.countdown--
@@ -248,6 +272,7 @@
 			},
 			//获取验证码
 			getCaptcha() {
+				this.timer = ''
 				this.setCountdown()
 				this.showGetCaptcha = 0
 			}
@@ -256,13 +281,19 @@
 </script>
 
 <style lang="scss">
+	page {
+		height: 100%;
+	}
+
 	.loginPage {
 		width: 100%;
+		height: 100%;
 		padding: 0 52upx;
 		display: flex;
 		flex-direction: column;
 
-		.login,.signup {
+		.login,
+		.signup {
 			width: 100%;
 			margin-top: 360upx;
 
@@ -300,6 +331,7 @@
 						height: 86upx;
 						display: flex;
 						border-bottom: 2upx solid #9A9A9A;
+
 						display: flex;
 						align-items: center;
 
@@ -313,7 +345,7 @@
 							flex: 1;
 
 							input {
-								color: #9A9A9A;
+								color: #000;
 							}
 						}
 					}
@@ -485,8 +517,10 @@
 		}
 
 		.nextstep {
+			flex: 1;
+			flex-direction: column;
+			justify-content: center;
 			display: flex;
-			margin-top: 170upx;
 			flex-wrap: wrap;
 
 			.agree {
