@@ -3,18 +3,19 @@
 		<view class="titleArea">
 			<view class="titleItem" v-for="item,index in lists" :key="index">
 				<!-- 菜单标题 -->
-				<div class="title" @click="showList(index)">
+				<view class="title" @click="showList(index)">
 					<view class="text">{{item.name}}</view>
 					<view :class="listIndex==index?'active ico':'ico'" >
 						<img src="@/static/basePlus/triangle.png" alt="">
 					</view>
-				</div>
+				</view>
 				<!-- 下拉列表 -->
 				<view class="downList"  :class="{activeList:listIndex==index}" >
-					<view class="listItem" v-for="it,ind in item.items" :key="ind">
-						<view class="shape" @click="slectItem(item,it)" :class="{'activeShape':item.listValue ==it}"></view>
+					<view class="listItem" v-for="it,ind in item.items" :key="ind" @click="slectItem(item,it)">
+						<view class="shape"  :class="{'activeShape':item.listValue ==it}"></view>
 						<view class="text">{{it}}</view>
 					</view>
+					<view class="mask"></view>
 				</view>
 			</view>
 		</view>
@@ -40,12 +41,12 @@
 					},
 					{
 						name:'状态',
-						items:['还行','不错','顶不住了','活着'],
+						items:['还行','不错'],
 						listValue:''
 					},
 					{
 						name:'种类',
-						items:['种类一','种类二','种类三','种类四'],
+						items:['种类一','种类二','种类三','种类二','种类三'],
 						listValue:''
 					}
 				],
@@ -68,6 +69,7 @@
 				this.lists.forEach(item =>{
 					arr.push({name:item.name,value:item.listValue})
 				})
+				this.listIndex = -1
 				this.$emit('change',arr)
 			}
 		}

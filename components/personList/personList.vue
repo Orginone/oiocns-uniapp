@@ -7,10 +7,11 @@
 				<view class="name" >{{item.name}}</view>
 				<view class="right" @tap="turnDetailPage(item)">
 					<!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
+					<img :src="'../../static/base/add.png'" alt=""  v-if="icon.includes('add')" >
 					<view class="dotPlus">
-						<img :src="'../../static/base/dotPlus.png'" alt="" v-if="icon=='dotPlus'" >
+						<img :src="'../../static/base/dotPlus.png'" alt=""  v-if="icon.includes('dotPlus')" >
 					</view>
-					<img src="../../static/base/right.png" alt="">
+					<img src="../../static/base/right.png" alt="" v-if="icon.includes('right')">
 				</view>
 			</view>
 		</view>
@@ -39,7 +40,7 @@
 				default:'/pages/warehouse/page2/page2'
 			},
 			icon:{
-				default:''
+				default:'right'
 			}
 		},
 		data() {
@@ -110,8 +111,8 @@
 					}
 					.dotPlus{
 						img{
-							height: 28upx;
-							width:6upx;
+							height: 30upx;
+							width:8upx;
 						}
 					}
 				}

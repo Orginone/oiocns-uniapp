@@ -1,7 +1,8 @@
 <template>
 	<view>
 		<headbar :localList="localList" right :left="'more'" :url="'/pages/work/work'" ></headbar>
-		<personList :listInfo="listInfo1"  :url="'/pages/work/page3/page3'" icon="dotPlus" :localList="localList"></personList>
+		<personList :listInfo="listInfo1"  :url="'/pages/work/page3/page3'" icon="dotPlus add" :localList="localList"></personList>
+		<personList :listInfo="listInfo2"  :url="'/pages/work/page3/page3'" icon="dotPlus " :localList="localList" style="transform: translateY(-18upx);"></personList>
 	</view>
 </template>
 
@@ -18,7 +19,10 @@
 					},
 					{
 						name: '资产出售'
-					},
+					}
+					
+				],
+				listInfo2: [
 					{
 						name: '资产捐赠'
 					},
@@ -28,7 +32,6 @@
 					{
 						name: '资产交易'
 					}
-					
 				]
 
 			};

@@ -91,7 +91,7 @@
             "path" : "pages/work/page2/page2",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "办事",
                 "enablePullDownRefresh": false
             }
             
@@ -100,7 +100,7 @@
             "path" : "pages/work/page1/page1",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "办事",
                 "enablePullDownRefresh": false
             }
             
@@ -109,7 +109,7 @@
             "path" : "pages/work/page3/page3",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "办事",
                 "enablePullDownRefresh": false
             }
             
