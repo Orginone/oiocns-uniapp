@@ -1,106 +1,62 @@
-<p align="center">
-    <img alt="logo" src="https://uviewui.com/common/logo.png" width="120" height="120" style="margin-bottom: 10px;">
-</p>
-<h3 align="center" style="margin: 30px 0 30px;font-weight: bold;font-size:40px;">uView</h3>
-<h3 align="center">多平台快速开发的UI框架</h3>
+<img width="1060" alt="image" src="https://user-images.githubusercontent.com/8328012/201800690-9f5e989e-4ed3-4817-85b9-b594ac89fd31.png">
 
+奥集能是面向下一代互联网发展趋势，基于动态演化的复杂系统多主体建模方法，以所有权作为第一优先级，运用零信任安全机制，按自组织分形方法提炼和抽象“沟通、办事、仓库、商店、市场和设置”等基础功能，为b端和c端融合的全场景业务的提供新一代分布式应用架构。
 
-## 说明
+# 项目目录
 
-uView UI，是[uni-app](https://uniapp.dcloud.io/)生态优秀的UI框架，全面的组件和便捷的工具会让您信手拈来，如鱼得水
-
-## 特性
-
-- 兼容安卓，iOS，微信小程序，H5，QQ小程序，百度小程序，支付宝小程序，头条小程序
-- 60+精选组件，功能丰富，多端兼容，让您快速集成，开箱即用
-- 众多贴心的JS利器，让您飞镖在手，召之即来，百步穿杨
-- 众多的常用页面和布局，让您专注逻辑，事半功倍
-- 详尽的文档支持，现代化的演示效果
-- 按需引入，精简打包体积
-
-
-## 安装
-
-```bash
-# npm方式安装
-npm i uview-ui
+```目录
+┌─uniCloud              云空间目录，阿里云为uniCloud-aliyun,腾讯云为uniCloud-tcb（详见uniCloud）
+│─components            符合vue组件规范的uni-app组件目录
+│  └─comp-a.vue         可复用的a组件
+├─utssdk                存放uts文件
+├─pages                 业务页面文件存放的目录
+│  ├─index
+│  │  └─index.vue       index页面
+│  └─list
+│     └─list.vue        list页面
+├─static                存放应用引用的本地静态资源（如图片、视频等）的目录，注意：静态资源只能存放于此
+├─uni_modules           存放[uni_module](/uni_modules)。
+├─platforms             存放各平台专用页面的目录，详见
+├─nativeplugins         App原生语言插件 详见
+├─nativeResources       App端原生资源目录
+│  └─android            Android原生资源目录 详见
+├─hybrid                App端存放本地html文件的目录，详见
+├─wxcomponents          存放小程序组件的目录，详见
+├─unpackage             非工程代码，一般存放运行或发行的编译结果
+├─AndroidManifest.xml   Android原生应用清单文件 详见
+├─main.js               Vue初始化入口文件
+├─App.vue               应用配置，用来配置App全局样式以及监听 应用生命周期
+├─manifest.json         配置应用名称、appid、logo、版本等打包信息，详见
+├─pages.json            配置页面路由、导航条、选项卡等页面类信息，详见
+└─uni.scss              这里是uni-app内置的常用样式变量
 ```
 
-## 快速上手
+# 依赖环境
 
-1. `main.js`引入uView库
-```js
-// main.js
-import uView from 'uview-ui';
-Vue.use(uView);
-```
+编辑器：HBuilder、微信开发者工具
 
-2. `App.vue`引入基础样式(注意style标签需声明scss属性支持)
-```css
-/* App.vue */
-<style lang="scss">
-@import "uview-ui/index.scss";
-</style>
-```
+项目启动：参考 [uni-app官网 (dcloud.net.cn)](https://uniapp.dcloud.net.cn/quickstart-hx.html) 快速启动项目
 
-3. `uni.scss`引入全局scss变量文件
-```css
-/* uni.scss */
-@import "uview-ui/theme.scss";
-```
+# 如何参与项目
 
-4. `pages.json`配置easycom规则(按需引入)
+Orginone 采用开放、开源共建模式，避免重复造轮子，以持续迭代，不断演进的模式，完善公共平台的建设。引入开放社区治理模式，保障平台的开放和中心，建设成果以开放或开源模式输出，鼓励在公共平台基础上开展商业服务，以市场化竞争方式提高资源效率，降低社会运行成本。
 
-```js
-// pages.json
-{
-	"easycom": {
-		// npm安装的方式不需要前面的"@/"，下载安装的方式需要"@/"
-		// npm安装方式
-		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
-		// 下载安装方式
-		// "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
-	},
-	// 此为本身已有的内容
-	"pages": [
-		// ......
-	]
-}
-```
+正式进入实际开发之前，需要做一些准备工作，比如：Javascript、Typescript 语言的学习、vue2、vue3 开发框架使用等。
 
-请通过[快速上手](https://uviewui.com/components/quickstart.html)了解更详细的内容 
+## git规范
 
-## 使用方法
-配置easycom规则后，自动按需引入，无需`import`组件，直接引用即可。
+1. 命名要求：
+   1.1 统一前缀-姓名缩写-描述及日期。如 增加XX功能 `feature-lw-addmain1101`
+   1.2 分支名称前缀如下
 
-```html
-<template>
-	<u-button>按钮</u-button>
-</template>
-```
+- common：调整通用组件、通用功能、通用数据接口、通用样式等
+- feature：新功能
+- fix：bug修复
+- hotfix：线上紧急修复
+- perf：性能优化
+- other：配置信息调整等非上面5种的改动改动
 
-请通过[快速上手](https://uviewui.com/components/quickstart.html)了解更详细的内容 
-
-## 链接
-
-- [官方文档](https://uviewui.com/)
-- [更新日志](https://uviewui.com/components/changelog.html)
-- [升级指南](https://uviewui.com/components/changelog.html)
-- [关于我们](https://uviewui.com/cooperation/about.html)
-
-## 预览
-
-您可以通过**微信**扫码，查看最佳的演示效果。
-<br>
-<br>
-<img src="https://uviewui.com/common/weixin_mini_qrcode.png" width="220" height="220" >
-
-<!-- ## 捐赠uView的研发
-
-uView文档和源码全部开源免费，如果您认为uView帮到了您的开发工作，您可以捐赠uView的研发工作，捐赠无门槛，哪怕是一杯可乐也好(相信这比打赏主播更有意义)。
-
-<img src="https://uviewui.com/common/wechat.png" width="220" >
-<img style="margin-left: 100px;" src="https://uviewui.com/common/alipay.png" width="220" >
- -->
-## 版权信息
-uView遵循[MIT](https://en.wikipedia.org/wiki/MIT_License)开源协议，意味着您无需支付任何费用，也无需授权，即可将uView应用到您的产品中。
+1. 迭代要求：
+   2.1 `main` 分支为主干，所有迭代基于此分支进行获取
+   2.2 所有新功能迭代，问题修复等，需要进行发布，需要提交 `PR` 请求到 `main` 分支。
+   2.3 待系统上线后会拉出 `test` ,后续迭代与 `ISSUE`中问题进行关联的模式
