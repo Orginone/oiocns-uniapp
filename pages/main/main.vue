@@ -167,13 +167,13 @@ margin-top: 13upx;
     }
 	.banner{
 		width: 100%;
-		height: 282upx;
+		height: 300upx;
 		.swiper_item{
 			width: 100%;
-		height: 282upx;
+		    height: 300upx;
 		img{
 			width: 100%;
-		height: 282upx;
+		    height: 300upx;
 		}
 		}
 	}
