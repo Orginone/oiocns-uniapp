@@ -7,6 +7,7 @@
   "dependencies": {
     "@orginone/core": "^0.1.0",
     "@orginone/runtime-core": "^0.1.0",
+    "@orginone/runtime-uniapp": "^0.1.0",
     "element-ui": "^2.15.13",
     "vant": "^2.12.54"
   },

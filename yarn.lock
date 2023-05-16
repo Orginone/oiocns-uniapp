@@ -273,6 +273,11 @@
     "@microsoft/signalr" "^7.0.5"
     "@msgpack/msgpack" "^3.0.0-beta2"
 
+"@orginone/runtime-uniapp@^0.1.0":
+  version "0.1.0"
+  resolved "http://192.168.1.211:30677/@orginone%2fruntime-uniapp/-/runtime-uniapp-0.1.0.tgz#abbebc0527f8850741242a0269ab970aa17f937b"
+  integrity sha512-V4aTKF+QxQW3U/1+xqvvGlL1zAaLiTI4LrOVYfWQMapvv/x7WcZDc+wM8NoqjWmYK08DOiwrzrC0vH99Znz5VA==
+
 "@vant/icons@^1.7.1":
   version "1.8.0"
   resolved "https://registry.npmmirror.com/@vant/icons/-/icons-1.8.0.tgz#36b13f2e628b533f6523a93a168cf02f07056674"
