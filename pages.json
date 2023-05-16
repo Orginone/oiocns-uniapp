@@ -97,15 +97,6 @@
             
         }
         ,{
-            "path" : "pages/work/page1/page1",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "办事",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
             "path" : "pages/work/page3/page3",
             "style" :                                                                                    
             {

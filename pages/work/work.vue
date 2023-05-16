@@ -1,6 +1,6 @@
 <template>
 	<view class="baseLayout">
-		<headbar :localList="localList" :left="'more'" :url="url" style="width: 100%;"></headbar>
+		<headbar :left="'more'" :url="url" style="width: 100%;" localList='最近打开'></headbar>
 		<view class="dealList" v-for="item,index in dealList" :key="index">
 			<dealItem :itemInfo="item"></dealItem>
 		</view>
@@ -13,7 +13,6 @@
 		data() {
 			return {
 				url:'/pages/work/menu/menu',
-				localList:'办事,待办详情',
 				dealList: [{
 						title: '这是一张审批单',
 						sub: '资金审批，望通过',

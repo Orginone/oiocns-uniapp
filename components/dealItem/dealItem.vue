@@ -75,7 +75,7 @@
 
 				.title {
 					display: flex;
-					font-size: 28upx;
+					font-size: 32upx;
 					color: #303133;
 					display: flex;
 					align-items: center;
@@ -98,7 +98,7 @@
 				.sub {
 					margin-top: 10upx;
 					color: #9A9A9A;
-					font-size: 20upx;
+					font-size: 24upx;
 				}
 
 				.remain {

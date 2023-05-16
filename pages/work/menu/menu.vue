@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<headbar :localList="'办事'" :color="false" :left="'more'" :url="'back'" right></headbar>
+		<headbar  :color="false" :left="'more'" :url="'back'" right basic="办事"></headbar>
 		<personList :listInfo='listInfo' :title="'个人'" :chat="false"  :localList="'办事'" :url="url"></personList>
 		<personList :listInfo='listInfo2' :title="'组织'" :chat="false" :localList="'办事'"  :url="url"> ></personList>
 	</view>

@@ -2,10 +2,10 @@
 	<view class="listArea">
 		<view class="total" v-if="title">{{title}}</view>
 		<view class="itemArea" >
-			<view class="listItem" v-for="item,index in listInfo" :key="index" >
+			<view class="listItem" v-for="item,index in listInfo" :key="index"  @tap="turnDetailPage(item)">
 				<view class="box"></view>
 				<view class="name" >{{item.name}}</view>
-				<view class="right" @tap="turnDetailPage(item)">
+				<view class="right">
 					<!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
 					<img :src="'../../static/base/add.png'" alt=""  v-if="icon.includes('add')" >
 					<view class="dotPlus">
@@ -51,7 +51,6 @@
 		methods: {
 			turnDetailPage(item) {
 				item['localList'] = this.localList+','+item.name
-				console.log(item);
 				uni.navigateTo({
 					url: this.url+'?data=' + JSON.stringify(item)
 				})
@@ -82,7 +81,7 @@
 				align-items: center;
 				box-sizing: border-box;
 				
-				&:hover{
+				&:active{
 					background-color: #edeffc;
 					border-radius: 10upx;
 				}
