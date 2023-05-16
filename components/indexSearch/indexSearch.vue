@@ -2,7 +2,7 @@
 	<view class="baseLayout">
 		   <view class="search_box">
             <input class="search_text" type="text">
-            <img class="search_icon" src="@/static/base/search_m.png" alt="" srcset="">
+            <!-- <img class="search_icon" src="@/static/base/search_m.png" alt="" srcset=""> -->
            </view>
            <view class="add ">+</view>
 	</view>
