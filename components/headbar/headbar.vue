@@ -18,6 +18,9 @@
 					<view class="main" v-if="color">
 						{{item}}
 					</view>
+					<view class="main" style="color:#000000" v-if="deep">
+						{{item}}
+					</view>
 					<view class="main" style="color:#9A9A9A" v-if="!color">
 						{{item}}
 					</view>
@@ -48,6 +51,9 @@
 			},
 			color:{
 				default:true
+			},
+			deep:{
+				default:false
 			},
 			left:{
 				default:'back'
