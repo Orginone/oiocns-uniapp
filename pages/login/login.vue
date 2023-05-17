@@ -16,12 +16,12 @@
 				<view class="mode1" v-if="switchMode">
 					<view class="username">
 						<view class="name">用户名</view>
-						<view class="input"><input type="text" placeholder="请输入用户名和手机号码"></view>
+						<view class="input"><input type="text" placeholder="请输入用户名和手机号码" v-model="account"></view>
 					</view>
 					<view class="password">
 						<view class="name">密码</view>
 						<view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"
-								placeholder-style="color:#808080" /></view>
+								placeholder-style="color:#808080" v-model="pwd" /></view>
 					</view>
 				</view>
 				<view class="mode2" v-if="!switchMode">
@@ -148,6 +148,7 @@
 </template>
 
 <script>
+    
 	export default {
 		data() {
 			return {
@@ -176,11 +177,14 @@
 						value: '+198',
 						text: '+198'
 					}
-				]
+				],
+				account:'15669029137',
+				pwd:'Yuwei19960212.'
+
 			};
 		},
 		onLoad() {
-
+			
 		},
 		destroyed() {
 			clearInterval(this.timer);
@@ -199,7 +203,7 @@
 				this.haveCatpcha = 1
 			},
 			//跳转页面
-			turnPage() {
+		async turnPage() {
 				if (!this.checked) {
 					return uni.showToast({
 						title: '请勾选服务条款',
@@ -208,6 +212,20 @@
 				} else if (!this.ready) {
 					return
 				}
+				uni.showLoading({
+					title: "加载中",
+				});
+                 let res = await  this.$api.login(this.account, this.pwd)
+                 if(res.code==200){
+					uni.showToast({
+						title:'登录成功',
+						icon:'none'
+					})
+					console.log(this.$oapp);
+					this.$oapp.state.user.setAccessToken(res.data.accessToken)
+					console.log(this.$oapp.state.user.accessToken.value);
+                    uni.hideLoading()
+				 }
 				uni.switchTab({
 					url: '/pages/connect/connect'
 				})

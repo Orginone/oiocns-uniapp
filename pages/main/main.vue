@@ -80,6 +80,9 @@ export default {
 
     };
   },
+  onLoad(options) {
+    
+  }
 };
 </script>
 

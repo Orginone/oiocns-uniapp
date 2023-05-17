@@ -4,7 +4,7 @@
 		<view class="title">{{title}}</view>
 		<!-- 表单区域 -->
 		<view class="formArea">
-			<view class="item"v-for="(item,index) in datalist" :key="index">
+			<view class="item" v-for="(item,index) in datalist" :key="index">
 				<view class="name">{{item.name}}</view>
 				<view class="value">{{item.value}}</view>
 			</view>
