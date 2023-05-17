@@ -46,7 +46,7 @@
 					},
 					{
 						name:'种类',
-						items:['种类一','种类二','种类三','种类二','种类三'],
+						items:['种类一','种类二','种类三','种类四','种类五'],
 						listValue:''
 					}
 				],
@@ -69,7 +69,7 @@
 				this.lists.forEach(item =>{
 					arr.push({name:item.name,value:item.listValue})
 				})
-				this.listIndex = -1
+				// this.listIndex = -1
 				this.$emit('change',arr)
 			}
 		}

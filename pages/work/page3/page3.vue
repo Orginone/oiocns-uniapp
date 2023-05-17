@@ -1,10 +1,13 @@
 <template>
 	<view class="baseLayout">
-		<headbar :localList="localList" right :left="'more'" :url="'/pages/work/work'" style="width: 100%;"></headbar>
-		<selectBar @change="change" style="width: 100%;"></selectBar>
-		<view class="dealList" v-for="item,index in dealList" :key="index" @click="turnpage()">
-			<dealItem :itemInfo="item" :btn="false" ></dealItem>
+		<headbar  right :left="'more'" :url="'/pages/work/work'" last basic="办事"></headbar>
+		<view class="main">
+			<selectBar @change="change" style="width: 100%;"></selectBar>
+			<view class="dealList" v-for="item,index in dealList" :key="index" @click="turnpage()">
+				<dealItem :itemInfo="item" :btn="false" ></dealItem>
+			</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -12,7 +15,6 @@
 	export default {
 		data() {
 			return {
-				localList: '办事,资产管理,资产处置,已办',
 				dealList: [{
 						title: '这是一张审批单',
 						sub: '资金审批，望通过',
@@ -44,7 +46,7 @@
 			turnpage() {
 				console.log(1);
 				uni.navigateTo({
-					url: '/pages/work/page4/page4'
+					url: '/pages/work/page4/page4?data='+JSON.stringify({name:'资产处置'})
 				})
 			},
 			//获取选择菜单参数
@@ -56,7 +58,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.baseLayout {
+	.main {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
