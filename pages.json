@@ -265,33 +265,33 @@
 		"backgroundColor": "#FFFFFF",
 		"list": [{
 				"pagePath": "pages/connect/connect",
-				"iconPath": "static/tabbar-ico/gt.svg",
-				"selectedIconPath": "static/tabbar-ico/gt1.svg",
+				"iconPath": "static/tabbar-ico/gt.png",
+				"selectedIconPath": "static/tabbar-ico/gt1.png",
 				"text": "沟通"
 			},
 			
 			{
 				"pagePath": "pages/work/work",
-				"iconPath": "static/tabbar-ico/bs.svg",
-				"selectedIconPath": "static/tabbar-ico/bs1.svg",
+				"iconPath": "static/tabbar-ico/bs.png",
+				"selectedIconPath": "static/tabbar-ico/bs1.png",
 				"text": "办事"
 			},
 			{
 				"pagePath": "pages/main/main",
-				"iconPath": "static/tabbar-ico/mh.svg",
-				"selectedIconPath": "static/tabbar-ico/mh1.svg",
+				"iconPath": "static/tabbar-ico/mh.png",
+				"selectedIconPath": "static/tabbar-ico/mh1.png",
 				"text": "门户"
 			},
 			{
 				"pagePath": "pages/warehouse/warehouse",
-				"iconPath": "static/tabbar-ico/cc.svg",
-				"selectedIconPath": "static/tabbar-ico/cc1.svg",
+				"iconPath": "static/tabbar-ico/cc.png",
+				"selectedIconPath": "static/tabbar-ico/cc1.png",
 				"text": "存储"
 			},
 			{
 				"pagePath": "pages/shop/shop",
-				"iconPath": "static/tabbar-ico/lt.svg",
-				"selectedIconPath": "static/tabbar-ico/lt1.svg",
+				"iconPath": "static/tabbar-ico/lt.png",
+				"selectedIconPath": "static/tabbar-ico/lt1.png",
 				"text": "流通"
 			}
 		]
