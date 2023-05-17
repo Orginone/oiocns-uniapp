@@ -31,7 +31,6 @@
 		},
 		methods:{
 			turnPage(item){
-				
 				let url = '/pages/warehouse/page'+item+'/page'+item
 				console.log(url);
 				uni.navigateTo({
