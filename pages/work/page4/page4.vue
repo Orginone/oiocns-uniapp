@@ -20,14 +20,14 @@
 						</view>
 					</view>
 					
-					<table>
-						<tr>
-							<th v-for="item,index in tableName" :key="index">{{item}}</th>
-						</tr>
-						<tr v-for="item,index in tableInfo" :key="index">
-							<td v-for="it,ind in Object.keys(item)">{{item[it]}}</td>
-						</tr>
-					</table>
+					<view class="table">
+						<view class="tr">
+							<view class="th" v-for="item,index in tableName" :key="index">{{item}}</view>
+						</view>
+						<view class="tr" v-for="item,index in tableInfo" :key="index">
+							<view class="td" v-for="it,ind in Object.keys(item)" :key="ind">{{item[it]}}</view>
+						</view>
+					</view>
 				</view>
 				<!-- 意见填写 -->
 				<view class="comment">
@@ -72,7 +72,7 @@
 						from: 100
 					},
 					{
-						name: '办公用房',
+						name: '办公用ssssssssss房',
 						type: '房产',
 						count: 3,
 						amount: 100,
@@ -212,13 +212,15 @@
 				background-color: #fff;
 			}
 
-			table {
+			.table {
 				width: 100%;
 				border-spacing: 0upx;
-				display: table;
-				th,
-				td {
-					display: table-cell;
+				.tr{
+					width: 100%;
+					display: flex;
+				}
+				.th,.td {
+					
 					width: 20%;
 					color: #9A9A9A;
 					font-size: 28upx;
@@ -228,20 +230,21 @@
 					border-right: 2upx solid #D4D4D4;
 				}
 
-				th {
+				.th {
 					font-weight: 28upx;
 					color: #606266;
 				}
-				td,th{
+				.td,.th{
 					&:last-child{
 						border-right:none;
 					}
 				}
 
-				tr {
+				.tr {
+					width: 100%;
+					margin: 0 auto;
 					&:nth-child(2n) {
-						th,
-						td {
+						.th,.td {
 							background-color: #f5f6fc;
 						}
 					}
@@ -286,9 +289,7 @@
 
 		.submit {
 			display: flex;
-			padding: 0 70upx;
-			padding-top: 80upx;
-			padding-bottom: 40upx;
+			padding: 40upx 70upx;
 			justify-content: space-around;
 			font-size: 30upx;
 			color: #fff;
