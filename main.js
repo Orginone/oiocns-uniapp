@@ -1,7 +1,7 @@
 import App from './App'
 
 import {oapp} from 'common/app'
-import {api} from 'common/request'
+import {accountApi,kernelApi} from 'common/request'
 
 
 
@@ -10,7 +10,8 @@ import Vue from 'vue'
 import uView from "uview-ui";
 Vue.use(uView);
 Vue.prototype.$oapp = oapp
-Vue.prototype.$api = api
+Vue.prototype.$accountApi = accountApi
+Vue.prototype.$kernelApi =kernelApi
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({

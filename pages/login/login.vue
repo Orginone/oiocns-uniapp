@@ -215,7 +215,7 @@
 				uni.showLoading({
 					title: "加载中",
 				});
-                 let res = await  this.$api.login(this.account, this.pwd)
+                 let res = await  this.$accountApi.login(this.account, this.pwd)
                  if(res.code==200){
 					uni.showToast({
 						title:'登录成功',

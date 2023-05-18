@@ -80,7 +80,12 @@ export default {
 
     };
   },
-  onLoad(options) {
+ async onLoad(options) {
+  console.log('====================================');
+  console.log(this.$kernelApi.queryWorkRecord());
+  console.log('====================================');
+  debugger
+    // let res = await  this.$api.queryWorkRecord()
     
   }
 };
