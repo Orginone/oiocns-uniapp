@@ -3,9 +3,9 @@
     <view class="userInfo">
       <view class="userInfo_unit">
         <view class="userInfo_unit_fristName">{{
-          userInfo.unit.substring(0, 1)
+          userInfo.name?userInfo.name.substring(0, 1):''
         }}</view>
-        <view class="userInfo_unit_name">{{ userInfo.unit }}</view>
+        <view class="userInfo_unit_name">{{ userInfo.name }}</view>
       </view>
       <view class="userInfo_img">
         <img :src="userInfo.userImg" alt="" srcset="" />
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import {kernelApi} from 'common/request'
 export default {
   data() {
     return {
@@ -81,11 +82,13 @@ export default {
     };
   },
  async onLoad(options) {
+   console.log('====================================');
+  console.log(uni.getStorageSync('currentUser'));
   console.log('====================================');
-  console.log(this.$kernelApi.queryWorkRecord());
-  console.log('====================================');
-  debugger
-    // let res = await  this.$api.queryWorkRecord()
+  // console.log('====================================');
+  // console.log(kernelApi.queryWorkRecord());
+  // console.log('====================================');
+  this.userInfo = uni.getStorageSync('currentUser')
     
   }
 };

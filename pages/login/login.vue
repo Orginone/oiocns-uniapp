@@ -148,7 +148,7 @@
 </template>
 
 <script>
-    
+    import {accountApi} from 'common/request'
 	export default {
 		data() {
 			return {
@@ -215,7 +215,7 @@
 				uni.showLoading({
 					title: "加载中",
 				});
-                 let res = await  this.$accountApi.login(this.account, this.pwd)
+                 let res = await  accountApi.login(this.account, this.pwd)
                  if(res.code==200){
 					uni.showToast({
 						title:'登录成功',
@@ -223,6 +223,7 @@
 					})
 					console.log(this.$oapp);
 					this.$oapp.state.user.setAccessToken(res.data.accessToken)
+					uni.setStorageSync('currentUser',res.data.target)
 					console.log(this.$oapp.state.user.accessToken.value);
                     uni.hideLoading()
 				 }
