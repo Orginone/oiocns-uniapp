@@ -34,7 +34,7 @@
 				default:''
 			},
 			chat: {
-				default: true
+				default: false
 			},
 			url:{
 				default:'/pages/warehouse/page2/page2'

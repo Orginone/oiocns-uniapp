@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<headbar  :color="false" :left="'more'" :url="'back'" right basic="办事"></headbar>
-		<personList :listInfo='listInfo' :title="'个人'" :chat="false"  :localList="'办事'" :url="url"></personList>
-		<personList :listInfo='listInfo2' :title="'组织'" :chat="false" :localList="'办事'"  :url="url"> ></personList>
+		<headbar  left="more" url="/pages/work/work" right basic="办事"></headbar>
+		<personList :listInfo='listInfo' :title="'个人'"  :url="url"></personList>
+		<personList :listInfo='listInfo2' :title="'组织'"   :url="url"> ></personList>
 	</view>
 </template>
 

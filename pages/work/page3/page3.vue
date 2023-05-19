@@ -44,7 +44,6 @@
 		methods: {
 			//跳转
 			turnpage() {
-				console.log(1);
 				uni.navigateTo({
 					url: '/pages/work/page4/page4?data='+JSON.stringify({name:'资产处置'})
 				})

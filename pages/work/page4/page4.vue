@@ -156,7 +156,6 @@
 
 <style lang="scss" scoped>
 	.baseLayout {
-		height: 100%;
 		width: 100%;
 		background-color: #f2f4f9;
 	}
