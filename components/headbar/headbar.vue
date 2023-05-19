@@ -137,10 +137,10 @@ export default {
       let arr = [];
       comps.forEach((item, index) => {
         //访问历史前两级固定不带参数不用判断，若携带basic,手动添加面包屑路径
-        if(index <= 1  && this.basic !== "") {
-          arr = [this.basic]
+        if (index <= 1 && this.basic !== "") {
+          arr = [this.basic];
         }
-		// 判断路径是否携带name参数，携带则添加面包屑路径
+        // 判断路径是否携带name参数，携带则添加面包屑路径
         if (index > 1) {
           let data = JSON.parse(item.options.data);
           if ("name" in data) {
@@ -155,8 +155,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.baseLayout{
-	width: 100%;
+.baseLayout {
+  width: 100%;
 }
 .header {
   width: 100%;

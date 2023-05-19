@@ -6,7 +6,7 @@
 	</view>
 </template>
 <script>
-import { kernelApi } from "common/request";
+import { kernelApi } from "common/app";
 export default {
   data() {
     return {
