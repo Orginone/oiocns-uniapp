@@ -4,7 +4,7 @@ import { ConfigurationManager } from "@orginone/core/lib/config";
 import { AppState, useAppEvents } from "@orginone/core/lib/lib";
 const config = new ConfigurationManager()
     .addConfig({
-    apiUrl: "http://orginone.cn:888/orginone"
+    apiUrl: "https://orginone.cn/orginone"
 });
 const oapp = App.create({
     config,
