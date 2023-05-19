@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import {kernelApi} from 'common/request'
 export default {
   data() {
     return {
@@ -84,16 +83,19 @@ export default {
  async onLoad(options) {
   this.userInfo = uni.getStorageSync('currentUser')
     console.log(this.userInfo,7777);
-    let params = {
-      id:this.userInfo.id,
-      page:{offset:1,limit:999,filter:""},
-      typeNames:['单位','大学','医院']
-    }
-    let res = await kernelApi.queryJoinedTargetById(params)
-    console.log(res,132);
-  // let res = await kernelApi.queryWorkRecord()
-  // console.log(res);
-  
+    // let params = {
+    //   id:this.userInfo.id,
+    //   page:{offset:1,limit:999,filter:""},
+    //   typeNames:['单位','大学','医院']
+    // }
+    // let res = await kernelApi.queryJoinedTargetById(params)
+    // let searchParams = {id:this.userInfo.id,page:{offset:1,limit:999,filter:""}}
+    // let done =  await kernelApi.queryWorkRecord(searchParams) //查询已办
+    // let todo =  await kernelApi.queryApproveTask(searchParams) //待办
+    // let post =  await kernelApi.queryMyApply(searchParams) //我发起的办事
+    // let over =  await kernelApi.queryMyWorkInstance(searchParams) //审批通过
+
+	  
   }
 };
 </script>

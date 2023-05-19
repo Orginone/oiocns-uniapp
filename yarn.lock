@@ -245,49 +245,31 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@orginone/core@^0.1.0":
-  version "0.1.0"
-  resolved "http://192.168.1.211:30677/@orginone%2fcore/-/core-0.1.0.tgz#2aaad5b0073332f9302acb11504c490285184420"
-  integrity sha512-HYJV8/nBrnaa8MHERjGFjmQ1tkcVVLtBBoFvui3Mg0r4J7m20UIcawDOqGhINDJzNKjO0uZCTd8kBkVhlXt78A==
-  dependencies:
-    "@babel/core" "^7.21.8"
-    "@babel/standalone" "^7.21.8"
-    "@babel/types" "^7.21.5"
-
-"@orginone/core@^0.1.4":
-  version "0.1.4"
-  resolved "http://192.168.1.211:30677/@orginone%2fcore/-/core-0.1.4.tgz#b43d4f8cb9641ed7759e8e869f2f2d5c352be27f"
-  integrity sha512-XhOmn6bl80fGgwjXY+ZqqctquB6FnIIBc4Zy166AZaZPCtFIBj3P9ZgNP9t5GbiQubKyzSnO7MVa9bJ0n06aOg==
-  dependencies:
-    "@babel/core" "^7.21.8"
-    "@babel/standalone" "^7.21.8"
-    "@babel/types" "^7.21.5"
-
-"@orginone/core@^0.1.5":
-  version "0.1.5"
-  resolved "http://192.168.1.211:30677/@orginone%2fcore/-/core-0.1.5.tgz#0a4eec2d0bcd4f028a43bcc25406cf72566985d1"
-  integrity sha512-5VWophDFZv6VRiSi4O0Fy+/OhAPP9525V2/p0NH+BGiVdVMXhY35kLwjEbMF4KbLfVLSEMVyMi2OTGvki8ighw==
+"@orginone/core@^0.2.1":
+  version "0.2.1"
+  resolved "http://192.168.1.211:30677/@orginone%2fcore/-/core-0.2.1.tgz#723023c84ac1205f2c1a81ed2383a975eb2dc80d"
+  integrity sha512-5jI2LZbgy95NFXrMTu03nWCjCk9DZC7BrA9wg4AgsiVnLDWUnWPYG9mZ8zwM/5uOT88tJvsTgaazn57pjfGKfQ==
   dependencies:
     "@babel/core" "^7.21.8"
     "@babel/standalone" "^7.21.8"
     "@babel/types" "^7.21.5"
     lodash "^4.17.21"
+    reflect-metadata "^0.1.13"
     tiny-emitter "^2.1.0"
 
-"@orginone/runtime-uniapp@^0.1.5":
-  version "0.1.5"
-  resolved "http://192.168.1.211:30677/@orginone%2fruntime-uniapp/-/runtime-uniapp-0.1.5.tgz#1e757d522b08391cb03006354399d323e6d524ed"
-  integrity sha512-x/DhDi2X8A10TU+YyiWAsK7HL3c/pf6cvhDbDwFz4t5sOKE9IlQQZTd48cFl97e3YwfR9S3tea4NuUPlI6xBfQ==
+"@orginone/runtime-uniapp@^0.2.1":
+  version "0.2.1"
+  resolved "http://192.168.1.211:30677/@orginone%2fruntime-uniapp/-/runtime-uniapp-0.2.1.tgz#252b1889c51a07bd58d9c8e0d778040ed35afae7"
+  integrity sha512-G2NtwDMnS25SjleI9Cfff2wCO23vw40LZOHvUHHBcprY2ehKTTQkzRnzeqN/FYcA7VfSVmrYm6prVP4IAG0iBQ==
   dependencies:
-    "@orginone/core" "^0.1.4"
-    "@orginone/vue" "^0.1.0"
+    "@orginone/core" "^0.2.1"
 
-"@orginone/vue@^0.1.0":
-  version "0.1.0"
-  resolved "http://192.168.1.211:30677/@orginone%2fvue/-/vue-0.1.0.tgz#88c923b8f8a75b2d9f0be12d87c9256c226e4482"
-  integrity sha512-7IL9TkHbXjgjpRq67BG9v3Gigy1VuUgTVodxPilGql3QF5eYnnMYjjeICXoySpjRz56v7z8CYN6d7sjW8hqZnA==
+"@orginone/vue@^0.2.0":
+  version "0.2.0"
+  resolved "http://192.168.1.211:30677/@orginone%2fvue/-/vue-0.2.0.tgz#eb87f1e287d3e49378b211bba49c1c2b75fe0453"
+  integrity sha512-xvAJfWWaTwEWdWNGy0gNYeBpua+8rxJ20SjtNsdQMKlIwv7BvxcElu3z25Uv2vzRjn619YgcUpG3DqTplJI/sQ==
   dependencies:
-    "@orginone/core" "^0.1.0"
+    "@orginone/core" "^0.2.1"
     "@vue/reactivity" "^3.2.47"
 
 "@vant/icons@^1.7.1":
@@ -306,16 +288,16 @@
   integrity sha512-JkqXfCkUDp4PIlFdDQ0TdXoIejMtTHP67/pvxlgeY+u5k3LEdKuWZ3LK6xkxo52uDoABIVyRwqVkfLQJhk7VBA==
 
 "@vue/reactivity@^3.2.47":
-  version "3.3.2"
-  resolved "http://192.168.1.211:30677/@vue%2freactivity/-/reactivity-3.3.2.tgz#c4ddc5087039070c0c11810f6bc1aa59c99f0cb5"
-  integrity sha512-yX8C4uTgg2Tdj+512EEMnMKbLveoITl7YdQX35AYgx8vBvQGszKiiCN46g4RY6/deeo/5DLbeUUGxCq1qWMf5g==
+  version "3.3.4"
+  resolved "http://192.168.1.211:30677/@vue%2freactivity/-/reactivity-3.3.4.tgz#a27a29c6cd17faba5a0e99fbb86ee951653e2253"
+  integrity sha512-kLTDLwd0B1jG08NBF3R5rqULtv/f8x3rOFByTDz4J53ttIQEDmALqKqXY0J+XQeN0aV2FBxY8nJDf88yvOPAqQ==
   dependencies:
-    "@vue/shared" "3.3.2"
+    "@vue/shared" "3.3.4"
 
-"@vue/shared@3.3.2":
-  version "3.3.2"
-  resolved "http://192.168.1.211:30677/@vue%2fshared/-/shared-3.3.2.tgz#774cd9b4635ce801b70a3fc3713779a5ef5d77c3"
-  integrity sha512-0rFu3h8JbclbnvvKrs7Fe5FNGV9/5X2rPD7KmOzhLSUAiQH5//Hq437Gv0fR5Mev3u/nbtvmLl8XgwCU20/ZfQ==
+"@vue/shared@3.3.4":
+  version "3.3.4"
+  resolved "http://192.168.1.211:30677/@vue%2fshared/-/shared-3.3.4.tgz#06e83c5027f464eef861c329be81454bc8b70780"
+  integrity sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==
 
 ansi-styles@^3.2.1:
   version "3.2.1"
@@ -490,6 +472,11 @@ picocolors@^1.0.0:
   version "1.0.0"
   resolved "http://192.168.1.211:30677/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
   integrity sha1-y1vcdP8/UYkiNur3nWi8RFZKuBw=
+
+reflect-metadata@^0.1.13:
+  version "0.1.13"
+  resolved "http://192.168.1.211:30677/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
+  integrity sha1-Z648pXyXKiqhZCsQ/jY/4y1J3Ag=
 
 regenerator-runtime@^0.11.0:
   version "0.11.1"

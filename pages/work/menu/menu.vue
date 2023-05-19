@@ -41,14 +41,12 @@ export default {
   },
   async onLoad(options) {
     this.userInfo = uni.getStorageSync("currentUser");
-    console.log(this.userInfo, 7777);
     let params = {
       id: this.userInfo.id,
       page: { offset: 1, limit: 999, filter: "" },
       typeNames: ["单位", "大学", "医院"],
     };
     let res = await kernelApi.queryJoinedTargetById(params);
-    console.log(res, 132);
 	this.listInfo2 = res.data.result
 	
   },

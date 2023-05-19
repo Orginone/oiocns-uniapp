@@ -201,7 +201,7 @@
 </template>
 
 <script>
-import { accountApi } from "common/request";
+import { accountApi } from "common/app";
 export default {
   data() {
     return {
@@ -290,10 +290,8 @@ export default {
           icon: "none",
         });
         console.log(this.$oapp);
-        this.$oapp.state.user.setAccessToken(res.data.accessToken);
         uni.setStorageSync("currentUser", res.data.target);
         uni.setStorageSync("accessToken", res.data.accessToken);
-        console.log(this.$oapp.state.user.accessToken.value);
         uni.hideLoading();
         uni.switchTab({
           url: "/pages/connect/connect",
