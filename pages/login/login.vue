@@ -161,7 +161,7 @@
 
     <!-- 勾选同意 -->
     <view class="nextstep">
-      <view class="agree" >
+      <view class="agree">
         <view class="tip" v-show="showtip">请勾选后再登陆</view>
         <u-checkbox v-model="checked" shape="circle"></u-checkbox>
         <view class="text">
@@ -238,8 +238,8 @@ export default {
           text: "+198",
         },
       ],
-      account: "15669029137",
-      pwd: "Yuwei19960212.",
+      account: "15168347908",
+      pwd: "38179960Jzy~",
     };
   },
   onLoad() {},
@@ -292,12 +292,18 @@ export default {
         console.log(this.$oapp);
         this.$oapp.state.user.setAccessToken(res.data.accessToken);
         uni.setStorageSync("currentUser", res.data.target);
+        uni.setStorageSync("accessToken", res.data.accessToken);
         console.log(this.$oapp.state.user.accessToken.value);
         uni.hideLoading();
-      }
-      uni.switchTab({
-        url: "/pages/connect/connect",
-      });
+        uni.switchTab({
+          url: "/pages/connect/connect",
+        });
+      }else{
+		uni.showToast({
+          title: "登录失败",
+          icon: "none",
+        });
+	  }
     },
     // 首次登录跳转页面
     turnPagePlus() {
