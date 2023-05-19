@@ -178,8 +178,8 @@
 						text: '+198'
 					}
 				],
-				account:'15669029137',
-				pwd:'Yuwei19960212.'
+				account:'15168347908',
+				pwd:'38179960Jzy~'
 
 			};
 		},
@@ -224,6 +224,7 @@
 					console.log(this.$oapp);
 					this.$oapp.state.user.setAccessToken(res.data.accessToken)
 					uni.setStorageSync('currentUser',res.data.target)
+					uni.setStorageSync('accessToken',res.data.accessToken)
 					console.log(this.$oapp.state.user.accessToken.value);
                     uni.hideLoading()
 				 }
