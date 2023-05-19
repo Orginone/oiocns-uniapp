@@ -120,6 +120,7 @@
 			};
 		},
 		watch:{
+			// 选择全部
 			selectAll(newValue){
 				if(newValue==true){
 					this.list = this.list.map(item =>{
@@ -141,23 +142,7 @@
 			}
 		},
 		methods: {
-			// 选中某个单选框时，由radio时触发
-			checkboxChange(e) {
-				// console.log(e);
-
-			},
-			// 选中任一radio时，由radio-group触发
-			checkboxGroupChange(e) {
-				console.log(e);
-				console.log(e.findIndex(item => item == 'all'));
-			},
-			checkAlls() {
-				console.log(this.checkAll, '/////////');
-				this.list.map(val => {
-					val.checked = !this.checkAll;
-				})
-
-			}
+			
 		}
 	}
 </script>
