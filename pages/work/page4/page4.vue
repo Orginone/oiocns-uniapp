@@ -149,6 +149,7 @@
 		methods: {
 			change(e) {
 				this.selectIndex = e
+				console.log(e)
 			}
 		}
 	}
