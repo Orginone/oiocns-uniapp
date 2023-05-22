@@ -263,13 +263,7 @@
 		"selectedColor": "#007AFF",
 		"borderStyle": "black",
 		"backgroundColor": "#FFFFFF",
-		"list": [{
-				"pagePath": "pages/connect/connect",
-				"iconPath": "static/tabbar-ico/gt.png",
-				"selectedIconPath": "static/tabbar-ico/gt1.png",
-				"text": "沟通"
-			},
-			
+		"list": [			
 			{
 				"pagePath": "pages/work/work",
 				"iconPath": "static/tabbar-ico/bs.png",
@@ -292,7 +286,7 @@
 				"pagePath": "pages/shop/shop",
 				"iconPath": "static/tabbar-ico/lt.png",
 				"selectedIconPath": "static/tabbar-ico/lt1.png",
-				"text": "流通"
+				"text": "设置"
 			}
 		]
 	}
