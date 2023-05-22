@@ -294,7 +294,7 @@ export default {
         uni.setStorageSync("accessToken", res.data.accessToken);
         uni.hideLoading();
         uni.switchTab({
-          url: "/pages/connect/connect",
+          url: "/pages/main/main",
         });
       }else{
 		uni.showToast({
