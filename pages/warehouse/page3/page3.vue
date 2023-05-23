@@ -1,18 +1,19 @@
 <template>
-	<view class="BaseLayout">
-		<headbar :localList="localList"></headbar>
-		<view class="objName">
-			物品名称
+	<view class="baseLayout">
+		<headbar :localList="localList" color last></headbar>
+		<view class="main">
+			<view class="objName">
+				物品名称
+			</view>
+			<switchBar @change="change"></switchBar>
+			<view class="select1" v-show="selectIndex==0">
+				<basicForm :formData="formData1"></basicForm>
+				<basicForm :formData="formData2" :title="'财务信息'"></basicForm>
+			</view>
+			<view class="select2" v-show="selectIndex==1">
+				<historyList :listForm="listForm"></historyList>
+			</view>
 		</view>
-		<switchBar @change="change"></switchBar>
-		<view class="select1" v-show="selectIndex==0">
-			<basicForm :formData="formData1"></basicForm>
-			<basicForm :formData="formData2" :title="'财务信息'"></basicForm>
-		</view>
-		<view class="select2" v-show="selectIndex==1">
-			<historyList :listForm="listForm"></historyList>
-		</view>
-		
 	</view>
 </template>
 
@@ -88,7 +89,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.BaseLayout{
+	.main{
 		padding: 0 22upx;
 		padding-bottom: 40upx;
 	}
@@ -96,7 +97,7 @@
 	.objName {
 		display: flex;
 		justify-content: center;
-		height: 80upx;
+		padding: 15upx 0;
 		align-items: center;
 		margin-top: 10upx;
 		border-top: 2upx solid #e7e7e7;

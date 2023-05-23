@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<headbar :localList="localList" :color="false"></headbar>
+		<headbar :localList="localList" color left="more" url="/pages/warehouse/warehouse"></headbar>
 		<personList :listInfo="listInfo1"  :url="'/pages/warehouse/page3/page3'" icon="dotPlus right" :localList="localList"></personList>
 	</view>
 </template>

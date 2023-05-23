@@ -3,9 +3,9 @@
     <view class="userInfo">
       <view class="userInfo_unit">
         <view class="userInfo_unit_fristName">{{
-          userInfo.unit.substring(0, 1)
+          userInfo.name?userInfo.name.substring(0, 1):''
         }}</view>
-        <view class="userInfo_unit_name">{{ userInfo.unit }}</view>
+        <view class="userInfo_unit_name">{{ userInfo.name }}</view>
       </view>
       <view class="userInfo_img">
         <img :src="userInfo.userImg" alt="" srcset="" />
@@ -80,6 +80,23 @@ export default {
 
     };
   },
+ async onLoad(options) {
+  this.userInfo = uni.getStorageSync('currentUser')
+    console.log(this.userInfo,7777);
+    // let params = {
+    //   id:this.userInfo.id,
+    //   page:{offset:1,limit:999,filter:""},
+    //   typeNames:['单位','大学','医院']
+    // }
+    // let res = await kernelApi.queryJoinedTargetById(params)
+    // let searchParams = {id:this.userInfo.id,page:{offset:1,limit:999,filter:""}}
+    // let done =  await kernelApi.queryWorkRecord(searchParams) //查询已办
+    // let todo =  await kernelApi.queryApproveTask(searchParams) //待办
+    // let post =  await kernelApi.queryMyApply(searchParams) //我发起的办事
+    // let over =  await kernelApi.queryMyWorkInstance(searchParams) //审批通过
+
+	  
+  }
 };
 </script>
 
@@ -167,13 +184,13 @@ margin-top: 13upx;
     }
 	.banner{
 		width: 100%;
-		height: 282upx;
+		height: 300upx;
 		.swiper_item{
 			width: 100%;
-		height: 282upx;
+		    height: 300upx;
 		img{
 			width: 100%;
-		height: 282upx;
+		    height: 300upx;
 		}
 		}
 	}

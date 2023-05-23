@@ -1,5 +1,5 @@
 <template>
-	<view class="baseLayout">
+	<view>
 		<view class="title" v-if="title">
 			{{title}}
 		</view>
@@ -35,7 +35,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.title {
 		padding-left: 8upx;
 		font-size: 32upx;

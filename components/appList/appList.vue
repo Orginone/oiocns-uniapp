@@ -31,7 +31,7 @@
 		name: "userApp",
 		data() {
 			return {
-              appList:[{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},]
+              appList:[{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'}]
 			};
 		}
 	}
