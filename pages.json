@@ -271,14 +271,13 @@
 				"selectedIconPath": "static/tabbar-ico/bs1.png",
 				"text": "办事"
 			},
-			
 			{
 				"pagePath": "pages/warehouse/warehouse",
 				"iconPath": "static/tabbar-ico/cc.png",
 				"selectedIconPath": "static/tabbar-ico/cc1.png",
 				"text": "存储"
 			},
-            {
+			{
 				"pagePath": "pages/main/main",
 				"iconPath": "static/tabbar-ico/mh.png",
 				"selectedIconPath": "static/tabbar-ico/mh1.png",
