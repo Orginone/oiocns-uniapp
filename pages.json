@@ -263,7 +263,8 @@
 		"selectedColor": "#007AFF",
 		"borderStyle": "black",
 		"backgroundColor": "#FFFFFF",
-		"list": [			
+		"list": [
+			
 			{
 				"pagePath": "pages/work/work",
 				"iconPath": "static/tabbar-ico/bs.png",
