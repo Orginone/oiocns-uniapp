@@ -257,10 +257,10 @@
     reflect-metadata "^0.1.13"
     tiny-emitter "^2.1.0"
 
-"@orginone/core@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.npmmirror.com/@orginone/core/-/core-0.2.4.tgz#4611579a5a97b663efc8c9c4233deb12587de127"
-  integrity sha512-praFWh+dx2ZSvDQfrTjJDT1WEA0t3OJKWR+zzfmeZ1NXhUXDQIRjKBiVCf7d1GA9YIkHg/zKhD/m8Hj69VI8ZQ==
+"@orginone/core@^0.2.5":
+  version "0.2.5"
+  resolved "http://192.168.1.211:30677/@orginone%2fcore/-/core-0.2.5.tgz#48f9c1aee62a4f61ad8fb8f1f1041039dece70fb"
+  integrity sha512-WsuDOAZgmUwofxvVQgK51Iv3L32CeXn7/s63eLfzv3rZ7JgGq6iDc/OpssaiZSSbhGGOzmil4T9urQONJ7MCfg==
   dependencies:
     "@babel/core" "^7.21.8"
     "@babel/standalone" "^7.21.8"
@@ -270,11 +270,11 @@
     tiny-emitter "^2.1.0"
 
 "@orginone/runtime-uniapp@^0.2.5":
-  version "0.2.4"
-  resolved "https://registry.npmmirror.com/@orginone/runtime-uniapp/-/runtime-uniapp-0.2.4.tgz#c51bbd734fb62ee1502d8014ead0d8334a547d6b"
-  integrity sha512-3nVE5/i5gLLLXeQ7froyEh/uqDkW1uqzZlP6/9IsWJIvSLcOPve/eCZKR2T0ImOj5aYfGKg64RymNDhXsu8yAw==
+  version "0.2.5"
+  resolved "http://192.168.1.211:30677/@orginone%2fruntime-uniapp/-/runtime-uniapp-0.2.5.tgz#cfce1b615ed78c3b73264a6ade17f2e63d5e8ece"
+  integrity sha512-WkuIFtDhRoT5uELYT75yoH9mx5chj36jDsTV2kKOrzXd1czfDEoNL3LAcisH69uhYFJ2opgUWAAB4Iehpf9VQQ==
   dependencies:
-    "@orginone/core" "^0.2.4"
+    "@orginone/core" "^0.2.5"
 
 "@orginone/vue@^0.2.0":
   version "0.2.0"
