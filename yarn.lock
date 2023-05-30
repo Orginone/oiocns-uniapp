@@ -269,7 +269,7 @@
     reflect-metadata "^0.1.13"
     tiny-emitter "^2.1.0"
 
-"@orginone/runtime-uniapp@^0.2.6":
+"@orginone/runtime-uniapp@^0.2.5":
   version "0.2.4"
   resolved "https://registry.npmmirror.com/@orginone/runtime-uniapp/-/runtime-uniapp-0.2.4.tgz#c51bbd734fb62ee1502d8014ead0d8334a547d6b"
   integrity sha512-3nVE5/i5gLLLXeQ7froyEh/uqDkW1uqzZlP6/9IsWJIvSLcOPve/eCZKR2T0ImOj5aYfGKg64RymNDhXsu8yAw==
