@@ -2,9 +2,10 @@
   <view>
     <headbar left="more" :url="url" basic="最近打开"></headbar>
     <view class="main">
-      <view class="dealList" v-for="(item, index) in dealList" :key="index">
+     <!-- <view class="dealList" v-for="(item, index) in dealList" :key="index">
         <dealItem :itemInfo="item"></dealItem>
-      </view>
+      </view> -->
+	  <lostPage mode="noContent"></lostPage>
     </view>
   </view>
 </template>
