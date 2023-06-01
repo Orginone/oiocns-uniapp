@@ -6,7 +6,7 @@
 	</view>
 </template>
 <script>
-import { kernelApi } from "common/app";
+import { kernelApi, storage} from "common/app";
 export default {
   data() {
     return {
@@ -40,7 +40,7 @@ export default {
     };
   },
   async onLoad(options) {
-    this.userInfo = uni.getStorageSync("currentUser");
+    this.userInfo = storage.getItem("currentUser");
     let params = {
       id: this.userInfo.id,
       page: { offset: 1, limit: 999, filter: "" },

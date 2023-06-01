@@ -65,8 +65,9 @@ export default {
         id: this.baseInfo.id,
         page: { offset: 1, limit: 999, filter: "" },
       };
-      let res = await kernelApi.queryWorkRecord(params);
+      let res = await kernelApi.queryMyWorkInstance(params);
       console.log(res, 132);
+      debugger
     },
     //待办事项
     async getWaitInfo() {
@@ -83,7 +84,7 @@ export default {
         id: this.baseInfo.id,
         page: { offset: 1, limit: 999, filter: "" },
       };
-      let res = await kernelApi.approvalTask(params);
+      let res = await kernelApi.queryWorkRecord(params);
       console.log(res, 132);
     },
     //我发起的
@@ -92,7 +93,7 @@ export default {
         id: this.baseInfo.id,
         page: { offset: 1, limit: 999, filter: "" },
       };
-      let res = await kernelApi.queryMyApply(params);
+      let res = await kernelApi.queryMyWorkInstance(params);
       console.log(res, 132);
     },
   },

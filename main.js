@@ -2,7 +2,6 @@ import App from './App'
 
 
 
-
 // #ifndef VUE3
 import Vue from 'vue'
 import uView from "uview-ui";

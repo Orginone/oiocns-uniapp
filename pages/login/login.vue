@@ -201,7 +201,7 @@
 </template>
 
 <script>
-import { accountApi } from "common/app";
+import { accountApi,storage,store } from "common/app";
 export default {
   data() {
     return {
@@ -289,9 +289,11 @@ export default {
           title: "登录成功",
           icon: "none",
         });
-        console.log(this.$oapp);
-        uni.setStorageSync("currentUser", res.data.target);
-        uni.setStorageSync("accessToken", res.data.accessToken);
+        storage.setItem(`currentUser`, res.data.target)
+        console.log(store);
+        store.setAccessToken(res.data.accessToken)
+        debugger
+        // uni.setStorageSync("currentUser", res.data.target);
         uni.hideLoading();
         uni.switchTab({
           url: "/pages/main/main",
