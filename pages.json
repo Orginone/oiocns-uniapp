@@ -151,8 +151,9 @@
             }
             
         }
-        ,{
-            "path" : "pages/setPage/setPage",
+        ,
+        {
+            "path" : "pages/setting/index",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "设置",
@@ -283,7 +284,7 @@
 				"text": "门户"
 			},
 			{
-				"pagePath": "pages/shop/shop",
+				"pagePath": "pages/setting/index",
 				"iconPath": "static/tabbar-ico/lt.png",
 				"selectedIconPath": "static/tabbar-ico/lt1.png",
 				"text": "设置"

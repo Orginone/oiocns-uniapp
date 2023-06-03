@@ -1,10 +1,10 @@
 import { App } from "@orginone/core";
 import { ServiceBuilder } from "@orginone/core/lib/di/ServiceBuilder";
-import { useUniappRuntime } from "@orginone/runtime-uniapp";
+import { UniappRuntime } from "@orginone/runtime-uniapp";
 import { AppConfig, ConfigurationManager } from "@orginone/core/lib/config";
 import { Store, StateAction } from "@orginone/core/lib/state";
 import { ShallowRefState } from "@orginone/vue/lib/ShallowRefState";
-import { registerServices } from "@orginone/core/lib/lib";
+import { OrginoneServices } from "@orginone/core/lib/lib";
 import {UniRequestClient} from "@orginone/runtime-uniapp/lib/network/UniRequestClient"
 import { ShallowRef } from "@Vue/reactivity";
 import { ApiClient } from "@orginone/core/lib/network";
@@ -18,7 +18,7 @@ const config = new ConfigurationManager<AppConfig>()
     apiUrl: "http://orginone.cn/orginone"
   });
 const builder = new ServiceBuilder();
-registerServices(builder)
+OrginoneServices(builder)
   .factory(ConfigurationManager<AppConfig>, ctx => config)
   .instance<StateAction<ShallowRef<any>>>("StateAction", ShallowRefState)
   .instance<IStorage>("IStorage", new MemoryCacheStorage())
@@ -28,7 +28,7 @@ registerServices(builder)
 
   .constructorInject(AccountApi)
   .constructorInject(KernelApi)
-  useUniappRuntime(builder,uni)
+  UniappRuntime(builder,uni)
 
 const services = builder.build();
 const app = App.create({
