@@ -1,7 +1,5 @@
-import orgCtrl from '@/ts/controller';
-import React from 'react';
-import * as im from 'react-icons/im';
-import { MenuItemType, OperateMenuType } from 'typings/globelType';
+import orgCtrl from '../../../ts/controller';
+import { MenuItemType, OperateMenuType } from '../../../typings/globelType';
 import { GroupMenuType, MenuType } from './menuType';
 import {
   IAuthority,
@@ -21,10 +19,9 @@ import {
   companyTypes,
   IBelong,
   IWorkDefine,
-} from '@/ts/core';
-import { XProperty } from '@/ts/base/schema';
-import { orgAuth } from '@/ts/core/public/consts';
-import { generateXlsx, getConfigs } from '@/utils/excel';
+} from '../../../ts/core';
+import { XProperty } from '../../../ts/base/schema';
+import { orgAuth } from '../../../ts/core/public/consts';
 
 /** 加载分组菜单参数 */
 interface groupMenuParams {
@@ -243,7 +240,7 @@ const loadSpeciesMenus = (species: ISpeciesItem) => {
     },
     {
       key: '删除类别',
-      icon: <im.ImBin />,
+      icon: '',
       label: '删除类别',
       beforeLoad: async () => {
         return await species.delete();
@@ -254,18 +251,9 @@ const loadSpeciesMenus = (species: ISpeciesItem) => {
     items.push(
       {
         key: '导入类别',
-        icon: <im.ImPlus />,
+        icon: '',
         label: '导入类别',
-      },
-      {
-        key: '导入模板下载',
-        icon: <im.ImDownload />,
-        label: '导入模板下载',
-        beforeLoad: async () => {
-          generateXlsx(await getConfigs(species), '类别导入模板');
-          return false;
-        },
-      },
+      }
     );
   }
   return items;
@@ -278,12 +266,12 @@ const loadDefineMenus = (define?: IWorkDefine) => {
     items.push(
       {
         key: '编辑事项',
-        icon: <im.ImCog />,
+        icon:  '',
         label: '编辑事项',
       },
       {
         key: '删除事项',
-        icon: <im.ImBin />,
+        icon: '',
         label: '删除事项',
         beforeLoad: async () => {
           return await define.deleteDefine();
@@ -293,7 +281,7 @@ const loadDefineMenus = (define?: IWorkDefine) => {
   } else {
     items.push({
       key: '新增事项',
-      icon: <im.ImPlus />,
+      icon: '',
       label: '新增事项',
     });
   }
@@ -307,12 +295,12 @@ const loadFormMenus = (form?: IForm) => {
     items.push(
       {
         key: '编辑表单',
-        icon: <im.ImCog />,
+        icon: '',
         label: '编辑表单',
       },
       {
         key: '删除表单',
-        icon: <im.ImBin />,
+        icon: '',
         label: '删除表单',
         beforeLoad: async () => {
           return await form.delete();
@@ -322,7 +310,7 @@ const loadFormMenus = (form?: IForm) => {
   } else {
     items.push({
       key: '新增表单',
-      icon: <im.ImPlus />,
+      icon: '',
       label: '新增表单',
     });
   }
@@ -338,19 +326,19 @@ const loadPropertyMenus = (
   if (group) {
     items.push({
       key: '新增属性',
-      icon: <im.ImPlus />,
+      icon: '',
       label: '新增属性',
     });
   } else {
     items.push(
       {
         key: '编辑属性',
-        icon: <im.ImCog />,
+        icon: '',
         label: '编辑属性',
       },
       {
         key: '删除属性',
-        icon: <im.ImBin />,
+        icon: '',
         label: '删除属性',
         beforeLoad: async () => {
           return await species.deleteProperty(property!);
@@ -367,12 +355,12 @@ const loadDictMenus = (dict?: IDict) => {
     items.push(
       {
         key: '编辑字典',
-        icon: <im.ImCog />,
+        icon: '',
         label: '编辑字典',
       },
       {
         key: '删除字典',
-        icon: <im.ImBin />,
+        icon: '',
         label: '删除字典',
         beforeLoad: async () => {
           return await dict.delete();
@@ -382,7 +370,7 @@ const loadDictMenus = (dict?: IDict) => {
   } else {
     items.push({
       key: '新增字典',
-      icon: <im.ImPlus />,
+      icon: '',
       label: '新增字典',
     });
   }
@@ -390,24 +378,25 @@ const loadDictMenus = (dict?: IDict) => {
 };
 /** 获取个人菜单 */
 const getUserMenu = () => {
+  console.log('orgCtrl.user',orgCtrl)
   return createMenu(
     orgCtrl.user,
     [
       {
         key: '创建用户|' + companyTypes.join('|'),
-        icon: <im.ImOffice />,
+        icon: '',
         label: '创建单位',
         model: 'outside',
       },
       {
         key: '加入|单位',
-        icon: <im.ImTree />,
+        icon: '',
         label: '加入单位',
         model: 'outside',
       },
       {
         key: '编辑用户',
-        icon: <im.ImPencil />,
+        icon: '',
         label: '编辑信息',
         model: 'outside',
       },
@@ -419,7 +408,7 @@ const getUserMenu = () => {
         label: GroupMenuType.StandardGroup,
         itemType: GroupMenuType.StandardGroup,
         menus: LoadStandardMenus(orgCtrl.user),
-        icon: <im.ImDatabase fontSize={22} />,
+        icon: '',
         children: orgCtrl.user.species.map((i) => buildSpeciesTree(i)),
       },
       loadGroupMenus(
@@ -444,6 +433,7 @@ const getUserMenu = () => {
 
 /** 获取组织菜单 */
 const getTeamMenu = () => {
+  console.log('orgCtrl',orgCtrl)
   const children: MenuItemType[] = [];
   for (const company of orgCtrl.user.companys) {
     children.push(
@@ -454,7 +444,7 @@ const getTeamMenu = () => {
           label: GroupMenuType.StandardGroup,
           itemType: GroupMenuType.StandardGroup,
           menus: LoadStandardMenus(company),
-          icon: <im.ImDatabase fontSize={22} />,
+          icon: '',
           children: company.species.map((i) => buildSpeciesTree(i)),
         },
         loadGroupMenus(
@@ -516,7 +506,7 @@ const loadGroupMenus = (param: groupMenuParams, teamTypes: string[]) => {
   let menus: OperateMenuType[] = [
     {
       key: '刷新',
-      icon: <im.ImSpinner9 />,
+      icon: '',
       label: '刷新' + param.typeName,
       model: 'inside',
       beforeLoad: async () => {
@@ -528,7 +518,7 @@ const loadGroupMenus = (param: groupMenuParams, teamTypes: string[]) => {
   if (teamTypes.includes(TargetType.Cohort)) {
     menus.push({
       key: '加入|' + TargetType.Cohort,
-      icon: <im.ImTree />,
+      icon: '',
       label: '加入群组',
       model: 'outside',
     });
@@ -536,7 +526,7 @@ const loadGroupMenus = (param: groupMenuParams, teamTypes: string[]) => {
   if (param.item.hasRelationAuth()) {
     menus.push({
       key: '新建用户|' + teamTypes.join('|'),
-      icon: <im.ImPlus />,
+      icon: '',
       label: '新建' + param.typeName,
       model: 'outside',
     });
@@ -545,17 +535,7 @@ const loadGroupMenus = (param: groupMenuParams, teamTypes: string[]) => {
     key: param.key,
     label: param.label,
     itemType: param.key,
-    icon: (
-      <TeamIcon
-        share={{
-          name: param.key,
-          typeName: param.typeName,
-        }}
-        size={18}
-        fontSize={16}
-        notAvatar={true}
-      />
-    ),
+    icon: '',
     menus: menus,
     item: param.item,
     children: param.children,
@@ -567,7 +547,7 @@ const loadAuthorityMenus = (item: IAuthority) => {
   const items: OperateMenuType[] = [
     {
       key: '新增权限',
-      icon: <im.ImPlus />,
+      icon: '',
       label: '新增权限',
     },
   ];
@@ -575,12 +555,12 @@ const loadAuthorityMenus = (item: IAuthority) => {
     items.push(
       {
         key: '编辑权限',
-        icon: <im.ImCog />,
+        icon: '',
         label: '编辑权限',
       },
       {
         key: '删除权限',
-        icon: <im.ImBin />,
+        icon: '',
         label: '删除权限',
         beforeLoad: async () => {
           return await item.delete();
@@ -597,25 +577,25 @@ const loadTypeMenus = (item: ITeam, subTypes: string[], allowDelete: boolean) =>
   if (item.hasRelationAuth()) {
     menus.push({
       key: '新增类别',
-      icon: <im.ImPlus />,
+      icon: '',
       label: '新增类别',
       model: 'outside',
     });
     menus.push({
       key: '新建用户|' + subTypes.join('|'),
-      icon: <im.ImPlus />,
+      icon: '',
       label: '新建用户',
     });
     menus.push({
       key: '编辑用户',
-      icon: <im.ImPencil />,
+      icon: '',
       label: '编辑信息',
     });
   }
   if (allowDelete && item.hasRelationAuth()) {
     menus.push({
       key: '删除',
-      icon: <im.ImBin />,
+      icon: '',
       label: '删除用户',
       beforeLoad: async () => {
         return await item.delete();
@@ -625,7 +605,7 @@ const loadTypeMenus = (item: ITeam, subTypes: string[], allowDelete: boolean) =>
     if ('species' in item) {
       menus.push({
         key: '退出',
-        icon: <im.ImBin />,
+        icon: '',
         label: '退出' + item.typeName,
         beforeLoad: async () => {
           return await (item as ITarget).exit();
@@ -643,8 +623,6 @@ export const loadSettingMenu = () => {
     label: '设置',
     itemType: 'Tab',
     children: [getUserMenu(), ...getTeamMenu()],
-    icon: (
-      <TeamIcon notAvatar={true} share={orgCtrl.user.share} size={18} fontSize={16} />
-    ),
+    icon: '',
   };
 };

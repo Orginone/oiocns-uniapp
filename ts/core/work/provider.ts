@@ -1,4 +1,5 @@
-import { common, kernel, model, schema } from '../../base';
+import {kernelApi as kernel} from '../../../common/app';
+import { common, model, schema } from '../../base';
 import { PageAll } from '../public/consts';
 import { SpeciesType, TaskStatus } from '../public/enums';
 import { IPerson } from '../target/person';
@@ -44,11 +45,11 @@ export class WorkProvider implements IWorkProvider {
   constructor(_user: IPerson) {
     this.user = _user;
     this.notity = new common.Emitter();
-    kernel.on('RecvTask', (data: schema.XWorkTask) => {
-      if (this._todoLoaded) {
-        this.updateTask(data);
-      }
-    });
+    // kernel.on('RecvTask', (data: schema.XWorkTask) => {
+    //   if (this._todoLoaded) {
+    //     this.updateTask(data);
+    //   }
+    // });
   }
   user: IPerson;
   notity: common.Emitter;

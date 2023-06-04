@@ -1,5 +1,6 @@
 import { IPerson, Person } from './target/person';
-import { common, kernel, model, schema } from '../base';
+import {kernelApi as kernel} from '../../common/app';
+import { common, model, schema } from '../base';
 import { IChatProvider, ChatProvider } from './chat/provider';
 import { IWorkProvider, WorkProvider } from './work/provider';
 import { OperateType, TargetType } from './public/enums';
@@ -8,7 +9,7 @@ import { msgChatNotify } from './chat/message/msgchat';
 import { IIdentity, Identity } from './target/identity/identity';
 import { IStation } from './target/innerTeam/station';
 import { ITeam } from './target/base/team';
-const sessionUserName = 'sessionUser';
+const sessionUserName = 'currentUser';
 
 export class UserProvider {
   private _user: IPerson | undefined;
@@ -18,20 +19,21 @@ export class UserProvider {
   private _emiter: common.Emitter;
   constructor(emiter: common.Emitter) {
     this._emiter = emiter;
-    const userJson = sessionStorage.getItem(sessionUserName);
-    if (userJson && userJson.length > 0) {
-      this._loadUser(JSON.parse(userJson));
+    const userJson = uni.getStorageSync(sessionUserName);
+    console.log('userJson',userJson)
+    if (userJson) {
+      this._loadUser(userJson);
     }
-    kernel.on('RecvTarget', (data) => {
-      if (this._inited) {
-        this._updateTarget(data);
-      }
-    });
-    kernel.on('RecvIdentity', (data) => {
-      if (this._inited) {
-        this._updateIdentity(data);
-      }
-    });
+    // kernel.on('RecvTarget', (data) => {
+    //   if (this._inited) {
+    //     this._updateTarget(data);
+    //   }
+    // });
+    // kernel.on('RecvIdentity', (data) => {
+    //   if (this._inited) {
+    //     this._updateIdentity(data);
+    //   }
+    // });
   }
   /** 当前用户 */
   get user(): IPerson | undefined {
@@ -54,24 +56,24 @@ export class UserProvider {
    * @param account 账户
    * @param password 密码
    */
-  public async login(account: string, password: string): Promise<model.ResultType<any>> {
-    let res = await kernel.login(account, password);
-    if (res.success) {
-      await this._loadUser(res.data.target);
-    }
-    return res;
-  }
+  // public async login(account: string, password: string): Promise<model.ResultType<any>> {
+    // let res = await kernel.login(account, password);
+    // if (res.success) {
+    //   await this._loadUser(res.data.target);
+    // }
+    // return res;
+  // }
   /**
    * 注册用户
    * @param {RegisterType} params 参数
    */
-  public async register(params: model.RegisterType): Promise<model.ResultType<any>> {
-    let res = await kernel.register(params);
-    if (res.success) {
-      await this._loadUser(res.data.target);
-    }
-    return res;
-  }
+  // public async register(params: model.RegisterType): Promise<model.ResultType<any>> {
+    // let res = await kernel.register(params);
+    // if (res.success) {
+    //   await this._loadUser(res.data.target);
+    // }
+    // return res;
+  // }
   /**
    * 变更密码
    * @param account 账号
@@ -79,16 +81,17 @@ export class UserProvider {
    * @param privateKey 私钥
    * @returns
    */
-  public async resetPassword(
-    account: string,
-    password: string,
-    privateKey: string,
-  ): Promise<model.ResultType<any>> {
-    return await kernel.resetPassword(account, password, privateKey);
-  }
+  // public async resetPassword(
+  //   account: string,
+  //   password: string,
+  //   privateKey: string,
+  // ): Promise<model.ResultType<any>> {
+  //    return await kernel.resetPassword(account, password, privateKey);
+  // }
   /** 加载用户 */
   private _loadUser(person: schema.XTarget) {
-    sessionStorage.setItem(sessionUserName, JSON.stringify(person));
+    uni.setStorageSync(sessionUserName, JSON.stringify(person));
+    console.log('person',person)
     this._user = new Person(person);
     this._chat = new ChatProvider(this._user);
     this._work = new WorkProvider(this._user);
@@ -96,7 +99,7 @@ export class UserProvider {
   }
   /** 更新用户 */
   public update(person: schema.XTarget) {
-    sessionStorage.setItem(sessionUserName, JSON.stringify(person));
+    uni.setStorageSync(sessionUserName, JSON.stringify(person));
   }
   /** 重载数据 */
   public async refresh(): Promise<void> {

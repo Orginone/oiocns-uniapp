@@ -1,7 +1,7 @@
 <template>
 	<view class="BaseLayout">
         <headbar :localList="'关系,浙江省财政厅'" :left="'none'"></headbar>
-        <personList :listInfo='listInfo' :title="'开放市场'"  icon="dotPlus" :localList="'仓库'" :url="'/pages/shop/page2/page2'"></personList>
+        <personList :listInfo='listInfo'  icon="dotPlus" :localList="'仓库'" :url="'/pages/shop/page2/page2'"></personList>
 	</view>
 </template>
 

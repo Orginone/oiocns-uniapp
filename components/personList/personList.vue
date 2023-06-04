@@ -51,8 +51,9 @@
 		methods: {
 			turnDetailPage(item) {
 				// item['localList'] = this.localList+','+item.name
+				if(item)
 				uni.navigateTo({
-					url: this.url+'?data=' + JSON.stringify(item)
+					url: item.url?item.url:this.url+'?data=' + JSON.stringify(item)
 				})
 			}
 		}

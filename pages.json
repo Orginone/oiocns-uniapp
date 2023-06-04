@@ -160,6 +160,51 @@
                 "enablePullDownRefresh": false
             }
             
+        },
+        {
+            "path" : "pages/setting/person/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "个人设置",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+        {
+            "path" : "pages/setting/company/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "组织设置",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+        {
+            "path" : "pages/setting/company/detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "组织详情",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+        {
+            "path" : "pages/setting/company/edit",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "组织设置",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+        {
+            "path" : "pages/setting/authority/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "权限标准",
+                "enablePullDownRefresh": false
+            }
+            
         }
         ,{
             "path" : "pages/setPage/member/member",

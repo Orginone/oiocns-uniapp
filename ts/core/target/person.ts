@@ -1,4 +1,5 @@
-import { kernel, model, parseAvatar, schema } from '@/ts/base';
+import {kernelApi as kernel} from '../../../common/app';
+import { model, parseAvatar, schema } from '../../../ts/base';
 import { IBelong, Belong } from './base/belong';
 import { ICohort, Cohort } from './outTeam/cohort';
 import { createCompany } from './team';

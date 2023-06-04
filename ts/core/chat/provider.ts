@@ -1,4 +1,5 @@
-import { kernel, model } from '../../base';
+import {kernelApi as kernel} from '../../../common/app';
+import { model } from '../../base';
 import { storeCollName } from '../public/consts';
 import { TargetType } from '../public/enums';
 import { IPerson } from '../target/person';
@@ -20,24 +21,24 @@ export class ChatProvider implements IChatProvider {
   private _preTags: model.MsgTagModel[] = [];
   constructor(_user: IPerson) {
     this.user = _user;
-    kernel.on('RecvMsg', (data: model.MsgSaveModel) => {
-      if (!this._preMessage) {
-        this._chatReceive(data.sessionId, data.belongId, (c) => {
-          c.receiveMessage(data);
-        });
-      } else {
-        this._preMessages.push(data);
-      }
-    });
-    kernel.on('RecvTags', (data: model.MsgTagModel) => {
-      if (!this._preMessage) {
-        this._chatReceive(data.id, data.belongId, (c) => {
-          c.receiveTags(data.ids, data.tags);
-        });
-      } else {
-        this._preTags.push(data);
-      }
-    });
+    // kernel.on('RecvMsg', (data: model.MsgSaveModel) => {
+    //   if (!this._preMessage) {
+    //     this._chatReceive(data.sessionId, data.belongId, (c) => {
+    //       c.receiveMessage(data);
+    //     });
+    //   } else {
+    //     this._preMessages.push(data);
+    //   }
+    // });
+    // kernel.on('RecvTags', (data: model.MsgTagModel) => {
+    //   if (!this._preMessage) {
+    //     this._chatReceive(data.id, data.belongId, (c) => {
+    //       c.receiveTags(data.ids, data.tags);
+    //     });
+    //   } else {
+    //     this._preTags.push(data);
+    //   }
+    // });
   }
   user: IPerson;
   PreMessage(): void {
