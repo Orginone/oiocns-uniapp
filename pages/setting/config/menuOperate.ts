@@ -378,7 +378,6 @@ const loadDictMenus = (dict?: IDict) => {
 };
 /** 获取个人菜单 */
 const getUserMenu = () => {
-  console.log('orgCtrl.user',orgCtrl)
   return createMenu(
     orgCtrl.user,
     [
