@@ -1,4 +1,5 @@
-import { schema, kernel, model } from '../../../base';
+import {kernelApi as kernel} from '../../../../common/app';
+import { model, schema } from '../../../../ts/base';
 import { OperateType, TargetType } from '../../public/enums';
 import { PageAll, orgAuth } from '../../public/consts';
 import { IBelong } from './belong';

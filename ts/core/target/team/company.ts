@@ -1,4 +1,5 @@
-import { kernel, model, schema } from '@/ts/base';
+import {kernelApi as kernel} from '../../../../common/app';
+import { model, schema } from '../../../../ts/base';
 import { IBelong, Belong } from '../base/belong';
 import { ICohort, Cohort } from '../outTeam/cohort';
 import { IGroup, Group } from '../outTeam/group';
