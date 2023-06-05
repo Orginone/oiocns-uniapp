@@ -1,4 +1,5 @@
-import { kernel, model, schema } from '../../../base';
+import {kernelApi as kernel} from '../../../../common/app';
+import { model, schema } from '../../../base';
 import { Entity, IEntity, PageAll } from '../../public';
 import { ITarget } from '../../target/base/target';
 

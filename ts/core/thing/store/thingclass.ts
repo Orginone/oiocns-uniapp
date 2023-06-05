@@ -1,8 +1,9 @@
-import { SpeciesType, TargetType } from '@/ts/core/public/enums';
-import { kernel, model, schema } from '../../../base';
+import { SpeciesType, TargetType } from '../../../../ts/core/public/enums';
+import {kernelApi as kernel} from '../../../../common/app';
+import { model, schema } from '../../../base';
 import { Form, IForm } from '../base/form';
 import { ISpeciesItem, SpeciesItem } from '../base/species';
-import { PageAll } from '@/ts/core/public/consts';
+import { PageAll } from '../../../../ts/core/public/consts';
 import { ITarget } from '../../target/base/target';
 export interface IThingClass extends ISpeciesItem {
   /** 分类下的表单 */

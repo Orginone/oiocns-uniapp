@@ -1,4 +1,5 @@
-import { schema, kernel, model } from '../../../base';
+import {kernelApi as kernel} from '../../../../common/app';
+import { schema, model } from '../../../base';
 import { PageAll } from '../../public/consts';
 import { SpeciesType, TargetType } from '../../public/enums';
 import { IAuthority, Authority } from '../authority/authority';

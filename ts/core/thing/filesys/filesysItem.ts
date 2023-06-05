@@ -1,6 +1,7 @@
-import { blobToDataUrl, generateUuid, logger } from '@/ts/base/common';
-import { BucketOpreateModel, BucketOpreates, FileItemModel } from '@/ts/base/model';
-import { model, kernel } from '@/ts/base';
+import { blobToDataUrl, generateUuid, logger } from '../../../../ts/base/common';
+import { BucketOpreateModel, BucketOpreates, FileItemModel } from '../../../../ts/base/model';
+import {kernelApi as kernel} from '../../../../common/app';
+import { model } from '../../../../ts/base';
 import { IFileSystem, TaskModel } from './filesystem';
 import { FileItemShare } from '../../../base/model';
 import { orgAuth } from '../../public/consts';
