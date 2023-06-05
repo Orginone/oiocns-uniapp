@@ -1,4 +1,5 @@
-import { kernel, model, schema } from '../../../base';
+import {kernelApi as kernel} from '../../../../common/app';
+import { model, schema } from '../../../base';
 import { IMsgChat } from '../../chat/message/msgchat';
 import { OperateType } from '../../public';
 import { PageAll } from '../../public/consts';

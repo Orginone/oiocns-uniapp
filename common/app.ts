@@ -4,7 +4,7 @@ import { UniappRuntime } from "@orginone/runtime-uniapp";
 import { AppConfig, ConfigurationManager } from "@orginone/core/lib/config";
 import { Store, StateAction } from "@orginone/core/lib/state";
 import { ShallowRefState } from "@orginone/vue/lib/ShallowRefState";
-import { OrginoneServices } from "@orginone/core/lib/lib";
+import { OrginoneServices } from "@orginone/core/lib";
 import {UniRequestClient} from "@orginone/runtime-uniapp/lib/network/UniRequestClient"
 import { ShallowRef } from "@Vue/reactivity";
 import { ApiClient } from "@orginone/core/lib/network";

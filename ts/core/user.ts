@@ -108,7 +108,7 @@ export class UserProvider {
     await this._user?.deepLoad(true);
     await this.work?.loadTodos(true);
     this._inited = true;
-    this._chat?.loadPreMessage();
+    // this._chat?.loadPreMessage();
     this._emiter.changCallback();
   }
   /** 接受组织变更 */
