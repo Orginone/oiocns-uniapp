@@ -88,7 +88,7 @@ const buildSpeciesTree = (species: ISpeciesItem): MenuItemType => {
   }
   return {
     key: species.key,
-    item: species,
+    item: [],
     label: species.name,
     tag: [species.typeName],
     icon:'',
@@ -403,36 +403,19 @@ const getUserMenu = () => {
     [
       {
         key: orgCtrl.user.key + GroupMenuType.StandardGroup,
-        item: orgCtrl.user,
         label: GroupMenuType.StandardGroup,
         itemType: GroupMenuType.StandardGroup,
         menus: LoadStandardMenus(orgCtrl.user),
         icon: '',
         children: orgCtrl.user.species.map((i) => buildSpeciesTree(i)),
       },
-      loadGroupMenus(
-        {
-          key: orgCtrl.user.key + GroupMenuType.Cohort,
-          label: '个人群组',
-          item: orgCtrl.user,
-          typeName: TargetType.Cohort,
-          children: orgCtrl.user.cohorts.map((i) =>
-            createMenu(
-              i,
-              loadTypeMenus(i, [], true),
-              i.species.map((i) => buildSpeciesTree(i)),
-            ),
-          ),
-        },
-        [TargetType.Cohort],
-      ),
     ],
   );
 };
 
 /** 获取组织菜单 */
 const getTeamMenu = () => {
-  console.log('orgCtrl',orgCtrl.user.companys)
+  console.log('orgCtrl',orgCtrl)
   const children: MenuItemType[] = [];
   for (const company of orgCtrl.user.companys) {
     children.push(
@@ -445,55 +428,7 @@ const getTeamMenu = () => {
           menus: LoadStandardMenus(company),
           icon: '',
           children: company.species.map((i) => buildSpeciesTree(i)),
-        },
-        loadGroupMenus(
-          {
-            key: company.key + GroupMenuType.InnerAgency,
-            label: GroupMenuType.InnerAgency,
-            item: company,
-            typeName: TargetType.Department,
-            children: buildDepartmentTree(company.departments),
-          },
-          company.departmentTypes,
-        ),
-        loadGroupMenus(
-          {
-            key: company.key + GroupMenuType.OutAgency,
-            label: GroupMenuType.OutAgency,
-            item: company,
-            typeName: TargetType.Group,
-            children: buildGroupTree(company.groups),
-          },
-          [TargetType.Group],
-        ),
-        loadGroupMenus(
-          {
-            key: company.key + GroupMenuType.Station,
-            label: GroupMenuType.Station,
-            item: company,
-            typeName: TargetType.Station,
-            children: company.stations.map((i) =>
-              createMenu(i, loadTypeMenus(i, [], true), []),
-            ),
-          },
-          [TargetType.Station],
-        ),
-        loadGroupMenus(
-          {
-            key: company.key + GroupMenuType.Cohort,
-            label: GroupMenuType.Cohort,
-            item: company,
-            typeName: TargetType.Cohort,
-            children: company.cohorts.map((i) =>
-              createMenu(
-                i,
-                loadTypeMenus(i, [], true),
-                i.species.map((i) => buildSpeciesTree(i)),
-              ),
-            ),
-          },
-          [TargetType.Cohort],
-        ),
+        }
       ]),
     );
   }

@@ -20,7 +20,6 @@ export class UserProvider {
   constructor(emiter: common.Emitter) {
     this._emiter = emiter;
     const userJson = uni.getStorageSync(sessionUserName);
-    console.log('userJson',userJson)
     if (userJson) {
       this._loadUser(userJson);
     }
@@ -91,7 +90,6 @@ export class UserProvider {
   /** 加载用户 */
   private _loadUser(person: schema.XTarget) {
     uni.setStorageSync(sessionUserName, JSON.stringify(person));
-    console.log('person',person)
     this._user = new Person(person);
     this._chat = new ChatProvider(this._user);
     this._work = new WorkProvider(this._user);

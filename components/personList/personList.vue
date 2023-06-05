@@ -4,7 +4,7 @@
 		<view class="itemArea" >
 			<view class="listItem" v-for="item,index in listInfo" :key="index"  @tap="turnDetailPage(item)">
 				<view class="box"></view>
-				<view class="name" >{{item.name}}</view>
+				<view class="name" >{{item.name||item.label}}</view>
 				<view class="right">
 					<!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
 					<img :src="'../../static/base/add.png'" alt=""  v-if="icon.includes('add')" >
