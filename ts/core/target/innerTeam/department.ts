@@ -1,4 +1,5 @@
-import { kernel, model, schema } from '@/ts/base';
+import {kernelApi as kernel} from '../../../../common/app';
+import { model, schema } from '../../../../ts/base';
 import { ITarget, Target } from '../base/target';
 import { ICompany } from '../team/company';
 import { TargetType } from '../../public/enums';

@@ -1,5 +1,6 @@
-import { XWorkDefine } from '@/ts/base/schema';
-import { kernel, model, schema } from '../../../base';
+import { XWorkDefine } from '../../../../ts/base/schema';
+import {kernelApi as kernel} from '../../../../common/app';
+import { model, schema } from '../../../base';
 import { PageAll } from '../../public/consts';
 import { TargetType } from '../../public/enums';
 import { ISpeciesItem, SpeciesItem } from './species';
