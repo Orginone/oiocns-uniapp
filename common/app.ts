@@ -1,47 +1,48 @@
 import { App } from "@orginone/core";
 import { ServiceBuilder } from "@orginone/core/lib/di/ServiceBuilder";
-import { UniappRuntime } from "@orginone/runtime-uniapp";
 import { AppConfig, ConfigurationManager } from "@orginone/core/lib/config";
 import { Store, StateAction } from "@orginone/core/lib/state";
+import { IStorage } from "@orginone/core/lib/storage/Storage";
 import { ShallowRefState } from "@orginone/vue/lib/ShallowRefState";
-import { OrginoneServices } from "@orginone/core/lib";
-import {UniRequestClient} from "@orginone/runtime-uniapp/lib/network/UniRequestClient"
-import { ShallowRef } from "@Vue/reactivity";
-import { ApiClient } from "@orginone/core/lib/network";
 import AccountApi from '@orginone/core/lib/lib/api/account'
 import KernelApi from '@orginone/core/lib/lib/api/kernelapi'
-import {IStorage} from '@orginone/core/lib/storage/Storage'
-import MemoryCacheStorage from '@orginone/core/lib/storage/MemoryCacheStorage'
+// import AnyStore from '@orginone/core/lib/lib/api/anystore'
+import { OrginoneServices } from "@orginone/core";
+import  { UniappRuntime }  from "@orginone/runtime-uniapp";
+import { AuthorizationStore } from "@orginone/core/lib/lib/store/authorization";
 
 const config = new ConfigurationManager<AppConfig>()
   .addConfig({
     apiUrl: "http://orginone.cn/orginone"
   });
-const builder = new ServiceBuilder();
-OrginoneServices(builder)
+// 注册服务
+const builder = new ServiceBuilder()
+  .use(OrginoneServices)
+  .use(UniappRuntime as any,uni)
   .factory(ConfigurationManager<AppConfig>, ctx => config)
-  .instance<StateAction<ShallowRef<any>>>("StateAction", ShallowRefState)
-  .instance<IStorage>("IStorage", new MemoryCacheStorage())
-  .factory<ApiClient>("ApiClient",(ctx)=>{ 
-    return new UniRequestClient(uni,config,ctx.resolve('AuthorizationStore'))
-  })
-
-  .constructorInject(AccountApi)
-  .constructorInject(KernelApi)
-  UniappRuntime(builder,uni)
-
+  .instance<StateAction>("StateAction", ShallowRefState);
+// 生成服务容器并创建应用
 const services = builder.build();
 const app = App.create({
   config,
   services
 });
+// 启动应用
 app.start();
+console.log(app);
+
 let accountApi =  app.services.resolve(AccountApi)
 
 let kernelApi  =  app.services.resolve(KernelApi)
+
+// let anyStore   =  app.services.resolve(AnyStore)
+
+let storage    =  app.services.resolve<IStorage>("IStorage");
+
+let store      =  app.services.resolve<Store<AuthorizationStore>>("AuthorizationStore");
 console.log('====================================');
-console.log(accountApi,kernelApi);
+console.log(accountApi,kernelApi,storage);
 console.log('====================================');
 export {
-	app,accountApi,kernelApi
+	app,accountApi,kernelApi,storage,store
 }
