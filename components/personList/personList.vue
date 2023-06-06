@@ -1,9 +1,8 @@
 <template>
 	<view class="listArea">
 		<view class="total" v-if="title">{{title}}</view>
-		{{listInfo}}-{{list}}
 		<view class="itemArea" >
-			<view class="listItem" v-for="item,index in list" :key="index"  >
+			<view class="listItem" v-for="item,index in listInfo" :key="index"  >
 				<view class="box"></view>
 				<view class="name" >{{item.label}}</view>
 				<view class="right">
@@ -50,14 +49,14 @@
 				list:[],
 			};
 		},
-		watch: {
-			listInfo(newVal) {
-				console.log('listInfo',newVal)
-				this.list = newVal;
-			},
-			deep:true
-		},
+		// watch: {
+		// 	listInfo(newVal) {
+		// 		this.list = newVal;
+		// 	},
+		// 	deep:true
+		// },
 		created() {
+			console.log('进入',this.listInfo)
 			this.settingData = this.$store.setting 
 			// let arr = []
 			// this.settingData.children.forEach(element => {

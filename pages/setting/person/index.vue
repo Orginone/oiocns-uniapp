@@ -28,8 +28,13 @@
 		watch:{
 			
 		},
+		onLoad() {
+			this.getMenu();
+		},
 		methods: {
-			
+			getMenu(){
+				console.log('this.$store.setting;',JSON.parse(JSON.stringify(this.$store.setting)))
+			}
 		}
 	}
 </script>
