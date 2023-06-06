@@ -7,6 +7,7 @@
 </template>
 <script>
 import { kernelApi, storage} from "common/app";
+import {loadCohorts} from 'common/person'
 export default {
   data() {
     return {
@@ -40,14 +41,10 @@ export default {
     };
   },
   async onLoad(options) {
-    this.userInfo = storage.getItem("currentUser");
-    let params = {
-      id: this.userInfo.id,
-      page: { offset: 1, limit: 999, filter: "" },
-      typeNames: ["单位", "大学", "医院"],
-    };
-    let res = await kernelApi.queryJoinedTargetById(params);
-	this.listInfo2 = res.data.result
+    this.userInfo = storage.getItem("currentUser"); 
+    let res = await loadCohorts(this.userInfo.id)
+    this.listInfo2 = res.data.result
+    console.log(res);
 	
   },
 };

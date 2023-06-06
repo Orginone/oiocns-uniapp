@@ -6,7 +6,7 @@ import { IStorage } from "@orginone/core/lib/storage/Storage";
 import { ShallowRefState } from "@orginone/vue/lib/ShallowRefState";
 import AccountApi from '@orginone/core/lib/lib/api/account'
 import KernelApi from '@orginone/core/lib/lib/api/kernelapi'
-import AnyStore from '@orginone/core/lib/lib/api/anystore'
+import AnyStoreApi from '@orginone/core/lib/lib/api/anystore'
 import { OrginoneServices } from "@orginone/core";
 import  { UniappRuntime }  from "@orginone/runtime-uniapp";
 import { AuthorizationStore } from "@orginone/core/lib/lib/store/authorization";
@@ -35,14 +35,12 @@ let accountApi =  app.services.resolve(AccountApi)
 
 let kernelApi  =  app.services.resolve(KernelApi)
 
-let anyStore   =  app.services.resolve(AnyStore)
+let anyStoreApi   =  app.services.resolve(AnyStoreApi)
 
 let storage    =  app.services.resolve<IStorage>("IStorage");
 
 let store      =  app.services.resolve<Store<AuthorizationStore>>("AuthorizationStore");
-console.log('====================================');
-console.log(accountApi,kernelApi,anyStore,storage);
-console.log('====================================');
+
 export {
-	app,accountApi,kernelApi,storage,store
+	app,accountApi,kernelApi,storage,store,anyStoreApi
 }

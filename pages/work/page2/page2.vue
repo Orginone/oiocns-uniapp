@@ -17,7 +17,9 @@
 </template>
 
 <script>
-import { kernelApi } from "common/app";
+import { kernelApi,storage } from "common/app";
+import { MyInfo,WaitInfo,DoneInfo } from "common/person";
+
 export default {
   data() {
     return {
@@ -25,15 +27,19 @@ export default {
       listInfo1: [
         {
           name: "发起办事",
+          data:{}
         },
         {
           name: "待办事项",
+          data:{}
         },
         {
           name: "已办事项",
+          data:{}
         },
         {
           name: "我发起的",
+          data:{}
         },
       ],
       // listInfo2: [
@@ -51,6 +57,10 @@ export default {
   },
   onLoad(options) {
     let data = JSON.parse(options.data);
+    this.userInfo = storage.getItem("currentUser")
+    console.log('====================================');
+    console.log( this.userInfo,data);
+    console.log('====================================');
     // this.localList = (data.localList)
     this.baseInfo = data;
     this.getStartInfo();
@@ -63,38 +73,30 @@ export default {
     async getStartInfo() {
       let params = {
         id: this.baseInfo.id,
-        page: { offset: 1, limit: 999, filter: "" },
+        page: { offset: 0, limit: 999, filter: "" },
       };
-      let res = await kernelApi.queryMyWorkInstance(params);
-      console.log(res, 132);
-      debugger
+      let res = await kernelApi.queryWorkDefine(params);
+      console.log(res, '发起办事');
     },
     //待办事项
     async getWaitInfo() {
-      let params = {
-        id: this.baseInfo.id,
-        page: { offset: 1, limit: 999, filter: "" },
-      };
-      let res = await kernelApi.queryApproveTask(params);
-      console.log(res, 132);
+      let res = await WaitInfo(this.baseInfo.id);
+      console.log(res.data.result, '待办事项');
+      this.baseInfo.WaitInfo = res.data.result
+      this.listInfo1[1].data = this.baseInfo
     },
     //已办事项
     async getDoneInfo() {
-      let params = {
-        id: this.baseInfo.id,
-        page: { offset: 1, limit: 999, filter: "" },
-      };
-      let res = await kernelApi.queryWorkRecord(params);
-      console.log(res, 132);
+      let res = await DoneInfo(this.baseInfo.id);
+      this.baseInfo.DoneInfo = res.data.result
+      this.listInfo1[2].data = this.baseInfo
+      console.log(res, '已办事项');
+
     },
     //我发起的
     async getMyInfo() {
-      let params = {
-        id: this.baseInfo.id,
-        page: { offset: 1, limit: 999, filter: "" },
-      };
-      let res = await kernelApi.queryMyWorkInstance(params);
-      console.log(res, 132);
+      let res = await MyInfo(this.baseInfo.id);
+      console.log(res, '我发起的');
     },
   },
 };
