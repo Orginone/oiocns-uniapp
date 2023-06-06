@@ -1,8 +1,7 @@
 <template>
   <view class="BaseLayout">
     <headbar :localList="'关系,浙江省财政厅'" :left="'none'"></headbar>
-    <personList  :listInfo="menu" :icon="['dotPlus', 'right']"
-    ></personList>
+    <personList :listInfo="menu" :icon="['dotPlus', 'right']" ></personList>
   </view>
 </template>
 
@@ -13,17 +12,6 @@ export default {
   data() {
     return {
       menu: [],
-      showMenu: false,
-      listInfo: [
-        {
-          name: "姜杨",
-          url: "/pages/setting/person/index",
-        },
-        {
-          name: "浙江省财政厅",
-          url: "/pages/setting/company/index",
-        },
-      ],
     };
   },
   watch: {},
