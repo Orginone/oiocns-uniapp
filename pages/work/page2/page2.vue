@@ -18,7 +18,8 @@
 
 <script>
 import { kernelApi,storage } from "common/app";
-import { MyInfo,WaitInfo,DoneInfo } from "common/person";
+import { WaitInfo,DoneInfo } from "common/person";
+import { loadApply } from "common/provider";
 
 export default {
   data() {
@@ -95,7 +96,9 @@ export default {
     },
     //我发起的
     async getMyInfo() {
-      let res = await MyInfo(this.baseInfo.id);
+      let res = await loadApply({id:this.userInfo.id,belongId:this.baseInfo.id,userId:this.userInfo.id});
+      this.baseInfo.MyInfo = res.data
+      this.listInfo1[3].data = this.baseInfo
       console.log(res, '我发起的');
     },
   },

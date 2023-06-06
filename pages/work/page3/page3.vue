@@ -64,6 +64,22 @@ export default {
       });
       this.dealList = arr;
     }
+     if (data.name == "我发起的" && data.data.MyInfo) {
+      data.data.MyInfo.forEach((el) => {
+        el.content = JSON.parse(el.content);
+        let content = `${el.content[0].name}[${el.content[0].typeName}]申请加入${el.content[1].name}[${el.content[1].typeName}]`;
+        arr.push({
+          title: el.title,
+          titleType: el.taskType,
+          sub: content,
+          type: el.status == 1 ? "待审批" : "已同意",
+          workData: data,
+          time: el.createTime,
+          btn: false,
+        });
+      });
+      this.dealList = arr;
+    }
   },
   methods: {
     //跳转
