@@ -2,16 +2,16 @@
 	<view class="listArea">
 		<view class="total" v-if="title">{{title}}</view>
 		<view class="itemArea" >
-			<view class="listItem" v-for="item,index in listInfo" :key="index"  @tap="turnDetailPage(item)">
+			<view class="listItem" v-for="item,index in listInfo" :key="index"  >
 				<view class="box"></view>
-				<view class="name" >{{item.name}}</view>
+				<view class="name" >{{item.label}}</view>
 				<view class="right">
 					<!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
 					<img :src="'../../static/base/add.png'" alt=""  v-if="icon.includes('add')" >
 					<view class="dotPlus">
 						<img :src="'../../static/base/dotPlus.png'" alt=""  v-if="icon.includes('dotPlus')" >
 					</view>
-					<img src="../../static/base/right.png" alt="" v-if="icon.includes('right')">
+					<img src="../../static/base/right.png" alt="" @tap="turnDetailPage(item)" v-if="icon.includes('right')">
 				</view>
 			</view>
 		</view>
@@ -45,8 +45,22 @@
 		},
 		data() {
 			return {
-
+				settingData:{},
+				list:[],
 			};
+		},
+		created() {
+			this.settingData = this.$store.setting 
+			// let arr = []
+			// this.settingData.children.forEach(element => {
+			// 	let obj = {
+			// 		label:element.label,
+			// 		key:element.key,
+			// 	}
+			// 	arr.push(obj);
+			// });
+			// console.log('arr',arr);
+			// this.list = arr;
 		},
 		methods: {
 			turnDetailPage(item) {

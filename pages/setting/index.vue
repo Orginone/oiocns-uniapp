@@ -1,42 +1,70 @@
 <template>
-	<view class="BaseLayout">
-        <headbar :localList="'关系,浙江省财政厅'" :left="'none'"></headbar>
-        <personList :listInfo='listInfo' icon="dotPlus" :localList="'仓库'" :url="'/pages/shop/page2/page2'"></personList>
-	</view>
+  <view class="BaseLayout">
+    <headbar :localList="'关系,浙江省财政厅'" :left="'none'"></headbar>
+    <personList  :listInfo="menu" :icon="['dotPlus', 'right']"
+    ></personList>
+  </view>
 </template>
 
 <script>
-	import * as config from './config/menuOperate';
-	export default {
-		data() {
-			return {
-				listInfo:[
-					{
-						name:'姜杨',
-            url:"/pages/setting/person/index"
-					},
-					{
-						name:'浙江省财政厅',
-						url:"/pages/setting/company/index"
-					},				
-				],
-			};
-		},
-		watch:{
-			
-		},
-	 	onLoad() {
-			this.getMenu();
-		},
-		methods: {
-			async getMenu(){
-				let res = await config.loadSettingMenu();
-				console.log('aaab',res)
-			},
-		}
-	}
+import store from "@/store/index.js"; //需要引入store
+import * as config from "./config/menuOperate";
+export default {
+  data() {
+    return {
+      menu: [],
+      showMenu: false,
+      listInfo: [
+        {
+          name: "姜杨",
+          url: "/pages/setting/person/index",
+        },
+        {
+          name: "浙江省财政厅",
+          url: "/pages/setting/company/index",
+        },
+      ],
+    };
+  },
+  watch: {},
+  onLoad() {
+    this.getMenu();
+  },
+  methods: {
+    removeCircularReferences(obj) {
+      const queue = [obj];
+      const visited = new Set();
+      visited.add(obj);
+
+      while (queue.length > 0) {
+        const currentObj = queue.shift();
+
+        for (let key in currentObj) {
+          if (currentObj.hasOwnProperty(key)) {
+            const value = currentObj[key];
+
+            if (typeof value === "object" && value !== null) {
+              if (visited.has(value)) {
+                // 如果该对象已经被访问过，则表示存在循环引用
+                currentObj[key] = null;
+              } else {
+                queue.push(value); // 将该对象加入队列中
+                visited.add(value); // 将该对象加入已访问列表中
+              }
+            }
+          }
+        }
+      }
+    },
+    async getMenu() {
+      let res = await config.loadSettingMenu();
+      this.removeCircularReferences(res)
+      store.setting = res;
+      this.menu = res.children;
+      this.showMenu = true;
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
