@@ -162,6 +162,15 @@
             
         },
         {
+            "path" : "pages/setting/components/tree",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设置",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+        {
             "path" : "pages/setting/person/index",
             "style" :                                                                                    
             {
