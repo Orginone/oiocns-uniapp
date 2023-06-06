@@ -1,8 +1,9 @@
 <template>
 	<view class="listArea">
 		<view class="total" v-if="title">{{title}}</view>
+		{{listInfo}}-{{list}}
 		<view class="itemArea" >
-			<view class="listItem" v-for="item,index in listInfo" :key="index"  >
+			<view class="listItem" v-for="item,index in list" :key="index"  >
 				<view class="box"></view>
 				<view class="name" >{{item.label}}</view>
 				<view class="right">
@@ -49,6 +50,13 @@
 				list:[],
 			};
 		},
+		watch: {
+			listInfo(newVal) {
+				console.log('listInfo',newVal)
+				this.list = newVal;
+			},
+			deep:true
+		},
 		created() {
 			this.settingData = this.$store.setting 
 			// let arr = []
@@ -64,11 +72,19 @@
 		},
 		methods: {
 			turnDetailPage(item) {
-				// item['localList'] = this.localList+','+item.name
-				if(item)
-				uni.navigateTo({
-					url: item.url?item.url:this.url+'?data=' + JSON.stringify(item)
-				})
+				if(item){
+					console.log(JSON.parse(JSON.stringify(item)));
+					if(item.itemType =='人员'){
+						uni.navigateTo({
+							url: '/pages/setting/person/index'+'?data=' + JSON.stringify(item.key)
+						})
+					}
+					else if(item.itemType == '权限'){
+						uni.navigateTo({
+							url: '/pages/setting/authority/index'+'?data=' + JSON.stringify(item.key)
+						})
+					}
+				}
 			}
 		}
 	}

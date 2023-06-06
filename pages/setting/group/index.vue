@@ -1,6 +1,6 @@
 <template>
 	<view class="BaseLayout">
-        <headbar :localList="'设置'" :left="'none'"></headbar>
+        <headbar :localList="'群组'" :left="'none'"></headbar>
         <personList :listInfo='listInfo' :icon="['dotPlus','right']" :localList="'仓库'" :url="'/pages/shop/page2/page2'"></personList>
 	</view>
 </template>
