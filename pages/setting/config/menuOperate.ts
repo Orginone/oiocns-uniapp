@@ -428,7 +428,55 @@ const getTeamMenu = () => {
           menus: LoadStandardMenus(company),
           icon: '',
           children: company.species.map((i) => buildSpeciesTree(i)),
-        }
+        },
+        loadGroupMenus(
+          {
+            key: company.key + GroupMenuType.InnerAgency,
+            label: GroupMenuType.InnerAgency,
+            item: company,
+            typeName: TargetType.Department,
+            children: buildDepartmentTree(company.departments),
+          },
+          company.departmentTypes,
+        ),
+        loadGroupMenus(
+          {
+            key: company.key + GroupMenuType.OutAgency,
+            label: GroupMenuType.OutAgency,
+            item: company,
+            typeName: TargetType.Group,
+            children: buildGroupTree(company.groups),
+          },
+          [TargetType.Group],
+        ),
+        loadGroupMenus(
+          {
+            key: company.key + GroupMenuType.Station,
+            label: GroupMenuType.Station,
+            item: company,
+            typeName: TargetType.Station,
+            children: company.stations.map((i) =>
+              createMenu(i, loadTypeMenus(i, [], true), []),
+            ),
+          },
+          [TargetType.Station],
+        ),
+        loadGroupMenus(
+          {
+            key: company.key + GroupMenuType.Cohort,
+            label: GroupMenuType.Cohort,
+            item: company,
+            typeName: TargetType.Cohort,
+            children: company.cohorts.map((i) =>
+              createMenu(
+                i,
+                loadTypeMenus(i, [], true),
+                i.species.map((i) => buildSpeciesTree(i)),
+              ),
+            ),
+          },
+          [TargetType.Cohort],
+        ),
       ]),
     );
   }
