@@ -480,6 +480,7 @@ const getTeamMenu = () => {
       ]),
     );
   }
+  console.log(children,'children')
   return children;
 };
 

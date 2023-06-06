@@ -84,6 +84,11 @@
 							url: '/pages/setting/authority/index'+'?data=' + JSON.stringify(item.key)
 						})
 					}
+					else if(item.itemType == '单位'){
+						uni.navigateTo({
+							url: '/pages/setting/company/index'+'?data=' + encodeURIComponent(JSON.stringify(item))
+						})
+					}
 				}
 			}
 		}

@@ -11,28 +11,41 @@
 			return {
 				listInfo:[
           {
-						name:'组织详情',
+						label:'组织详情',
             url:'pages/setting/company/detail',
+						key:''
 					},
 					{
-						name:'权限标准',
+						label:'权限标准',
             url:'pages/setting/authority/index',
+						key:'',
+						children:{}
 					},
 					{
-						name:'数据标准'
+						label:'数据标准',
+						key:'',
+						children:{}
 					},
 					{
-						name:'内部机构',
+						label:'内部机构',
 						url:'/pages/setting/agency/agency',
+						key:'',
+						children:{}
 					},
           {
-						name:'组织集群'
+						label:'组织集群',
+						key:'',
+						children:{}
 					},
           {
-						name:'单位岗位'
+						label:'单位岗位',
+						key:'',
+						children:{}
 					},
           {
-						name:'外部群组'
+						label:'外部群组',
+						key:'',
+						children:{}
 					}					
 				],
 			};
@@ -40,6 +53,19 @@
 		watch:{
 			
 		},
+		onLoad(option) {
+			let newOption = JSON.parse(decodeURIComponent(option.data));
+			newOption?.children.forEach(element => {
+				this.listInfo.forEach(item => {
+					if(element.label == item.label){
+						item.children = element.children
+						item.key = element.key
+					}else{
+						item.key = newOption.key
+					}
+				})
+			});
+    },
 		methods: {
 			
 		}
