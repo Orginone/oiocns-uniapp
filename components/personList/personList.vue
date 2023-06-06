@@ -83,6 +83,11 @@
 							url: '/pages/setting/authority/index'+'?data=' + JSON.stringify(item.key)
 						})
 					}
+					else{
+						uni.navigateTo({
+							url: item.url+'?data=' + JSON.stringify(item.key)
+						})
+					}
 				}
 			}
 		}

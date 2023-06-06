@@ -12,15 +12,15 @@
 				listInfo:[
 					{
 						label:'权限标准',
-						url:"/pages/setting/authority/index",
+						url:"/pages/setting/tree/index",
 					},
 					{
 						label:'数据标准',
-						url:"/pages/setting/authority/index",
+						url:"/pages/setting/tree/index",
 					},
 					{
 						label:'个人群组',
-						url:"/pages/setting/authority/index",
+						url:"/pages/setting/tree/index",
 					}					
 				],
 			};
