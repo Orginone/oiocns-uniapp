@@ -269,6 +269,18 @@
     reflect-metadata "^0.1.13"
     tiny-emitter "^2.1.0"
 
+"@orginone/core@^0.2.6":
+  version "0.2.6"
+  resolved "http://192.168.1.211:30677/@orginone%2fcore/-/core-0.2.6.tgz#99c7ebf6d307188d004da8b29a879c4cc9335538"
+  integrity sha512-2gTWeiSqP7rWB1vVfWzLs3WYvvUd39ApOG2lkQ9gNXLkevTI+5jYf2Hr8Qqja226WWkRW+fLOgwz2YdVY86CdA==
+  dependencies:
+    "@babel/core" "^7.21.8"
+    "@babel/standalone" "^7.21.8"
+    "@babel/types" "^7.21.5"
+    lodash "^4.17.21"
+    reflect-metadata "^0.1.13"
+    tiny-emitter "^2.1.0"
+
 "@orginone/runtime-uniapp@^0.2.5":
   version "0.2.5"
   resolved "http://192.168.1.211:30677/@orginone%2fruntime-uniapp/-/runtime-uniapp-0.2.5.tgz#cfce1b615ed78c3b73264a6ade17f2e63d5e8ece"

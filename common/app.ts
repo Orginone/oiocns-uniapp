@@ -13,7 +13,7 @@ import { AuthorizationStore } from "@orginone/core/lib/lib/store/authorization";
 
 const config = new ConfigurationManager<AppConfig>()
   .addConfig({
-    apiUrl: "http://orginone.cn/orginone"
+    apiUrl: "https://orginone.cn/orginone"
   });
 // 注册服务
 const builder = new ServiceBuilder()

@@ -116,6 +116,15 @@
             
         }
         ,{
+            "path" : "pages/work/page5/page5",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "发起事项",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
             "path" : "pages/shop/menu/menu",
             "style" :                                                                                    
             {

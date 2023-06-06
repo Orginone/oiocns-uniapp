@@ -51,9 +51,16 @@
 		methods: {
 			turnDetailPage(item) {
 				// item['localList'] = this.localList+','+item.name
-				uni.navigateTo({
+				if(item.name == '发起办事'){
+                   uni.navigateTo({
+					url: '/pages/work/page5/page5'+'?data=' + JSON.stringify(item)
+				   })
+				}else{
+                   uni.navigateTo({
 					url: this.url+'?data=' + JSON.stringify(item)
 				})
+				}
+				
 			}
 		}
 	}

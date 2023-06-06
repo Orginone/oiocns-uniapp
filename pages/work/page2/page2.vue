@@ -18,7 +18,7 @@
 
 <script>
 import { kernelApi,storage } from "common/app";
-import { WaitInfo,DoneInfo } from "common/person";
+import { WaitInfo,DoneInfo,loadSpecies,loadWorkNode,loadWorkDefines } from "common/person";
 import { loadApply } from "common/provider";
 
 export default {
@@ -73,11 +73,18 @@ export default {
     // 发起办事
     async getStartInfo() {
       let params = {
-        id: this.baseInfo.id,
-        page: { offset: 0, limit: 999, filter: "" },
+        id: this.userInfo.id,
+        belongId:  this.baseInfo.id,
+        speciesId:'453840712455294976',
+        sid:'449324682009776128'
       };
-      let res = await kernelApi.queryWorkDefine(params);
-      console.log(res, '发起办事');
+      let res = await loadSpecies(params);
+      console.log(res,'办事列表');
+      this.baseInfo.StartInfo = res.data.result
+      this.listInfo1[0].data = this.baseInfo
+      // let resNode = await loadWorkNode(params)
+      // let resWorkNode = await loadWorkDefines(params)
+      // console.log(resWorkNode, '');
     },
     //待办事项
     async getWaitInfo() {
