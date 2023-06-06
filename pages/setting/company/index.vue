@@ -10,27 +10,28 @@
 		data() {
 			return {
 				listInfo:[
-                    {
+          {
 						name:'组织详情',
-                        url:'pages/setting/company/detail',
+            url:'pages/setting/company/detail',
 					},
 					{
 						name:'权限标准',
-                        url:'pages/setting/authority/index',
+            url:'pages/setting/authority/index',
 					},
 					{
 						name:'数据标准'
 					},
 					{
-						name:'内部机构'
+						name:'内部机构',
+						url:'/pages/setting/agency/agency',
 					},
-                    {
+          {
 						name:'组织集群'
 					},
-                    {
+          {
 						name:'单位岗位'
 					},
-                    {
+          {
 						name:'外部群组'
 					}					
 				],

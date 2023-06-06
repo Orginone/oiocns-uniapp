@@ -13,7 +13,7 @@
 				listInfo:[
 					{
 						name:'姜杨',
-                        url:"/pages/setting/person/index"
+            url:"/pages/setting/person/index"
 					},
 					{
 						name:'浙江省财政厅',

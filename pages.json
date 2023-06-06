@@ -270,6 +270,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/setting/agency/agency",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "内部机构",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"pageOrientation": "portrait",
