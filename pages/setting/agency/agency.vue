@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { kernelApi } from "common/app";
 export default {
 	data() {
 		return {
@@ -66,19 +65,16 @@ export default {
 				}
 			],
 			formTitle:[{
-					name: '序号',
-					value: 'index'
-				},{
 					name: '账号',
-					value: 'account'
+					value: 'code'
 				},
 				{
 					name: '昵称',
-					value: 'username'
+					value: 'name'
 				},
 				{
 					name: '签名',
-					value: 'sign'
+					value: 'remark'
 				}],
 			formList:[]
 		};
@@ -87,7 +83,7 @@ export default {
 		
 	},
 	onLoad(option){
-		let newOption = JSON.parse(decodeURIComponent(option.data)).children[1].item;
+		let newOption = JSON.parse(decodeURIComponent(option.data)).item;
 		this.datalist.forEach(element => {
 			for(var item in newOption?.metadata){
 				if(element.key == item){
@@ -98,18 +94,16 @@ export default {
 				}
 			}
 		});
-		this.getTableInfo(newOption)
+		let json = {}
+		newOption?.members.forEach(item=>{
+			json.code = item.code
+			json.name = item.name
+			json.remark = item.remark
+			this.formList.push(json)
+		})
 	},
 	methods: {
-		async getTableInfo(item) {
-      let params = {
-        id: item.metadata.id,
-				subTypeNames:item.memberTypes,
-        page: { offset: 1, limit: 65535, filter: "" },
-      };
-      let res = await kernelApi.querySubTargetById(params);
-      console.log(res, 132);
-    },
+
 	}
 }
 </script>

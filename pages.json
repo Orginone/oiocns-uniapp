@@ -162,10 +162,10 @@
             
         },
         {
-            "path" : "pages/setting/components/tree",
+            "path" : "pages/setting/tree/index",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "设置",
+                "navigationBarTitleText": "详情",
                 "enablePullDownRefresh": false
             }
             

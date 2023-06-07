@@ -94,6 +94,13 @@
 		methods: {
             link(item){
                 console.log('link',item)
+                if(item){
+                    if(item.itemType == '部门'){
+						uni.navigateTo({
+							url: '/pages/setting/agency/agency'+'?data=' + encodeURIComponent(JSON.stringify(item))
+						})
+					}
+                }
             },
 			changeShow() {
 				this.onClickItem(this.item);

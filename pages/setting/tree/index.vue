@@ -25,55 +25,32 @@
 
 <script>
 export default {
+  name:'treeCom',
   data() {
     return {
-      /* 
-                tree 数据
-                */
       defaultProps: {
-        id: "id", // 此项为id项的key
+        id: "key", // 此项为id项的key
         children: "children", // 此项为修改子集数据的key
         label: "label", // 此项为修改显示数据的key
       },
       divider: false,
       edit: true,
-      tree: [
-        {
-          checked: false,
-          children: [
-            {
-              id: 11,
-              label: "长沙市",
-              name: "长沙市",
-              pid: "1",
-              children: [
-                {
-                  children: [],
-                  id: 111,
-                  label: "芙蓉区",
-                  name: "芙蓉区",
-                  pid: "11",
-                  children: [
-                    {
-                      children: [],
-                      id: 1111,
-                      label: "芙蓉区",
-                      name: "芙蓉区",
-                      pid: "111",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-          id: 1,
-          label: "湖南省",
-          name: "湖南省",
-          pid: "0",
-        },
-      ],
+      tree:[]
     };
   },
+  props: {
+    trees: {
+      default:()=>{
+        return []
+      }
+    },
+	},
+  watch: {
+    trees(newVal) {
+      this.tree = newVal;
+    },
+    deep:true
+	},
   methods: {
     //遍历id节点并删除
     removeNodeData(datas, id) {

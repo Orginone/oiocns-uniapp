@@ -37,6 +37,7 @@ export default {
                 let json = {}
                 json.memberTypes = value?.memberTypes
                 json.metadata = value?.metadata
+                json.members = value?.members
                 currentObj[key] = json;
               } else {
                 queue.push(value); // 将该对象加入队列中

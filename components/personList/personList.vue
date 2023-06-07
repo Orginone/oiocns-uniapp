@@ -71,9 +71,8 @@
 		},
 		methods: {
 			turnDetailPage(item) {
-				console.log(item,'item')
 				if(item){
-					console.log(JSON.parse(JSON.stringify(item)));
+					// console.log(JSON.parse(JSON.stringify(item)));
 					if(item.itemType =='人员'){
 						uni.navigateTo({
 							url: '/pages/setting/person/index'+'?data=' + JSON.stringify(item.key)
@@ -86,12 +85,12 @@
 					}
 					else if(item.itemType == '单位'){
 						uni.navigateTo({
-							url: '/pages/setting/company/index'+'?data=' + encodeURIComponent(JSON.stringify(item))
+							url: '/pages/setting/company/index'+'?data=' + JSON.stringify(item.key)
 						})
 					}
-					else if(item.label == '内部机构'){
+					else{
 						uni.navigateTo({
-							url: '/pages/setting/agency/agency'+'?data=' + encodeURIComponent(JSON.stringify(item))
+							url: item.url+'?data=' + JSON.stringify(item.key)
 						})
 					}
 				}

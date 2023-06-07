@@ -1,4 +1,5 @@
-import { kernel, model, schema } from '../../../base';
+import { kernelApi as kernel} from '../../../../common/app';
+import { model, schema } from '../../../base';
 import { Entity, IEntity, OperateType, TargetType } from '../../public';
 import { PageAll } from '../../public/consts';
 import { ITarget } from '../base/target';
@@ -39,6 +40,7 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
         id: this.id,
         page: PageAll,
       });
+      console.log(res,'res')
       if (res.success) {
         this._memberLoaded = true;
         this.members = res.data.result || [];
