@@ -7,7 +7,7 @@
                 <text class="txt">{{item[defaultProps.label]}}</text>
             </view>
             <view v-if="edit" class="right p-t-20 p-r-30">
-                <img class='dotPlus' src="@/static/base/dotPlus.png" alt=""   >
+                <!-- <img class='dotPlus' src="@/static/base/dotPlus.png" alt=""   > -->
                 <img src="@/static/base/right.png" alt="" @tap="link(item)" >
             </view>
         </view>
@@ -93,7 +93,10 @@
 		},
 		methods: {
             link(item){
-                console.log('link',item)
+                console.log('item',item)
+                uni.navigateTo({
+                    url: '/pages/setting/baseForm/index'+'?data=' +item.key+'&type='+item.itemType
+                })
             },
 			changeShow() {
 				this.onClickItem(this.item);

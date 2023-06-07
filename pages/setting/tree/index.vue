@@ -24,12 +24,12 @@
 </template>
 
 <script>
+import * as config from "../config/menuOperate";
 export default {
   data() {
     return {
-      /* 
-                tree 数据
-                */
+      settingData:{},//setting
+      /*    tree 数据   */
       defaultProps: {
         id: "id", // 此项为id项的key
         children: "children", // 此项为修改子集数据的key
@@ -37,44 +37,44 @@ export default {
       },
       divider: false,
       edit: true,
-      tree: [
-        {
-          checked: false,
-          children: [
-            {
-              id: 11,
-              label: "长沙市",
-              name: "长沙市",
-              pid: "1",
-              children: [
-                {
-                  children: [],
-                  id: 111,
-                  label: "芙蓉区",
-                  name: "芙蓉区",
-                  pid: "11",
-                  children: [
-                    {
-                      children: [],
-                      id: 1111,
-                      label: "芙蓉区",
-                      name: "芙蓉区",
-                      pid: "111",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-          id: 1,
-          label: "湖南省",
-          name: "湖南省",
-          pid: "0",
-        },
-      ],
+      tree:[]
     };
   },
+  onLoad(options) {
+    this.getData();
+    let params = this.getParam();
+    let type = params.type;
+    console.log('type',type)
+    if(type =='authority'){
+       this.tree = this.settingData.children[0].children[0].children
+    }else if(type =='standard'){
+       this.tree = this.settingData.children[0].children[1].children
+    }else{
+       this.tree = this.settingData.children[0].children[2].children
+    }
+   
+  },
   methods: {
+    async getData(){
+        this.settingData = this.$store.setting;
+        console.log('settingData',this.settingData)
+    },
+    getParam(){
+      let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
+      let curParam = routes[routes.length - 1].options; //获取路由参数
+      // 拼接参数
+      let param = ''
+      for (let key in curParam) {
+        param += '&' + key + '=' + curParam[key]
+      }
+      // 把参数保存为对像
+      let obj = {}
+      for (let key in curParam) {
+        obj[key] = curParam[key]
+      }
+      return obj
+    },
+    
     //遍历id节点并删除
     removeNodeData(datas, id) {
       //遍历树  获取id数组

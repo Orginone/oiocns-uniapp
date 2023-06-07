@@ -409,7 +409,24 @@ const getUserMenu = () => {
         icon: '',
         children: orgCtrl.user.species.map((i) => buildSpeciesTree(i)),
       },
+      loadGroupMenus(
+        {
+          key: orgCtrl.user.key + GroupMenuType.Cohort,
+          label: '个人群组',
+          item: orgCtrl.user,
+          typeName: TargetType.Cohort,
+          children: orgCtrl.user.cohorts.map((i) =>
+            createMenu(
+              i,
+              loadTypeMenus(i, [], true),
+              i.species.map((i) => buildSpeciesTree(i)),
+            ),
+          ),
+        },
+        [TargetType.Cohort],
+      ),
     ],
+    
   );
 };
 

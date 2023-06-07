@@ -188,6 +188,9 @@
 	}
 </script>
 <style scoped>
+    .leo-tree{
+        padding-left:30rpx;
+    }
     .head{
         display: flex;
         align-items: center;
