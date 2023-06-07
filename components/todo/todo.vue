@@ -20,20 +20,27 @@
 </template>
 
 <script>
-	export default {
-		name: "todo",
-		data() {
-			return {
-                todoList:[{name:'待办',number:0},{name:'已办',number:0},{name:'已完结',number:0},{name:'我发起的',number:0},],
-                active:0
-			};
-		},
-        methods: {
-           goto(index){
-              this.active = index
-           }  
-        },
-	}
+export default {
+    name: "todo",
+    props:{
+        todoList:{
+            type: Array,
+            default: function() {
+                return [];
+            }
+        }
+    },
+    data() {
+        return {
+            active:0
+        };
+    },
+    methods: {
+        goto(index){
+            this.active = index
+        }  
+    },
+}
 </script>
 
 <style lang="scss" scope>

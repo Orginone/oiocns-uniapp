@@ -1,7 +1,7 @@
 <template>
 	<view class="BaseLayout">
         <headbar :localList="'组织,浙江省财政厅'" :left="'none'"></headbar>
-        <personList :listInfo='listInfo' icon="dotPlus" :localList="'仓库'" :url="'/pages/shop/page2/page2'"></personList>
+        <personList :listInfo='listInfo' icon="['dotPlus', 'right']" :localList="'仓库'" :url="'/pages/shop/page2/page2'"></personList>
 	</view>
 </template>
 
@@ -61,6 +61,7 @@
 						item.children = element.children
 						item.key = element.key
 					}else{
+						item.itemType == newOption.itemType
 						item.key = newOption.key
 					}
 				})

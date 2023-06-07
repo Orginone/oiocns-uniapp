@@ -25,33 +25,28 @@
         <view class="more_point"></view>
       </view>
     </view>
-	<view class="banner">
-		<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :indicator-color='color' :easing-function="'easeInOutCubic'">
-				<swiper-item v-for="(item,index) in imgList" :key="index">
-					<view class="swiper_item"><img :src="item" alt="" srcset=""></view>
-				</swiper-item>
-			</swiper>
-	</view>
-	<view class="inlet">
-        <linkBox></linkBox>
-	</view>
-	<view class="mune inlet">
-        <userApp></userApp>
-	</view>
-	<view class="todo inlet">
-        <todo></todo>
-	</view>
-	<view class="search inlet">
-        <indexSearch></indexSearch>
-	</view>
-	<view class="appList inlet">
-        <appList></appList>
-	</view>
-	
+    <view class="banner">
+      <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :indicator-color='color' :easing-function="'easeInOutCubic'">
+        <swiper-item v-for="(item,index) in imgList" :key="index">
+          <view class="swiper_item"><img :src="item" alt="" srcset=""></view>
+        </swiper-item>
+      </swiper>
+    </view>
+	  <view class="inlet">
+      <linkBox></linkBox>
+    </view>
+    <view class="mune inlet">
+      <userApp :appList="appList"></userApp>
+	  </view>
+	  <view class="todo inlet">
+      <todo :todoList="todoList"></todo>
+	  </view>
   </view>
 </template>
 
 <script>
+import orgCtrl from '../../ts/controller';
+import { loadApps } from './config/config';
 export default {
   data() {
     return {
@@ -68,34 +63,54 @@ export default {
         { name: "共享" },
         { name: "交易" },
       ],
-	  indicatorDots: true,
+	    indicatorDots: true,
       autoplay: true,
       interval: 5000,
       duration: 500,
-	  imgList:['https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png',
-	  'https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png',
-	  'https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png'],
-	  color:"#fff",
-	  tabActive:0,
-
+      imgList:['https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png',
+      'https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png',
+      'https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png'],
+      color:"#fff",
+      tabActive:0,
+      todoList:[{name:'待办',number:''},{name:'已办',number:0},{name:'已完结',number:0},{name:'我发起的',number:0},],
+      appList:[]
     };
   },
- async onLoad(options) {
-  this.userInfo = uni.getStorageSync('currentUser')
-    console.log(this.userInfo,7777);
+  async onLoad(options) {
+    this.userInfo = uni.getStorageSync('currentUser')
+    // console.log(this.userInfo,7777);
+    this.loadAppList()
+    let res = await orgCtrl.work.loadTodos({
+      page: {offset:1,limit:999,filter:""},
+      id: '0',
+    });
+    if(res && typeof res == 'object')this.todoList[0].number = res.length
     // let params = {
     //   id:this.userInfo.id,
     //   page:{offset:1,limit:999,filter:""},
     //   typeNames:['单位','大学','医院']
     // }
     // let res = await kernelApi.queryJoinedTargetById(params)
+    // console.log(res)
     // let searchParams = {id:this.userInfo.id,page:{offset:1,limit:999,filter:""}}
     // let done =  await kernelApi.queryWorkRecord(searchParams) //查询已办
+    // console.log(done,'done')
     // let todo =  await kernelApi.queryApproveTask(searchParams) //待办
-    // let post =  await kernelApi.queryMyApply(searchParams) //我发起的办事
+    // console.log(todo,'todo')
+    // // let post =  await kernelApi.queryMyWorkInstance(searchParams) //我发起的办事
     // let over =  await kernelApi.queryMyWorkInstance(searchParams) //审批通过
-
-	  
+    // console.log(over,'over')
+  },
+  methods:{
+    async loadAppList(){
+      let arr = []
+      let res = await loadApps()
+      res.forEach(item => {
+        item.metadata.icon = JSON.parse(item.metadata.icon)
+        arr.push(item.metadata)
+      })
+      this.appList = arr
+    }
   }
 };
 </script>
@@ -107,7 +122,7 @@ page {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-	padding-bottom: 20upx;
+	  padding-bottom: 20upx;
     .userInfo {
       width: 100%;
       padding: 20upx 32upx;
@@ -182,24 +197,23 @@ margin-top: 13upx;
 		}
       }
     }
-	.banner{
-		width: 100%;
-		height: 300upx;
-		.swiper_item{
-			width: 100%;
-		    height: 300upx;
-		img{
-			width: 100%;
-		    height: 300upx;
-		}
-		}
-	}
-	.inlet{
-		width: 100%;
-		padding:  0 32upx;
-		margin-top: 22upx;
-		
-	}
+    .banner{
+      width: 100%;
+      height: 300upx;
+      .swiper_item{
+        width: 100%;
+          height: 300upx;
+      img{
+        width: 100%;
+          height: 300upx;
+      }
+      }
+    }
+    .inlet{
+      width: 100%;
+      padding:  0 32upx;
+      margin-top: 22upx;
+    }
   }
 }
 </style>
