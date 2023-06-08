@@ -38,9 +38,6 @@
     <view class="mune inlet">
       <userApp :appList="appList"></userApp>
 	  </view>
-	  <view class="todo inlet">
-      <todo :todoList="todoList"></todo>
-	  </view>
   </view>
 </template>
 

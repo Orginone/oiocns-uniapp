@@ -305,6 +305,14 @@
                 "enablePullDownRefresh": false
             }
         }
+        ,{
+            "path" : "pages/setting/agency/detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "部门成员",
+                "enablePullDownRefresh": false
+            }
+        }
     ],
 	"globalStyle": {
 		"pageOrientation": "portrait",

@@ -2,7 +2,7 @@
 	<view class="BaseLayout">
     <headbar :localList="'组织,浙江省财政厅'" :left="'none'"></headbar>
 		<view class="main">
-			<sideForm :datalist="datalist" :title="title"></sideForm>
+			<basicForm :formData="datalist" :title="title"></basicForm>
 			<!-- 子表信息 -->
 			<view class="formArea" v-if="type == '部门'">
 				<view class="head">
@@ -17,6 +17,7 @@
 							<uni-td v-for="it,ind in Object.values(item)" :key="ind" style="color: #9A9A9A;">{{it}}</uni-td>
 						</uni-tr>
 					</uni-table>
+					<view class="more" v-if="formTitle.length > 0" @click="getMore">更多</view>
 				</view>
 			</view>
 		</view>
@@ -135,6 +136,12 @@ export default {
 				json.remark = item.remark
 				this.formList.push(json)
 			})
+		},
+
+		getMore(){
+			uni.navigateTo({
+				url: '/pages/setting/agency/detail'+'?data=' + encodeURIComponent(JSON.stringify(this.formList))
+			})
 		}
 	}
 }
@@ -144,5 +151,11 @@ export default {
 .main{
 	padding: 0 22upx;
 	padding-bottom: 40upx;
+}
+.more{
+	width: 100%;
+	display: flex;
+	font-size: 24upx;
+	justify-content: flex-end;
 }
 </style>

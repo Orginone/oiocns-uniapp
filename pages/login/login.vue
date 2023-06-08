@@ -672,7 +672,6 @@ page {
       margin-top: 32upx;
       width: 100%;
       height: 88upx;
-
       .btns {
         width: 100%;
         height: 88upx;
@@ -684,6 +683,10 @@ page {
         justify-content: center;
         align-items: center;
         background-color: #3d5ed1;
+        .btn1{
+          width: 100%;
+          text-align: center;
+        }
       }
 
       .slider {
