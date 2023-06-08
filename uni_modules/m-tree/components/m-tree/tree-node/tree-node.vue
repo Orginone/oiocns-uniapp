@@ -95,7 +95,7 @@
             link(item){
                 console.log('item',item)
                 uni.navigateTo({
-                    url: '/pages/setting/baseForm/index'+'?data=' +item.key+'&type='+item.itemType
+                    url: '/pages/setting/baseForm/index'+'?data=' +JSON.stringify(item)+'&type='+item.itemType
                 })
             },
 			changeShow() {

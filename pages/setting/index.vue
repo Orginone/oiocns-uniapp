@@ -34,7 +34,11 @@ export default {
             if (typeof value === "object" && value !== null) {
               if (visited.has(value)) {
                 // 如果该对象已经被访问过，则表示存在循环引用
-                currentObj[key] = value?._metadata;
+                let obj = {}
+                obj.members = value?.members;
+                obj._metadata = value?._metadata;
+                currentObj[key] = obj
+                
               } else {
                 queue.push(value); // 将该对象加入队列中
                 visited.add(value); // 将该对象加入已访问列表中

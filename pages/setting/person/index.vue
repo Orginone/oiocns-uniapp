@@ -20,7 +20,7 @@
 					},
 					{
 						label:'个人群组',
-						url:"/pages/setting/group/index",
+						url:"/pages/setting/group/index?index=0",
 					}					
 				],
 			};
