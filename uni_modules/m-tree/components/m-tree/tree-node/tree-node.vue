@@ -7,7 +7,7 @@
                 <text class="txt">{{item[defaultProps.label]}}</text>
             </view>
             <view v-if="edit" class="right p-t-20 p-r-30">
-                <img class='dotPlus' src="@/static/base/dotPlus.png" alt=""   >
+                <!-- <img class='dotPlus' src="@/static/base/dotPlus.png" alt=""   > -->
                 <img src="@/static/base/right.png" alt="" @tap="link(item)" >
             </view>
         </view>
@@ -95,11 +95,15 @@
             link(item){
                 console.log('link',item)
                 if(item){
-                    if(item.itemType == '部门'){
+                    if(item.itemType == '部门' || item.label == '单位岗位'){
 						uni.navigateTo({
-							url: '/pages/setting/agency/agency'+'?data=' + encodeURIComponent(JSON.stringify(item))
+							url: '/pages/setting/agency/agency'+'?data=' + item.key + '&type=' + item.itemType
 						})
-					}
+					}else{
+                        uni.navigateTo({
+                            url: '/pages/setting/baseForm/index'+'?data=' +item.key + '&type='+item.itemType
+                        })
+                    }
                 }
             },
 			changeShow() {

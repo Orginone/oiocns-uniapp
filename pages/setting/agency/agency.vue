@@ -2,9 +2,9 @@
 	<view class="BaseLayout">
     <headbar :localList="'组织,浙江省财政厅'" :left="'none'"></headbar>
 		<view class="main">
-			<sideForm :datalist="datalist" :title="'当前部门'"></sideForm>
+			<sideForm :datalist="datalist" :title="title"></sideForm>
 			<!-- 子表信息 -->
-			<view class="formArea">
+			<view class="formArea" v-if="type == '部门'">
 				<view class="head">
 					<view class="title">部门成员</view>
 				</view>
@@ -50,7 +50,7 @@ export default {
 				},
 				{
 					name:'创建人',
-					key:'createUser',
+					key:'creater',
 					value:''
 				},
 				{
@@ -76,34 +76,66 @@ export default {
 					name: '签名',
 					value: 'remark'
 				}],
-			formList:[]
+			formList:[],
+			title:'',
+			type:''
 		};
 	},
 	watch:{
 		
 	},
 	onLoad(option){
-		let newOption = JSON.parse(decodeURIComponent(option.data)).item;
-		this.datalist.forEach(element => {
-			for(var item in newOption?.metadata){
-				if(element.key == item){
-					element.value = newOption?.metadata[item]
-				}
-				if(element.key == 'public'){
-					element.value = newOption?.metadata['public']?'开放加入':'需申请加入'
-				}
-			}
-		});
-		let json = {}
-		newOption?.members.forEach(item=>{
-			json.code = item.code
-			json.name = item.name
-			json.remark = item.remark
-			this.formList.push(json)
-		})
+		let key = option.data
+		let type = option.type
+		if(type != 'undefined'){
+			this.type = '部门'
+		}else{
+			this.type = '单位'
+			this.datalist.splice(3,1)
+		}
+		this.findObject(this.$store.setting.children,key)
 	},
 	methods: {
+		findObject(arr,key){
+			if(arr && arr.length >0){
+				arr.forEach(element => {
+					if(element.key == key){
+						this.dataCompare(element)
+						return
+					}
+					if(element.children && element.children.length>0){
+						this.findObject(element.children,key)
+					}
+				});
+			}
+		},
 
+		dataCompare(data){
+			this.title = this.type + '[' + data?.item?.metadata.name + ']基本信息'
+			this.datalist.forEach(element => {
+				for(var item in data?.item?.metadata){
+					if(element.key == item){
+						element.value = data?.item?.metadata[item]
+					}
+					if(element.key == 'belongName'){
+						element.value = data?.item?.belong.name
+					}
+					if(element.key == 'creater'){
+						element.value = data?.item?.creater.name
+					}
+					if(element.key == 'public'){
+						element.value = data?.item?.metadata['public']?'开放加入':'需申请加入'
+					}
+				}
+			});
+			let json = {}
+			data?.item?.members.forEach(item=>{
+				json.code = item.code
+				json.name = item.name
+				json.remark = item.remark
+				this.formList.push(json)
+			})
+		}
 	}
 }
 </script>

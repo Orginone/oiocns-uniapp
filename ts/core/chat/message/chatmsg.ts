@@ -1,4 +1,4 @@
-import { common, kernel, model } from '@/ts/base';
+import { common, kernel, model } from '../../../../ts/base';
 import { IBelong } from '../../target/base/belong';
 import { storeCollName } from '../../public/consts';
 /** 归属会话消息 */

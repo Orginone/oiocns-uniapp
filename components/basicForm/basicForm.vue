@@ -4,12 +4,12 @@
 			{{title}}
 		</view>
 		<view class="BasicForm">
-			<view class="formItem" v-for="item,index in formData" :key="index">
+			<view class="formItem" v-for="item,key in formData" :key="key">
 				<view class="name">
-					{{item.name}}
+					{{key}}
 				</view>
 				<view class="value">
-					{{item.value}}
+					{{item}}
 				</view>
 			</view>
 		</view>

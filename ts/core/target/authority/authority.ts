@@ -111,7 +111,7 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     return result;
   }
   findAuthById(authId: string, auth?: IAuthority): IAuthority | undefined {
-    auth = auth || this.space.superAuth!;
+    auth = auth || this.space?.superAuth!;
     if (auth.id === authId) {
       return auth;
     } else {

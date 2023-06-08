@@ -24,10 +24,13 @@
 </template>
 
 <script>
+import * as config from "../config/menuOperate";
 export default {
   name:'treeCom',
   data() {
     return {
+      settingData:{},//setting
+      /*    tree 数据   */
       defaultProps: {
         id: "key", // 此项为id项的key
         children: "children", // 此项为修改子集数据的key
@@ -51,7 +54,41 @@ export default {
     },
     deep:true
 	},
+  onLoad(options) {
+    this.getData();
+    let params = this.getParam();
+    let type = params.type;
+    console.log('type',type)
+    if(type =='authority'){
+       this.tree = this.settingData.children[0].children[0].children
+    }else if(type =='standard'){
+       this.tree = this.settingData.children[0].children[1].children
+    }else{
+       this.tree = this.settingData.children[0].children[2].children
+    }
+   
+  },
   methods: {
+    async getData(){
+        this.settingData = this.$store.setting;
+        console.log('settingData',this.settingData)
+    },
+    getParam(){
+      let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
+      let curParam = routes[routes.length - 1].options; //获取路由参数
+      // 拼接参数
+      let param = ''
+      for (let key in curParam) {
+        param += '&' + key + '=' + curParam[key]
+      }
+      // 把参数保存为对像
+      let obj = {}
+      for (let key in curParam) {
+        obj[key] = curParam[key]
+      }
+      return obj
+    },
+    
     //遍历id节点并删除
     removeNodeData(datas, id) {
       //遍历树  获取id数组

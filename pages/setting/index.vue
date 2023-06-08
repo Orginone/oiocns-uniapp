@@ -38,6 +38,9 @@ export default {
                 json.memberTypes = value?.memberTypes
                 json.metadata = value?.metadata
                 json.members = value?.members
+                json.belong = value?.belong
+                json.id = value?.id
+                json.creater = value?.creater
                 currentObj[key] = json;
               } else {
                 queue.push(value); // 将该对象加入队列中
@@ -54,6 +57,7 @@ export default {
       store.setting = res;
       this.menu = res.children;
       this.showMenu = true;
+      console.log(res,'res')
     },
   },
 };

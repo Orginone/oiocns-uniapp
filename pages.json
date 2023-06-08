@@ -162,6 +162,24 @@
             
         },
         {
+            "path" : "pages/setting/baseForm/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设置",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+        {
+            "path" : "pages/setting/group/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "群组",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+        {
             "path" : "pages/setting/tree/index",
             "style" :                                                                                    
             {
@@ -286,7 +304,6 @@
                 "navigationBarTitleText": "内部机构",
                 "enablePullDownRefresh": false
             }
-            
         }
     ],
 	"globalStyle": {

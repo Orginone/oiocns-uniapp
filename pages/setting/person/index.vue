@@ -12,15 +12,15 @@
 				listInfo:[
 					{
 						label:'权限标准',
-						url:"/pages/setting/tree/index",
+						url:"/pages/setting/tree/index?type=authority",
 					},
 					{
 						label:'数据标准',
-						url:"/pages/setting/tree/index",
+						url:"/pages/setting/tree/index?type=standard",
 					},
 					{
 						label:'个人群组',
-						url:"/pages/setting/tree/index",
+						url:"/pages/setting/group/index",
 					}					
 				],
 			};
@@ -29,12 +29,8 @@
 			
 		},
 		onLoad() {
-			this.getMenu();
 		},
 		methods: {
-			getMenu(){
-				console.log('this.$store.setting;',JSON.parse(JSON.stringify(this.$store.setting)))
-			}
 		}
 	}
 </script>

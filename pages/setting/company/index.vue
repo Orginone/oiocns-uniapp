@@ -45,6 +45,7 @@
 					},
           {
 						label:'单位岗位',
+						url:'/pages/setting/agency/agency',
 						key:'',
 						children:[]
 					},
@@ -74,6 +75,7 @@
 					}
 				})
 			});
+			console.log(this.listInfo,'999')
     },
 		methods: {
 			

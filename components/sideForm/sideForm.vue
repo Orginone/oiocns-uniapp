@@ -56,14 +56,17 @@
 			box-sizing: border-box;
 			.item{
 				width: 100%;
-				height: 70upx;
-				padding: 0 10upx;
+				height: auto;
+				padding: 20upx 10upx;
 				box-sizing: border-box;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
 				font-size: 25upx;
 				border-bottom: 1.5upx solid #D4D4D4;
+				.name{
+					width: 300upx;
+				}
 				.right{
 					color: #9A9A9A;
 				}
