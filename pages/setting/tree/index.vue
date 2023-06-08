@@ -26,12 +26,13 @@
 <script>
 import * as config from "../config/menuOperate";
 export default {
+  name:'treeCom',
   data() {
     return {
       settingData:{},//setting
       /*    tree 数据   */
       defaultProps: {
-        id: "id", // 此项为id项的key
+        id: "key", // 此项为id项的key
         children: "children", // 此项为修改子集数据的key
         label: "label", // 此项为修改显示数据的key
       },
@@ -40,6 +41,19 @@ export default {
       tree:[]
     };
   },
+  props: {
+    trees: {
+      default:()=>{
+        return []
+      }
+    },
+	},
+  watch: {
+    trees(newVal) {
+      this.tree = newVal;
+    },
+    deep:true
+	},
   onLoad(options) {
     this.getData();
     let params = this.getParam();

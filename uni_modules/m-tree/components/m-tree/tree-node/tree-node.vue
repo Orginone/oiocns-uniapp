@@ -93,10 +93,18 @@
 		},
 		methods: {
             link(item){
-                console.log('item',item)
-                uni.navigateTo({
-                    url: '/pages/setting/baseForm/index'+'?data=' +JSON.stringify(item)+'&type='+item.itemType
-                })
+                console.log('link',item)
+                if(item){
+                    if(item.itemType == '部门' || item.label == '单位岗位'){
+						uni.navigateTo({
+							url: '/pages/setting/agency/agency'+'?data=' + item.key + '&type=' + item.itemType
+						})
+					}else{
+                        uni.navigateTo({
+                            url: '/pages/setting/baseForm/index'+'?data=' +item.key + '&type='+item.itemType
+                        })
+                    }
+                }
             },
 			changeShow() {
 				this.onClickItem(this.item);

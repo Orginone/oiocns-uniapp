@@ -34,11 +34,14 @@ export default {
             if (typeof value === "object" && value !== null) {
               if (visited.has(value)) {
                 // 如果该对象已经被访问过，则表示存在循环引用
-                let obj = {}
-                obj.members = value?.members;
-                obj._metadata = value?._metadata;
-                currentObj[key] = obj
-                
+                let json = {}
+                json.memberTypes = value?.memberTypes
+                json.metadata = value?.metadata
+                json.members = value?.members
+                json.belong = value?.belong
+                json.id = value?.id
+                json.creater = value?.creater
+                currentObj[key] = json;
               } else {
                 queue.push(value); // 将该对象加入队列中
                 visited.add(value); // 将该对象加入已访问列表中
@@ -51,11 +54,9 @@ export default {
     async getMenu() {
       let res = await config.loadSettingMenu();
       this.removeCircularReferences(res)
-      console.log('res',res)
       store.setting = res;
       this.menu = res.children;
-      console.log('this.menu',this.menu)
-      //   this.showMenu = true;
+      this.showMenu = true;
     },
   },
 };

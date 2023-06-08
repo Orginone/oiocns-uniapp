@@ -1,10 +1,10 @@
 <template>
 	<view class="baseLayout">
-		<view class="title">常用应用</view>
+		<view class="title">应用</view>
          <view class="box">
               <view class="item" v-for="(item,index) in appList" :key="index">
                  <view class="item_icon">
-                    <img src="@/static/base/icon.jpg" alt="" srcset="">
+                    <img :src="item.icon.shareLink" alt="" srcset="">
                  </view>
                  <view class="item_name">{{item.name}}</view>
               </view>
@@ -19,19 +19,26 @@
 </template>
 
 <script>
-	export default {
-		name: "userApp",
-		data() {
-			return {
-              appList:[{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},{name:'资产监管平台'},]
-			};
-		},
-        methods: {
-            getMore(){
-                uni.navigateTo({ url: '/pages/shop/appList/appList' })
+export default {
+    name: "userApp",
+    props:{
+        appList:{
+            type: Array,
+            default: function() {
+                return [];
             }
-        },
-	}
+        }
+    },
+    data() {
+        return {
+        };
+    },
+    methods: {
+        getMore(){
+            uni.navigateTo({ url: '/pages/shop/appList/appList' })
+        }
+    },
+}
 </script>
 
 <style lang="scss" scope>

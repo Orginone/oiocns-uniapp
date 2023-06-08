@@ -72,7 +72,7 @@
 		methods: {
 			turnDetailPage(item) {
 				if(item){
-					console.log(JSON.parse(JSON.stringify(item)));
+					// console.log(JSON.parse(JSON.stringify(item)));
 					if(item.itemType =='人员'){
 						uni.navigateTo({
 							url: '/pages/setting/person/index'+'?data=' + JSON.stringify(item.key)
@@ -81,6 +81,11 @@
 					else if(item.itemType == '权限'){
 						uni.navigateTo({
 							url: '/pages/setting/authority/index'+'?data=' + JSON.stringify(item.key)
+						})
+					}
+					else if(item.itemType == '单位'){
+						uni.navigateTo({
+							url: '/pages/setting/company/index'+'?data=' + JSON.stringify(item.key)
 						})
 					}
 					else{

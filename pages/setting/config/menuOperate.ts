@@ -433,7 +433,7 @@ const getUserMenu = () => {
 
 /** 获取组织菜单 */
 const getTeamMenu = () => {
-  console.log('orgCtrl',orgCtrl)
+  console.log('orgCtrl',orgCtrl.user.companys)
   const children: MenuItemType[] = [];
   for (const company of orgCtrl.user.companys) {
     children.push(
@@ -498,6 +498,7 @@ const getTeamMenu = () => {
       ]),
     );
   }
+  console.log(children,'children')
   return children;
 };
 

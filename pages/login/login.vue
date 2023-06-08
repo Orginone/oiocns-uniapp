@@ -238,8 +238,8 @@ export default {
           text: "+198",
         },
       ],
-      account: "18637079378",
-      pwd: "aB_111!",
+      account: "13486842030",
+      pwd: "Qaz123456.",
     };
   },
   onLoad() {},
@@ -672,7 +672,6 @@ page {
       margin-top: 32upx;
       width: 100%;
       height: 88upx;
-
       .btns {
         width: 100%;
         height: 88upx;
@@ -684,6 +683,10 @@ page {
         justify-content: center;
         align-items: center;
         background-color: #3d5ed1;
+        .btn1{
+          width: 100%;
+          text-align: center;
+        }
       }
 
       .slider {
