@@ -55,10 +55,11 @@ export default {
     deep:true
 	},
   onLoad(options) {
-    console.log(options,'options')
+    let key
     if(options.data){
-      var key = JSON.parse(options.data)
+      key = JSON.parse(options.data)
     }
+    console.log(key)
     this.getData();
     let params = this.getParam();
     let type = params.type;

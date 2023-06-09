@@ -88,7 +88,7 @@ const buildSpeciesTree = (species: ISpeciesItem): MenuItemType => {
   }
   return {
     key: species.key,
-    item: [],
+    item: species,
     label: species.name,
     tag: [species.typeName],
     icon:'',
@@ -378,6 +378,7 @@ const loadDictMenus = (dict?: IDict) => {
 };
 /** 获取个人菜单 */
 const getUserMenu = () => {
+  console.log('orgCtrlorgCtrlorgCtrl',orgCtrl)
   return createMenu(
     orgCtrl.user,
     [
