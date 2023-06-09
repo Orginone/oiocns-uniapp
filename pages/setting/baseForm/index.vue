@@ -17,44 +17,57 @@
 		},
         onLoad() {
             let param = this.getParam();
+            console.log('param',param)
             this.getDetail(param)
-
 		},
 		methods: {
             getDetail(param){
-                let obj = JSON.parse(param.data)
-                console.log(obj);
-                this.title = '标准';
-                let showObj = {
-                    '名称':obj.item._metadata.name,
-                    '代码':obj.item._metadata.code,
-                    '归属':'奥集能',
-                    '创建人':'奥集能',
-                    '创建时间':obj.item._metadata.createTime,
-                    '描述':obj.item._metadata.remark
-                }
+                let obj = this.searchObjectByKey(this.$store.setting,'key',param.data)
+                console.log(this.$store.setting,obj);
+                let showObj = [
+                    {
+                        name:'名称',
+                        value:obj._metadata.name,
+                    },
+                    {
+                        name:'代码',
+                        value:obj._metadata.code,
+                    },
+                    {
+                        name:'归属',
+                        value:"奥集能",
+                    },
+                    {
+                        name:'创建人',
+                        value:'奥集能',
+                    },
+                    {
+                        name:'创建时间',
+                        value:obj._metadata.createTime,
+                    },
+                    {
+                        name:'描述',
+                        value:obj._metadata.remark,
+                    }
+                ]
                 this.formData = showObj;
             },
-            findObjectByKey(tree, key) {
+            searchObjectByKey(obj, key, value) {
                 let that = this;
-                // 遍历树形结构
-                for (var i = 0; i < tree.length; i++) {
-                    var node = tree[i];
-                    // 如果节点的key等于要查找的key，则返回该节点对象
-                    if (node.key === key) {
-                    return node;
-                    }
-                    // 如果节点有子节点，则递归查找子节点
-                    if (node.children && node.children.length > 0) {
-                    var childResult = that.findObjectByKey(node.children, key);
-                    if (childResult) {
-                        // 如果找到了相同key的子节点，则返回该子节点对象
-                        return childResult;
-                    }
+                if (obj.hasOwnProperty(key) && obj[key] === value) {
+                    return obj;
+                }
+                // 遍历所有属性
+                for (var prop in obj) {
+                    if (obj.hasOwnProperty(prop) && typeof obj[prop] === 'object') {
+                    // 对于值为对象的属性，递归调用 searchObjectByKey 函数
+                        var result = that.searchObjectByKey(obj[prop], key, value);
+                        if (result) {
+                            return result;
+                        }
                     }
                 }
-                // 如果都没找到，则返回null
-                return null;
+                return null; // 如果整个对象都被遍历完了，仍然没有找到相应的属性，则返回 null
             },
 			getParam(){
                 let routes = getCurrentPages(); // 获取当前打开过的页面路由数组

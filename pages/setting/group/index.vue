@@ -20,7 +20,7 @@
 			list.children.forEach((element,index) => {
 				let obj = {
 					label:element.label,
-					url:"/pages/setting/baseForm/group?index="+index
+					url:"/pages/setting/group/detail?key="+element.key
 				}
 				arr.push(obj)
 			});

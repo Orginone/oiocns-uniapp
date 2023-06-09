@@ -134,7 +134,7 @@ export default {
     },
     //节点点击事件
     nodeClick(e) {
-      console.log("点击的项目", JSON.stringify(e));
+      // console.log("点击的项目", JSON.stringify(e));
     },
     //节点up按钮点击事件
     upNode(e) {
