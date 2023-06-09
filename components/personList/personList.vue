@@ -71,7 +71,6 @@
 		},
 		methods: {
 			turnDetailPage(item) {
-				console.log(item,'123')
 				if(item){
 					// console.log(JSON.parse(JSON.stringify(item)));
 					if(item.itemType =='人员'){

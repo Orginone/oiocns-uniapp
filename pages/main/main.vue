@@ -29,7 +29,7 @@
       <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :indicator-color='color' :easing-function="'easeInOutCubic'" next-margin="40px" previous-margin="40px">  
         <swiper-item v-for="(item,index) in imgList" :key="index">  
           <view class='li'>
-            <img :src="item" class="itemSrc" />
+            <img :src="'../../static/banner/' + item + '.png'" class="itemSrc" />
           </view> 
         </swiper-item>  
       </swiper> 
@@ -66,9 +66,7 @@ export default {
       autoplay: true,
       interval: 5000,
       duration: 500,
-      imgList:['https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png',
-      'https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png',
-      'https://www.esensoft.com/data/upload/editer/image/2019/09/18/125d81ecc68bcf2.png'],
+      imgList:[1,2,3,4],
       color:"#fff",
       tabActive:0,
       todoList:[{name:'待办',number:''},{name:'已办',number:0},{name:'已完结',number:0},{name:'我发起的',number:0},],
@@ -198,13 +196,16 @@ page {
     }
     .banner{
       width: 100%;
-      height: 300upx;
+      height: 250upx;
+      .swiper{
+        height: 250upx;
+      }
       .swiper_item{
         width: 100%;
-        height: 300upx;
+        height: 250upx;
         img{
           width: 100%;
-            height: 300upx;
+          height: 250upx;
         }
       }
     }
@@ -221,11 +222,11 @@ page {
   }
   .li{
     width: 100%;
-    height: 300rpx;
+    height: 250upx;
   }
   .itemSrc{
     width: 560rpx;
-    height: 300rpx;
+    height: 250rpx;
     display: block;
     margin: 0 auto;
     border-radius: 12rpx;
