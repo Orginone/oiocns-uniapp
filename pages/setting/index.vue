@@ -57,6 +57,7 @@ export default {
       store.setting = res;
       this.menu = res.children;
       this.showMenu = true;
+      console.log(res,'res')
     },
   },
 };

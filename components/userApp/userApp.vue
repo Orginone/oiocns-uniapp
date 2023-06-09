@@ -8,12 +8,12 @@
                  </view>
                  <view class="item_name">{{item.name}}</view>
               </view>
-              <view class="item" @click="getMore()">
+              <!-- <view class="item" @click="getMore()">
                      <view class="item_icon">
                     <view class="add">+</view>
                  </view>
                  <view class="item_name">更多应用</view>
-              </view>
+              </view> -->
          </view>
 	</view>
 </template>
@@ -44,8 +44,8 @@ export default {
 <style lang="scss" scope>
 	.title {
 		padding-left: 8upx;
-		font-size: 32upx;
-		color: #2F3033;
+		font-size: 28upx;
+		color: #000;
 		margin-bottom: 4upx;
 	}
     .box{
@@ -64,9 +64,10 @@ export default {
                 align-items: center;
                 justify-content: center;
                 margin: 0 auto;
+                border: 1px solid #DCE1F2;
                 img{
-                    width: 48upx;
-                    height: 48upx;
+                    width: 78upx;
+                    height: 78upx;
                 }
                 .add{
                     color: #DCE1F2;
@@ -76,7 +77,7 @@ export default {
                 
             }
             .item_name{
-                font-size: 20upx;
+                font-size: 24upx;
                 color: #606266;
                 width: 100%;
                 text-align: center;

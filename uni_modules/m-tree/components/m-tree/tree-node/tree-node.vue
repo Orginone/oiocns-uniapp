@@ -95,9 +95,9 @@
             link(item){
                 console.log('link',item)
                 if(item){
-                    if(item.itemType == '部门' || item.label == '单位岗位'){
+                    if(item.itemType == '部门'){
 						uni.navigateTo({
-							url: '/pages/setting/agency/agency'+'?data=' + item.key + '&type=' + item.itemType
+							url: '/pages/setting/agency/agency'+'?data=' + JSON.stringify(item.key) + '&type=' + JSON.stringify(item.itemType)
 						})
 					}else{
                         uni.navigateTo({

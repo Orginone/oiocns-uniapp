@@ -7,6 +7,11 @@
 			<view class="formArea" v-if="type == '部门'">
 				<view class="head">
 					<view class="title">部门成员</view>
+					<view class="more" @click="getMore">
+						<view class="more_point"></view>
+						<view class="more_point"></view>
+						<view class="more_point"></view>
+					</view>
 				</view>
 				<view class="item">
 					<uni-table>
@@ -17,7 +22,6 @@
 							<uni-td v-for="it,ind in Object.values(item)" :key="ind" style="color: #9A9A9A;">{{it}}</uni-td>
 						</uni-tr>
 					</uni-table>
-					<view class="more" v-if="formTitle.length > 0" @click="getMore">更多</view>
 				</view>
 			</view>
 		</view>
@@ -79,16 +83,21 @@ export default {
 				}],
 			formList:[],
 			title:'',
-			type:''
+			type:'',
+			members:[]
 		};
 	},
 	watch:{
 		
 	},
 	onLoad(option){
-		let key = option.data
-		let type = option.type
-		if(type != 'undefined'){
+		console.log(option,'opssss')
+		let key = JSON.parse(option.data)
+		let type
+		if(option.type){
+			type = JSON.parse(option.type)
+		}
+		if(type != undefined){
 			this.type = '部门'
 		}else{
 			this.type = '单位'
@@ -135,12 +144,15 @@ export default {
 				json.name = item.name
 				json.remark = item.remark
 				this.formList.push(json)
+				delete item.belong
+				delete item.team
 			})
+			this.members = data?.item?.members
 		},
 
 		getMore(){
 			uni.navigateTo({
-				url: '/pages/setting/agency/detail'+'?data=' + encodeURIComponent(JSON.stringify(this.formList))
+				url: '/pages/setting/agency/detail'+'?data=' + encodeURIComponent(JSON.stringify(this.members))
 			})
 		}
 	}
@@ -152,10 +164,18 @@ export default {
 	padding: 0 22upx;
 	padding-bottom: 40upx;
 }
-.more{
-	width: 100%;
+.head{
 	display: flex;
-	font-size: 24upx;
-	justify-content: flex-end;
+	align-items: center;
+	justify-content: space-between;
+}
+.more {
+	.more_point {
+		width: 6upx;
+		height: 6upx;
+		background: #999;
+		border-radius: 50%;
+		margin-bottom: 6upx;
+	}
 }
 </style>

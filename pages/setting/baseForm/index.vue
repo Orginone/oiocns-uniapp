@@ -30,8 +30,8 @@
                     let showObj = {
                         '名称':obj.item.name,
                         '代码':obj.item.code,
-                        '归属':'奥集能',
-                        '创建人':'奥集能',
+                        '归属':'资产共享云',
+                        '创建人':'资产共享云',
                         '创建时间':obj.item.createTime,
                         '描述':obj.item.remark
                     }
@@ -43,8 +43,8 @@
                     // let showObj = {
                     //     '名称':obj.item.name,
                     //     '代码':obj.item.code,
-                    //     '归属':'奥集能',
-                    //     '创建人':'奥集能',
+                    //     '归属':'资产共享云',
+                    //     '创建人':'资产共享云',
                     //     '创建时间':obj.item.createTime,
                     //     '描述':obj.item.remark
                     // }

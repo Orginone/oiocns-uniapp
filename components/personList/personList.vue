@@ -71,6 +71,7 @@
 		},
 		methods: {
 			turnDetailPage(item) {
+				console.log(item,'123')
 				if(item){
 					// console.log(JSON.parse(JSON.stringify(item)));
 					if(item.itemType =='人员'){
@@ -86,6 +87,11 @@
 					else if(item.itemType == '单位'){
 						uni.navigateTo({
 							url: '/pages/setting/company/index'+'?data=' + JSON.stringify(item.key)
+						})
+					}
+					else if(item.label == '内部机构'){
+						uni.navigateTo({
+							url: '/pages/setting/tree/index'+'?data=' + JSON.stringify(item.label)
 						})
 					}
 					else{

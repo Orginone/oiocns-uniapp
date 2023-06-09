@@ -27,7 +27,7 @@
 						main:'物以类聚 人以群分',
 						sub:'Orginone',
 						url:require('static/basePlus/logo1.png'),
-						iconText:'奥集能'
+						iconText:'资产共享云'
 						
 					},
 					{
