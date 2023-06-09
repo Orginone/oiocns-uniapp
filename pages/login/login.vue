@@ -122,7 +122,7 @@
     <view class="signup" v-show="stepState == 2">
       <view class="title">
         <view class="account">
-          <view class="main">欢迎使用奥集能</view>
+          <view class="main">欢迎使用资产共享云</view>
           <view class="sun">请完善个人信息</view>
         </view>
       </view>

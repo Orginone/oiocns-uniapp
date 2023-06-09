@@ -1,8 +1,8 @@
 <template>
 	<view class="BaseLayout">
     <headbar :localList="'组织,浙江省财政厅'" :left="'none'"></headbar>
-		<treeCom :trees="listInfo"></treeCom>		
-    <!-- <personList :listInfo='listInfo' icon="['dotPlus', 'right']" :localList="'仓库'" :url="'/pages/shop/page2/page2'"></personList> -->
+		<!-- <treeCom :trees="listInfo"></treeCom>		 -->
+    <personList :listInfo='listInfo' icon="['dotPlus', 'right']" :localList="'仓库'" :url="'/pages/shop/page2/page2'"></personList>
 	</view>
 </template>
 
@@ -34,7 +34,7 @@
 					},
 					{
 						label:'内部机构',
-						url:'/pages/setting/agency/agency',
+						url:'/pages/setting/tree/index',
 						key:'',
 						children:[]
 					},

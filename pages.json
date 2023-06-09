@@ -32,7 +32,7 @@
 		    "path" : "pages/main/main",
 		    "style" :                                                                                    
 		    {
-		        "navigationBarTitleText": "奥集能",
+		        "navigationBarTitleText": "资产共享云",
 		        "enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#3D5ED1",
 				"navigationBarTextStyle": "#fff"

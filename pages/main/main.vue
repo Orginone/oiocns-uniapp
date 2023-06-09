@@ -11,7 +11,7 @@
         <img :src="userInfo.userImg" alt="" srcset="" />
       </view>
     </view>
-    <view class="topTab">
+    <!-- <view class="topTab">
       <view class="topTab_box">
         <view class="topTab_item" v-for="(item, index) in tabList" :key="index" @click="tabActive=index">
           {{ item.name }}
@@ -24,15 +24,17 @@
         <view class="more_point"></view>
         <view class="more_point"></view>
       </view>
-    </view>
+    </view> -->
     <view class="banner">
-      <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :indicator-color='color' :easing-function="'easeInOutCubic'">
-        <swiper-item v-for="(item,index) in imgList" :key="index">
-          <view class="swiper_item"><img :src="item" alt="" srcset=""></view>
-        </swiper-item>
-      </swiper>
+      <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :indicator-color='color' :easing-function="'easeInOutCubic'" next-margin="40px" previous-margin="40px">  
+        <swiper-item v-for="(item,index) in imgList" :key="index">  
+          <view class='li'>
+            <img :src="item" class="itemSrc" />
+          </view> 
+        </swiper-item>  
+      </swiper> 
     </view>
-	  <view class="inlet">
+	  <view class="link">
       <linkBox></linkBox>
     </view>
     <view class="mune inlet">
@@ -114,7 +116,7 @@ export default {
 
 <style lang="scss" scope>
 page {
-  background: rgb(237, 239, 252);
+  background: #fff;
   .index {
     width: 100%;
     height: 100%;
@@ -163,7 +165,7 @@ page {
       align-items: center;
       background: #3d5ed1;
       padding: 26upx 0;
-	  padding-bottom: 0;
+	    padding-bottom: 0;
       .more {
         padding-right: 26upx;
         .more_point {
@@ -175,23 +177,23 @@ page {
         }
       }
       .topTab_box {
-		display: flex;
-		width: 100%;
-		justify-content: space-between;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
       }
       .topTab_item {
         padding: 0 26upx;
         font-size: 22upx;
         color: #ffffff;
-		text-align: center;
-		.topTab_item_line{
-			width: 36upx;
-height: 4upx;
-background: #FFFFFF;
-opacity: 1;
-margin: 0 auto;
-margin-top: 13upx;
-		}
+        text-align: center;
+        .topTab_item_line{
+          width: 36upx;
+          height: 4upx;
+          background: #FFFFFF;
+          opacity: 1;
+          margin: 0 auto;
+          margin-top: 13upx;
+        }
       }
     }
     .banner{
@@ -199,18 +201,34 @@ margin-top: 13upx;
       height: 300upx;
       .swiper_item{
         width: 100%;
-          height: 300upx;
-      img{
-        width: 100%;
-          height: 300upx;
+        height: 300upx;
+        img{
+          width: 100%;
+            height: 300upx;
+        }
       }
-      }
+    }
+    .link{
+      width: 100%;
+      padding: 0 0 0 32upx;
+      margin-top: 22upx;
     }
     .inlet{
       width: 100%;
-      padding:  0 32upx;
+      padding: 0 32upx;
       margin-top: 22upx;
     }
+  }
+  .li{
+    width: 100%;
+    height: 300rpx;
+  }
+  .itemSrc{
+    width: 560rpx;
+    height: 300rpx;
+    display: block;
+    margin: 0 auto;
+    border-radius: 12rpx;
   }
 }
 </style>

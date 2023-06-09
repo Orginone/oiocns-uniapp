@@ -55,6 +55,11 @@ export default {
     deep:true
 	},
   onLoad(options) {
+    let key
+    if(options.data){
+      key = JSON.parse(options.data)
+    }
+    console.log(key)
     this.getData();
     let params = this.getParam();
     let type = params.type;
@@ -66,9 +71,25 @@ export default {
     }else{
        this.tree = this.settingData.children[0].children[2].children
     }
-   
+    if(key){
+      this.findObject(this.settingData.children,key)
+    }
   },
   methods: {
+    findObject(arr,key){
+			if(arr && arr.length >0){
+				arr.forEach(element => {
+					if(element.key.indexOf(key) != -1){
+            this.tree = element?.children
+						return
+					}
+					if(element.children && element.children.length>0){
+						this.findObject(element.children,key)
+					}
+				});
+			}
+		},
+
     async getData(){
         this.settingData = this.$store.setting;
         console.log('settingData',this.settingData)
