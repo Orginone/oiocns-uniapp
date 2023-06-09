@@ -180,6 +180,15 @@
             
         },
         {
+            "path" : "pages/setting/group/detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "群组详情",
+                "enablePullDownRefresh": false
+            }
+            
+        },
+        {
             "path" : "pages/setting/tree/index",
             "style" :                                                                                    
             {
