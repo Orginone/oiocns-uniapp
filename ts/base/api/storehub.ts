@@ -168,7 +168,7 @@ export default class StoreHub implements IDisposable {
             }
             resolve(res);
           })
-          .catch((err) => {
+          .catch((err:any) => {
             let msg = '请求异常';
             if (err && err.Error) {
               msg += ',' + err.Error();
