@@ -201,7 +201,7 @@
 </template>
 
 <script>
-import { accountApi } from "common/app";
+import { accountApi,storage,store } from "common/app";
 export default {
   data() {
     return {
@@ -238,8 +238,8 @@ export default {
           text: "+198",
         },
       ],
-      account: "18637079378",
-      pwd: "aB_111!",
+      account: "15168347908",
+      pwd: "38179960Jzy~",
     };
   },
   onLoad() {},
@@ -289,9 +289,11 @@ export default {
           title: "登录成功",
           icon: "none",
         });
-        console.log(this.$oapp);
-        uni.setStorageSync("currentUser", res.data.target);
-        uni.setStorageSync("accessToken", res.data.accessToken);
+        storage.setItem(`currentUser`, res.data.target)
+        console.log(store);
+        store.setAccessToken(res.data.accessToken)
+        debugger
+        // uni.setStorageSync("currentUser", res.data.target);
         uni.hideLoading();
         uni.switchTab({
           url: "/pages/main/main",
@@ -672,6 +674,7 @@ page {
       margin-top: 32upx;
       width: 100%;
       height: 88upx;
+
       .btns {
         width: 100%;
         height: 88upx;
@@ -683,10 +686,6 @@ page {
         justify-content: center;
         align-items: center;
         background-color: #3d5ed1;
-        .btn1{
-          width: 100%;
-          text-align: center;
-        }
       }
 
       .slider {
