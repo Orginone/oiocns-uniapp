@@ -238,8 +238,8 @@ export default {
           text: "+198",
         },
       ],
-      account: "13486842030",
-      pwd: "Qaz123456.",
+      account: "18637079378",
+      pwd: "aB_111!",
     };
   },
   onLoad() {},

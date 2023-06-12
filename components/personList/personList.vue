@@ -7,10 +7,10 @@
 				<view class="name" >{{item.label}}</view>
 				<view class="right">
 					<!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
-					<img :src="'../../static/base/add.png'" alt=""  v-if="icon.includes('add')" >
-					<view class="dotPlus">
+					<!-- <img :src="'../../static/base/add.png'" alt=""  v-if="icon.includes('add')" > -->
+					<!-- <view class="dotPlus">
 						<img :src="'../../static/base/dotPlus.png'" alt=""  v-if="icon.includes('dotPlus')" >
-					</view>
+					</view> -->
 					<img src="../../static/base/right.png" alt="" @tap="turnDetailPage(item)" v-if="icon.includes('right')">
 				</view>
 			</view>
@@ -72,7 +72,7 @@
 		methods: {
 			turnDetailPage(item) {
 				if(item){
-					// console.log(JSON.parse(JSON.stringify(item)));
+					console.log('item.key',item);
 					if(item.itemType =='人员'){
 						uni.navigateTo({
 							url: '/pages/setting/person/index'+'?data=' + JSON.stringify(item.key)
@@ -95,7 +95,7 @@
 					}
 					else{
 						uni.navigateTo({
-							url: item.url+'?data=' + JSON.stringify(item.key)
+							url: item.url+'?data='+item.key
 						})
 					}
 				}
