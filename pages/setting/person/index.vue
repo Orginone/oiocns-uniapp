@@ -9,6 +9,7 @@
 	export default {
 		data() {
 			return {
+				key:'',
 				listInfo:[
 					{
 						label:'权限标准',
@@ -20,7 +21,8 @@
 					},
 					{
 						label:'个人群组',
-						url:"/pages/setting/group/index?index=0",
+						key:"",
+						url:"/pages/setting/group/index",
 					}					
 				],
 			};
@@ -29,6 +31,8 @@
 			
 		},
 		onLoad() {
+			this.key = this.$store.setting.children[0].children[2].key
+			this.listInfo[2].key = this.key
 		},
 		methods: {
 		}
