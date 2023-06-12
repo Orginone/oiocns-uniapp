@@ -6,7 +6,6 @@ import { createCompany } from './team';
 import { PageAll, companyTypes } from '../public/consts';
 import { OperateType, TargetType } from '../public/enums';
 import { ICompany } from './team/company';
-import { IMsgChat } from '../chat/message/msgchat';
 import { ITarget } from './base/target';
 import { ITeam } from './base/team';
 
@@ -171,30 +170,6 @@ export class Person extends Belong implements IPerson {
   }
   get parentTarget(): ITarget[] {
     return [...this.cohorts, ...this.companys];
-  }
-  get chats(): IMsgChat[] {
-    const chats: IMsgChat[] = [this];
-    chats.push(...this.cohortChats);
-    chats.push(...this.memberChats);
-    return chats;
-  }
-  get cohortChats(): IMsgChat[] {
-    const chats: IMsgChat[] = [];
-    const companyChatIds: string[] = [];
-    this.companys.forEach((company) => {
-      company.cohorts.forEach((item) => {
-        companyChatIds.push(item.chatdata.fullId);
-      });
-    });
-    for (const item of this.cohorts) {
-      if (!companyChatIds.includes(item.chatdata.fullId)) {
-        chats.push(...item.chats);
-      }
-    }
-    if (this.superAuth) {
-      chats.push(...this.superAuth.chats);
-    }
-    return chats;
   }
   get targets(): ITarget[] {
     const targets: ITarget[] = [this];

@@ -1,13 +1,9 @@
-export type { IMessage } from './chat/message/message';
-export type { IMsgChat } from './chat/message/msgchat';
-export { msgChatNotify } from './chat/message/msgchat';
 export type { IEntity } from './public';
 export { companyTypes, departmentTypes, orgAuth as OrgAuth } from './public/consts';
 export { MessageType, SpeciesType, TargetType, TaskStatus } from './public/enums';
 export type { IAuthority } from './target/authority/authority';
 export type { IBelong } from './target/base/belong';
 export type { ITarget } from './target/base/target';
-export type { ITeam } from './target/base/team';
 export type { IIdentity } from './target/identity/identity';
 export type { IDepartment } from './target/innerTeam/department';
 export type { IStation } from './target/innerTeam/station';

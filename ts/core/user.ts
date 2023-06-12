@@ -1,11 +1,9 @@
 import { IPerson, Person } from './target/person';
 import {kernelApi as kernel} from '../../common/app';
 import { common, model, schema } from '../base';
-import { IChatProvider, ChatProvider } from './chat/provider';
 import { IWorkProvider, WorkProvider } from './work/provider';
 import { OperateType, TargetType } from './public/enums';
 import { logger } from '../base/common';
-import { msgChatNotify } from './chat/message/msgchat';
 import { IIdentity, Identity } from './target/identity/identity';
 import { IStation } from './target/innerTeam/station';
 import { ITeam } from './target/base/team';
@@ -14,7 +12,6 @@ const sessionUserName = 'currentUser';
 export class UserProvider {
   private _user: IPerson | undefined;
   private _work: IWorkProvider | undefined;
-  private _chat: IChatProvider | undefined;
   private _inited: boolean = false;
   private _emiter: common.Emitter;
   constructor(emiter: common.Emitter) {
@@ -47,10 +44,6 @@ export class UserProvider {
   /** 办事提供层 */
   get work(): IWorkProvider | undefined {
     return this._work;
-  }
-  /** 会话 */
-  get chat(): IChatProvider | undefined {
-    return this._chat;
   }
   /** 是否完成初始化 */
   get inited(): boolean {
@@ -97,7 +90,6 @@ export class UserProvider {
   private _loadUser(person: schema.XTarget) {
     uni.setStorageSync(sessionUserName, JSON.stringify(person));
     this._user = new Person(person);
-    this._chat = new ChatProvider(this._user);
     this._work = new WorkProvider(this._user);
     this.refresh();
   }
@@ -108,7 +100,6 @@ export class UserProvider {
   /** 重载数据 */
   public async refresh(): Promise<void> {
     this._inited = false;
-    this._chat?.PreMessage();
     await this._user?.deepLoad(true);
     await this.work?.loadTodos(true);
     this._inited = true;
@@ -187,7 +178,6 @@ export class UserProvider {
       if (data.operater?.id != this.user.id) {
         logger.info(message);
       }
-      msgChatNotify.changCallback();
       this._emiter.changCallback();
     }
   }

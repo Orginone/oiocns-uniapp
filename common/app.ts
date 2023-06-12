@@ -31,15 +31,15 @@ const app = App.create({
 app.start();
 console.log(app);
 
-let accountApi =  app.services.resolve(AccountApi)
+let accountApi = app.services.resolve(AccountApi)
 
-let kernelApi  =  app.services.resolve(KernelApi)
+let kernelApi  = app.services.resolve(KernelApi)
 
-let anyStoreApi   =  app.services.resolve(AnyStoreApi)
+let anyStoreApi = app.services.resolve(AnyStoreApi)
 
-let storage    =  app.services.resolve<IStorage>("IStorage");
+let storage = app.services.resolve<IStorage>("IStorage");
 
-let store      =  app.services.resolve<Store<AuthorizationStore>>("AuthorizationStore");
+let store = app.services.resolve<Store<AuthorizationStore>>("AuthorizationStore");
 
 export {
 	app,accountApi,kernelApi,storage,store,anyStoreApi

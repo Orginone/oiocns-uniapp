@@ -16,7 +16,6 @@ export const orgAuth = {
 export const storeCollName = {
   WorkTask: 'work-task',
   WorkInstance: 'work-instances',
-  ChatMessage: 'chat-message',
 };
 /** 支持的单位类型 */
 export const companyTypes = [
