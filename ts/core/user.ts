@@ -19,10 +19,16 @@ export class UserProvider {
   private _emiter: common.Emitter;
   constructor(emiter: common.Emitter) {
     this._emiter = emiter;
-    const userJson = uni.getStorageSync(sessionUserName);
-    if (userJson) {
-      this._loadUser(userJson);
-    }
+    
+    let timeIndex = setInterval(() => {
+      const userJson = uni.getStorageSync(sessionUserName);
+      if (userJson) {
+        clearInterval(timeIndex);
+        console.log('_loadUser',userJson);
+        this._loadUser(userJson);
+        
+      }
+    }, 1000);
     // kernel.on('RecvTarget', (data) => {
     //   if (this._inited) {
     //     this._updateTarget(data);

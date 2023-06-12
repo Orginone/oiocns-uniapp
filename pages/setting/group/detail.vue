@@ -104,7 +104,6 @@ export default {
 				});
 			}
 		},
-
 		dataCompare(data){
 			this.title = this.type + '[' + data?.item?.metadata.name + ']基本信息'
 			this.datalist.forEach(element => {
