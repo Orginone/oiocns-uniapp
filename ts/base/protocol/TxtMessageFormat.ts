@@ -26,7 +26,7 @@ export class TxtMessageFormat {
     const buffer = new Uint8Array(lenBuffer.length + size);
     buffer.set(lenBuffer, 0);
     buffer.set(
-      output.map((item) => {
+      output.map((item:any) => {
         return 0xff - item;
       }),
       lenBuffer.length,
