@@ -138,6 +138,12 @@ export class WorkProvider implements IWorkProvider {
     const res = await kernel.recallWorkInstance({ id, page: PageAll });
     return res.success;
   }
+<<<<<<< HEAD
+=======
+  async loadAttributes(id: string, belongId: string): Promise<schema.XAttribute[]> {
+    return [];
+  }
+>>>>>>> 3bc1f430b55cb1cfdca1e8153877b6b27e4b671f
   async loadItems(id: string): Promise<schema.XDictItem[]> {
     const res = await kernel.queryDictItems({
       id: id,

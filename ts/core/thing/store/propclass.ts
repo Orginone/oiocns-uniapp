@@ -52,6 +52,22 @@ export class PropClass extends SpeciesItem implements IPropClass {
     }
     return result;
   }
+<<<<<<< HEAD
+=======
+  async loadPropAttributes(data: schema.XProperty): Promise<schema.XAttribute[]> {
+    const index = this.propertys.findIndex((i) => i.id === data.id);
+    if (index > -1) {
+      const res = await kernelApi.queryPropAttributes({
+        id: data.id,
+        page: PageAll,
+      });
+      if (res.success) {
+        return res.data.result || [];
+      }
+    }
+    return [];
+  }
+>>>>>>> 3bc1f430b55cb1cfdca1e8153877b6b27e4b671f
   async loadPropertys(reload: boolean = false): Promise<schema.XProperty[]> {
     if (!this._propertyLoaded || reload) {
       const res = await kernel.queryPropertys({
@@ -75,7 +91,7 @@ export class PropClass extends SpeciesItem implements IPropClass {
         return new PropClass(_metadata, _current, this);
     }
   }
-  async createProperty(data: model.PropertyModel): Promise<schema.XProperty | undefined> {
+  async createProperty(data: model.PropertyModel): Promise<any> {
     data.speciesId = this.id;
     const res = await kernel.createProperty(data);
     if (res.success && res.data.id) {
@@ -109,7 +125,7 @@ export class PropClass extends SpeciesItem implements IPropClass {
     }
     return false;
   }
-  _propertyChanged(type: string, props: schema.XProperty[]) {
+  _propertyChanged(type: string, props: any) {
     if (this._propertyLoaded) {
       for (const item of props) {
         switch (type) {
