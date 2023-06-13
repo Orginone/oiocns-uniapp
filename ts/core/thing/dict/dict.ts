@@ -34,12 +34,12 @@ export class Dict extends Entity<schema.XDict> implements IDict {
     this.species = _species;
   }
   species: DictClass;
-  items: schema.XDictItem[] = [];
+  items: any;
   private _itemLoaded: boolean = false;
   async update(data: model.DictModel): Promise<boolean> {
     data.id = this.id;
     data.speciesId = this.species.id;
-    const res = await kernel.updateDict(data);
+    const res:any = await kernel.updateDict(data);
     if (res.success && res.data?.id) {
       res.data.typeName = '字典';
       this.setMetadata(res.data);
@@ -68,7 +68,7 @@ export class Dict extends Entity<schema.XDict> implements IDict {
     }
     return this.items;
   }
-  async createItem(data: model.DictItemModel): Promise<schema.XDictItem | undefined> {
+  async createItem(data: model.DictItemModel): Promise<any> {
     data.dictId = this.id;
     const res = await kernel.createDictItem(data);
     if (res.success && res.data?.id) {

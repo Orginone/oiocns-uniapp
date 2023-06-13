@@ -109,26 +109,12 @@ export class WorkProvider implements IWorkProvider {
           }
           return undefined;
         })
-        .filter((i) => i != undefined)
-        .map((i) => i!),
+        .filter((i:any) => i != undefined)
+        .map((i:any) => i!),
     };
   }
-  async loadApply(req: model.IdModel): Promise<model.PageResult<schema.XWorkTask>> {
-    const res = await kernel.anystore.pageRequest<schema.XWorkTask>(
-      this.user.id,
-      hisWorkCollName,
-      {
-        match: {
-          belongId: req.id,
-          createUser: req.id,
-        },
-        sort: {
-          createTime: -1,
-        },
-      },
-      req.page,
-    );
-    return res.data;
+  async loadApply(req: model.IdModel): Promise<any> {
+	return {}
   }
   async approvalTask(
     tasks: schema.XWorkTask[],
@@ -196,13 +182,6 @@ export class WorkProvider implements IWorkProvider {
     return res.success;
   }
   async loadAttributes(id: string, belongId: string): Promise<schema.XAttribute[]> {
-    const res = await kernel.queryFormAttributes({
-      id: id,
-      subId: belongId,
-    });
-    if (res.success) {
-      return res.data.result || [];
-    }
     return [];
   }
   async loadItems(id: string): Promise<schema.XDictItem[]> {

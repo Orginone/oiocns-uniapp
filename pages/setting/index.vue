@@ -42,6 +42,7 @@ export default {
                 json.id = value?.id
                 json.creater = value?.creater
                 currentObj[key] = json;
+                // console.log('json',json)
               } else {
                 queue.push(value); // 将该对象加入队列中
                 visited.add(value); // 将该对象加入已访问列表中
@@ -54,6 +55,7 @@ export default {
     async getMenu() {
       let res = await config.loadSettingMenu();
       this.removeCircularReferences(res)
+      console.log('setting',JSON.parse(JSON.stringify(res)))
       store.setting = res;
       this.menu = res.children;
       this.showMenu = true;

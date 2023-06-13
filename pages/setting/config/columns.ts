@@ -1,8 +1,8 @@
-import { schema } from '@/ts/base';
-import { IIdentity, ISpeciesItem } from '@/ts/core';
+import { schema } from '../../../ts/base';
+import { IIdentity, ISpeciesItem } from '../../../ts/core';
 // import { ProColumns } from '@ant-design/pro-table';
-import orgCtrl from '@/ts/controller';
-import { IWorkDefine } from '@/ts/core/thing/base/work';
+import orgCtrl from '../../../ts/controller';
+import { IWorkDefine } from '../../../ts/core/thing/base/work';
 
 const getSpeciesName = (
   id: string,
@@ -20,7 +20,7 @@ const getSpeciesName = (
   return undefined;
 };
 
-export const PersonColumns: ProColumns<schema.XTarget>[] = [
+export const PersonColumns: any = [
   {
     title: '序号',
     valueType: 'index',
@@ -43,7 +43,7 @@ export const PersonColumns: ProColumns<schema.XTarget>[] = [
   },
 ];
 
-export const CompanyColumn: ProColumns<schema.XTarget>[] = [
+export const CompanyColumn: any= [
   { title: '序号', valueType: 'index', width: 50 },
   { title: '单位简称', dataIndex: 'name' },
   {
@@ -59,7 +59,7 @@ export const CompanyColumn: ProColumns<schema.XTarget>[] = [
   },
 ];
 
-export const GroupColumn: ProColumns<schema.XTarget>[] = [
+export const GroupColumn: any = [
   { title: '序号', valueType: 'index', width: 50 },
   { title: '组织集群名称', dataIndex: 'name' },
   { title: '组织集群编码', dataIndex: 'code' },
@@ -70,7 +70,7 @@ export const GroupColumn: ProColumns<schema.XTarget>[] = [
   },
 ];
 
-export const CohortColumn: ProColumns<schema.XTarget>[] = [
+export const CohortColumn: any = [
   {
     title: '序号',
     fixed: 'left',
@@ -135,7 +135,7 @@ export const IdentityColumn: any = [
 
 export const PropertyColumns = (
   species: ISpeciesItem,
-): ProColumns<schema.XProperty>[] => [
+): any => [
   {
     title: '序号',
     valueType: 'index',
@@ -201,7 +201,7 @@ export const PropertyColumns = (
   },
 ];
 
-export const AttributeColumns = (): ProColumns<schema.XAttribute>[] => [
+export const AttributeColumns = (): any => [
   {
     title: '序号',
     valueType: 'index',
@@ -238,7 +238,7 @@ export const AttributeColumns = (): ProColumns<schema.XAttribute>[] => [
     key: 'remark',
   },
 ];
-export const FormColumns = (species: ISpeciesItem): ProColumns<schema.XForm>[] => [
+export const FormColumns = (species: ISpeciesItem): any => [
   {
     title: '序号',
     valueType: 'index',
@@ -274,7 +274,7 @@ export const FormColumns = (species: ISpeciesItem): ProColumns<schema.XForm>[] =
     dataIndex: 'shareId',
     key: 'shareId',
     width: 200,
-    render: (_, record) => {
+    render: (_:any, record:any) => {
       return orgCtrl.user.findShareById(record.shareId).name;
     },
   },
@@ -314,7 +314,7 @@ export const FlowColumn:any = [
   },
 ];
 
-export const DictColumns: ProColumns<schema.XDict>[] = [
+export const DictColumns: any = [
   {
     title: '序号',
     valueType: 'index',
@@ -346,7 +346,7 @@ export const DictColumns: ProColumns<schema.XDict>[] = [
   },
 ];
 
-export const DictItemColumns: ProColumns<schema.XDictItem>[] = [
+export const DictItemColumns: any = [
   {
     title: '序号',
     valueType: 'index',

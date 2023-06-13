@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import * as config from "../config/menuOperate";
 export default {
   name:'treeCom',
   data() {
