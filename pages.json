@@ -310,7 +310,7 @@
             "path" : "pages/setting/agency/agency",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "内部机构",
+                "navigationBarTitleText": "当前信息",
                 "enablePullDownRefresh": false
             }
         }

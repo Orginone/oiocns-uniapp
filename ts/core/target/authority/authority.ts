@@ -1,6 +1,6 @@
 import {kernelApi as kernel} from '../../../../common/app';
 import { model, schema } from '../../../base';
-import { IMsgChat, IMsgChatT, MsgChat } from '../../chat/message/msgchat';
+import { IMsgChatT, MsgChat } from '../../chat/message/msgchat';
 import { PageAll } from '../../public/consts';
 import { IBelong } from '../base/belong';
 
@@ -12,8 +12,6 @@ export interface IAuthority extends IMsgChatT<schema.XAuthority> {
   parent: IAuthority | undefined;
   /** 子级权限 */
   children: IAuthority[];
-  /** 用户相关的所有会话 */
-  chats: IMsgChat[];
   /** 深加载 */
   deepLoad(reload?: boolean): Promise<void>;
   /** 加载成员用户实体 */
@@ -128,13 +126,6 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     for (const item of this.children) {
       await item.deepLoad(reload);
     }
-  }
-  get chats(): IMsgChat[] {
-    const chats: IMsgChat[] = [this];
-    for (const item of this.children) {
-      chats.push(...item.chats);
-    }
-    return chats;
   }
   hasAuthoritys(authIds: string[]): boolean {
     authIds = this.loadParentAuthIds(authIds);

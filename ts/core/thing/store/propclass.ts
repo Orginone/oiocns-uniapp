@@ -19,8 +19,6 @@ export interface IPropClass extends ISpeciesItem {
   updateProperty(data: model.PropertyModel): Promise<boolean>;
   /** 删除表单特性 */
   deleteProperty(data: schema.XProperty): Promise<boolean>;
-  /** 加载属性关联的特性 */
-  loadPropAttributes(data: schema.XProperty): Promise<schema.XAttribute[]>;
 }
 
 /** 属性分类的基类实现 */
@@ -54,19 +52,6 @@ export class PropClass extends SpeciesItem implements IPropClass {
     }
     return result;
   }
-  // async loadPropAttributes(data: schema.XProperty): Promise<schema.XAttribute[]> {
-  //   const index = this.propertys.findIndex((i) => i.id === data.id);
-  //   if (index > -1) {
-  //     const res = await kernel.queryPropAttributes({
-  //       id: data.id,
-  //       page: PageAll,
-  //     });
-  //     if (res.success) {
-  //       return res.data.result || [];
-  //     }
-  //   }
-  //   return [];
-  // }
   async loadPropertys(reload: boolean = false): Promise<schema.XProperty[]> {
     if (!this._propertyLoaded || reload) {
       const res = await kernel.queryPropertys({

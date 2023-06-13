@@ -6,7 +6,6 @@ import {
   IDepartment,
   IDict,
   IDictClass,
-  IForm,
   IGroup,
   IPropClass,
   ISpeciesItem,
@@ -18,7 +17,6 @@ import {
   TargetType,
   companyTypes,
   IBelong,
-  IWorkDefine,
 } from '../../../ts/core';
 import { XProperty } from '../../../ts/base/schema';
 import { orgAuth } from '../../../ts/core/public/consts';
@@ -161,10 +159,10 @@ const buildDefineMenu = (form: IWorkItem) => {
       label: i.name,
       icon: '',
       itemType: MenuType.Form,
-      menus: loadDefineMenus(i),
+      menus: [],
       children: [],
       beforeLoad: async () => {
-        await i.loadWorkNode();
+        
       },
     } as MenuItemType;
   });
@@ -179,10 +177,10 @@ const buildFormMenu = (form: IThingClass) => {
       label: i.name,
       icon: '',
       itemType: MenuType.Form,
-      menus: loadFormMenus(i),
+      menus: [],
       children: [],
       beforeLoad: async () => {
-        await i.loadAttributes();
+        
       },
     } as MenuItemType;
   });
@@ -221,9 +219,6 @@ const loadSpeciesMenus = (species: ISpeciesItem) => {
     case SpeciesType.Dict:
       items.push(...loadDictMenus());
       break;
-    case SpeciesType.Thing:
-      items.push(...loadFormMenus());
-      break;
   }
   if (species.speciesTypes.length > 0) {
     items.push({
@@ -259,63 +254,6 @@ const loadSpeciesMenus = (species: ISpeciesItem) => {
   return items;
 };
 
-/** 加载右侧菜单 */
-const loadDefineMenus = (define?: IWorkDefine) => {
-  const items: OperateMenuType[] = [];
-  if (define) {
-    items.push(
-      {
-        key: '编辑事项',
-        icon:  '',
-        label: '编辑事项',
-      },
-      {
-        key: '删除事项',
-        icon: '',
-        label: '删除事项',
-        beforeLoad: async () => {
-          return await define.deleteDefine();
-        },
-      },
-    );
-  } else {
-    items.push({
-      key: '新增事项',
-      icon: '',
-      label: '新增事项',
-    });
-  }
-  return items;
-};
-
-/** 加载右侧菜单 */
-const loadFormMenus = (form?: IForm) => {
-  const items: OperateMenuType[] = [];
-  if (form) {
-    items.push(
-      {
-        key: '编辑表单',
-        icon: '',
-        label: '编辑表单',
-      },
-      {
-        key: '删除表单',
-        icon: '',
-        label: '删除表单',
-        beforeLoad: async () => {
-          return await form.delete();
-        },
-      },
-    );
-  } else {
-    items.push({
-      key: '新增表单',
-      icon: '',
-      label: '新增表单',
-    });
-  }
-  return items;
-};
 /** 加载右侧菜单 */
 const loadPropertyMenus = (
   species: IPropClass,
@@ -498,7 +436,6 @@ const getTeamMenu = () => {
       ]),
     );
   }
-  console.log(children,'children')
   return children;
 };
 

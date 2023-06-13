@@ -6,8 +6,6 @@ import { IAuthority, Authority } from '../authority/authority';
 import { Cohort, ICohort } from '../outTeam/cohort';
 import { IPerson } from '../person';
 import { ITarget, Target } from './target';
-import { IChatMessage, ChatMessage } from '../../chat/message/chatmsg';
-import { IMsgChat, PersonMsgChat } from '../../chat/message/msgchat';
 import { IDict } from '../../thing/dict/dict';
 import { IDictClass } from '../../thing/dict/dictclass';
 import { IFileSystem, FileSystem } from '../../thing/filesys/filesystem';
@@ -16,8 +14,6 @@ import { IFileSystem, FileSystem } from '../../thing/filesys/filesystem';
 export interface IBelong extends ITarget {
   /** 当前用户 */
   user: IPerson;
-  /** 归属的消息 */
-  message: IChatMessage;
   /** 超管权限，权限为树结构 */
   superAuth: IAuthority | undefined;
   /** 元数据字典 */
@@ -26,8 +22,6 @@ export interface IBelong extends ITarget {
   cohorts: ICohort[];
   /** 上级用户 */
   parentTarget: ITarget[];
-  /** 群会话 */
-  cohortChats: IMsgChat[];
   /** 共享组织 */
   shareTarget: ITarget[];
   /** 文件系统 */
@@ -60,14 +54,12 @@ export abstract class Belong extends Target implements IBelong {
       SpeciesType.Thing,
       SpeciesType.Application,
     ];
-    this.message = new ChatMessage(this);
     this.filesys = new FileSystem(this);
   }
   user: IPerson;
   dicts: IDict[] = [];
   filesys: IFileSystem;
   cohorts: ICohort[] = [];
-  message: IChatMessage;
   superAuth: IAuthority | undefined;
   async loadDicts(): Promise<IDict[]> {
     const dicts: IDict[] = [];
@@ -114,21 +106,7 @@ export abstract class Belong extends Target implements IBelong {
       return cohort;
     }
   }
-  override loadMemberChats(_newMembers: schema.XTarget[], _isAdd: boolean): void {
-    _newMembers = _newMembers.filter((i) => i.id != this.userId);
-    if (_isAdd) {
-      const labels = this.id === this.user.id ? ['好友'] : [this.name, '同事'];
-      _newMembers.forEach((i) => {
-        this.memberChats.push(new PersonMsgChat(i, labels, this));
-      });
-    } else {
-      this.memberChats = this.memberChats.filter((i) =>
-        _newMembers.every((a) => a.id != i.chatId),
-      );
-    }
-  }
   abstract get shareTarget(): ITarget[];
-  abstract cohortChats: IMsgChat[];
   abstract get parentTarget(): ITarget[];
   abstract applyJoin(members: schema.XTarget[]): Promise<boolean>;
   abstract loadCohorts(reload?: boolean | undefined): Promise<ICohort[]>;

@@ -8,7 +8,6 @@ import { IStation, Station } from '../innerTeam/station';
 import { IPerson } from '../person';
 import { PageAll } from '../../public/consts';
 import { TargetType } from '../../public/enums';
-import { IMsgChat } from '../../chat/message/msgchat';
 import { ITarget } from '../base/target';
 import { ITeam } from '../base/team';
 
@@ -197,28 +196,6 @@ export class Company extends Belong implements ICompany {
   }
   get parentTarget(): ITarget[] {
     return this.groups;
-  }
-  get chats(): IMsgChat[] {
-    const chats: IMsgChat[] = [this];
-    chats.push(...this.cohortChats);
-    chats.push(...this.memberChats);
-    return chats;
-  }
-  get cohortChats(): IMsgChat[] {
-    const chats: IMsgChat[] = [];
-    for (const item of this.departments) {
-      chats.push(...item.chats);
-    }
-    for (const item of this.stations) {
-      chats.push(...item.chats);
-    }
-    for (const item of this.cohorts) {
-      chats.push(...item.chats);
-    }
-    if (this.superAuth) {
-      chats.push(...this.superAuth.chats);
-    }
-    return chats;
   }
   get targets(): ITarget[] {
     const targets: ITarget[] = [this];

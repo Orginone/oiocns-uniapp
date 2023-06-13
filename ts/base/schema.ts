@@ -250,6 +250,8 @@ export type XIdentity = {
   authority: XAuthority | undefined;
   // 共享用户
   share: XTarget | undefined;
+  // 类型
+  typeName: string;
 } & XEntity;
 
 //身份查询返回集合

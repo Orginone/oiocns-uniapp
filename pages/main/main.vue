@@ -77,11 +77,6 @@ export default {
     this.userInfo = uni.getStorageSync('currentUser')
     // console.log(this.userInfo,7777);
     this.loadAppList()
-    let res = await orgCtrl.work.loadTodos({
-      page: {offset:1,limit:999,filter:""},
-      id: '0',
-    });
-    if(res && typeof res == 'object')this.todoList[0].number = res.length
     // let params = {
     //   id:this.userInfo.id,
     //   page:{offset:1,limit:999,filter:""},

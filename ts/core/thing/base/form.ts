@@ -1,7 +1,8 @@
 import { PageAll } from '@/ts/core/public/consts';
 import { SpeciesType } from '@/ts/core/public/enums';
 import { ISpeciesItem } from './species';
-import { kernel, model, schema } from '@/ts/base';
+import { model, schema } from '@/ts/base';
+import { kernelApi as kernel } from '../../../../common/app';
 import { IThingClass } from '../store/thingclass';
 import { XProperty } from '@/ts/base/schema';
 import { Entity, IEntity } from '../../public';
@@ -14,8 +15,6 @@ export interface IForm extends IEntity<schema.XForm> {
   update(data: model.FormModel): Promise<boolean>;
   /** 删除表单 */
   delete(): Promise<boolean>;
-  /** 加载表单特性 */
-  loadAttributes(reload?: boolean): Promise<schema.XAttribute[]>;
   /** 新建表单特性 */
   createAttribute(
     data: model.AttributeModel,
@@ -40,7 +39,6 @@ export class Form extends Entity<schema.XForm> implements IForm {
   }
   species: ISpeciesItem;
   attributes: schema.XAttribute[] = [];
-  private _attributeLoaded: boolean = false;
   async update(data: model.FormModel): Promise<boolean> {
     data.shareId = this.metadata.shareId;
     data.speciesId = this.metadata.speciesId;
@@ -63,19 +61,6 @@ export class Form extends Entity<schema.XForm> implements IForm {
       }
     }
     return res.success;
-  }
-  async loadAttributes(reload: boolean = false): Promise<schema.XAttribute[]> {
-    if (!this._attributeLoaded || reload) {
-      const res = await kernel.queryFormAttributes({
-        id: this.id,
-        subId: this.species.belongId,
-      });
-      if (res.success) {
-        this._attributeLoaded = true;
-        this.attributes = res.data.result || [];
-      }
-    }
-    return this.attributes;
   }
   async createAttribute(
     data: model.AttributeModel,

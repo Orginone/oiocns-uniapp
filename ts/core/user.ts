@@ -4,6 +4,7 @@ import { common, model, schema } from '../base';
 import { IWorkProvider, WorkProvider } from './work/provider';
 import { OperateType, TargetType } from './public/enums';
 import { logger } from '../base/common';
+import { msgChatNotify } from './chat/message/msgchat';
 import { IIdentity, Identity } from './target/identity/identity';
 import { IStation } from './target/innerTeam/station';
 import { ITeam } from './target/base/team';
@@ -178,6 +179,7 @@ export class UserProvider {
       if (data.operater?.id != this.user.id) {
         logger.info(message);
       }
+      msgChatNotify.changCallback();
       this._emiter.changCallback();
     }
   }

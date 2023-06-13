@@ -25,8 +25,6 @@ export interface ITarget extends ITeam {
   loadIdentitys(reload?: boolean): Promise<IIdentity[]>;
   /** 加载用户设立的管理类别 */
   loadSpecies(reload?: boolean): Promise<ISpeciesItem[]>;
-  /** 为用户设立身份 */
-  createIdentity(data: model.IdentityModel): Promise<IIdentity | undefined>;
   /** 为用户设立管理类别 */
   createSpecies(data: model.SpeciesModel): Promise<ISpeciesItem | undefined>;
 }
@@ -80,16 +78,6 @@ export abstract class Target extends Team implements ITarget {
     }
     return this.species;
   }
-  async createIdentity(data: model.IdentityModel): Promise<IIdentity | undefined> {
-    data.shareId = this.id;
-    const res = await kernel.createIdentity(data);
-    if (res.success && res.data?.id) {
-      const identity = new Identity(res.data, this);
-      this.identitys.push(identity);
-      identity.createIdentityMsg(OperateType.Create, this.metadata);
-      return identity;
-    }
-  }
   async createSpecies(data: model.SpeciesModel): Promise<ISpeciesItem | undefined> {
     data.shareId = this.id;
     data.parentId = '0';
@@ -107,9 +95,6 @@ export abstract class Target extends Team implements ITarget {
       id: this.id,
       subIds: [team.id],
     });
-    if (res.success) {
-      this.createTargetMsg(OperateType.Add, team.metadata);
-    }
     return res.success;
   }
   abstract exit(): Promise<boolean>;

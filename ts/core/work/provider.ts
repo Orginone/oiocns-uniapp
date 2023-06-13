@@ -16,10 +16,6 @@ export interface IWorkProvider {
   notity: common.Emitter;
   /** 加载待办任务 */
   loadTodos(reload?: boolean): Promise<schema.XWorkTask[]>;
-  /** 加载已办任务 */
-  loadDones(req: model.IdModel): Promise<schema.XWorkRecordArray>;
-  /** 加载我发起的办事任务 */
-  loadApply(req: model.IdModel): Promise<model.PageResult<schema.XWorkTask>>;
   /** 任务更新 */
   updateTask(task: schema.XWorkTask): void;
   /** 任务审批 */
@@ -35,8 +31,6 @@ export interface IWorkProvider {
   findFlowDefine(defineId: string): Promise<IWorkDefine | undefined>;
   /** 删除办事实例 */
   deleteInstance(id: string): Promise<boolean>;
-  /** 根据表单id查询表单特性 */
-  loadAttributes(id: string, belongId: string): Promise<schema.XAttribute[]>;
   /** 根据字典id查询字典项 */
   loadItems(id: string): Promise<schema.XDictItem[]>;
 }
@@ -78,57 +72,6 @@ export class WorkProvider implements IWorkProvider {
       }
     }
     return this.todos;
-  }
-  async loadDones(req: model.IdModel): Promise<schema.XWorkRecordArray> {
-    const res = await kernel.anystore.pageRequest<schema.XWorkTask>(
-      this.user.id,
-      hisWorkCollName,
-      {
-        match: {
-          belongId: req.id,
-          status: {
-            _gte_: 100,
-          },
-          records: {
-            _exists_: true,
-          },
-        },
-        sort: {
-          createTime: -1,
-        },
-      },
-      req.page,
-    );
-    return {
-      ...res.data,
-      result: (res.data.result || [])
-        .map((i) => {
-          if (i.records && i.records.length > 0) {
-            i.records[0].task = i;
-            return i.records[0];
-          }
-          return undefined;
-        })
-        .filter((i) => i != undefined)
-        .map((i) => i!),
-    };
-  }
-  async loadApply(req: model.IdModel): Promise<model.PageResult<schema.XWorkTask>> {
-    const res = await kernel.anystore.pageRequest<schema.XWorkTask>(
-      this.user.id,
-      hisWorkCollName,
-      {
-        match: {
-          belongId: req.id,
-          createUser: req.id,
-        },
-        sort: {
-          createTime: -1,
-        },
-      },
-      req.page,
-    );
-    return res.data;
   }
   async approvalTask(
     tasks: schema.XWorkTask[],
@@ -194,16 +137,6 @@ export class WorkProvider implements IWorkProvider {
   async deleteInstance(id: string): Promise<boolean> {
     const res = await kernel.recallWorkInstance({ id, page: PageAll });
     return res.success;
-  }
-  async loadAttributes(id: string, belongId: string): Promise<schema.XAttribute[]> {
-    const res = await kernel.queryFormAttributes({
-      id: id,
-      subId: belongId,
-    });
-    if (res.success) {
-      return res.data.result || [];
-    }
-    return [];
   }
   async loadItems(id: string): Promise<schema.XDictItem[]> {
     const res = await kernel.queryDictItems({

@@ -16,8 +16,6 @@ export interface IIdentity extends IEntity<schema.XIdentity> {
   pullMembers(members: schema.XTarget[], notity?: boolean): Promise<boolean>;
   /** 身份（角色）移除成员 */
   removeMembers(members: schema.XTarget[], notity?: boolean): Promise<boolean>;
-  /** 更新身份（角色）信息 */
-  update(data: model.IdentityModel): Promise<boolean>;
   /** 删除身份（角色） */
   delete(notity?: boolean): Promise<boolean>;
 }
@@ -32,7 +30,7 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
     this.current = current;
   }
   current: ITarget;
-  members: schema.XTarget[] = [];
+  members: any[];
   private _memberLoaded: boolean = false;
   async loadMembers(reload?: boolean | undefined): Promise<schema.XTarget[]> {
     if (!this._memberLoaded || reload) {
@@ -40,7 +38,6 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
         id: this.id,
         page: PageAll,
       });
-      console.log(res,'res')
       if (res.success) {
         this._memberLoaded = true;
         this.members = res.data.result || [];
@@ -60,7 +57,6 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
           subIds: members.map((i) => i.id),
         });
         if (!res.success) return false;
-        members.forEach((a) => this.createIdentityMsg(OperateType.Add, a));
       }
       this.members.push(...members);
     }
@@ -78,7 +74,6 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
           subIds: members.map((i) => i.id),
         });
         if (!res.success) return false;
-        members.forEach((a) => this.createIdentityMsg(OperateType.Remove, a));
       }
       if (members.some((a) => a.id === this.current.space.user.id)) {
         this.current.space.user.removeGivedIdentity([this.metadata.id]);
@@ -87,26 +82,8 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
     }
     return true;
   }
-  async update(data: model.IdentityModel): Promise<boolean> {
-    data.id = this.id;
-    data.shareId = this.metadata.shareId;
-    data.name = data.name || this.name;
-    data.code = data.code || this.code;
-    data.authId = data.authId || this.metadata.authId;
-    data.remark = data.remark || this.remark;
-    const res = await kernel.updateIdentity(data);
-    if (res.success && res.data?.id) {
-      res.data.typeName = '角色';
-      this.setMetadata(res.data);
-      this.createIdentityMsg(OperateType.Update);
-    }
-    return res.success;
-  }
   async delete(notity: boolean = false): Promise<boolean> {
     if (!notity) {
-      if (this.current.hasRelationAuth()) {
-        this.createIdentityMsg(OperateType.Delete);
-      }
       const res = await kernel.deleteIdentity({
         id: this.id,
         page: PageAll,
@@ -116,22 +93,5 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
     this.current.space.user.removeGivedIdentity([this.metadata.id]);
     this.current.identitys = this.current.identitys.filter((i) => i.key != this.key);
     return true;
-  }
-  async createIdentityMsg(
-    operate: OperateType,
-    subTarget?: schema.XTarget,
-  ): Promise<void> {
-    await kernel.createIdentityMsg({
-      stationId: '0',
-      identityId: this.id,
-      excludeOperater: false,
-      group: this.current.typeName == TargetType.Group,
-      data: JSON.stringify({
-        operate,
-        subTarget,
-        identity: this.metadata,
-        operater: this.current.space.user.metadata,
-      }),
-    });
   }
 }

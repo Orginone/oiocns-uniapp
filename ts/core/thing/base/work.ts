@@ -11,16 +11,6 @@ import { Entity, IEntity } from '../../public';
 export interface IWorkDefine extends IEntity<schema.XWorkDefine> {
   /** 办事分类 */
   workItem: IWork;
-  /** 更新办事定义 */
-  updateDefine(req: model.WorkDefineModel): Promise<boolean>;
-  /** 加载事项定义节点 */
-  loadWorkNode(): Promise<model.WorkNodeModel | undefined>;
-  /** 删除办事定义 */
-  deleteDefine(): Promise<boolean>;
-  /** 新建办事实例 */
-  createWorkInstance(
-    data: model.WorkInstanceModel,
-  ): Promise<schema.XWorkInstance | undefined>;
 }
 
 export class FlowDefine extends Entity<schema.XWorkDefine> implements IWorkDefine {
@@ -41,31 +31,6 @@ export class FlowDefine extends Entity<schema.XWorkDefine> implements IWorkDefin
       this.workItem.defines = this.workItem.defines.filter((a) => a.id != this.id);
     }
     return res.success;
-  }
-  async updateDefine(data: model.WorkDefineModel): Promise<boolean> {
-    data.id = this.id;
-    data.shareId = this.workItem.current.id;
-    data.speciesId = this.metadata.speciesId;
-    const res = await kernel.createWorkDefine(data);
-    if (res.success && res.data.id) {
-      res.data.typeName = '事项';
-      this.setMetadata(res.data);
-    }
-    return res.success;
-  }
-  async loadWorkNode(): Promise<model.WorkNodeModel | undefined> {
-    const res = await kernel.queryWorkNodes({ id: this.id, page: PageAll });
-    if (res.success) {
-      return res.data;
-    }
-  }
-  async createWorkInstance(
-    data: model.WorkInstanceModel,
-  ): Promise<schema.XWorkInstance | undefined> {
-    let res = await kernel.createWorkInstance(data);
-    if (res.success) {
-      return res.data;
-    }
   }
 }
 

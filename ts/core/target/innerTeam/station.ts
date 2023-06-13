@@ -1,7 +1,5 @@
 import {kernelApi as kernel} from '../../../../common/app';
 import { model, schema } from '../../../base';
-import { IMsgChat } from '../../chat/message/msgchat';
-import { OperateType } from '../../public';
 import { PageAll } from '../../public/consts';
 import { ITeam, Team } from '../base/team';
 import { ICompany } from '../team/company';
@@ -53,7 +51,6 @@ export class Station extends Team implements IStation {
           subIds: identitys.map((i) => i.id),
         });
         if (!res.success) return false;
-        identitys.forEach((a) => this.createIdentityMsg(OperateType.Add, a));
       }
       this.identitys.push(...identitys);
     }
@@ -72,7 +69,6 @@ export class Station extends Team implements IStation {
             subId: identity.id,
           });
           if (!res.success) return false;
-          this.createIdentityMsg(OperateType.Remove, identity);
         }
         this.company.user.removeGivedIdentity(
           identitys.map((a) => a.id),
@@ -94,9 +90,6 @@ export class Station extends Team implements IStation {
     );
     return notity;
   }
-  get chats(): IMsgChat[] {
-    return [this];
-  }
   async deepLoad(reload: boolean = false): Promise<void> {
     await this.loadIdentitys(reload);
     await this.loadMembers(reload);
@@ -108,22 +101,5 @@ export class Station extends Team implements IStation {
   }
   async teamChangedNotity(target: schema.XTarget): Promise<boolean> {
     return await this.pullMembers([target], true);
-  }
-  async createIdentityMsg(
-    operate: OperateType,
-    identity: schema.XIdentity,
-  ): Promise<void> {
-    await kernel.createIdentityMsg({
-      group: false,
-      stationId: this.id,
-      identityId: identity.id,
-      excludeOperater: true,
-      data: JSON.stringify({
-        operate,
-        station: this.metadata,
-        identity: identity,
-        operater: this.space.user.metadata,
-      }),
-    });
   }
 }
