@@ -1,6 +1,6 @@
 import { schema } from '@/ts/base';
 import { IIdentity, ISpeciesItem } from '@/ts/core';
-import { ProColumns } from '@ant-design/pro-table';
+// import { ProColumns } from '@ant-design/pro-table';
 import orgCtrl from '@/ts/controller';
 import { IWorkDefine } from '@/ts/core/thing/base/work';
 
@@ -98,7 +98,7 @@ export const CohortColumn: ProColumns<schema.XTarget>[] = [
   },
 ];
 
-export const IdentityColumn: ProColumns<schema.XIdentity>[] = [
+export const IdentityColumn: any = [
   {
     title: '序号',
     valueType: 'index',
@@ -123,7 +123,7 @@ export const IdentityColumn: ProColumns<schema.XIdentity>[] = [
   {
     title: '组织',
     dataIndex: 'shareId',
-    render: (_, record) => {
+    render: (_:any, record:any) => {
       return orgCtrl.user.findShareById(record.shareId).name;
     },
   },
@@ -176,7 +176,7 @@ export const PropertyColumns = (
     dataIndex: 'belongId',
     key: 'belongId',
     width: 200,
-    render: (_, record) => {
+    render: (_:any, record:any) => {
       return orgCtrl.user.findShareById(record.belongId).name;
     },
   },
@@ -185,7 +185,7 @@ export const PropertyColumns = (
     dataIndex: 'speciesId',
     key: 'speciesId',
     width: 150,
-    render: (_, record) => {
+    render: (_:any, record:any) => {
       const find = getSpeciesName(record.speciesId, [species]);
       if (find != undefined) {
         return find.name;
@@ -224,7 +224,7 @@ export const AttributeColumns = (): ProColumns<schema.XAttribute>[] => [
     dataIndex: 'property',
     key: 'propId',
     width: 150,
-    render: (_, record) => {
+    render: (_:any, record:any) => {
       if (record.linkPropertys && record.linkPropertys.length > 0) {
         return record.linkPropertys[0].name;
       }
@@ -261,7 +261,7 @@ export const FormColumns = (species: ISpeciesItem): ProColumns<schema.XForm>[] =
     dataIndex: 'speciesId',
     key: 'speciesId',
     width: 150,
-    render: (_, record) => {
+    render: (_:any, record:any) => {
       const find = getSpeciesName(record.speciesId, [species]);
       if (find != undefined) {
         return find.name;
@@ -283,13 +283,13 @@ export const FormColumns = (species: ISpeciesItem): ProColumns<schema.XForm>[] =
     dataIndex: 'belongId',
     key: 'belongId',
     width: 200,
-    render: (_, record) => {
+    render: (_:any, record:any) => {
       return orgCtrl.user.findShareById(record.belongId).name;
     },
   },
 ];
 
-export const FlowColumn: ProColumns<IWorkDefine>[] = [
+export const FlowColumn:any = [
   {
     title: '序号',
     valueType: 'index',
