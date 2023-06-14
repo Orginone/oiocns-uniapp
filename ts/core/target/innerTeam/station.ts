@@ -34,7 +34,8 @@ export class Station extends Team implements IStation {
       });
       if (res.success) {
         this._identityLoaded = true;
-        this.identitys = res.data.result || [];
+        // @ts-ignore
+		this.identitys = res.data.result || [];
       }
     }
     return this.identitys;

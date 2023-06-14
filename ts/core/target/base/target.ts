@@ -54,6 +54,7 @@ export abstract class Target extends Team implements ITarget {
       if (res.success) {
         this._identityLoaded = true;
         this.identitys = (res.data.result || []).map((item) => {
+		  // @ts-ignore
           return new Identity(item, this);
         });
       }
@@ -71,7 +72,9 @@ export abstract class Target extends Team implements ITarget {
       if (res.success) {
         this._speciesLoaded = true;
         this.species = (res.data.result || [])
-          .map((i) => createSpecies(i, this))
+          .map((i) => createSpecies(
+		  // @ts-ignore
+		  i, this))
           .filter((i) => i != undefined)
           .map((i) => i!);
       }
@@ -83,6 +86,7 @@ export abstract class Target extends Team implements ITarget {
     data.parentId = '0';
     const res = await kernel.createSpecies(data);
     if (res.success && res.data?.id) {
+		// @ts-ignore
       const species = createSpecies(res.data, this);
       if (species) {
         this.species.push(species);

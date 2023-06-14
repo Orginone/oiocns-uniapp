@@ -3,7 +3,6 @@ export class TxtMessageFormat {
   public static RecordSeparator = String.fromCharCode(
     TxtMessageFormat.RecordSeparatorCode,
   );
-
   public static parse(input: ArrayBuffer): string[] {
     const result: string[] = [];
     const uint8Array = new Uint8Array(input);
@@ -37,7 +36,6 @@ export class TxtMessageFormat {
           ? uint8Array.slice(offset + numBytes, offset + numBytes + size)
           : uint8Array.subarray(offset + numBytes, offset + numBytes + size);
         result.push(
-
         );
       } else {
         throw new Error('Incomplete message.');

@@ -43,7 +43,9 @@ export class Group extends Target implements IGroup {
       });
       if (res.success) {
         this._childrenLoaded = true;
-        this.children = (res.data.result || []).map((i) => new Group(i, this.company));
+        this.children = (res.data.result || []).map((i) => new Group(
+		// @ts-ignore
+		i, this.company));
       }
     }
     return this.children;

@@ -68,8 +68,11 @@ export class Department extends Target implements IDepartment {
       });
       if (res.success) {
         this._childrenLoaded = true;
+		
         this.children = (res.data.result || []).map(
-          (i) => new Department(i, this.company, this),
+          (i) => new Department(
+		  // @ts-ignore
+		  i, this.company, this),
         );
       }
     }

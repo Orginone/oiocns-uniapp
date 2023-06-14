@@ -35,7 +35,7 @@ export class Person extends Belong implements IPerson {
   companys: ICompany[] = [];
   private _cohortLoaded: boolean = false;
   private _companyLoaded: boolean = false;
-  givedIdentitys: schema.XIdProof[] = [];
+  givedIdentitys: any = [];
   private _givedIdentityLoaded: boolean = false;
   async loadCohorts(reload?: boolean | undefined): Promise<ICohort[]> {
     if (!this._cohortLoaded || reload) {

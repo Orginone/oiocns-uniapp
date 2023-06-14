@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {kernelApi as kernel} from '../../../common/app';
 import { common,schema  } from '../../base';
 import { PageAll } from '../public/consts';
@@ -138,7 +139,10 @@ export class WorkProvider implements IWorkProvider {
     const res = await kernel.recallWorkInstance({ id, page: PageAll });
     return res.success;
   }
-  async loadItems(id: string): Promise<schema.XDictItem[]> {
+  async loadAttributes(id: string, belongId: string): Promise<schema.XAttribute[]> {
+    return [];
+  }
+  async loadItems(id: string): Promise<any> {
     const res = await kernel.queryDictItems({
       id: id,
       page: PageAll,

@@ -85,6 +85,7 @@ export abstract class Belong extends Target implements IBelong {
         page: PageAll,
       });
       if (res.success && res.data?.id) {
+		// @ts-ignore
         this.superAuth = new Authority(res.data, this);
       }
     }

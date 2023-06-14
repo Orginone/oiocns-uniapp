@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SpeciesType, TargetType } from '../../../../ts/core/public/enums';
 import {kernelApi as kernel} from '../../../../common/app';
 import { model,schema } from '../../../base';

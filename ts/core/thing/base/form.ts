@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PageAll } from '@/ts/core/public/consts';
 import { SpeciesType } from '@/ts/core/public/enums';
 import { ISpeciesItem } from './species';

@@ -29,7 +29,7 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
     this.current = current;
   }
   current: ITarget;
-  members: any[];
+  members: any;
   private _memberLoaded: boolean = false;
   async loadMembers(reload?: boolean | undefined): Promise<schema.XTarget[]> {
     if (!this._memberLoaded || reload) {

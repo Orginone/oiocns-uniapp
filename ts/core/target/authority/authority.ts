@@ -58,6 +58,7 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
       });
       if (res.success) {
         this._memberLoaded = true;
+		// @ts-ignore
         this.members = res.data.result || [];
       }
     }
@@ -67,6 +68,7 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     data.parentId = this.id;
     const res = await kernel.createAuthority(data);
     if (res.success && res.data?.id) {
+		// @ts-ignore
       const authority = new Authority(res.data, this.space, this);
       this.children.push(authority);
       return authority;

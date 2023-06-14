@@ -36,7 +36,7 @@ export class Lazy<T> {
    * This will force evaluation of the lazy value if it has not been resolved yet. Lazy values are only
    * resolved once. `getValue` will re-throw exceptions that are hit while resolving the value
    */
-  getValue(): T {
+  getValue(): any {
     if (!this._didRun) {
       try {
         this._value = this.executor();

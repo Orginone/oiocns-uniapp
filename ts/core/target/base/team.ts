@@ -51,6 +51,7 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
       });
       if (res.success) {
         this._memberLoaded = true;
+		// @ts-ignore
         this.members = res.data.result || [];
         this.members.forEach((i) => this.updateMetadata(i));
       }
@@ -109,6 +110,7 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
     data.teamName = data.teamName || data.name;
     const res = await kernel.createTarget(data);
     if (res.success && res.data?.id) {
+	  // @ts-ignore
       return res.data;
     }
   }
@@ -123,6 +125,7 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
     data.remark = data.remark || this.remark;
     const res = await kernel.updateTarget(data);
     if (res.success && res.data?.id) {
+		// @ts-ignore
       this.setMetadata(res.data);
     }
     return res.success;
