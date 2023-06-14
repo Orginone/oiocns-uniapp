@@ -92,14 +92,14 @@ export class Person extends Belong implements IPerson {
   authenticate(orgIds: string[], authIds: string[]): boolean {
     return (
       this.givedIdentitys
-        .filter((i) => i.identity)
-        .filter((i) => orgIds.includes(i.identity!.shareId))
-        .filter((i) => authIds.includes(i.identity!.authId)).length > 0
+        .filter((i:any) => i.identity)
+        .filter((i:any) => orgIds.includes(i.identity!.shareId))
+        .filter((i:any) => authIds.includes(i.identity!.authId)).length > 0
     );
   }
   async applyJoin(members: schema.XTarget[]): Promise<boolean> {
     members = members.filter(
-      (i) =>
+      (i:any) =>
         [TargetType.Person, TargetType.Cohort, ...companyTypes].includes(
           i.typeName as TargetType,
         ) && i.id != this.id,

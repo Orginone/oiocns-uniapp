@@ -41,6 +41,11 @@ export default {
                 json.belong = value?.belong
                 json.id = value?.id
                 json.creater = value?.creater
+                for (const key in json.members) {
+                  if (Object.hasOwnProperty.call(json.members, key)) {
+                   json.members[key].icon = ""
+                  }
+                }
                 currentObj[key] = json;
                 // console.log('json',json)
               } else {
@@ -55,7 +60,7 @@ export default {
     async getMenu() {
       let res = await config.loadSettingMenu();
       this.removeCircularReferences(res)
-      console.log('setting',JSON.parse(JSON.stringify(res)))
+      console.log('setting', JSON.parse(JSON.stringify(res)))
       store.setting = res;
       this.menu = res.children;
       this.showMenu = true;

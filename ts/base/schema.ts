@@ -691,4 +691,5 @@ export type XEntity = {
   createTime: string;
   // 更新时间
   updateTime: string;
+  typeName?:any
 };

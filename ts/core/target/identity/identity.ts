@@ -48,7 +48,7 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
     members: schema.XTarget[],
     notity: boolean = false,
   ): Promise<boolean> {
-    members = members.filter((i) => this.members.every((m) => m.id !== i.id));
+    members = members.filter((i:any) => this.members.every((m:any) => m.id !== i.id));
     if (members.length > 0) {
       if (!notity) {
         const res = await kernel.giveIdentity({
@@ -65,7 +65,7 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
     members: schema.XTarget[],
     notity: boolean = false,
   ): Promise<boolean> {
-    members = members.filter((i) => this.members.some((m) => m.id === i.id));
+    members = members.filter((i:any) => this.members.some((m:any) => m.id === i.id));
     if (members.length > 0) {
       if (!notity) {
         const res = await kernel.removeIdentity({
@@ -74,7 +74,7 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
         });
         if (!res.success) return false;
       }
-      this.members = this.members.filter((i) => members.every((s) => s.id !== i.id));
+      this.members = this.members.filter((i:any) => members.every((s:any) => s.id !== i.id));
     }
     return true;
   }
