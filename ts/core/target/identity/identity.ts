@@ -25,7 +25,6 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
   constructor(_metadata: schema.XIdentity, current: ITarget) {
     super({
       ..._metadata,
-      typeName: '角色',
     });
     this.current = current;
   }
@@ -75,9 +74,6 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
         });
         if (!res.success) return false;
       }
-      if (members.some((a) => a.id === this.current.space.user.id)) {
-        this.current.space.user.removeGivedIdentity([this.metadata.id]);
-      }
       this.members = this.members.filter((i) => members.every((s) => s.id !== i.id));
     }
     return true;
@@ -90,7 +86,6 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
       });
       if (!res.success) return false;
     }
-    this.current.space.user.removeGivedIdentity([this.metadata.id]);
     this.current.identitys = this.current.identitys.filter((i) => i.key != this.key);
     return true;
   }

@@ -13,7 +13,7 @@
 			};
 		},
 		onLoad(option) {			
-			let list = this.searchObjectByKey(this.$store.setting,'key',option.data)
+			let list = this.searchObjectByKey(this.$store.setting,'key',JSON.parse(option.data))
 			console.log('option',option,list);
 			let arr =[];
 			list.children.forEach((element,index) => {

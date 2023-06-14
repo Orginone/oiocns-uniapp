@@ -70,10 +70,6 @@ export class Station extends Team implements IStation {
           });
           if (!res.success) return false;
         }
-        this.company.user.removeGivedIdentity(
-          identitys.map((a) => a.id),
-          this.id,
-        );
         this.identitys = this.identitys.filter((i) => i.id != identity.id);
       }
     }
@@ -84,10 +80,6 @@ export class Station extends Team implements IStation {
     if (notity) {
       this.company.stations = this.company.stations.filter((i) => i.key != this.key);
     }
-    this.company.user.removeGivedIdentity(
-      this.identitys.map((a) => a.id),
-      this.id,
-    );
     return notity;
   }
   async deepLoad(reload: boolean = false): Promise<void> {

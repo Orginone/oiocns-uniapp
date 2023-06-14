@@ -95,7 +95,7 @@
 					}
 					else{
 						uni.navigateTo({
-							url: item.url+'?data='+item.key
+							url: item.url+'?data='+JSON.stringify(item.key)
 						})
 					}
 				}

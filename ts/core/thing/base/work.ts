@@ -18,7 +18,6 @@ export class FlowDefine extends Entity<schema.XWorkDefine> implements IWorkDefin
   constructor(_metadata: XWorkDefine, work: IWork) {
     super({
       ..._metadata,
-      typeName: '事项',
     });
     this.workItem = work;
   }

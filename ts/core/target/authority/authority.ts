@@ -36,7 +36,6 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     super(
       {
         ..._metadata,
-        typeName: '权限',
       },
       [_space.name ?? '', '权限群'],
       _space,
@@ -83,7 +82,6 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     data.remark = data.remark || this.remark;
     const res = await kernel.updateAuthority(data);
     if (res.success && res.data?.id) {
-      res.data.typeName = '权限';
       this.setMetadata(res.data);
     }
     return res.success;

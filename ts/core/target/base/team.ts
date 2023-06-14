@@ -114,7 +114,6 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
   }
   async update(data: model.TargetModel): Promise<boolean> {
     data.id = this.id;
-    data.typeName = this.typeName;
     data.belongId = this.metadata.belongId;
     data.name = data.name || this.name;
     data.code = data.code || this.code;

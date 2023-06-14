@@ -1,6 +1,6 @@
 import { SpeciesType, TargetType } from '../../../../ts/core/public/enums';
 import {kernelApi as kernel} from '../../../../common/app';
-import { model, schema } from '../../../base';
+import { model,schema } from '../../../base';
 import { Form, IForm } from '../base/form';
 import { ISpeciesItem, SpeciesItem } from '../base/species';
 import { PageAll } from '../../../../ts/core/public/consts';

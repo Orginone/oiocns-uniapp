@@ -33,7 +33,6 @@ export class Form extends Entity<schema.XForm> implements IForm {
   constructor(_metadata: schema.XForm, _species: ISpeciesItem) {
     super({
       ..._metadata,
-      typeName: '表单',
     });
     this.species = _species;
   }
@@ -44,7 +43,6 @@ export class Form extends Entity<schema.XForm> implements IForm {
     data.speciesId = this.metadata.speciesId;
     const res = await kernel.updateForm(data);
     if (res.success && res.data.id) {
-      res.data.typeName = '表单';
       this.setMetadata(res.data);
     }
     return res.success;
@@ -54,12 +52,6 @@ export class Form extends Entity<schema.XForm> implements IForm {
       id: this.id,
       page: PageAll,
     });
-    if (res.success) {
-      if (this.species.typeName === SpeciesType.Thing) {
-        const species = this.species as IThingClass;
-        species.forms = species.forms.filter((i) => i.key != this.key);
-      }
-    }
     return res.success;
   }
   async createAttribute(

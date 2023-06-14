@@ -29,7 +29,6 @@ export class Dict extends Entity<schema.XDict> implements IDict {
   constructor(_metadata: schema.XDict, _species: DictClass) {
     super({
       ..._metadata,
-      typeName: '字典',
     });
     this.species = _species;
   }
@@ -82,7 +81,7 @@ export class Dict extends Entity<schema.XDict> implements IDict {
       page: PageAll,
     });
     if (res.success) {
-      this.items = this.items.filter((i) => i.id != item.id);
+      this.items = this.items.filter((i:any) => i.id != item.id);
     }
     return res.success;
   }
@@ -90,7 +89,7 @@ export class Dict extends Entity<schema.XDict> implements IDict {
     data.dictId = this.id;
     const res = await kernel.updateDictItem(data);
     if (res.success) {
-      this.items = this.items.filter((i) => i.id != data.id);
+      this.items = this.items.filter((i:any) => i.id != data.id);
       this.items.push(res.data);
     }
     return res.success;

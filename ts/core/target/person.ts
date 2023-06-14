@@ -19,10 +19,6 @@ export interface IPerson extends IBelong {
   findShareById(id: string): model.ShareIcon;
   /** 判断是否拥有某些用户的权限 */
   authenticate(orgIds: string[], authIds: string[]): boolean;
-  /** 加载赋予人的身份(角色)实体 */
-  loadGivedIdentitys(reload?: boolean): Promise<schema.XIdProof[]>;
-  /** 移除赋予人的身份(角色) */
-  removeGivedIdentity(identityIds: string[], teamId?: string): void;
   /** 加载单位 */
   loadCompanys(reload?: boolean): Promise<ICompany[]>;
   /** 创建单位 */
@@ -41,27 +37,6 @@ export class Person extends Belong implements IPerson {
   private _companyLoaded: boolean = false;
   givedIdentitys: schema.XIdProof[] = [];
   private _givedIdentityLoaded: boolean = false;
-  async loadGivedIdentitys(reload: boolean = false): Promise<schema.XIdProof[]> {
-    if (!this._givedIdentityLoaded || reload) {
-      const res = await kernel.queryGivedIdentitys();
-      if (res.success) {
-        this._givedIdentityLoaded = true;
-        this.givedIdentitys = res.data?.result || [];
-      }
-    }
-    return this.givedIdentitys;
-  }
-  removeGivedIdentity(identityIds: string[], teamId?: string): void {
-    let idProofs = this.givedIdentitys.filter((a) => identityIds.includes(a.identityId));
-    if (teamId) {
-      idProofs = idProofs.filter((a) => a.teamId == teamId);
-    } else {
-      idProofs = idProofs.filter((a) => a.teamId == undefined);
-    }
-    this.givedIdentitys = this.givedIdentitys.filter((a) =>
-      idProofs.every((i) => i.id !== a.identity?.id),
-    );
-  }
   async loadCohorts(reload?: boolean | undefined): Promise<ICohort[]> {
     if (!this._cohortLoaded || reload) {
       const res = await kernel.queryJoinedTargetById({
@@ -181,7 +156,6 @@ export class Person extends Belong implements IPerson {
     return targets;
   }
   async deepLoad(reload: boolean = false): Promise<void> {
-    await this.loadGivedIdentitys(reload);
     await this.loadCompanys(reload);
     await this.loadCohorts(reload);
     await this.loadMembers(reload);
@@ -236,8 +210,7 @@ export class Person extends Belong implements IPerson {
     }
     return {
       name: metadata?.name ?? '请稍后...',
-      typeName: metadata?.typeName ?? '未知',
-      avatar: parseAvatar(metadata?.icon),
+      typeName: '未知',
     };
   }
 }
