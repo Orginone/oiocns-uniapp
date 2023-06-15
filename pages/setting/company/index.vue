@@ -46,6 +46,7 @@ export default {
         },
         {
           label: "组织集群",
+          url: "/pages/setting/orgGroup/index",
           key: "",
           children: [],
         },

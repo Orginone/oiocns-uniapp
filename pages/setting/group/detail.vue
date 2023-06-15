@@ -7,6 +7,7 @@
 			<view class="formArea" >
 				<view class="head">
 					<view class="title">群组成员</view>
+					<button class="search-btn" @click="addTeam">添加</button>
 				</view>
 				<view class="item">
 					<uni-table>
@@ -79,7 +80,8 @@ export default {
 				}],
 			formList:[],
 			title:'',
-			type:''
+			type:'',
+			groupId:''//群组id
 		};
 	},
 	watch:{
@@ -89,6 +91,7 @@ export default {
         console.log('option',option)
 		let key = option.key
 		this.findObject(this.$store.setting.children,key)
+		this.keyFindid(this.$store.setting.children,key)
 	},
 	methods: {
 		findObject(arr,key){
@@ -100,6 +103,19 @@ export default {
 					}
 					if(element.children && element.children.length>0){
 						this.findObject(element.children,key)
+					}
+				});
+			}
+		},
+		keyFindid(arr,key){
+			let that = this;
+			if(arr && arr.length >0){
+				arr.forEach(element => {
+					if(element.key == key){
+						that.groupId = element.item.id;
+					}
+					if(element.children && element.children.length>0){
+						this.keyFindid(element.children,key)
 					}
 				});
 			}
@@ -132,7 +148,9 @@ export default {
 			})
             this.formList = arr;
 		},
-
+		addTeam(){
+			uni.navigateTo({ url: '/pages/setting/group/addPerson?groupId='+this.groupId})
+		},
 		getMore(){
 			uni.navigateTo({
 				url: '/pages/setting/agency/detail'+'?data=' + encodeURIComponent(JSON.stringify(this.formList))
@@ -152,5 +170,22 @@ export default {
 	display: flex;
 	font-size: 24upx;
 	justify-content: flex-end;
+}
+.head{
+	display: flex;
+	.title{
+		flex: 1;
+		margin-right: 20upx;
+		line-height: 60upx;
+	}
+}
+.search-btn{
+	background: #096dd9;
+	color: #fff;
+	border-radius: 10upx;
+	height: 60upx;
+	line-height: 60upx;
+	margin-right: 20upx;
+	font-size: 24upx;
 }
 </style>

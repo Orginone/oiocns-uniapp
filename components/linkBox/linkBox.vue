@@ -2,7 +2,7 @@
 	<view class="baseLayout">
 		<view class="title">常用</view>
         <scroll-view class="box" scroll-x="true"  >
-		    <view class="item" v-for="(item,index) in linkList" :key="index">
+		    <view class="item" v-for="(item,index) in linkList" :key="index" @click="jumpDetail(item.index)">
                 <view class="item_btn">+</view>
                 <view class="item_name">{{item.name}}</view>
             </view>
@@ -15,9 +15,17 @@
 		name: "linkBox",
 		data() {
 			return {
-              linkList:[{name:'定标准'},{name:'加好友'},{name:'建群组'},{name:'加群组'},{name:'建单位'},{name:'加单位'},{name:'建应用'},{name:'逛商店'},]
+              linkList:[{name:'定标准'},{name:'加好友'},{name:'建群组'},{name:'加群组',index:3},{name:'建单位'},{name:'加单位'},{name:'建应用'},{name:'逛商店'},]
 			};
-		}
+		},
+        methods: {
+            jumpDetail(index){
+                console.log('inde',index)
+                if(index == 3){
+                    uni.navigateTo({ url: '/pages/setting/group/addGroup'})
+                }
+            }
+        },
 	}
 </script>
 

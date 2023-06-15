@@ -58,6 +58,7 @@ export class Person extends Belong implements IPerson {
         typeNames: companyTypes,
         page: PageAll,
       });
+      console.log('resss',res);
       if (res.success) {
         this._companyLoaded = true;
         this.companys = (res.data.result || []).map((i) => createCompany(i, this));

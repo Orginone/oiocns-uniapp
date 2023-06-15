@@ -56,8 +56,7 @@
 
 		.formItem {
 			display: flex;
-			height: 70upx;
-			font-size: 20upx;
+			font-size: 24upx;
 			color: #666666;
 			border-bottom: 2upx solid #ebeef5;
 
@@ -65,9 +64,10 @@
 				height: 100%;
 				padding-left: 22upx;
 				display: flex;
+				height: 100%;
 				align-items: center;
 				width: 210upx;
-				background-color: #f5f6fc;
+				
 				border-right: 2upx solid #d9e3f5;
 			}
 

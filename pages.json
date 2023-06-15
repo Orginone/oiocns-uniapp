@@ -180,6 +180,30 @@
             
         },
         {
+            "path" : "pages/setting/orgGroup/index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "组织群组",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path" : "pages/setting/group/addGroup",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "加入群组",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path" : "pages/setting/group/addPerson",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "添加成员",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
             "path" : "pages/setting/group/detail",
             "style" :                                                                                    
             {

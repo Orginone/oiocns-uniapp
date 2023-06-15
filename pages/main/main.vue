@@ -66,7 +66,7 @@ export default {
       autoplay: true,
       interval: 5000,
       duration: 500,
-      imgList:[1,2,3,4],
+      imgList:[1],
       color:"#fff",
       tabActive:0,
       todoList:[{name:'待办',number:''},{name:'已办',number:0},{name:'已完结',number:0},{name:'我发起的',number:0},],
@@ -193,6 +193,7 @@ page {
       width: 100%;
       height: 250upx;
       .swiper{
+        width: 100%;
         height: 250upx;
       }
       .swiper_item{

@@ -46,7 +46,7 @@ export abstract class Entity<T extends schema.XEntity>
     this._metadata = _metadata;
     ShareIdSet.set(this.id, _metadata);
   }
-  _metadata: any;
+  _metadata: T;
   key: string;
   get id(): string {
     return this._metadata.id;
