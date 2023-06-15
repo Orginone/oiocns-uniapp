@@ -91,9 +91,7 @@ export default {
 		
 	},
 	onLoad(option){
-		console.log(option,'opssss')
 		let key = JSON.parse(option.data)
-		console.log(key,'key')
 		let type
 		if(option.type){
 			type = JSON.parse(option.type)

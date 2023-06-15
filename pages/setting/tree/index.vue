@@ -58,11 +58,9 @@ export default {
     if(options.data){
       key = JSON.parse(options.data)
     }
-    console.log(key)
     this.getData();
     let params = this.getParam();
     let type = params.type;
-    console.log('type',type)
     if(type =='authority'){
        this.tree = this.settingData.children[0].children[0].children
     }else if(type =='standard'){

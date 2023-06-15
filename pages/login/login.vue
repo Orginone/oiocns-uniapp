@@ -238,11 +238,13 @@ export default {
           text: "+198",
         },
       ],
-      account: "13486842030",
-      pwd: "Qaz123456.",
+      account: "18637079378",
+      pwd: "aB_111!",
     };
   },
-  onLoad() {},
+  onLoad() {
+    uni.removeStorageSync('currentUser')
+  },
   destroyed() {
     clearInterval(this.timer);
   },
@@ -290,7 +292,6 @@ export default {
           icon: "none",
         });
         storage.setItem(`currentUser`, res.data.target)
-        console.log(store);
         store.setAccessToken(res.data.accessToken)
         // uni.setStorageSync("currentUser", res.data.target);
         uni.hideLoading();

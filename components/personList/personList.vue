@@ -56,7 +56,6 @@
 		// 	deep:true
 		// },
 		created() {
-			console.log('进入',this.listInfo)
 			this.settingData = this.$store.setting 
 			// let arr = []
 			// this.settingData.children.forEach(element => {
@@ -72,7 +71,6 @@
 		methods: {
 			turnDetailPage(item) {
 				if(item){
-					console.log('item.key',item);
 					if(item.itemType =='人员'){
 						uni.navigateTo({
 							url: '/pages/setting/person/index'+'?data=' + JSON.stringify(item.key)

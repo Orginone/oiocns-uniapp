@@ -36,7 +36,6 @@
 		},
 		methods: {
 			handleSelect(id) {
-				console.log('id',id)
 				if (this.selected === id) {
 					// 取消选中
 					this.selected = -1
@@ -57,7 +56,6 @@
                 
 				if (res.success) {
 					this.showList = res.data.result || [];
-					console.log(this.showList)
 				}
 			},
 			async addTeam(){

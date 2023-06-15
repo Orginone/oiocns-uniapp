@@ -81,7 +81,6 @@ export default {
         }
       });
     });
-    console.log(this.listInfo, "999");
   },
   methods: {},
 };

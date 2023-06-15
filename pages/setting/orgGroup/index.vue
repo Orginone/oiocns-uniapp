@@ -14,7 +14,6 @@
 		},
 		onLoad(option) {			
 			let list = this.searchObjectByKey(this.$store.setting,'key',JSON.parse(option.data)+"组织集群")
-			console.log('option',option,list);
 			let arr =[];
 			list.children.forEach((element,index) => {
 				let obj = {

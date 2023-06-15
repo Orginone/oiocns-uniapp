@@ -147,7 +147,6 @@
 				item.select = false
 			})
 			this.list = list
-			console.log(this.list)
 		},
 		methods: {
 			

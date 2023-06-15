@@ -17,13 +17,11 @@
 		},
         onLoad() {
             let param = this.getParam();
-            console.log('param',param)
             this.getDetail(param)
 		},
 		methods: {
             getDetail(param){
                 let obj = this.searchObjectByKey(this.$store.setting,'key',param.data)
-                console.log(this.$store.setting,obj);
                 let showObj = [
                     {
                         name:'名称',

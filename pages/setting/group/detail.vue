@@ -88,7 +88,6 @@ export default {
 		
 	},
 	onLoad(option){
-        console.log('option',option)
 		let key = option.key
 		this.findObject(this.$store.setting.children,key)
 		this.keyFindid(this.$store.setting.children,key)
