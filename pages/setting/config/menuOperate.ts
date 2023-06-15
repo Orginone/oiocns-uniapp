@@ -4,7 +4,6 @@ import { GroupMenuType, MenuType } from './menuType';
 import {
   IAuthority,
   IDepartment,
-  IDict,
   IDictClass,
   IGroup,
   IPropClass,
@@ -91,7 +90,7 @@ const buildSpeciesTree = (species: ISpeciesItem): MenuItemType => {
     tag: [species.typeName],
     icon:'',
     itemType: MenuType.Species,
-    menus: loadSpeciesMenus(species),
+    menus: [],
     children: [...children, ...species.children.map((i) => buildSpeciesTree(i))],
     beforeLoad: async () => {
       switch (species.typeName) {
@@ -125,7 +124,7 @@ const buildProperty = (propClass: IPropClass) => {
       label: i.name,
       itemType: MenuType.Property,
       icon:'',
-      menus: loadPropertyMenus(propClass, false, i),
+      menus: [],
       children: [],
     };
   });
@@ -141,7 +140,7 @@ const buildDict = (dictClass: IDictClass) => {
       itemType: MenuType.Dict,
       tag: ['字典'],
       icon: '',
-      menus: loadDictMenus(dict),
+      menus: [],
       children: [],
       beforeLoad: async () => {
         await dict.loadItems();
@@ -195,7 +194,7 @@ const buildAuthorityTree = (authority: IAuthority, name?: string) => {
     icon: '',
     itemType: MenuType.Authority,
     tag: [MenuType.Authority],
-    menus: loadAuthorityMenus(authority),
+    menus: [],
     children: authority.children.map((i) => buildAuthorityTree(i)) ?? [],
   };
   return result;
@@ -212,108 +211,6 @@ const LoadStandardMenus = (target: ITarget) => {
   ];
 };
 
-/** 加载右侧菜单 */
-const loadSpeciesMenus = (species: ISpeciesItem) => {
-  const items: OperateMenuType[] = [];
-  switch (species.typeName) {
-    case SpeciesType.Dict:
-      items.push(...loadDictMenus());
-      break;
-  }
-  if (species.speciesTypes.length > 0) {
-    items.push({
-      key: '新增类别',
-      icon:'',
-      label: '新增类别',
-    });
-  }
-  items.push(
-    {
-      key: '编辑类别',
-      icon: '',
-      label: '编辑类别',
-    },
-    {
-      key: '删除类别',
-      icon: '',
-      label: '删除类别',
-      beforeLoad: async () => {
-        return await species.delete();
-      },
-    },
-  );
-  if (species.speciesTypes.length > 0) {
-    items.push(
-      {
-        key: '导入类别',
-        icon: '',
-        label: '导入类别',
-      }
-    );
-  }
-  return items;
-};
-
-/** 加载右侧菜单 */
-const loadPropertyMenus = (
-  species: IPropClass,
-  group: boolean = true,
-  property?: XProperty,
-) => {
-  const items: OperateMenuType[] = [];
-  if (group) {
-    items.push({
-      key: '新增属性',
-      icon: '',
-      label: '新增属性',
-    });
-  } else {
-    items.push(
-      {
-        key: '编辑属性',
-        icon: '',
-        label: '编辑属性',
-      },
-      {
-        key: '删除属性',
-        icon: '',
-        label: '删除属性',
-        beforeLoad: async () => {
-          return await species.deleteProperty(property!);
-        },
-      },
-    );
-  }
-  return items;
-};
-/** 加载右侧菜单 */
-const loadDictMenus = (dict?: IDict) => {
-  const items: OperateMenuType[] = [];
-  if (dict) {
-    items.push(
-      {
-        key: '编辑字典',
-        icon: '',
-        label: '编辑字典',
-      },
-      {
-        key: '删除字典',
-        icon: '',
-        label: '删除字典',
-        beforeLoad: async () => {
-          return await dict.delete();
-        },
-      },
-    );
-  } else {
-    items.push({
-      key: '新增字典',
-      icon: '',
-      label: '新增字典',
-    });
-  }
-  return items;
-};
 /** 获取个人菜单 */
 const getUserMenu = () => {
   console.log('orgCtrlorgCtrlorgCtrl',orgCtrl)
@@ -478,35 +375,6 @@ const loadGroupMenus = (param: groupMenuParams, teamTypes: string[]) => {
     item: param.item,
     children: param.children,
   };
-};
-
-/** 加载右侧菜单 */
-const loadAuthorityMenus = (item: IAuthority) => {
-  const items: OperateMenuType[] = [
-    {
-      key: '新增权限',
-      icon: '',
-      label: '新增权限',
-    },
-  ];
-  if (item.hasAuthoritys([orgAuth.RelationAuthId])) {
-    items.push(
-      {
-        key: '编辑权限',
-        icon: '',
-        label: '编辑权限',
-      },
-      {
-        key: '删除权限',
-        icon: '',
-        label: '删除权限',
-        beforeLoad: async () => {
-          return await item.delete();
-        },
-      },
-    );
-  }
-  return items;
 };
 
 /** 加载类型更多操作 */

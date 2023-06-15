@@ -189,7 +189,7 @@
 </script>
 <style scoped>
     .leo-tree{
-        padding-left:30rpx;
+        padding-left:50rpx;
     }
     .head{
         display: flex;
