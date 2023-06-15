@@ -39,8 +39,8 @@ export class Lazy<T> {
   getValue(): any {
     if (!this._didRun) {
       try {
-        this._value = this.executor();
-      } catch (err) {
+        // this._value = this.executor();
+      } catch (err:any) {
         this._error = err;
       } finally {
         this._didRun = true;
