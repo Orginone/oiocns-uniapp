@@ -6,7 +6,7 @@
                     v-if="item[defaultProps.children] && item[defaultProps.children].length > 0"></image>
                 <text class="txt">{{item[defaultProps.label]}}</text>
             </view>
-            <view v-if="edit" class="right p-t-20 p-r-30">
+            <view v-if="edit" class="right p-t-20 p-r-20">
                 <!-- <img class='dotPlus' src="@/static/base/dotPlus.png" alt=""   > -->
                 <img src="@/static/base/right.png" alt="" @tap="link(item)" >
             </view>
@@ -243,7 +243,10 @@
            .p-r-30{
                 margin-right: 30rpx;
             }
-           .p-t-20{
+            .p-r-20{
+                margin-right: 20rpx;
+            }
+            .p-t-20{
                 margin-top: 20rpx;
             }
 		}
@@ -283,24 +286,24 @@
 		}
 	}
 	.right {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 20upx;
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 20upx;
 
-    img {
-      height: 40upx;
-      width: 40upx;
-      margin: 0 15upx;
-    }
+        img {
+            height: 28upx;
+            width: 28upx;
+            margin: 0 6upx;
+        }
 
-    .search {
-      transform: translateY(2upx);
-    }
+        .search {
+            transform: translateY(2upx);
+        }
 
-    .dotPlus {
-        width: 10upx;
-        height: 42upx;
+        .dotPlus {
+            width: 10upx;
+            height: 42upx;
+        }
     }
-  }
 </style>
