@@ -54,6 +54,7 @@ export default {
     deep:true
 	},
   onLoad(options) {
+    console.log(options,'options')
     let key
     if(options.data){
       key = JSON.parse(options.data)
