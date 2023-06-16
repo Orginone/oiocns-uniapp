@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import * as config from "../config/menuOperate";
 import treeCom from "../tree/index";
 export default {
   components: {
@@ -66,8 +67,8 @@ export default {
     };
   },
   watch: {},
-  onLoad(option) {
-    let options = this.$store.setting;
+  async onLoad(option) {
+    let options = await config.loadSettingMenu();
     let key = JSON.parse(option.data);
     let newOptions = options?.children.find((item) => item.key === key);
     newOptions?.children.forEach((element) => {

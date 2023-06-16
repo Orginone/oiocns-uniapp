@@ -14,7 +14,6 @@ export const loadApps = async () => {
         }
       }
     }
+    return apps.filter((a, i) => apps.findIndex((x) => x.id === a.id) === i);
   }
-
-  return apps.filter((a, i) => apps.findIndex((x) => x.id === a.id) === i);
 };

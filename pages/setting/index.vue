@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import store from "@/store/index.js"; //需要引入store
 import * as config from "./config/menuOperate";
 export default {
   data() {
@@ -60,11 +59,21 @@ export default {
     async getMenu() {
       let res = await config.loadSettingMenu();
       this.removeCircularReferences(res)
-      console.log('setting', JSON.parse(JSON.stringify(res)))
-      store.setting = res;
-      this.menu = res.children;
-      this.showMenu = true;
-      console.log(res,'res')
+      // console.log('setting', JSON.parse(JSON.stringify(res)))
+      console.log('res',res)
+      let arr = []
+      res.children.forEach(element => {
+         let obj = {
+          label:element.label,
+          itemType:element.itemType,
+          key:element.key
+         }
+         arr.push(obj)
+      });
+      // store.setting = res;
+      this.menu = arr;
+      // this.showMenu = true;
+      // console.log(res,'res')
     },
   },
 };

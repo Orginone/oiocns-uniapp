@@ -96,12 +96,14 @@ export default {
   methods:{
     async loadAppList(){
       let arr = []
-      let res = await loadApps()
-      res.forEach(item => {
-        item.metadata.icon = JSON.parse(item.metadata.icon)
-        arr.push(item.metadata)
-      })
-      this.appList = arr
+      setTimeout(async()=>{
+        let res = await loadApps()
+        res.forEach(item => {
+          item.metadata.icon = JSON.parse(item.metadata.icon)
+          arr.push(item.metadata)
+        })
+        this.appList = arr
+      },1000)
     }
   }
 };

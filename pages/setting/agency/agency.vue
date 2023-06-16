@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import * as config from "../config/menuOperate";
 export default {
 	data() {
 		return {
@@ -90,7 +91,7 @@ export default {
 	watch:{
 		
 	},
-	onLoad(option){
+	async onLoad(option){
 		let key = JSON.parse(option.data)
 		let type
 		if(option.type){
@@ -102,7 +103,8 @@ export default {
 			this.type = '单位'
 			this.datalist.splice(3,1)
 		}
-		this.findObject(this.$store.setting.children,key)
+		let res = await config.loadSettingMenu();
+		this.findObject(res.children,key)
 	},
 	methods: {
 		findObject(arr,key){

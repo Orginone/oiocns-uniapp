@@ -56,7 +56,7 @@
 		// 	deep:true
 		// },
 		created() {
-			this.settingData = this.$store.setting 
+			// this.settingData = this.$store.setting 
 			// let arr = []
 			// this.settingData.children.forEach(element => {
 			// 	let obj = {
