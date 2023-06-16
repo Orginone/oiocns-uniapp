@@ -58,7 +58,7 @@
 			},
 			async addTeam(){
 				if(this.selected != -1){
-					this.userInfo = uni.getStorageSync('currentUser')
+					this.userInfo = JSON.parse(uni.getStorageSync('currentUser'))
 					let res = await kernelApi.applyJoinTeam({
 							id: this.selected,
 							subId: this.userInfo.id,

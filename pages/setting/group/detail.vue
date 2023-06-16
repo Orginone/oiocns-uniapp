@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import * as config from "../config/menuOperate";
 export default {
 	data() {
 		return {
@@ -87,10 +88,11 @@ export default {
 	watch:{
 		
 	},
-	onLoad(option){
+	async onLoad(option){
 		let key = option.key
-		this.findObject(this.$store.setting.children,key)
-		this.keyFindid(this.$store.setting.children,key)
+		let res = await config.loadSettingMenu();
+		this.findObject(res.children,key)
+		this.keyFindid(res.children,key)
 	},
 	methods: {
 		findObject(arr,key){
