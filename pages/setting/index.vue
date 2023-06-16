@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import store from "@/store/index.js"; //需要引入store
 import * as config from "./config/menuOperate";
 export default {
   data() {

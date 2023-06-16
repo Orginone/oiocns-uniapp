@@ -6,14 +6,15 @@
 </template>
 
 <script>
+	import * as config from "../config/menuOperate";
 	export default {
 		data() {
 			return {
 				listInfo:[],
 			};
 		},
-		onLoad(option) {			
-			let list = this.searchObjectByKey(this.$store.setting,'key',JSON.parse(option.data))
+		async onLoad(option) {			
+			let list = this.searchObjectByKey(await config.loadSettingMenu(),'key',JSON.parse(option.data))
 			console.log('option',option,list);
 			let arr =[];
 			list.children.forEach((element,index) => {
