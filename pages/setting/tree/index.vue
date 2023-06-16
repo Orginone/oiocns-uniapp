@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import * as config from "../config/menuOperate";
 export default {
   name:'treeCom',
   data() {
@@ -53,23 +54,15 @@ export default {
     },
     deep:true
 	},
-  onLoad(options) {
+  async onLoad(options) {
     let key
     if(options.data){
       key = JSON.parse(options.data)
     }
+    let res = await config.loadSettingMenu();
     this.getData();
-    let params = this.getParam();
-    let type = params.type;
-    if(type =='authority'){
-       this.tree = this.settingData.children[0].children[0].children
-    }else if(type =='standard'){
-       this.tree = this.settingData.children[0].children[1].children
-    }else{
-       this.tree = this.settingData.children[0].children[2].children
-    }
     if(key){
-      this.findObject(this.settingData.children,key)
+      this.findObject(res.children,key)
     }
   },
   methods: {

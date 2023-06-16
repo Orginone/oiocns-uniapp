@@ -56,7 +56,7 @@
 		// 	deep:true
 		// },
 		created() {
-			this.settingData = this.$store.setting 
+			// this.settingData = this.$store.setting 
 			// let arr = []
 			// this.settingData.children.forEach(element => {
 			// 	let obj = {
@@ -67,6 +67,9 @@
 			// });
 			// console.log('arr',arr);
 			// this.list = arr;
+		},
+		async onLoad(option) {
+			console.log('list',option.data)
 		},
 		methods: {
 			turnDetailPage(item) {
@@ -92,8 +95,9 @@
 						})
 					}
 					else{
+						console.log('item',item)
 						uni.navigateTo({
-							url: item.url+'?data='+JSON.stringify(item.key)
+							url: item.url+'?data='+JSON.stringify(item.key)+'&index='+item.index
 						})
 					}
 				}

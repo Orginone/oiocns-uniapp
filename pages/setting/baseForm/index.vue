@@ -6,22 +6,23 @@
 </template>
 
 <script>
+    import * as config from "../config/menuOperate";
 	export default {
 		data() {
 			return {
-				formData:{}
+				formData:{},
 			};
 		},
 		watch:{
 			
 		},
-        onLoad() {
+        async onLoad() {
             let param = this.getParam();
             this.getDetail(param)
 		},
 		methods: {
-            getDetail(param){
-                let obj = this.searchObjectByKey(this.$store.setting,'key',param.data)
+            async getDetail(param){
+                let obj = this.searchObjectByKey( await config.loadSettingMenu(),'key',param.data)
                 let showObj = [
                     {
                         name:'名称',

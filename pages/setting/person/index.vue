@@ -6,6 +6,7 @@
 </template>
 
 <script>
+	import * as config from "../config/menuOperate";
 	export default {
 		data() {
 			return {
@@ -13,11 +14,13 @@
 				listInfo:[
 					{
 						label:'权限标准',
-						url:"/pages/setting/tree/index?type=authority",
+						key:"",
+						url:"/pages/setting/tree/index",
 					},
 					{
 						label:'数据标准',
-						url:"/pages/setting/tree/index?type=standard",
+						key:"",
+						url:"/pages/setting/tree/index",
 					},
 					{
 						label:'个人群组',
@@ -30,9 +33,13 @@
 		watch:{
 			
 		},
-		onLoad() {
-			this.key = this.$store.setting.children[0].children[2].key
-			this.listInfo[2].key = this.key
+		async onLoad(option) {
+			let res = await config.loadSettingMenu();
+			let index = this.$getIndex(res.children,option.data);
+			this.listInfo.forEach((element,indes) => {
+				this.listInfo[indes].index = index
+				this.listInfo[indes].key = res.children[index].children[indes].key
+			});
 		},
 		methods: {
 		}
