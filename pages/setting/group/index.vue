@@ -14,8 +14,9 @@
 			};
 		},
 		async onLoad(option) {			
-			let list = this.searchObjectByKey(await config.loadSettingMenu(),'key',JSON.parse(option.data))
 			console.log('option',option,list);
+			let res = await config.loadSettingMenu();
+			let list = this.searchObjectByKey(res.children,'key',JSON.parse(option.data))
 			let arr =[];
 			list.children.forEach((element,index) => {
 				let obj = {
