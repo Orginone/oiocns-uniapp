@@ -4,15 +4,15 @@
 			<view class="shape"> </view>
 			{{title}}
 		</view>
-		<view class="itemArea" >
-			<view class="listItem" v-for="item,index in listInfo" :key="index"  @tap="turnDetailPage(item)">
+		<view class="itemArea">
+			<view class="listItem" v-for="item,index in listInfo" :key="index" @tap="turnDetailPage(item)">
 				<view class="box"></view>
-				<view class="name" >{{item.name}}</view>
+				<view class="name">{{item.name}}</view>
 				<view class="right">
 					<!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
-					<img :src="'../../static/base/add.png'" alt=""  v-if="icon.includes('add')" >
+					<img :src="'../../static/base/add.png'" alt="" v-if="icon.includes('add')">
 					<view class="dotPlus">
-						<img :src="'../../static/base/dotPlus.png'" alt=""  v-if="icon.includes('dotPlus')" >
+						<img :src="'../../static/base/dotPlus.png'" alt="" v-if="icon.includes('dotPlus')">
 					</view>
 					<img src="../../static/base/right.png" alt="" v-if="icon.includes('right')">
 				</view>
@@ -26,24 +26,24 @@
 		name: "personList",
 		props: {
 			listInfo: {
-				default:()=>{
+				default: () => {
 					return []
 				}
 			},
 			localList: {
-				default:''
+				default: ''
 			},
 			title: {
-				default:''
+				default: ''
 			},
 			chat: {
 				default: false
 			},
-			url:{
-				default:'/pages/warehouse/page2/page2'
+			url: {
+				default: '/pages/warehouse/page2/page2'
 			},
-			icon:{
-				default:'right'
+			icon: {
+				default: 'right'
 			}
 		},
 		data() {
@@ -54,16 +54,24 @@
 		methods: {
 			turnDetailPage(item) {
 				// item['localList'] = this.localList+','+item.name
-				if(item.name == '发起办事'){
-                   uni.navigateTo({
-					url: '/pages/work/page5/page5'+'?data=' + JSON.stringify(item)
-				   })
-				}else{
-                   uni.navigateTo({
-					url: this.url+'?data=' + JSON.stringify(item)
-				})
+				if (Object.keys(item).includes('url')) {
+					let itemPlus = {...item}
+					delete itemPlus.url
+					uni.navigateTo({
+						url:  item.url+ '?data=' + JSON.stringify(itemPlus)
+					})
+					return
 				}
-				
+				if (item.name == '发起办事') {
+					uni.navigateTo({
+						url: '/pages/work/page5/page5' + '?data=' + JSON.stringify(item)
+					})
+				} else {
+					uni.navigateTo({
+						url: this.url + '?data=' + JSON.stringify(item)
+					})
+				}
+
 			}
 		}
 	}
@@ -82,8 +90,9 @@
 			padding: 0upx 30upx;
 			display: flex;
 			align-items: center;
-			.shape{
-				width:6upx;
+
+			.shape {
+				width: 6upx;
 				height: 30upx;
 				background-color: #3d5ed1;
 				margin-right: 14upx;
@@ -99,11 +108,12 @@
 				padding: 16upx 30upx;
 				align-items: center;
 				box-sizing: border-box;
-				
-				&:active{
+
+				&:active {
 					background-color: #edeffc;
 					border-radius: 10upx;
 				}
+
 				.box {
 					width: 84upx;
 					height: 84upx;
@@ -121,16 +131,17 @@
 					display: flex;
 					justify-content: flex-end;
 					transform: translateY(2upx);
-					
+
 					img {
 						margin-left: 28upx;
 						height: 28upx;
 						width: 28upx;
 					}
-					.dotPlus{
-						img{
+
+					.dotPlus {
+						img {
 							height: 30upx;
-							width:8upx;
+							width: 8upx;
 						}
 					}
 				}

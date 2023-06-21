@@ -245,6 +245,13 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@lovekicher/iterable-chain@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.npmmirror.com/@lovekicher/iterable-chain/-/iterable-chain-0.3.1.tgz#3fb95cd9244e39bf39b7b0a5f6622270865f1fe5"
+  integrity sha512-dQsZOGSuAT/lkCq8vx8NWyvArYcELGAMKKg0qZ5dU8zGnoE+JWXI2wDCS6oSbAPmLOexgjxC9quzf0eOQ1Tqqw==
+  dependencies:
+    core-js "^3.21.1"
+
 "@orginone/core@^0.2.1":
   version "0.2.1"
   resolved "http://192.168.1.211:30677/@orginone%2fcore/-/core-0.2.1.tgz#723023c84ac1205f2c1a81ed2383a975eb2dc80d"
@@ -270,13 +277,14 @@
     tiny-emitter "^2.1.0"
 
 "@orginone/core@^0.2.6":
-  version "0.2.6"
-  resolved "http://192.168.1.211:30677/@orginone%2fcore/-/core-0.2.6.tgz#99c7ebf6d307188d004da8b29a879c4cc9335538"
-  integrity sha512-2gTWeiSqP7rWB1vVfWzLs3WYvvUd39ApOG2lkQ9gNXLkevTI+5jYf2Hr8Qqja226WWkRW+fLOgwz2YdVY86CdA==
+  version "0.2.8"
+  resolved "https://registry.npmmirror.com/@orginone/core/-/core-0.2.8.tgz#94efb467a1ccc7de3cf2aa3b5202a815d028ae6e"
+  integrity sha512-y0yVDEPWFVSYmOB2baWqI09j61u8Iq3ng+x/kfayamiCvBn0kaZQkcRJN8T/cYy3Xwa6DGoEX9S0fZAEpdRBVg==
   dependencies:
     "@babel/core" "^7.21.8"
     "@babel/standalone" "^7.21.8"
     "@babel/types" "^7.21.5"
+    "@lovekicher/iterable-chain" "^0.3.1"
     lodash "^4.17.21"
     reflect-metadata "^0.1.13"
     tiny-emitter "^2.1.0"
@@ -370,6 +378,11 @@ convert-source-map@^1.7.0:
   version "1.9.0"
   resolved "http://192.168.1.211:30677/convert-source-map/-/convert-source-map-1.9.0.tgz#7faae62353fb4213366d0ca98358d22e8368b05f"
   integrity sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==
+
+core-js@^3.21.1:
+  version "3.31.0"
+  resolved "https://registry.npmmirror.com/core-js/-/core-js-3.31.0.tgz#4471dd33e366c79d8c0977ed2d940821719db344"
+  integrity sha512-NIp2TQSGfR6ba5aalZD+ZQ1fSxGhDo/s1w0nx3RYzf2pnJxt7YynxFlFScP6eV7+GZsKO95NSjGxyJsU3DZgeQ==
 
 debug@^4.1.0:
   version "4.3.4"

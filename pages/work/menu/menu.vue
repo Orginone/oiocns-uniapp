@@ -14,16 +14,17 @@ export default {
       url: "/pages/work/page2/page2",
       listInfo: [
         {
-          name: "加好友",
+          name: "发起办事",
+		  url:'/pages/work/page5/page5'
         },
         {
-          name: "加单位",
+          name: "待办事项",
         },
         {
-          name: "加群",
+          name: "已办事项",
         },
         {
-          name: "办事",
+          name: "我发起的",
         },
       ],
       listInfo2: [

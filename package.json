@@ -5,7 +5,7 @@
   "author": "superfish058 <1079685992@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@orginone/core": "^0.2.6",
+    "@orginone/core": "^0.2.8",
     "@orginone/runtime-uniapp": "^0.2.5",
     "@orginone/vue": "^0.2.0",
     "tiny-emitter": "^2.1.0",
