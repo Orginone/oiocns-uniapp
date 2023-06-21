@@ -1,6 +1,9 @@
 <template>
 	<view class="listArea">
-		<view class="total" v-if="title">{{title}}</view>
+		<view class="total" v-if="title">
+			<view class="shape"> </view>
+			{{title}}
+		</view>
 		<view class="itemArea" >
 			<view class="listItem" v-for="item,index in listInfo" :key="index"  @tap="turnDetailPage(item)">
 				<view class="box"></view>
@@ -77,6 +80,15 @@
 
 		.total {
 			padding: 0upx 30upx;
+			display: flex;
+			align-items: center;
+			.shape{
+				width:6upx;
+				height: 30upx;
+				background-color: #3d5ed1;
+				margin-right: 14upx;
+			}
+
 		}
 
 		.itemArea {

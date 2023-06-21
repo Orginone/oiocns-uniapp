@@ -292,7 +292,6 @@ export default {
         storage.setItem(`currentUser`, res.data.target)
         console.log(store);
         store.setAccessToken(res.data.accessToken)
-        debugger
         // uni.setStorageSync("currentUser", res.data.target);
         uni.hideLoading();
         uni.switchTab({

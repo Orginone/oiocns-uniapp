@@ -11,35 +11,20 @@
       </view>
       <!-- 文字内容 -->
       <view class="content">
-        <view
-          class="append"
-          v-for="(item, index) in localListPlus"
-          :key="index"
-        >
+        <view class="append" v-for="(item, index) in localListPlus" :key="index">
           <!-- 连接点 -->
-          <view
-            class="dot"
-            :style="{ color: color ? '#000000' : '#9A9A9A' }"
-            v-if="index"
-          >
+          <view class="dot" :style="{ color: color ? '#000000' : '#9A9A9A' }" v-if="index">
             .
           </view>
           <!-- 文字颜色 -->
           <view v-if="index !== localListPlus.length - 1">
-            <view
-              class="main"
-              :style="{ color: color ? '#000000' : '#9A9A9A' }"
-              @click="turnHeadPage(index)"
-            >
+            <view class="main" :style="{ color: color ? '#000000' : '#9A9A9A' }" @click="turnHeadPage(index)">
               {{ item }}
             </view>
           </view>
           <!-- 末尾文字颜色 -->
           <view v-if="index == localListPlus.length - 1 && !last">
-            <view
-              class="main"
-              :style="{ color: color ? '#000000' : '#9A9A9A' }"
-            >
+            <view class="main" :style="{ color: color ? '#000000' : '#9A9A9A' }">
               {{ item }}
             </view>
           </view>
@@ -158,6 +143,7 @@ export default {
 .baseLayout {
   width: 100%;
 }
+
 .header {
   width: 100%;
   display: flex;
@@ -193,8 +179,11 @@ export default {
     font-size: 26upx;
     align-items: center;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: auto;
     text-overflow: ellipsis;
+    &::-webkit-scrollbar{
+      display: none;
+    }
 
     .dot {
       margin: 0 10upx;
