@@ -1,682 +1,4 @@
-export type XAttrLinkProp = {
-  id: string;
-  attrId: string;
-  propId: string;
-  belongId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  property: XProperty | undefined;
-  attribute: XAttribute | undefined;
-};
-export type XAttrLinkPropArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XAttrLinkProp[] | undefined;
-};
-export type XAttribute = {
-  id: string;
-  name: string;
-  code: string;
-  rule: string;
-  remark: string;
-  shareId: string;
-  belongId: string;
-  authId: string;
-  propId: string;
-  formId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  linkPropertys: XProperty[] | undefined;
-  links: XAttrLinkProp[] | undefined;
-  property: XProperty | undefined;
-  authority: XAuthority | undefined;
-  form: XForm | undefined;
-  belong: XTarget | undefined;
-};
-export type XAttributeArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XAttribute[] | undefined;
-};
-export type XAuthority = {
-  id: string;
-  name: string;
-  code: string;
-  remark: string;
-  icon: string;
-  public: boolean;
-  parentId: string;
-  shareId: string;
-  belongId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  parent: XAuthority | undefined;
-  nodes: XAuthority[] | undefined;
-  belong: XTarget | undefined;
-  identitys: XIdentity[] | undefined;
-  authSpecies: XSpecies[] | undefined;
-  autAttrs: XAttribute[] | undefined;
-};
-export type XAuthorityArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XAuthority[] | undefined;
-};
-export type XDict = {
-  id: string;
-  name: string;
-  code: string;
-  icon: string;
-  remark: string;
-  speciesId: string;
-  belongId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  dictItems: XDictItem[] | undefined;
-  dictProps: XProperty[] | undefined;
-  belong: XTarget | undefined;
-};
-export type XDictArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XDict[] | undefined;
-};
-export type XDictItem = {
-  id: string;
-  name: string;
-  value: string;
-  icon: string;
-  belongId: string;
-  dictId: string;
-  remark: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  dict: XDict | undefined;
-  belong: XTarget | undefined;
-};
-export type XDictItemArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XDictItem[] | undefined;
-};
-export type XForm = {
-  id: string;
-  name: string;
-  code: string;
-  rule: string;
-  remark: string;
-  speciesId: string;
-  shareId: string;
-  belongId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  attributes: XAttribute[] | undefined;
-  bindNodes: XWorkNode[] | undefined;
-  species: XSpecies | undefined;
-  belong: XTarget | undefined;
-};
-export type XFormArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XForm[] | undefined;
-};
-export type XIdProof = {
-  id: string;
-  identityId: string;
-  targetId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  target: XTarget | undefined;
-  identity: XIdentity | undefined;
-};
-export type XIdProofArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XIdProof[] | undefined;
-};
-export type XIdentity = {
-  id: string;
-  name: string;
-  code: string;
-  remark: string;
-  authId: string;
-  shareId: string;
-  belongId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  idProofs: XIdProof[] | undefined;
-  identityTeams: XTeamIdentity[] | undefined;
-  givenTargets: XTarget[] | undefined;
-  teams: XTeam[] | undefined;
-  authority: XAuthority | undefined;
-  share: XTarget | undefined;
-  belong: XTarget | undefined;
-};
-export type XIdentityArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XIdentity[] | undefined;
-};
-export type XLog = {
-  id: string;
-  type: string;
-  module: string;
-  content: string;
-  belongId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-};
-export type XLogArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XLog[] | undefined;
-};
-export type XOrder = {
-  id: string;
-  nftId: string;
-  name: string;
-  code: string;
-  price: number;
-  marketId: string;
-  belongId: string;
-  content: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  pays: XOrderPay[] | undefined;
-  belong: XTarget | undefined;
-};
-export type XOrderArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XOrder[] | undefined;
-};
-export type XOrderPay = {
-  id: string;
-  orderId: string;
-  price: number;
-  paymentType: string;
-  remark: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  orderDetail: XOrder | undefined;
-};
-export type XOrderPayArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XOrderPay[] | undefined;
-};
-export type XProperty = {
-  id: string;
-  name: string;
-  code: string;
-  valueType: string;
-  unit: string;
-  remark: string;
-  speciesId: string;
-  dictId: string;
-  sourceId: string;
-  belongId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  linkAttributes: XAttribute[] | undefined;
-  links: XAttrLinkProp[] | undefined;
-  attributes: XAttribute[] | undefined;
-  things: XThing[] | undefined;
-  propThingValues: XThingProp[] | undefined;
-  species: XSpecies | undefined;
-  dict: XDict | undefined;
-  belong: XTarget | undefined;
-};
-export type XPropertyArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XProperty[] | undefined;
-};
-export type XRelation = {
-  id: string;
-  targetId: string;
-  teamId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  team: XTeam | undefined;
-  target: XTarget | undefined;
-};
-export type XRelationArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XRelation[] | undefined;
-};
-export type XSpecies = {
-  id: string;
-  name: string;
-  code: string;
-  remark: string;
-  icon: string;
-  typeName: string;
-  parentId: string;
-  authId: string;
-  shareId: string;
-  belongId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  defines: XWorkDefine[] | undefined;
-  propertys: XProperty[] | undefined;
-  attributes: XAttribute[] | undefined;
-  forms: XForm[] | undefined;
-  parent: XSpecies | undefined;
-  nodes: XSpecies[] | undefined;
-  authority: XAuthority | undefined;
-  belong: XTarget | undefined;
-};
-export type XSpeciesArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XSpecies[] | undefined;
-};
-export type XTarget = {
-  id: string;
-  name: string;
-  code: string;
-  typeName: string;
-  public: boolean;
-  icon: string;
-  remark: string;
-  belongId: string;
-  thingId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  orders: XOrder[] | undefined;
-  idProofs: XIdProof[] | undefined;
-  shareIdentitys: XIdentity[] | undefined;
-  identitys: XIdentity[] | undefined;
-  things: XThing[] | undefined;
-  relations: XRelation[] | undefined;
-  team: XTeam | undefined;
-  dicts: XDict[] | undefined;
-  sellOrder: XOrder[] | undefined;
-  dictItems: XDictItem[] | undefined;
-  species: XSpecies[] | undefined;
-  attributes: XAttribute[] | undefined;
-  propertys: XProperty[] | undefined;
-  authority: XAuthority[] | undefined;
-  relTeams: XTeam[] | undefined;
-  forms: XForm[] | undefined;
-  givenIdentitys: XIdentity[] | undefined;
-  belong: XTarget | undefined;
-  targets: XTarget[] | undefined;
-  thing: XThing | undefined;
-  defines: XWorkDefine[] | undefined;
-  instances: XWorkInstance[] | undefined;
-};
-export type XTargetArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XTarget[] | undefined;
-};
-export type XTeam = {
-  id: string;
-  name: string;
-  code: string;
-  targetId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  relTargets: XTarget[] | undefined;
-  teamIdentitys: XTeamIdentity[] | undefined;
-  relations: XRelation[] | undefined;
-  target: XTarget | undefined;
-  identitys: XIdentity[] | undefined;
-};
-export type XTeamArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XTeam[] | undefined;
-};
-export type XTeamIdentity = {
-  id: string;
-  identityId: string;
-  teamId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  team: XTeam | undefined;
-  identity: XIdentity | undefined;
-};
-export type XTeamIdentityArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XTeamIdentity[] | undefined;
-};
-export type XThing = {
-  id: string;
-  chainId: string;
-  name: string;
-  code: string;
-  shareId: string;
-  belongId: string;
-  remark: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  thingPropValues: XThingProp[] | undefined;
-  target: XTarget | undefined;
-  givenPropertys: XProperty[] | undefined;
-  belong: XTarget | undefined;
-};
-export type XThingArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XThing[] | undefined;
-};
-export type XThingProp = {
-  id: string;
-  propId: string;
-  thingId: string;
-  value: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  histroy: XThingPropHistroy[] | undefined;
-  property: XProperty | undefined;
-  thing: XThing | undefined;
-};
-export type XThingPropArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XThingProp[] | undefined;
-};
-export type XThingPropHistroy = {
-  id: string;
-  thingPropId: string;
-  value: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  thingProp: XThingProp | undefined;
-};
-export type XThingPropHistroyArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XThingPropHistroy[] | undefined;
-};
-export type XWorkDefine = {
-  id: string;
-  code: string;
-  name: string;
-  icon: string;
-  remark: string;
-  speciesId: string;
-  shareId: string;
-  belongId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  nodes: XWorkNode[] | undefined;
-  instances: XWorkInstance[] | undefined;
-  target: XTarget | undefined;
-  species: XSpecies | undefined;
-};
-export type XWorkDefineArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XWorkDefine[] | undefined;
-};
-export type XWorkInstance = {
-  id: string;
-  title: string;
-  defineId: string;
-  contentType: string;
-  taskId: string;
-  content: string;
-  data: string;
-  thingIds: string;
-  hook: string;
-  shareId: string;
-  belongId: string;
-  remark: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  tasks: XWorkTask[] | undefined;
-  historyTasks: XWorkTaskHistory[] | undefined;
-  define: XWorkDefine | undefined;
-  target: XTarget | undefined;
-};
-export type XWorkInstanceArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XWorkInstance[] | undefined;
-};
-export type XWorkNode = {
-  id: string;
-  rule: string;
-  code: string;
-  name: string;
-  count: number;
-  defineId: string;
-  destId: string;
-  destName: string;
-  brotherIds: string;
-  branchId: string;
-  branchType: number;
-  remark: string;
-  destType: string;
-  nodeType: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  tasks: XWorkTask[] | undefined;
-  bindFroms: XForm[] | undefined;
-  historyTasks: XWorkTaskHistory[] | undefined;
-  define: XWorkDefine | undefined;
-};
-export type XWorkNodeArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XWorkNode[] | undefined;
-};
-export type XWorkNodeRelation = {
-  id: string;
-  nodeId: string;
-  formId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-};
-export type XWorkNodeRelationArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XWorkNodeRelation[] | undefined;
-};
-export type XWorkRecord = {
-  id: string;
-  taskId: string;
-  comment: string;
-  data: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  task: XWorkTask | undefined;
-};
-export type XWorkRecordArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XWorkRecord[] | undefined;
-};
-export type XWorkTask = {
-  id: string;
-  nodeId: string;
-  title: string;
-  approveType: string;
-  taskType: string;
-  count: number;
-  defineId: string;
-  shareId: string;
-  belongId: string;
-  instanceId: string;
-  identityId: string;
-  content: string;
-  remark: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  records: XWorkRecord[] | undefined;
-  node: XWorkNode | undefined;
-  instance: XWorkInstance | undefined;
-};
-export type XWorkTaskArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XWorkTask[] | undefined;
-};
-export type XWorkTaskHistory = {
-  id: string;
-  nodeId: string;
-  instanceId: string;
-  status: number;
-  createUser: string;
-  updateUser: string;
-  version: string;
-  createTime: string;
-  updateTime: string;
-  records: XWorkRecord[] | undefined;
-  node: XWorkNode | undefined;
-  instance: XWorkInstance | undefined;
-};
-export type XWorkTaskHistoryArray = {
-  offset: number;
-  limit: number;
-  total: number;
-  result: XWorkTaskHistory[] | undefined;
-};
-export type XEntity = {
-  // 名称
-  name: string;
-  // 编号
-  code: string;
-  // 备注
-  remark: string;
-  // 归属用户
-  belongId: string;
+export type Xbase = {
   // 雪花ID
   id: string;
   // 状态
@@ -691,5 +13,511 @@ export type XEntity = {
   createTime: string;
   // 更新时间
   updateTime: string;
-  typeName?:any
 };
+
+export type XEntity = {
+  // 名称
+  name: string;
+  // 编号
+  code: string;
+  // 备注
+  remark: string;
+  // 图标
+  icon: string;
+  // 归属用户
+  belongId: string;
+  // 类型
+  typeName: string;
+  // 创建类别标准的用户
+  belong: XTarget | undefined;
+} & Xbase;
+
+//应用定义
+export type XApplication = {
+  // 目录ID
+  directoryId: string;
+  // 父ID
+  parentId: string;
+  // 应用资源
+  resource: string;
+  // 应用下的办事
+  defines: XWorkDefine[] | undefined;
+  // 应用的结构
+  parent: XApplication | undefined;
+  // 应用的结构
+  nodes: XApplication[] | undefined;
+  // 应用的目录
+  directory: XDirectory | undefined;
+} & XEntity;
+
+//特性和属性的关系
+export type XAttrLinkProp = {
+  // 特性ID
+  attrId: string;
+  // 属性ID
+  propId: string;
+  // 归属用户ID
+  belongId: string;
+  // 关联的属性
+  property: XProperty | undefined;
+  // 关联的特性
+  attribute: XAttribute | undefined;
+} & Xbase;
+
+//度量特性定义
+export type XAttribute = {
+  // 名称
+  name: string;
+  // 编号
+  code: string;
+  // 规则
+  rule: string;
+  // 备注
+  remark: string;
+  // 工作职权Id
+  authId: string;
+  // 属性Id
+  propId: string;
+  // 单Id
+  formId: string;
+  // 归属用户ID
+  belongId: string;
+  // 关联的各组织属性
+  linkPropertys: XProperty[] | undefined;
+  // 属性关系
+  links: XAttrLinkProp[] | undefined;
+  // 关联属性
+  property: XProperty | undefined;
+  // 单
+  form: XForm | undefined;
+  // 工作职权
+  authority: XAuthority | undefined;
+  // 创建度量标准的用户
+  belong: XTarget | undefined;
+} & Xbase;
+
+//权限定义
+export type XAuthority = {
+  // 公开的
+  public: boolean;
+  // 上级权限ID
+  parentId: string;
+  // 共享用户ID
+  shareId: string;
+  // 上下级权限
+  parent: XAuthority | undefined;
+  // 上下级权限
+  nodes: XAuthority[] | undefined;
+  // 权限对应的身份
+  identitys: XIdentity[] | undefined;
+  // 权限可操作的度量
+  autAttrs: XAttribute[] | undefined;
+} & XEntity;
+
+//目录定义
+export type XDirectory = {
+  // 父目录ID
+  parentId: string;
+  // 共享用户ID
+  shareId: string;
+  // 目录下的属性
+  propertys: XProperty[] | undefined;
+  // 目录下的单
+  forms: XForm[] | undefined;
+  // 目录下的分类
+  species: XSpecies[] | undefined;
+  // 目录下的应用
+  applications: XApplication[] | undefined;
+  // 目录的结构
+  parent: XDirectory | undefined;
+  // 目录的结构
+  nodes: XDirectory[] | undefined;
+} & XEntity;
+
+//单定义
+export type XForm = {
+  // 单布局
+  rule: string;
+  // 目录ID
+  directoryId: string;
+  // 单的特性
+  attributes: XAttribute[] | undefined;
+  // 使用单的流程节点
+  bindNodes: XWorkNode[] | undefined;
+  // 单的目录
+  directory: XDirectory | undefined;
+} & XEntity;
+
+//身份证明
+export type XIdProof = {
+  // 身份ID
+  identityId: string;
+  // 对象ID
+  targetId: string;
+  // 岗位Id
+  teamId: string;
+  // 身份证明证明的用户
+  target: XTarget | undefined;
+  // 身份证明证明的身份
+  identity: XIdentity | undefined;
+} & Xbase;
+
+//身份
+export type XIdentity = {
+  // 职权Id
+  authId: string;
+  // 共享用户ID
+  shareId: string;
+  // 身份证明
+  idProofs: XIdProof[] | undefined;
+  // 身份集关系
+  identityTeams: XTeamIdentity[] | undefined;
+  // 赋予身份的用户
+  givenTargets: XTarget[] | undefined;
+  // 身份集对于组织
+  teams: XTeam[] | undefined;
+  // 身份的类别
+  authority: XAuthority | undefined;
+  // 共享用户
+  share: XTarget | undefined;
+} & XEntity;
+
+//属性定义
+export type XProperty = {
+  // 值类型
+  valueType: string;
+  // 附加信息
+  info: string;
+  // 计量单位
+  unit: string;
+  // 目录ID
+  directoryId: string;
+  // 标签ID
+  speciesId: string;
+  // 来源用户ID
+  sourceId: string;
+  // 给物的度量标准
+  linkAttributes: XAttribute[] | undefined;
+  // 特性关系
+  links: XAttrLinkProp[] | undefined;
+  // 创建的特性集
+  attributes: XAttribute[] | undefined;
+  // 附加过属性的物
+  things: XThing[] | undefined;
+  // 属性的物的度量
+  propThingValues: XThingProp[] | undefined;
+  // 属性的目录
+  directory: XDirectory | undefined;
+  // 字典类型
+  species: XSpecies | undefined;
+} & XEntity;
+
+//用户关系
+export type XRelation = {
+  // 对象ID
+  targetId: string;
+  // 组织ID
+  teamId: string;
+  // 关联的组织团队
+  team: XTeam | undefined;
+  // 关联的组织实体
+  target: XTarget | undefined;
+} & Xbase;
+
+//分类标签
+export type XSpecies = {
+  // 目录ID
+  directoryId: string;
+  // 来源用户ID
+  sourceId: string;
+  // 分类的类目
+  speciesItems: XSpeciesItem[] | undefined;
+  // 使用该分类的度量属性
+  speciesProps: XProperty[] | undefined;
+  // 分类的目录
+  directory: XDirectory | undefined;
+} & XEntity;
+
+//分类类目
+export type XSpeciesItem = {
+  // 附加信息
+  info: string;
+  // 父类目ID
+  parentId: string;
+  // 分类ID
+  speciesId: string;
+  // 字典类型
+  species: XSpecies | undefined;
+  // 类目的结构
+  parent: XSpeciesItem | undefined;
+  // 类目的结构
+  nodes: XSpeciesItem[] | undefined;
+} & XEntity;
+
+//用户
+export type XTarget = {
+  // 开放组织
+  public: boolean;
+  // 元数据
+  thingId: string;
+  // 身份证明
+  idProofs: XIdProof[] | undefined;
+  // 组织的身份
+  shareIdentitys: XIdentity[] | undefined;
+  // 归属的身份
+  identitys: XIdentity[] | undefined;
+  // 属于该用户的物
+  things: XThing[] | undefined;
+  // 加入团队的关系
+  relations: XRelation[] | undefined;
+  // 作为团队的影子
+  team: XTeam | undefined;
+  // 该用户创建的分类
+  specieses: XSpecies[] | undefined;
+  // 该用户创建的类目
+  speciesItems: XSpeciesItem[] | undefined;
+  // 该用户创建的目录
+  directorys: XDirectory[] | undefined;
+  // 该用户创建的应用
+  applications: XApplication[] | undefined;
+  // 该用户创建的度量标准
+  attributes: XAttribute[] | undefined;
+  // 该用户创建的属性
+  propertys: XProperty[] | undefined;
+  // 该用户创建的职权标准
+  authority: XAuthority[] | undefined;
+  // 加入的团队
+  relTeams: XTeam[] | undefined;
+  // 该用户创建的业务单
+  forms: XForm[] | undefined;
+  // 赋予该用户创建的身份
+  givenIdentitys: XIdentity[] | undefined;
+  // 该组织或个人所属的用户
+  targets: XTarget[] | undefined;
+  // 用户物的本质
+  thing: XThing | undefined;
+  // 归属用户的办事定义
+  defines: XWorkDefine[] | undefined;
+  // 归属用户的办事实例
+  instances: XWorkInstance[] | undefined;
+} & XEntity;
+
+//虚拟组织
+export type XTeam = {
+  // 名称
+  name: string;
+  // 编号
+  code: string;
+  // 实体
+  targetId: string;
+  // 加入团队的用户
+  relTargets: XTarget[] | undefined;
+  // 组织身份集关系
+  teamIdentitys: XTeamIdentity[] | undefined;
+  // 加入团队的用户的关系
+  relations: XRelation[] | undefined;
+  // 团队的实体
+  target: XTarget | undefined;
+  // 组织的身份集
+  identitys: XIdentity[] | undefined;
+} & Xbase;
+
+//用户身份
+export type XTeamIdentity = {
+  // 身份ID
+  identityId: string;
+  // 用户ID
+  teamId: string;
+  // 身份加入的组织
+  team: XTeam | undefined;
+  // 组织包含的身份
+  identity: XIdentity | undefined;
+} & Xbase;
+
+//(物/存在)
+export type XThing = {
+  // 链上ID
+  chainId: string;
+  // 名称
+  name: string;
+  // 编号
+  code: string;
+  // 共享容器ID
+  shareId: string;
+  // 归属用户ID
+  belongId: string;
+  // 备注
+  remark: string;
+  // 物的属性集
+  thingPropValues: XThingProp[] | undefined;
+  // 物作为管理对象的映射
+  target: XTarget | undefined;
+  // 给物的度量标准
+  givenPropertys: XProperty[] | undefined;
+  // 物的归属
+  belong: XTarget | undefined;
+} & Xbase;
+
+//物的属性值
+export type XThingProp = {
+  // 属性ID
+  propId: string;
+  // 元数据ID
+  thingId: string;
+  // 值
+  value: string;
+  // 度量的标准
+  property: XProperty | undefined;
+  // 度量的物
+  thing: XThing | undefined;
+} & Xbase;
+
+//办事定义
+export type XWorkDefine = {
+  // 规则
+  rule: string;
+  // 应用ID
+  applicationId: string;
+  // 共享用户ID
+  shareId: string;
+  // 允许新增
+  allowAdd: boolean;
+  // 允许变更
+  allowEdit: boolean;
+  // 允许选择
+  allowSelect: boolean;
+  // 办事定义节点
+  nodes: XWorkNode[] | undefined;
+  // 办事的实例
+  instances: XWorkInstance[] | undefined;
+  // 应用
+  application: XApplication | undefined;
+  // 归属用户
+  target: XTarget | undefined;
+} & XEntity;
+
+//办事实例
+export type XWorkInstance = {
+  // 标题
+  title: string;
+  // 办事定义Id
+  defineId: string;
+  // 展示内容类型
+  contentType: string;
+  // 对应父流程实例的节点任务
+  taskId: string;
+  // 展示内容
+  content: string;
+  // 携带的数据
+  data: string;
+  // 回调钩子
+  hook: string;
+  // 申请用户ID
+  applyId: string;
+  // 共享用户ID
+  shareId: string;
+  // 归属用户ID
+  belongId: string;
+  // 备注
+  remark: string;
+  // 办事任务
+  tasks: XWorkTask[] | undefined;
+  // 办事的定义
+  define: XWorkDefine | undefined;
+  // 归属用户
+  target: XTarget | undefined;
+} & Xbase;
+
+//办事定义节点
+export type XWorkNode = {
+  // 节点规则
+  rule: string;
+  // 节点编号
+  code: string;
+  // 节点名称
+  name: string;
+  // 审批人数
+  count: number;
+  // 办事定义Id
+  defineId: string;
+  // 节点分配目标Id
+  destId: string;
+  // 节点分配目标名称
+  destName: string;
+  // 兄弟节点Id集合
+  brotherIds: string;
+  // 分支Id
+  branchId: string;
+  // 分支类型
+  branchType: number;
+  // 备注
+  remark: string;
+  // destType
+  destType: string;
+  // 节点类型
+  nodeType: string;
+  // 办事实例任务
+  tasks: XWorkTask[] | undefined;
+  // 赋予身份的用户
+  bindFroms: XForm[] | undefined;
+  // 办事的定义
+  define: XWorkDefine | undefined;
+} & Xbase;
+
+//办事节点绑定
+export type XWorkNodeRelation = {
+  // 单类型
+  fromType: string;
+  // 办事节点
+  nodeId: string;
+  // 单设计
+  formId: string;
+} & Xbase;
+
+//办事节点数据
+export type XWorkRecord = {
+  // 节点任务
+  taskId: string;
+  // 评论
+  comment: string;
+  // 内容
+  data: string;
+  // 办事的定义
+  task: XWorkTask | undefined;
+} & Xbase;
+
+//办事任务
+export type XWorkTask = {
+  // 任务标题
+  title: string;
+  // 审批类型
+  approveType: string;
+  // 任务类型
+  taskType: string;
+  // 审批人数
+  count: number;
+  // 审批身份Id
+  identityId: string;
+  // 办事定义节点id
+  nodeId: string;
+  // 办事实例id
+  instanceId: string;
+  // 流程任务Id
+  defineId: string;
+  // 任务的用户Id
+  shareId: string;
+  // 归属用户ID
+  belongId: string;
+  // 申请用户ID
+  applyId: string;
+  // 内容
+  content: string;
+  // 备注
+  remark: string;
+  // 办事节点记录
+  records: XWorkRecord[] | undefined;
+  // 办事节点
+  node: XWorkNode | undefined;
+  // 办事的定义
+  instance: XWorkInstance | undefined;
+} & Xbase;

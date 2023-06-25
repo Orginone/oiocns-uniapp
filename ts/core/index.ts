@@ -1,7 +1,13 @@
 export { msgChatNotify } from './chat/message/msgchat';
 export type { IEntity } from './public';
-export { companyTypes, departmentTypes, orgAuth as OrgAuth } from './public/consts';
-export { MessageType, SpeciesType, TargetType, TaskStatus } from './public/enums';
+export { companyTypes, departmentTypes, orgAuth, valueTypes } from './public/consts';
+export {
+  MessageType,
+  SpeciesType,
+  TargetType,
+  TaskStatus,
+  ValueType,
+} from './public/enums';
 export type { IAuthority } from './target/authority/authority';
 export type { IBelong } from './target/base/belong';
 export type { ITarget } from './target/base/target';
@@ -13,16 +19,11 @@ export type { ICohort } from './target/outTeam/cohort';
 export type { IGroup } from './target/outTeam/group';
 export type { IPerson } from './target/person';
 export type { ICompany } from './target/team/company';
-export type { IApplication } from './thing/app/application';
-export type { IWorkItem } from './thing/app/workitem';
-export type { ISpeciesItem } from './thing/base/species';
-export type { IWorkDefine } from './thing/base/work';
-export type { IWork } from './thing/base/work';
-export type { IDict } from './thing/dict/dict';
-export type { IDictClass } from './thing/dict/dictclass';
-export type { IFileSystemItem } from './thing/filesys/filesysItem';
-export type { IFileSystem, TaskModel } from './thing/filesys/filesystem';
-export type { IMarket } from './thing/market/market';
-export type { IPropClass } from './thing/store/propclass';
-export type { IThingClass } from './thing/store/thingclass';
+export type { IApplication } from './thing/application';
+export type { IDirectory } from './thing/directory';
+export type { IFileInfo, ISysFileInfo } from './thing/fileinfo';
+export type { IForm, IFormView } from './thing/form';
+export type { IMemeber } from './thing/member';
+export type { IProperty } from './thing/property';
+export type { ISpecies } from './thing/species';
 export { UserProvider } from './user';
