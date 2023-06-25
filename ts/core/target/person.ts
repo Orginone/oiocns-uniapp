@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {kernelApi as kernel} from '../../../common/app';
 import { model, parseAvatar, schema } from '../../../ts/base';
 import { IBelong, Belong } from './base/belong';
@@ -7,8 +6,11 @@ import { createCompany } from './team';
 import { PageAll, companyTypes } from '../public/consts';
 import { OperateType, TargetType } from '../public/enums';
 import { ICompany } from './team/company';
+import { IMsgChat } from '../chat/message/msgchat';
 import { ITarget } from './base/target';
 import { ITeam } from './base/team';
+import { personJoins, targetOperates } from '../public';
+import { IFileInfo } from '../thing/fileinfo';
 
 /** 人员类型接口 */
 export interface IPerson extends IBelong {
@@ -16,10 +18,18 @@ export interface IPerson extends IBelong {
   companys: ICompany[];
   /** 赋予人的身份(角色)实体 */
   givedIdentitys: schema.XIdProof[];
+  /** 拷贝的文件 */
+  copyFiles: Map<string, IFileInfo<schema.XEntity>>;
   /** 根据ID查询共享信息 */
   findShareById(id: string): model.ShareIcon;
+  /** 根据Id查询共享信息 */
+  findEntityAsync(id: string): Promise<schema.XEntity | undefined>;
   /** 判断是否拥有某些用户的权限 */
   authenticate(orgIds: string[], authIds: string[]): boolean;
+  /** 加载赋予人的身份(角色)实体 */
+  loadGivedIdentitys(reload?: boolean): Promise<schema.XIdProof[]>;
+  /** 移除赋予人的身份(角色) */
+  removeGivedIdentity(identityIds: string[], teamId?: string): void;
   /** 加载单位 */
   loadCompanys(reload?: boolean): Promise<ICompany[]>;
   /** 创建单位 */
@@ -32,12 +42,35 @@ export interface IPerson extends IBelong {
 export class Person extends Belong implements IPerson {
   constructor(_metadata: schema.XTarget) {
     super(_metadata, ['本人']);
+    this.copyFiles = new Map();
   }
   companys: ICompany[] = [];
+  givedIdentitys: schema.XIdProof[] = [];
+  copyFiles: Map<string, IFileInfo<schema.XEntity>>;
   private _cohortLoaded: boolean = false;
   private _companyLoaded: boolean = false;
-  givedIdentitys: any = [];
   private _givedIdentityLoaded: boolean = false;
+  async loadGivedIdentitys(reload: boolean = false): Promise<schema.XIdProof[]> {
+    if (!this._givedIdentityLoaded || reload) {
+      const res = await kernel.queryGivedIdentitys();
+      if (res.success) {
+        this._givedIdentityLoaded = true;
+        this.givedIdentitys = res.data?.result || [];
+      }
+    }
+    return this.givedIdentitys;
+  }
+  removeGivedIdentity(identityIds: string[], teamId?: string): void {
+    let idProofs = this.givedIdentitys.filter((a) => identityIds.includes(a.identityId));
+    if (teamId) {
+      idProofs = idProofs.filter((a) => a.teamId == teamId);
+    } else {
+      idProofs = idProofs.filter((a) => a.teamId == undefined);
+    }
+    this.givedIdentitys = this.givedIdentitys.filter((a) =>
+      idProofs.every((i) => i.id !== a.identity?.id),
+    );
+  }
   async loadCohorts(reload?: boolean | undefined): Promise<ICohort[]> {
     if (!this._cohortLoaded || reload) {
       const res = await kernel.queryJoinedTargetById({
@@ -61,10 +94,10 @@ export class Person extends Belong implements IPerson {
       });
       if (res.success) {
         this._companyLoaded = true;
-        this.companys = (res.data.result || []).map((i:any) => createCompany(i, this));
+        this.companys = (res.data.result || []).map((i) => createCompany(i, this));
       }
     }
-    return [];
+    return this.companys;
   }
   async createCompany(data: model.TargetModel): Promise<ICompany | undefined> {
     if (!companyTypes.includes(data.typeName as TargetType)) {
@@ -76,7 +109,7 @@ export class Person extends Belong implements IPerson {
     const res = await kernel.createTarget(data);
     if (res.success && res.data?.id) {
       const company = createCompany(res.data, this);
-      // await company.deepLoad();
+      await company.deepLoad();
       this.companys.push(company);
       await company.pullMembers([this.metadata]);
       return company;
@@ -93,14 +126,14 @@ export class Person extends Belong implements IPerson {
   authenticate(orgIds: string[], authIds: string[]): boolean {
     return (
       this.givedIdentitys
-        .filter((i:any) => i.identity)
-        .filter((i:any) => orgIds.includes(i.identity!.shareId))
-        .filter((i:any) => authIds.includes(i.identity!.authId)).length > 0
+        .filter((i) => i.identity)
+        .filter((i) => orgIds.includes(i.identity!.shareId))
+        .filter((i) => authIds.includes(i.identity!.authId)).length > 0
     );
   }
   async applyJoin(members: schema.XTarget[]): Promise<boolean> {
     members = members.filter(
-      (i:any) =>
+      (i) =>
         [TargetType.Person, TargetType.Cohort, ...companyTypes].includes(
           i.typeName as TargetType,
         ) && i.id != this.id,
@@ -131,9 +164,9 @@ export class Person extends Belong implements IPerson {
     return false;
   }
   override async delete(): Promise<boolean> {
+    await this.createTargetMsg(OperateType.Remove, this.metadata);
     const res = await kernel.deleteTarget({
       id: this.id,
-      page: PageAll,
     });
     return res.success;
   }
@@ -148,20 +181,17 @@ export class Person extends Belong implements IPerson {
   }
   get targets(): ITarget[] {
     const targets: ITarget[] = [this];
-    for (const item of this.companys) {
-      targets.push(...item.targets);
-    }
     for (const item of this.cohorts) {
       targets.push(...item.targets);
     }
     return targets;
   }
   async deepLoad(reload: boolean = false): Promise<void> {
+    await this.loadGivedIdentitys(reload);
     await this.loadCompanys(reload);
     await this.loadCohorts(reload);
     await this.loadMembers(reload);
     await this.loadSuperAuth(reload);
-    await this.loadSpecies(reload);
     for (const company of this.companys) {
       await company.deepLoad(reload);
     }
@@ -192,7 +222,22 @@ export class Person extends Belong implements IPerson {
     }
     return false;
   }
-
+  override operates(): model.OperateModel[] {
+    const operates = super.operates();
+    operates.unshift(personJoins, targetOperates.NewCompany);
+    return operates;
+  }
+  async findEntityAsync(id: string): Promise<schema.XEntity | undefined> {
+    const metadata = this.findMetadata<schema.XEntity>(id);
+    if (metadata) {
+      return metadata;
+    }
+    const res = await kernel.queryEntityById({ id: id });
+    if (res.success && res.data?.id) {
+      this.updateMetadata(res.data);
+      return res.data;
+    }
+  }
   findShareById(id: string): model.ShareIcon {
     const metadata = this.findMetadata<schema.XEntity>(id);
     if (!metadata) {
@@ -211,7 +256,8 @@ export class Person extends Belong implements IPerson {
     }
     return {
       name: metadata?.name ?? '请稍后...',
-      typeName: '未知',
+      typeName: metadata?.typeName ?? '未知',
+      avatar: parseAvatar(metadata?.icon),
     };
   }
 }

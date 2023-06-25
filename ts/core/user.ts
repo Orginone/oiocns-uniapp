@@ -1,18 +1,22 @@
-import { IPerson, Person } from './target/person';
 import {kernelApi as kernel} from '../../common/app';
+import { IPerson, Person } from './target/person';
 import { common, model, schema } from '../base';
+import { IChatProvider, ChatProvider } from './chat/provider';
 import { IWorkProvider, WorkProvider } from './work/provider';
-import { OperateType, TargetType } from './public/enums';
+import { OperateType } from './public/enums';
 import { logger } from '../base/common';
 import { msgChatNotify } from './chat/message/msgchat';
 import { IIdentity, Identity } from './target/identity/identity';
 import { IStation } from './target/innerTeam/station';
 import { ITeam } from './target/base/team';
+import { ITarget } from './target/base/target';
 const sessionUserName = 'currentUser';
 
+/** 当前用户提供层 */
 export class UserProvider {
   private _user: IPerson | undefined;
   private _work: IWorkProvider | undefined;
+  private _chat: IChatProvider | undefined;
   private _inited: boolean = false;
   private _emiter: common.Emitter;
   constructor(emiter: common.Emitter) {
@@ -24,9 +28,8 @@ export class UserProvider {
         clearInterval(timeIndex);
         console.log('_loadUser',userJson);
         this._loadUser(userJson);
-        
       }
-    }, 1000);
+    })
     // kernel.on('RecvTarget', (data) => {
     //   if (this._inited) {
     //     this._updateTarget(data);
@@ -46,51 +49,30 @@ export class UserProvider {
   get work(): IWorkProvider | undefined {
     return this._work;
   }
+  /** 会话 */
+  get chat(): IChatProvider | undefined {
+    return this._chat;
+  }
   /** 是否完成初始化 */
   get inited(): boolean {
     return this._inited;
   }
-  /**
-   * 登录
-   * @param account 账户
-   * @param password 密码
-   */
-  // public async login(account: string, password: string): Promise<model.ResultType<any>> {
-    // let res = await kernel.login(account, password);
-    // if (res.success) {
-    //   await this._loadUser(res.data.target);
-    // }
-    // return res;
-  // }
-  /**
-   * 注册用户
-   * @param {RegisterType} params 参数
-   */
-  // public async register(params: model.RegisterType): Promise<model.ResultType<any>> {
-    // let res = await kernel.register(params);
-    // if (res.success) {
-    //   await this._loadUser(res.data.target);
-    // }
-    // return res;
-  // }
-  /**
-   * 变更密码
-   * @param account 账号
-   * @param password 密码
-   * @param privateKey 私钥
-   * @returns
-   */
-  // public async resetPassword(
-  //   account: string,
-  //   password: string,
-  //   privateKey: string,
-  // ): Promise<model.ResultType<any>> {
-  //    return await kernel.resetPassword(account, password, privateKey);
-  // }
+  /** 所有相关的用户 */
+  get targets(): ITarget[] {
+    const targets: ITarget[] = [];
+    if (this._user) {
+      targets.push(...this._user.targets);
+      for (const company of this._user.companys) {
+        targets.push(...company.targets);
+      }
+    }
+    return targets;
+  }
   /** 加载用户 */
   private _loadUser(person: schema.XTarget) {
     uni.setStorageSync(sessionUserName, JSON.stringify(person));
     this._user = new Person(person);
+    this._chat = new ChatProvider(this._user);
     this._work = new WorkProvider(this._user);
     this.refresh();
   }
@@ -101,6 +83,7 @@ export class UserProvider {
   /** 重载数据 */
   public async refresh(): Promise<void> {
     this._inited = false;
+    // this._chat?.PreMessage();
     await this._user?.deepLoad(true);
     await this.work?.loadTodos(true);
     this._inited = true;
@@ -111,9 +94,8 @@ export class UserProvider {
   async _updateTarget(recvData: string) {
     const data: model.TargetOperateModel = JSON.parse(recvData);
     if (!this.user || !data) return;
-    let allTarget: ITeam[] = this.user.targets;
+    const allTarget: ITeam[] = this.targets;
     this.user.companys.forEach((a) => {
-      allTarget.push(...a.cohorts);
       allTarget.push(...a.stations);
     });
     let message = '';

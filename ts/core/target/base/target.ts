@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {kernelApi as kernel} from '../../../../common/app';
 import { schema, model } from '../../../base';
 import { IIdentity, Identity } from '../identity/identity';
@@ -71,16 +70,7 @@ export abstract class Target extends Team implements ITarget {
       return identity;
     }
   }
-  override operates(): model.OperateModel[] {
-    const operates = super.operates();
-    if (this.isMyChat) {
-      operates.unshift(targetOperates.Chat);
-    }
-    if (this.hasRelationAuth()) {
-      operates.unshift(targetOperates.NewIdentity);
-    }
-    return operates;
-  }
+
   protected async pullSubTarget(team: ITeam): Promise<boolean> {
     const res = await kernel.pullAnyToTeam({
       id: this.id,

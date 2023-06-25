@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {kernelApi as kernel} from '../../../common/app';
 import { encodeKey, sleep } from '../../base/common';
 import { BucketOpreates, FileItemModel } from '../../base/model';
@@ -61,7 +60,7 @@ export abstract class FileInfo<T extends schema.XEntity>
   abstract copy(destination: IDirectory): Promise<boolean>;
   abstract move(destination: IDirectory): Promise<boolean>;
   async loadContent(reload: boolean = false): Promise<boolean> {
-    return await sleep(reload ? 10 : 0);
+    return true
   }
   operates(mode: number = 0): model.OperateModel[] {
     const operates = super.operates(mode);
@@ -126,58 +125,58 @@ export class SysFileInfo extends FileInfo<schema.XEntity> implements ISysFileInf
     };
   }
   async rename(name: string): Promise<boolean> {
-    if (this.filedata.name != name) {
-      const res = await kernel.anystore.bucketOpreate<FileItemModel>(this.belongId, {
-        name: name,
-        key: encodeKey(this.filedata.key),
-        operate: BucketOpreates.Rename,
-      });
-      if (res.success && res.data) {
-        this.filedata = res.data;
-        return true;
-      }
-    }
-    return false;
+    // if (this.filedata.name != name) {
+    //   const res = await kernel.anystore.bucketOpreate<FileItemModel>(this.belongId, {
+    //     name: name,
+    //     key: encodeKey(this.filedata.key),
+    //     operate: BucketOpreates.Rename,
+    //   });
+    //   if (res.success && res.data) {
+    //     this.filedata = res.data;
+    //     return true;
+    //   }
+    // }
+    // return false;
   }
   async delete(): Promise<boolean> {
-    const res = await kernel.anystore.bucketOpreate<FileItemModel[]>(this.belongId, {
-      key: encodeKey(this.filedata.key),
-      operate: BucketOpreates.Delete,
-    });
-    if (res.success) {
-      this.directory.files = this.directory.files.filter((i) => i.key != this.key);
-    }
-    return res.success;
+    // const res = await kernel.anystore.bucketOpreate<FileItemModel[]>(this.belongId, {
+    //   key: encodeKey(this.filedata.key),
+    //   operate: BucketOpreates.Delete,
+    // });
+    // if (res.success) {
+    //   this.directory.files = this.directory.files.filter((i) => i.key != this.key);
+    // }
+    // return res.success;
   }
   async copy(destination: IDirectory): Promise<boolean> {
-    if (destination.id != this.directory.id) {
-      const res = await kernel.anystore.bucketOpreate<FileItemModel[]>(this.belongId, {
-        key: encodeKey(this.filedata.key),
-        destination: destination.id,
-        operate: BucketOpreates.Copy,
-      });
-      if (res.success) {
-        destination.files.push(this);
-      }
-      return res.success;
-    }
-    return false;
+    // if (destination.id != this.directory.id) {
+    //   const res = await kernel.anystore.bucketOpreate<FileItemModel[]>(this.belongId, {
+    //     key: encodeKey(this.filedata.key),
+    //     destination: destination.id,
+    //     operate: BucketOpreates.Copy,
+    //   });
+    //   if (res.success) {
+    //     destination.files.push(this);
+    //   }
+    //   return res.success;
+    // }
+    // return false;
   }
   async move(destination: IDirectory): Promise<boolean> {
-    if (destination.id != this.directory.id) {
-      const res = await kernel.anystore.bucketOpreate<FileItemModel[]>(this.belongId, {
-        key: encodeKey(this.filedata.key),
-        destination: destination.id,
-        operate: BucketOpreates.Move,
-      });
-      if (res.success) {
-        this.directory.files = this.directory.files.filter((i) => i.key != this.key);
-        this.directory = destination;
-        destination.files.push(this);
-      }
-      return res.success;
-    }
-    return false;
+    // if (destination.id != this.directory.id) {
+    //   const res = await kernel.anystore.bucketOpreate<FileItemModel[]>(this.belongId, {
+    //     key: encodeKey(this.filedata.key),
+    //     destination: destination.id,
+    //     operate: BucketOpreates.Move,
+    //   });
+    //   if (res.success) {
+    //     this.directory.files = this.directory.files.filter((i) => i.key != this.key);
+    //     this.directory = destination;
+    //     destination.files.push(this);
+    //   }
+    //   return res.success;
+    // }
+    // return false;
   }
   override operates(mode?: number): model.OperateModel[] {
     const operates = super.operates();

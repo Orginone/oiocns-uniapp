@@ -60,7 +60,6 @@ export default {
       let res = await config.loadSettingMenu();
       this.removeCircularReferences(res)
       // console.log('setting', JSON.parse(JSON.stringify(res)))
-      console.log('res',res)
       let arr = []
       res.children.forEach(element => {
          let obj = {
