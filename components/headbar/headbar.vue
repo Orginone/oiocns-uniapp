@@ -1,30 +1,26 @@
 <template>
   <view class="baseLayout">
     <view class="header">
-      <!-- 返回 -->
-      <!-- <view class="back" @tap="back()" v-if="left=='back'">
-				<img :src="'../../static/base/back.png'" alt="" >
-			</view> -->
-      <!-- 更多 -->
-      <view class="more" v-if="left == 'more'" @tap="turnUrl()">
-        <img :src="'../../static/base/more.png'" alt="" />
+      <!-- 功能菜单 -->
+      <view class="menu" @tap="turnUrl()">
+        <img :src="'../../static/svg/menu.svg'" alt="" />
       </view>
       <!-- 文字内容 -->
       <view class="content">
         <view class="append" v-for="(item, index) in localListPlus" :key="index">
           <!-- 连接点 -->
-          <view class="dot" :style="{ color: color ? '#000000' : '#9A9A9A' }" v-if="index">
+          <view class="dot" v-if="index">
             .
           </view>
-          <!-- 文字颜色 -->
+          <!-- 默认文字颜色 -->
           <view v-if="index !== localListPlus.length - 1">
-            <view class="main" :style="{ color: color ? '#000000' : '#9A9A9A' }" @click="turnHeadPage(index)">
+            <view  @click="turnHeadPage(index)">
               {{ item }}
             </view>
           </view>
-          <!-- 末尾文字颜色 -->
+          <!-- 末尾文字颜色 是否为深蓝  -->
           <view v-if="index == localListPlus.length - 1 && !last">
-            <view class="main" :style="{ color: color ? '#000000' : '#9A9A9A' }">
+            <view >
               {{ item }}
             </view>
           </view>
@@ -35,16 +31,16 @@
           </view>
         </view>
       </view>
-      <!-- 右侧标签 -->
+      <!-- 右侧标签 是否显示-->
       <view class="right">
-        <view class="search">
-          <img src="../../static/base/search2.png" alt="" />
+        <view class="search" v-if="right">
+          <img src="../../static/svg/search.svg" alt="" />
         </view>
         <view class="add" v-if="right">
-          <img src="../../static/base/add.png" alt="" />
+          <img src="../../static/svg/add.svg" alt="" />
         </view>
-        <view class="dotPlus" v-if="right">
-          <img src="../../static/base/dotPlus.png" alt="" />
+        <view class="more" v-if="right">
+          <img src="../../static/svg/more.svg" alt="" />
         </view>
       </view>
     </view>
@@ -58,12 +54,6 @@ export default {
     localList: {
       defalut: "",
     }, //面包屑静态路径
-    color: {
-      default: false,
-    }, //是否为深色
-    left: {
-      default: "back",
-    }, //左侧标签
     right: {
       default: false,
     }, //右侧标签展示
@@ -71,7 +61,7 @@ export default {
       default: false,
     }, //文字末位蓝色展示
     url: {
-      default: "",
+      default: "back",
     }, //图标跳转链接
     basic: {
       default: "",
@@ -148,19 +138,19 @@ export default {
   width: 100%;
   display: flex;
   padding: 10upx 10upx;
+  height: 80upx;
   box-sizing: border-box;
   align-items: center;
   background-color: #fff;
   position: relative;
   z-index: 999;
 
-  .back,
-  .more {
+  .menu {
     padding-left: 20upx;
 
     img {
-      height: 40upx;
-      width: 42upx;
+      height: 48upx;
+      width: 48upx;
     }
 
     transform: translateY(5upx);
@@ -175,7 +165,7 @@ export default {
   .content {
     display: flex;
     margin-left: 20upx;
-    color: #9a9a9a;
+    color: #333;
     font-size: 26upx;
     align-items: center;
     white-space: nowrap;
@@ -186,6 +176,7 @@ export default {
     }
 
     .dot {
+      color: #333;
       margin: 0 10upx;
       transform: translateY(-20upx) scale(2);
     }
@@ -205,24 +196,30 @@ export default {
     flex: 1;
     display: flex;
     justify-content: flex-end;
-    padding-right: 20upx;
+    align-items: center;
 
+   
     img {
-      height: 40upx;
-      width: 40upx;
+      height: 52upx;
+      width: 52upx;
       margin: 0 15upx;
     }
 
-    .search {
-      transform: translateY(2upx);
-    }
-
-    .dotPlus {
-      img {
-        width: 10upx;
-        height: 42upx;
+    .add{
+      img{
+        height: 36upx;
+      width: 36upx;
       }
     }
+
+    .more{
+      img{
+        height: 52upx;
+      width: 52upx;
+      }
+    }
+
+   
   }
 }
 </style>

@@ -1,11 +1,8 @@
 <template>
   <view>
-    <headbar left="more" :url="url" basic="最近打开"></headbar>
+    <headbar  url="/pages/work/menu/menu" basic="办事" right></headbar>
     <view class="main">
-     <!-- <view class="dealList" v-for="(item, index) in dealList" :key="index">
-        <dealItem :itemInfo="item"></dealItem>
-      </view> -->
-	  <lostPage mode="noContent"></lostPage>
+      <lostPage mode="noContent"></lostPage>
     </view>
   </view>
 </template>
@@ -14,7 +11,6 @@
 export default {
   data() {
     return {
-      url: "/pages/work/menu/menu",
       dealList: [
         {
           title: "这是一张审批单",
@@ -49,6 +45,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .dealList {
     margin-top: 20upx;
   }

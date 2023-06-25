@@ -233,6 +233,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/work/addPage/addPage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "事项",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"pageOrientation": "portrait",

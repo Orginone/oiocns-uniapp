@@ -1,16 +1,18 @@
 <template>
 	<view class="listArea">
-		<view class="total" v-if="title">
+		<!-- 标头 -->
+		<view class="title" v-if="title">
 			<view class="shape"> </view>
-			{{title}}
+			{{ title }}
 		</view>
+		<!-- 列表区 -->
 		<view class="itemArea">
-			<view class="listItem" v-for="item,index in listInfo" :key="index" @tap="turnDetailPage(item)">
+			<view class="listItem" v-for="item, index in listInfo" :key="index" @click="turnDetailPage(item)">
 				<view class="box"></view>
-				<view class="name">{{item.name}}</view>
+				<view class="name">{{ item.name }}</view>
 				<view class="right">
-					<!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
-					<img :src="'../../static/base/add.png'" alt="" v-if="icon.includes('add')">
+					<img :src="'../../static/svg/add.svg'" alt="" v-if="icon.includes('add') || item.name == '发起办事'"
+						@click.stop="turnAddPage(item)">
 					<view class="dotPlus">
 						<img :src="'../../static/base/dotPlus.png'" alt="" v-if="icon.includes('dotPlus')">
 					</view>
@@ -22,132 +24,138 @@
 </template>
 
 <script>
-	export default {
-		name: "personList",
-		props: {
-			listInfo: {
-				default: () => {
-					return []
-				}
-			},
-			localList: {
-				default: ''
-			},
-			title: {
-				default: ''
-			},
-			chat: {
-				default: false
-			},
-			url: {
-				default: '/pages/warehouse/page2/page2'
-			},
-			icon: {
-				default: 'right'
+export default {
+	name: "personList",
+	props: {
+		listInfo: {
+			default: () => {
+				return []
 			}
 		},
-		data() {
-			return {
-
-			};
+		localList: {
+			default: ''
 		},
-		methods: {
-			turnDetailPage(item) {
-				// item['localList'] = this.localList+','+item.name
-				if (Object.keys(item).includes('url')) {
-					let itemPlus = {...item}
-					delete itemPlus.url
-					uni.navigateTo({
-						url:  item.url+ '?data=' + JSON.stringify(itemPlus)
-					})
-					return
-				}
-				if (item.name == '发起办事') {
-					uni.navigateTo({
-						url: '/pages/work/page5/page5' + '?data=' + JSON.stringify(item)
-					})
-				} else {
-					uni.navigateTo({
-						url: this.url + '?data=' + JSON.stringify(item)
-					})
-				}
+		title: {
+			default: ''
+		},
+		chat: {
+			default: false
+		},
+		url: {
+			default: '/pages/warehouse/page2/page2'
+		},
+		icon: {
+			default: 'right'
+		}
+	},
+	data() {
+		return {
 
+		};
+	},
+	methods: {
+		turnAddPage(item) {
+			uni.navigateTo({
+				url: '/pages/work/addPage/addPage' + '?data=' + JSON.stringify(item)
+			})
+		},
+		turnDetailPage(item) {
+			if (Object.keys(item).includes('url')) {
+				let itemPlus = { ...item }
+				let turnUrl = itemPlus.url
+				delete itemPlus.url
+				uni.navigateTo({
+					url: turnUrl + '?data=' + JSON.stringify(itemPlus)
+				})
+				return
 			}
+			if (item.name == '发起办事') {
+				uni.navigateTo({
+					url: '/pages/work/page5/page5' + '?data=' + JSON.stringify(item)
+				})
+			} else {
+				uni.navigateTo({
+					url: this.url + '?data=' + JSON.stringify(item)
+				})
+			}
+
 		}
 	}
+}
 </script>
 
 <style lang="scss">
-	.listArea {
-		width: 100%;
+.listArea {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+
+	.title {
+		padding: 10upx 30upx;
 		display: flex;
-		flex-direction: column;
-		padding: 0 20upx;
-		box-sizing: border-box;
-		margin-top: 20upx;
-
-		.total {
-			padding: 0upx 30upx;
-			display: flex;
-			align-items: center;
-
-			.shape {
-				width: 6upx;
-				height: 30upx;
-				background-color: #3d5ed1;
-				margin-right: 14upx;
-			}
-
+		align-items: center;
+		align-items: center;
+		background-color: transparent;
+		font-size: 30upx;
+		line-height: 1.5;
+		.shape {
+			width: 6upx;
+			height: 30upx;
+			background-color: #3d5ed1;
+			margin-right: 14upx;
 		}
-
-		.itemArea {
-			box-sizing: border-box;
-
-			.listItem {
-				display: flex;
-				padding: 16upx 30upx;
-				align-items: center;
-				box-sizing: border-box;
-
-				&:active {
-					background-color: #edeffc;
-					border-radius: 10upx;
-				}
-
-				.box {
-					width: 84upx;
-					height: 84upx;
-					background-color: #3D5ED1;
-					margin-right: 25upx;
-					border-radius: 8upx;
-				}
-
-				.name {
-					font-size: 32upx;
-				}
-
-				.right {
-					flex: 1;
-					display: flex;
-					justify-content: flex-end;
-					transform: translateY(2upx);
-
-					img {
-						margin-left: 28upx;
-						height: 28upx;
-						width: 28upx;
-					}
-
-					.dotPlus {
-						img {
-							height: 30upx;
-							width: 8upx;
-						}
-					}
-				}
-			}
-		}
-
 
 	}
-</style>
+
+	.itemArea {
+		box-sizing: border-box;
+
+		.listItem {
+			display: flex;
+			padding: 16upx 30upx;
+			align-items: center;
+			box-sizing: border-box;
+			background-color: #fff;
+
+			&:active {
+				background-color: #edeffc;
+				border-radius: 10upx;
+			}
+
+			.box {
+				width: 84upx;
+				height: 84upx;
+				background-color: #3D5ED1;
+				margin-right: 25upx;
+				border-radius: 8upx;
+			}
+
+			.name {
+				font-size: 32upx;
+			}
+
+			.right {
+				flex: 1;
+				display: flex;
+				justify-content: flex-end;
+				transform: translateY(2upx);
+
+				img {
+					margin-left: 28upx;
+					height: 28upx;
+					width: 28upx;
+				}
+
+				.dotPlus {
+					img {
+						height: 30upx;
+						width: 8upx;
+					}
+				}
+			}
+		}
+	}
+
+
+}</style>

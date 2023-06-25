@@ -1,10 +1,9 @@
 <template>
   <view>
     <headbar
-      right
-      :left="'more'"
       :url="'/pages/work/work'"
       basic="办事"
+      last
     ></headbar>
     <personList :listInfo="listInfo1" :url="'/pages/work/page3/page3'"></personList>
     <!-- <personList
