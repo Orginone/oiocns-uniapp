@@ -1,6 +1,27 @@
 <template>
-  <view class="index">
-    <view class="userInfo">
+  <view class="index" @click.stop="closeEvent">
+    <view class="tabBox">
+      <view class="leftBox" @click="jump">
+        <img src="../../static/base/setting.png" alt="" class="leftBoxSrc" />
+      </view>
+      <view class="rightBox">
+        <img src="../../static/base/search2.png" alt="" class="rightBoxSrc"/>
+        <img src="../../static/base/add.png" alt="" class="rightBoxSrc" @click.stop="openEvent" />
+        <!-- <img src="../../static/base/dotPlus.png" alt="" class="dotPlusSrc"/> -->
+        <view class="more">
+          <view class="more_point"></view>
+          <view class="more_point"></view>
+          <view class="more_point"></view>
+        </view>
+        <view class="menu-box" v-show="isShowMask == true">
+          <div class="menu-item" v-for="(item,index) in menuList" :key="index" @click.stop="handle(item,index)">
+            <view class="item_btn">+</view>
+            <view class="item_name">{{item.name}}</view>
+          </div>
+        </view>
+      </view>
+    </view>
+    <!-- <view class="userInfo">
       <view class="userInfo_unit">
         <view class="userInfo_unit_fristName">{{
           userInfo.name?userInfo.name.substring(0, 1):''
@@ -10,7 +31,7 @@
       <view class="userInfo_img">
         <img :src="userInfo.userImg" alt="" srcset="" />
       </view>
-    </view>
+    </view> -->
     <!-- <view class="topTab">
       <view class="topTab_box">
         <view class="topTab_item" v-for="(item, index) in tabList" :key="index" @click="tabActive=index">
@@ -26,7 +47,7 @@
       </view>
     </view> -->
     <view class="banner">
-      <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :indicator-color='color' :easing-function="'easeInOutCubic'" next-margin="40px" previous-margin="40px">  
+      <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :indicator-color='color' :easing-function="'easeInOutCubic'">  
         <swiper-item v-for="(item,index) in imgList" :key="index">  
           <view class='li'>
             <img :src="'../../static/banner/' + item + '.png'" class="itemSrc" />
@@ -40,11 +61,13 @@
     <view class="mune inlet">
       <userApp :appList="appList"></userApp>
 	  </view>
+    <popBox :show="isShow" />
   </view>
 </template>
 
 <script>
 import orgCtrl from '../../ts/controller';
+import popBox from './components/pop';
 import { loadApps } from './config/config';
 export default {
   data() {
@@ -70,8 +93,14 @@ export default {
       color:"#fff",
       tabActive:0,
       todoList:[{name:'待办',number:''},{name:'已办',number:0},{name:'已完结',number:0},{name:'我发起的',number:0},],
-      appList:[]
+      appList:[],
+      isShowMask:false,
+      menuList:[{name:'添加朋友'},{name:'加入群组'},{name:'加入单位组织'},{name:'发起群聊'}],
+      isShow:false
     };
+  },
+  components:{
+    popBox
   },
   async onLoad(options) {
     this.userInfo = uni.getStorageSync('currentUser')
@@ -104,7 +133,25 @@ export default {
         })
         this.appList = arr
       },1000)
-    }
+    },
+    jump(){
+      uni.switchTab({
+        url: '/pages/setting/index'
+      })
+    },
+    //下拉选项打开时
+    openEvent(){
+			this.isShowMask = true;
+		},
+    closeEvent(){
+      this.isShowMask = false;
+      this.isShow = false
+    },
+
+    handle(item,index){
+      this.isShowMask = false;
+      this.isShow = true
+    },
   }
 };
 </script>
@@ -117,6 +164,46 @@ page {
     height: 100%;
     box-sizing: border-box;
 	  padding-bottom: 20upx;
+    .tabBox{
+      width: 100%;
+      padding: 10upx 32upx;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .leftBoxSrc{
+        width: 62upx;
+        height: 62upx;
+        border-radius: 50%;
+        display: block;
+      }
+      .rightBox{
+        display: flex;
+        align-items: center;
+        position: relative;
+        .rightBoxSrc{
+          width: 36upx;
+          height: 36upx;
+          display: block;
+          margin-right:20upx;
+        }
+        .more {
+          margin-top: 12upx;
+          padding-left: 10upx;
+          .more_point {
+            width: 6upx;
+            height: 6upx;
+            background: rgba(89,90,92,1.0);
+            border-radius: 50%;
+            margin-bottom: 8upx;
+          }
+        }
+        .dotPlusSrc{
+          width: 10upx;
+          height: 36upx;
+        }
+      }
+    }
     .userInfo {
       width: 100%;
       padding: 20upx 32upx;
@@ -193,17 +280,17 @@ page {
     }
     .banner{
       width: 100%;
-      height: 250upx;
+      height: 300upx;
       .swiper{
         width: 100%;
-        height: 250upx;
+        height: 300upx;
       }
       .swiper_item{
         width: 100%;
-        height: 250upx;
+        height: 300upx;
         img{
           width: 100%;
-          height: 250upx;
+          height: 300upx;
         }
       }
     }
@@ -220,14 +307,54 @@ page {
   }
   .li{
     width: 100%;
-    height: 250upx;
+    height: 300upx;
   }
   .itemSrc{
-    width: 560rpx;
-    height: 250rpx;
+    width: 100%;
+    height: 300upx;
     display: block;
     margin: 0 auto;
     border-radius: 12rpx;
+  }
+  .menu-box{
+    position: absolute;
+    top: 60upx;
+    right: 10upx;
+    width: 360upx;
+    height: 320upx;
+    background: rgba(76,76,76,1);
+    border-radius: 16upx;
+    z-index: 999;
+    :before {
+      content: "";
+      width: 0px;
+      height: 0px;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid rgba(76,76,76,1);
+      position: absolute;
+      top: -5px;
+      right: 16px;
+    }
+    .menu-item{
+      width: 100%;
+      padding: 4upx 60upx;
+      display: flex;
+      align-items: center;
+      .item_btn{
+        font-size: 50upx;
+        color: #fff;
+        text-align: center;
+        margin-top: 0rpx;
+        margin-bottom: 6rpx
+      }
+      .item_name{
+        font-size: 28upx; 
+        text-align: center;
+        color:#fff;
+        margin-left: 16upx;
+      }
+    }
   }
 }
 </style>

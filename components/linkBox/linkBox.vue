@@ -15,7 +15,7 @@
 		name: "linkBox",
 		data() {
 			return {
-              linkList:[{name:'定标准'},{name:'加好友'},{name:'建群组'},{name:'加群组',index:3},{name:'建单位'},{name:'加单位'},{name:'建应用'},{name:'逛商店'},]
+              linkList:[{name:'定标准'},{name:'加好友'},{name:'建群组'},{name:'加群组',index:3},{name:'建单位'},{name:'加单位'}]
 			};
 		},
         methods: {
@@ -45,11 +45,11 @@
             width: 116upx;
             height: 136upx;
             border-radius: 16upx;
-            background: #ddd;
+            background: rgba(223,224,239,.8);
             margin-right:20rpx ;
             .item_btn{
                 font-size: 70upx;
-                color: #000;
+                color: rgba(57,109,178,1);
                 text-align: center;
                 margin-top: 0rpx;
                 margin-bottom: 0rpx
@@ -57,7 +57,7 @@
             .item_name{
                 font-size: 22upx; 
                 text-align: center;
-                color: #000;
+                color: rgba(57,109,178,1);
             }
         }
     }

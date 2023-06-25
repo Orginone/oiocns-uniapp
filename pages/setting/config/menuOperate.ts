@@ -17,8 +17,6 @@ import {
   companyTypes,
   IBelong,
 } from '../../../ts/core';
-import { XProperty } from '../../../ts/base/schema';
-import { orgAuth } from '../../../ts/core/public/consts';
 
 /** 加载分组菜单参数 */
 interface groupMenuParams {
