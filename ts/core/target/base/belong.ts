@@ -1,14 +1,12 @@
 import {kernelApi as kernel} from '../../../../common/app';
 import { schema, model } from '../../../base';
 import { PageAll } from '../../public/consts';
-import { SpeciesType, TargetType } from '../../public/enums';
+import { TargetType } from '../../public/enums';
 import { IAuthority, Authority } from '../authority/authority';
 import { Cohort, ICohort } from '../outTeam/cohort';
 import { IPerson } from '../person';
 import { ITarget, Target } from './target';
-import { IDict } from '../../thing/dict/dict';
-import { IDictClass } from '../../thing/dict/dictclass';
-import { IFileSystem, FileSystem } from '../../thing/filesys/filesystem';
+import { targetOperates } from '../../public';
 
 /** 自归属用户接口类 */
 export interface IBelong extends ITarget {
@@ -16,18 +14,12 @@ export interface IBelong extends ITarget {
   user: IPerson;
   /** 超管权限，权限为树结构 */
   superAuth: IAuthority | undefined;
-  /** 元数据字典 */
-  dicts: IDict[];
   /** 加入/管理的群 */
   cohorts: ICohort[];
   /** 上级用户 */
   parentTarget: ITarget[];
   /** 共享组织 */
   shareTarget: ITarget[];
-  /** 文件系统 */
-  filesys: IFileSystem;
-  /** 加载字典 */
-  loadDicts(): Promise<IDict[]>;
   /** 加载群 */
   loadCohorts(reload?: boolean): Promise<ICohort[]>;
   /** 加载超管权限 */
@@ -48,36 +40,10 @@ export abstract class Belong extends Target implements IBelong {
   ) {
     super(_metadata, _labels, undefined, _memberTypes);
     this.user = _user || (this as unknown as IPerson);
-    this.speciesTypes = [
-      SpeciesType.Dict,
-      SpeciesType.Store,
-      SpeciesType.Thing,
-      SpeciesType.Application,
-    ];
-    this.filesys = new FileSystem(this);
   }
   user: IPerson;
-  dicts: IDict[] = [];
-  filesys: IFileSystem;
   cohorts: ICohort[] = [];
   superAuth: IAuthority | undefined;
-  async loadDicts(): Promise<IDict[]> {
-    const dicts: IDict[] = [];
-    for (const item of this.species) {
-      switch (item.typeName) {
-        case SpeciesType.Dict: {
-          const subDicts = await (item as IDictClass).loadAllDicts();
-          for (const item of subDicts) {
-            if (dicts.findIndex((i) => i.id === item.id) < 0) {
-              dicts.push(item);
-            }
-          }
-        }
-      }
-    }
-    this.dicts = dicts;
-    return dicts;
-  }
   async loadSuperAuth(reload: boolean = false): Promise<IAuthority | undefined> {
     if (!this.superAuth || reload) {
       const res = await kernel.queryAuthorityTree({
@@ -85,7 +51,6 @@ export abstract class Belong extends Target implements IBelong {
         page: PageAll,
       });
       if (res.success && res.data?.id) {
-		// @ts-ignore
         this.superAuth = new Authority(res.data, this);
       }
     }
@@ -106,6 +71,18 @@ export abstract class Belong extends Target implements IBelong {
       await cohort.pullMembers([this.user.metadata]);
       return cohort;
     }
+  }
+  async loadContent(reload: boolean = false): Promise<boolean> {
+    await super.loadContent(reload);
+    await this.loadSuperAuth(reload);
+    return true;
+  }
+  override operates(): model.OperateModel[] {
+    const operates = super.operates();
+    if (this.hasRelationAuth()) {
+      operates.unshift(targetOperates.NewCohort, targetOperates.SettingAuth);
+    }
+    return operates;
   }
   abstract get shareTarget(): ITarget[];
   abstract get parentTarget(): ITarget[];

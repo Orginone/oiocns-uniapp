@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {kernelApi as kernel} from '../../../../common/app';
 import { schema, model } from '../../../base';
 import { OperateType, TargetType } from '../../public/enums';

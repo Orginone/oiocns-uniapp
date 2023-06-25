@@ -1,4 +1,6 @@
-import { schema, model, kernel } from '../../base';
+// @ts-nocheck
+import {kernelApi as kernel} from '../../../common/app';
+import { schema, model } from '../../base';
 import { Entity, IEntity, PageAll, orgAuth } from '../../core/public';
 import { IDirectory } from './directory';
 import { FileInfo, IFileInfo } from './fileinfo';

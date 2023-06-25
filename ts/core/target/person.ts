@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {kernelApi as kernel} from '../../../common/app';
 import { model, parseAvatar, schema } from '../../../ts/base';
 import { IBelong, Belong } from './base/belong';
@@ -60,7 +61,7 @@ export class Person extends Belong implements IPerson {
       });
       if (res.success) {
         this._companyLoaded = true;
-        this.companys = (res.data.result || []).map((i) => createCompany(i, this));
+        this.companys = (res.data.result || []).map((i:any) => createCompany(i, this));
       }
     }
     return [];

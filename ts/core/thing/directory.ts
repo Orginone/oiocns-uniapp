@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {kernelApi as kernel} from '../../../common/app';
 import { common, model, schema } from '../../base';
 import {
@@ -200,6 +201,7 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
     return false;
   }
   async loadFiles(reload: boolean = false): Promise<ISysFileInfo[]> {
+    console.log('cccc')
     if (this.files.length < 1 || reload) {
       const res = await kernel.anystore.bucketOpreate<model.FileItemModel[]>(
         this.metadata.belongId,

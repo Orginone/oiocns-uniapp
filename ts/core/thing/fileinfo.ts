@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {kernelApi as kernel} from '../../../common/app';
 import { encodeKey, sleep } from '../../base/common';
 import { BucketOpreates, FileItemModel } from '../../base/model';

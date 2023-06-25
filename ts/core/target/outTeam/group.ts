@@ -2,10 +2,10 @@ import {kernelApi as kernel} from '../../../../common/app';
 import { model, schema } from '../../../../ts/base';
 import { ITarget, Target } from '../base/target';
 import { PageAll, companyTypes } from '../../public/consts';
-import { SpeciesType, TargetType } from '../../public/enums';
+import { TargetType } from '../../public/enums';
 import { ICompany } from '../team/company';
 import { ITeam } from '../base/team';
-import { IMarket } from '../../thing/market/market';
+import { targetOperates } from '../../public';
 
 /** 组织集群接口 */
 export interface IGroup extends ITarget {
@@ -15,8 +15,6 @@ export interface IGroup extends ITarget {
   parent?: IGroup;
   /** 子组织集群 */
   children: IGroup[];
-  /** 流通交易 */
-  market: IMarket | undefined;
   /** 加载子组织集群 */
   loadChildren(reload?: boolean): Promise<IGroup[]>;
   /** 设立子组织集群 */
@@ -27,7 +25,6 @@ export interface IGroup extends ITarget {
 export class Group extends Target implements IGroup {
   constructor(_metadata: schema.XTarget, _company: ICompany) {
     super(_metadata, [_metadata.belong?.name ?? '', '组织集群'], _company, companyTypes);
-    this.speciesTypes.push(SpeciesType.Market);
     this.company = _company;
   }
   company: ICompany;
@@ -43,9 +40,7 @@ export class Group extends Target implements IGroup {
       });
       if (res.success) {
         this._childrenLoaded = true;
-        this.children = (res.data.result || []).map((i) => new Group(
-		// @ts-ignore
-		i, this.company));
+        this.children = (res.data.result || []).map((i) => new Group(i, this.company));
       }
     }
     return this.children;
@@ -98,20 +93,19 @@ export class Group extends Target implements IGroup {
     }
     return targets;
   }
-  get market(): IMarket | undefined {
-    const find = this.species.find((i) => i.typeName === SpeciesType.Market);
-    if (find) {
-      return find as IMarket;
-    }
-    return undefined;
-  }
   async deepLoad(reload: boolean = false): Promise<void> {
     await this.loadChildren(reload);
     await this.loadMembers(reload);
-    await this.loadSpecies(reload);
     for (const group of this.children) {
       await group.deepLoad(reload);
     }
+  }
+  override operates(): model.OperateModel[] {
+    const operates = super.operates();
+    if (this.hasRelationAuth()) {
+      operates.unshift(targetOperates.NewGroup);
+    }
+    return operates;
   }
   async teamChangedNotity(target: schema.XTarget): Promise<boolean> {
     switch (target.typeName) {

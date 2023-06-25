@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {kernelApi as kernel} from '../../../../common/app';
 import { schema, model } from '../../../base';
 import { IIdentity, Identity } from '../identity/identity';

@@ -1,4 +1,5 @@
-import { schema, model, kernel } from '../../base';
+import {kernelApi as kernel} from '../../../common/app';
+import { schema, model } from '../../base';
 import { IDirectory } from './directory';
 import { FileInfo, IFileInfo } from './fileinfo';
 export interface IProperty extends IFileInfo<schema.XProperty> {

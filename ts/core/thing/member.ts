@@ -1,4 +1,4 @@
-import { OperateModel } from '@/ts/base/model';
+import { OperateModel } from '../../../ts/base/model';
 import { schema } from '../../base';
 import { IDirectory } from './directory';
 import { FileInfo, IFileInfo } from './fileinfo';

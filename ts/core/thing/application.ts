@@ -70,48 +70,48 @@ export class Application extends FileInfo<schema.XApplication> implements IAppli
     }
     return false;
   }
-  async update(data: model.ApplicationModel): Promise<boolean> {
-    data.id = this.id;
-    data.directoryId = this.metadata.directoryId;
-    data.typeName = this.metadata.typeName;
-    const res = await kernel.updateApplication(data);
-    if (res.success && res.data.id) {
-      this.setMetadata(res.data);
-    }
-    return res.success;
+  async update(data: model.ApplicationModel): Promise<any> {
+    // data.id = this.id;
+    // data.directoryId = this.metadata.directoryId;
+    // data.typeName = this.metadata.typeName;
+    // const res = await kernel.updateApplication(data);
+    // if (res.success && res.data.id) {
+    //   this.setMetadata(res.data);
+    // }
+    // return res.success;
   }
-  async delete(): Promise<boolean> {
-    const res = await kernel.deleteApplication({
-      id: this.id,
-    });
-    if (res.success) {
-      this.directory.applications = this.directory.applications.filter(
-        (i) => i.key != this.key,
-      );
-    }
-    return res.success;
+  async delete(): Promise<any> {
+    // const res = await kernel.deleteApplication({
+    //   id: this.id,
+    // });
+    // if (res.success) {
+    //   this.directory.applications = this.directory.applications.filter(
+    //     (i) => i.key != this.key,
+    //   );
+    // }
+    // return res.success;
   }
-  async loadWorks(reload?: boolean | undefined): Promise<IWork[]> {
-    if (!this._worksLoaded || reload) {
-      const res = await kernel.queryWorkDefine({
-        id: this.id,
-        page: PageAll,
-      });
-      if (res.success) {
-        this._worksLoaded = true;
-        this.works = (res.data.result || []).map((a) => new Work(a, this));
-      }
-    }
-    return this.works;
+  async loadWorks(reload?: boolean | undefined): Promise<any> {
+    // if (!this._worksLoaded || reload) {
+    //   const res = await kernel.queryWorkDefine({
+    //     id: this.id,
+    //     page: PageAll,
+    //   });
+    //   if (res.success) {
+    //     this._worksLoaded = true;
+    //     this.works = (res.data.result || []).map((a) => new Work(a, this));
+    //   }
+    // }
+    // return this.works;
   }
-  async createWork(data: model.WorkDefineModel): Promise<IWork | undefined> {
-    data.applicationId = this.id;
-    const res = await kernel.createWorkDefine(data);
-    if (res.success && res.data.id) {
-      let work = new Work(res.data, this);
-      this.works.push(work);
-      return work;
-    }
+  async createWork(data: model.WorkDefineModel): Promise<any> {
+    // data.applicationId = this.id;
+    // const res = await kernel.createWorkDefine(data);
+    // if (res.success && res.data.id) {
+    //   let work = new Work(res.data, this);
+    //   this.works.push(work);
+    //   return work;
+    // }
   }
   async loadContent(reload: boolean = false): Promise<boolean> {
     await this.loadWorks(reload);

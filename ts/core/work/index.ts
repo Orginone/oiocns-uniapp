@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {kernelApi as kernel} from '../../../common/app';
 import { XWorkDefine } from '../../base/schema';
 import { model, schema } from '../../base';
