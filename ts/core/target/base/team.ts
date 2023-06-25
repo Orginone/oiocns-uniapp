@@ -1,7 +1,7 @@
-// @ts-nocheck
+
 import {kernelApi as kernel} from '../../../../common/app';
 import { schema, model } from '../../../base';
-import { OperateType, TargetType } from '../../public/enums';
+import { MessageType, OperateType, TargetType } from '../../public/enums';
 import { PageAll, orgAuth } from '../../public/consts';
 import { IBelong } from './belong';
 import { IMsgChatT, MsgChat } from '../../chat/message/msgchat';
@@ -44,6 +44,12 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
   ) {
     super(_metadata, _labels, _space, _metadata.belong);
     this.memberTypes = _memberTypes;
+  }
+  moreMessage(): Promise<number> {
+    throw new Error('Method not implemented.');
+  }
+  sendMessage(type: MessageType, text: string, mentions: string[], cite?: any): Promise<boolean> {
+    throw new Error('Method not implemented.');
   }
   memberTypes: TargetType[];
   private _memberLoaded: boolean = false;
@@ -178,14 +184,6 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
     await this.directory.loadContent(reload);
     return true;
   }
-  operates(): model.OperateModel[] {
-    const operates = super.operates();
-    if (this.hasRelationAuth()) {
-      operates.unshift(entityOperates.Update, teamOperates.Pull);
-    }
-    return operates;
-  }
-  abstract get chats(): IMsgChat[];
   abstract deepLoad(reload?: boolean): Promise<void>;
   abstract createTarget(data: model.TargetModel): Promise<ITeam | undefined>;
   abstract teamChangedNotity(target: schema.XTarget): Promise<boolean>;

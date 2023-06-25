@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {kernelApi as kernel} from '../../../common/app';
 import { common, model, schema } from '../../base';
 import {
@@ -71,6 +70,8 @@ export interface IDirectory extends IFileInfo<schema.XDirectory> {
   loadApplications(reload?: boolean): Promise<IApplication[]>;
   /** 新建应用 */
   createApplication(data: model.ApplicationModel): Promise<IApplication | undefined>;
+  /** 创建文件任务 */
+  createTask(task: model.TaskModel): () => void;
 }
 
 /** 目录实现类 */
@@ -118,6 +119,7 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
       cnt.push(...this.propertys);
       cnt.push(...this.specieses);
       if (!this.parent) {
+        console.log('this.target',this.target);
         cnt.push(...this.target.targets.filter((i) => i.id != this.target.id));
         if ('stations' in this.target) {
           cnt.push(...(this.target as ICompany).stations);
@@ -201,49 +203,48 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
     return false;
   }
   async loadFiles(reload: boolean = false): Promise<ISysFileInfo[]> {
-    console.log('cccc')
-    if (this.files.length < 1 || reload) {
-      const res = await kernel.anystore.bucketOpreate<model.FileItemModel[]>(
-        this.metadata.belongId,
-        {
-          key: encodeKey(this.id),
-          operate: BucketOpreates.List,
-        },
-      );
-      if (res.success && res.data.length > 0) {
-        this.files = res.data
-          .filter((i) => !i.isDirectory)
-          .map((item) => {
-            return new SysFileInfo(item, this);
-          });
-      }
-    }
+    // if (this.files.length < 1 || reload) {
+    //   const res = await kernel.anystore.bucketOpreate<model.FileItemModel[]>(
+    //     this.metadata.belongId,
+    //     {
+    //       key: encodeKey(this.id),
+    //       operate: BucketOpreates.List,
+    //     },
+    //   );
+    //   if (res.success && res.data.length > 0) {
+    //     this.files = res.data
+    //       .filter((i) => !i.isDirectory)
+    //       .map((item) => {
+    //         return new SysFileInfo(item, this);
+    //       });
+    //   }
+    // }
     return this.files;
   }
-  async createFile(file: Blob, p?: OnProgress): Promise<ISysFileInfo | undefined> {
-    p?.apply(this, [0]);
-    const task: model.TaskModel = {
-      name: file.name,
-      finished: 0,
-      size: file.size,
-      createTime: new Date(),
-    };
-    this.taskList.push(task);
-    const data = await kernel.anystore.fileUpdate(
-      this.metadata.belongId,
-      file,
-      `${this.id}/${file.name}`,
-      (pn) => {
-        task.finished = pn;
-        p?.apply(this, [pn]);
-        this.taskEmitter.changCallback();
-      },
-    );
-    if (data) {
-      const file = new SysFileInfo(data, this);
-      this.files.push(file);
-      return file;
-    }
+  async createFile(file: Blob, p?: OnProgress): Promise<any> {
+    // p?.apply(this, [0]);
+    // const task: model.TaskModel = {
+    //   name: file.name,
+    //   finished: 0,
+    //   size: file.size,
+    //   createTime: new Date(),
+    // };
+    // this.taskList.push(task);
+    // const data = await kernel.anystore.fileUpdate(
+    //   this.metadata.belongId,
+    //   file,
+    //   `${this.id}/${file.name}`,
+    //   (pn) => {
+    //     task.finished = pn;
+    //     p?.apply(this, [pn]);
+    //     this.taskEmitter.changCallback();
+    //   },
+    // );
+    // if (data) {
+    //   const file = new SysFileInfo(data, this);
+    //   this.files.push(file);
+    //   return file;
+    // }
   }
   async loadForms(reload: boolean = false): Promise<IForm[]> {
     if (this.forms.length < 1 || reload) {
@@ -349,7 +350,7 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
     if (this.parent) {
       operates.push(...super.operates(mode));
     } else if (mode % 2 === 0) {
-      operates.push(...this.target.operates());
+      // operates.push(...this.target.operates());
     } else {
       operates.push(...super.operates(1));
     }
@@ -376,5 +377,9 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
           this.children.push(new Directory(i, this.target, this, directorys));
         });
     }
+  }
+  createTask(task: model.TaskModel): () => void {
+    this.taskList.push(task);
+    return () => this.taskEmitter.changCallback();
   }
 }

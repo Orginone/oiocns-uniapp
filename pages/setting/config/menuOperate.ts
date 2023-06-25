@@ -39,6 +39,7 @@ const buildGroupTree = (groups: IGroup[]): MenuItemType[] => {
 
 /** 编译目录树 */
 const buildDirectoryTree = (directorys: IDirectory[]): MenuItemType[] => {
+  console.log('directorys',directorys)
   return directorys.map((directory) => {
     return {
       key: directory.key,
@@ -58,6 +59,7 @@ const buildDirectoryTree = (directorys: IDirectory[]): MenuItemType[] => {
 
 /** 获取个人菜单 */
 const getUserMenu = () => {
+  console.log('orgCtrl.user',orgCtrl.user)
   return createMenu(orgCtrl.user, [
     ...buildDirectoryTree(orgCtrl.user.directory.children),
     ...orgCtrl.user.cohorts.map((i) =>
