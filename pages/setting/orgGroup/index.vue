@@ -6,14 +6,17 @@
 </template>
 
 <script>
+	import * as config from "../config/menuOperate";
+
 	export default {
 		data() {
 			return {
 				listInfo:[],
 			};
 		},
-		onLoad(option) {			
-			let list = this.searchObjectByKey(this.$store.setting,'key',JSON.parse(option.data)+"组织集群")
+		async onLoad(option) {			
+			let res =  await config.loadSettingMenu();
+			let list = this.searchObjectByKey(res,'key',option.data.replace(/^"|"$/g, '')+"组织集群")
 			let arr =[];
 			list.children.forEach((element,index) => {
 				let obj = {
@@ -45,21 +48,6 @@
 				}
 				return null; // 如果整个对象都被遍历完了，仍然没有找到相应的属性，则返回 null
 			},
-			getParam(){
-                let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
-                let curParam = routes[routes.length - 1].options; //获取路由参数
-                // 拼接参数
-                let param = ''
-                for (let key in curParam) {
-                    param += '&' + key + '=' + curParam[key]
-                }
-                // 把参数保存为对像
-                let obj = {}
-                for (let key in curParam) {
-                    obj[key] = curParam[key]
-                }
-                return obj
-            },
 		}
 	}
 </script>

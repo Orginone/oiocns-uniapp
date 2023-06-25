@@ -1,20 +1,18 @@
+// @ts-nocheck
 import {kernelApi as kernel} from '../../../../common/app';
 import { schema, model } from '../../../base';
 import { IIdentity, Identity } from '../identity/identity';
-import { OperateType, SpeciesType, TargetType } from '../../public/enums';
+import { OperateType, TargetType } from '../../public/enums';
 import { PageAll } from '../../public/consts';
-import { ISpeciesItem, createSpecies } from '../../thing/';
 import { ITeam, Team } from './team';
 import { IBelong } from './belong';
+import { targetOperates } from '../../public';
+import { Directory, IDirectory } from '../../thing/directory';
 
 /** 用户抽象接口类 */
 export interface ITarget extends ITeam {
   /** 用户设立的身份(角色) */
   identitys: IIdentity[];
-  /** 用户设立的管理类别 */
-  species: ISpeciesItem[];
-  /** 支持的类别类型 */
-  speciesTypes: string[];
   /** 子用户 */
   subTarget: ITarget[];
   /** 所有相关用户 */
@@ -23,10 +21,8 @@ export interface ITarget extends ITeam {
   exit(): Promise<boolean>;
   /** 加载用户设立的身份(角色)对象 */
   loadIdentitys(reload?: boolean): Promise<IIdentity[]>;
-  /** 加载用户设立的管理类别 */
-  loadSpecies(reload?: boolean): Promise<ISpeciesItem[]>;
-  /** 为用户设立管理类别 */
-  createSpecies(data: model.SpeciesModel): Promise<ISpeciesItem | undefined>;
+  /** 为用户设立身份 */
+  createIdentity(data: model.IdentityModel): Promise<IIdentity | undefined>;
 }
 
 /** 用户基类实现 */
@@ -38,13 +34,18 @@ export abstract class Target extends Team implements ITarget {
     _memberTypes: TargetType[] = [TargetType.Person],
   ) {
     super(_metadata, _labels, _space, _memberTypes);
-    this.speciesTypes = [SpeciesType.Application];
+    this.directory = new Directory(
+      {
+        ..._metadata,
+        shareId: _metadata.id,
+        id: _metadata.id + '_',
+      } as unknown as schema.XDirectory,
+      this,
+    );
   }
-  speciesTypes: string[] = [];
+  directory: IDirectory;
   identitys: IIdentity[] = [];
-  species: ISpeciesItem[] = [];
   private _identityLoaded: boolean = false;
-  private _speciesLoaded: boolean = false;
   async loadIdentitys(reload?: boolean | undefined): Promise<IIdentity[]> {
     if (!this._identityLoaded || reload) {
       const res = await kernel.queryTargetIdentitys({
@@ -54,52 +55,46 @@ export abstract class Target extends Team implements ITarget {
       if (res.success) {
         this._identityLoaded = true;
         this.identitys = (res.data.result || []).map((item) => {
-		  // @ts-ignore
           return new Identity(item, this);
         });
       }
     }
     return this.identitys;
   }
-  async loadSpecies(reload?: boolean | undefined): Promise<ISpeciesItem[]> {
-    if (!this._speciesLoaded || reload) {
-      const res = await kernel.querySpeciesTree({
-        id: this.id,
-        upTeam: this.typeName === TargetType.Group,
-        belongId: this.space.id,
-        filter: '',
-      });
-      if (res.success) {
-        this._speciesLoaded = true;
-        this.species = (res.data.result || [])
-          .map((i) => createSpecies(
-		  // @ts-ignore
-		  i, this))
-          .filter((i) => i != undefined)
-          .map((i) => i!);
-      }
-    }
-    return this.species;
-  }
-  async createSpecies(data: model.SpeciesModel): Promise<ISpeciesItem | undefined> {
+  async createIdentity(data: model.IdentityModel): Promise<IIdentity | undefined> {
     data.shareId = this.id;
-    data.parentId = '0';
-    const res = await kernel.createSpecies(data);
+    const res = await kernel.createIdentity(data);
     if (res.success && res.data?.id) {
-		// @ts-ignore
-      const species = createSpecies(res.data, this);
-      if (species) {
-        this.species.push(species);
-      }
-      return species;
+      const identity = new Identity(res.data, this);
+      this.identitys.push(identity);
+      identity.createIdentityMsg(OperateType.Create, this.metadata);
+      return identity;
     }
+  }
+  override operates(): model.OperateModel[] {
+    const operates = super.operates();
+    if (this.isMyChat) {
+      operates.unshift(targetOperates.Chat);
+    }
+    if (this.hasRelationAuth()) {
+      operates.unshift(targetOperates.NewIdentity);
+    }
+    return operates;
   }
   protected async pullSubTarget(team: ITeam): Promise<boolean> {
     const res = await kernel.pullAnyToTeam({
       id: this.id,
       subIds: [team.id],
     });
+    if (res.success) {
+      this.createTargetMsg(OperateType.Add, team.metadata);
+    }
     return res.success;
+  }
+  async loadContent(reload: boolean = false): Promise<boolean> {
+    await super.loadContent(reload);
+    await this.loadIdentitys(reload);
+    return true;
   }
   abstract exit(): Promise<boolean>;
   abstract get targets(): ITarget[];

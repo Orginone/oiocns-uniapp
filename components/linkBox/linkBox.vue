@@ -2,7 +2,7 @@
 	<view class="baseLayout">
 		<view class="title">常用</view>
         <scroll-view class="box" scroll-x="true"  >
-		    <view class="item" v-for="(item,index) in linkList" :key="index" @click="jumpDetail(item.index)">
+		    <view class="item" :class="activeId == index?'active':''" v-for="(item,index) in linkList" :key="index" @click="handleShow(item,index)">
                 <view class="item_btn">+</view>
                 <view class="item_name">{{item.name}}</view>
             </view>
@@ -15,14 +15,25 @@
 		name: "linkBox",
 		data() {
 			return {
-              linkList:[{name:'定标准'},{name:'加好友'},{name:'建群组'},{name:'加群组',index:3},{name:'建单位'},{name:'加单位'}]
+              linkList:[{name:'定标准'},{name:'加好友',value:'joinFriend'},{name:'建群组'},{name:'加群组',value:'joinCohort'},{name:'建单位'},{name:'加单位',value:'joinCompany'}],
+              activeId:''
 			};
 		},
         methods: {
-            jumpDetail(index){
-                console.log('inde',index)
-                if(index == 3){
-                    uni.navigateTo({ url: '/pages/setting/group/addGroup'})
+            // jumpDetail(index){
+            //     console.log('inde',index)
+            //     if(index == 3){
+            //         uni.navigateTo({ url: '/pages/setting/group/addGroup'})
+            //     }
+            // }
+            handleShow(item,index){
+                this.activeId = index
+                if(index == 0){
+                    uni.switchTab({
+                        url: '/pages/setting/index'
+                    })
+                }else{
+                    this.$emit('handle',item)
                 }
             }
         },
@@ -61,5 +72,7 @@
             }
         }
     }
-
+    .active{
+        background-color: rgb(33, 150, 243);
+    }
 </style>

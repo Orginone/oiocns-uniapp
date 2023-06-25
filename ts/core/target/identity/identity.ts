@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { kernelApi as kernel} from '../../../../common/app';
 import { model, schema } from '../../../base';
 import { Entity, IEntity, OperateType, TargetType } from '../../public';

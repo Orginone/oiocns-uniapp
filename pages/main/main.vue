@@ -56,17 +56,16 @@
       </swiper> 
     </view>
 	  <view class="link">
-      <linkBox></linkBox>
+      <linkBox @handle="handle"></linkBox>
     </view>
     <view class="mune inlet">
       <userApp :appList="appList"></userApp>
 	  </view>
-    <popBox :show="isShow" />
+    <popBox :show="isShow" :mode="mode" @uploadPop="uploadPop"/>
   </view>
 </template>
 
 <script>
-import orgCtrl from '../../ts/controller';
 import popBox from './components/pop';
 import { loadApps } from './config/config';
 export default {
@@ -95,8 +94,9 @@ export default {
       todoList:[{name:'待办',number:''},{name:'已办',number:0},{name:'已完结',number:0},{name:'我发起的',number:0},],
       appList:[],
       isShowMask:false,
-      menuList:[{name:'添加朋友'},{name:'加入群组'},{name:'加入单位组织'},{name:'发起群聊'}],
-      isShow:false
+      menuList:[{name:'添加朋友',value:'joinFriend'},{name:'加入群组',value:'joinCohort'},{name:'加入单位组织',value:'joinCompany'},{name:'发起群聊'}],
+      isShow:false,
+      mode:''
     };
   },
   components:{
@@ -145,13 +145,17 @@ export default {
 		},
     closeEvent(){
       this.isShowMask = false;
-      this.isShow = false
     },
 
     handle(item,index){
+      this.mode = item.value
       this.isShowMask = false;
       this.isShow = true
     },
+    
+    uploadPop(){
+      this.isShow = false
+    }
   }
 };
 </script>

@@ -1,14 +1,19 @@
+// @ts-nocheck
 import {kernelApi as kernel} from '../../../../common/app';
-import { model, schema } from '../../../../ts/base';
+import { schema, model } from '../../../base';
 import { OperateType, TargetType } from '../../public/enums';
 import { PageAll, orgAuth } from '../../public/consts';
 import { IBelong } from './belong';
 import { IMsgChatT, MsgChat } from '../../chat/message/msgchat';
+import { IFileInfo } from '../../thing/fileinfo';
+import { IDirectory } from '../../thing/directory';
+import { entityOperates, teamOperates } from '../../public';
 
 /** 团队抽象接口类 */
-export interface ITeam extends IMsgChatT<schema.XTarget> {
+export interface ITeam extends IMsgChatT<schema.XTarget>, IFileInfo<schema.XTarget> {
   /** 限定成员类型 */
   memberTypes: TargetType[];
+  /** 用户相关的所有会话 */
   /** 深加载 */
   deepLoad(reload?: boolean): Promise<void>;
   /** 创建用户 */
@@ -42,6 +47,23 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
   }
   memberTypes: TargetType[];
   private _memberLoaded: boolean = false;
+  get isInherited(): boolean {
+    return this.metadata.belongId != this.space.id;
+  }
+  async rename(name: string): Promise<boolean> {
+    return this.update({
+      ...this.metadata,
+      name: name,
+      teamCode: this.metadata.team?.code ?? this.code,
+      teamName: this.metadata.team?.name ?? this.name,
+    });
+  }
+  copy(destination: IDirectory): Promise<boolean> {
+    throw new Error('暂不支持.');
+  }
+  move(destination: IDirectory): Promise<boolean> {
+    throw new Error('暂不支持.');
+  }
   async loadMembers(reload: boolean = false): Promise<schema.XTarget[]> {
     if (!this._memberLoaded || reload) {
       const res = await kernel.querySubTargetById({
@@ -51,9 +73,9 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
       });
       if (res.success) {
         this._memberLoaded = true;
-		// @ts-ignore
         this.members = res.data.result || [];
         this.members.forEach((i) => this.updateMetadata(i));
+        this.loadMemberChats(this.members, true);
       }
     }
     return this.members;
@@ -71,10 +93,16 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
           id: this.id,
           subIds: members.map((i) => i.id),
         });
+        if (res.success) {
+          members.forEach((a) => {
+            this.createTargetMsg(OperateType.Add, a);
+          });
+        }
         notity = res.success;
       }
       if (notity) {
         this.members.push(...members);
+        this.loadMemberChats(members, true);
       }
       return notity;
     }
@@ -90,6 +118,9 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
     for (const member of members) {
       if (this.memberTypes.includes(member.typeName as TargetType)) {
         if (!notity) {
+          if (member.id === this.userId || this.hasRelationAuth()) {
+            await this.createTargetMsg(OperateType.Remove, member);
+          }
           const res = await kernel.removeOrExitOfTeam({
             id: this.id,
             subId: member.id,
@@ -99,6 +130,7 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
         }
         if (notity) {
           this.members = this.members.filter((i) => i.id != member.id);
+          this.loadMemberChats([member], false);
         }
       }
     }
@@ -110,12 +142,12 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
     data.teamName = data.teamName || data.name;
     const res = await kernel.createTarget(data);
     if (res.success && res.data?.id) {
-	  // @ts-ignore
       return res.data;
     }
   }
   async update(data: model.TargetModel): Promise<boolean> {
     data.id = this.id;
+    data.typeName = this.typeName;
     data.belongId = this.metadata.belongId;
     data.name = data.name || this.name;
     data.code = data.code || this.code;
@@ -125,24 +157,41 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
     data.remark = data.remark || this.remark;
     const res = await kernel.updateTarget(data);
     if (res.success && res.data?.id) {
-		// @ts-ignore
       this.setMetadata(res.data);
+      this.createTargetMsg(OperateType.Update);
     }
     return res.success;
   }
   async delete(notity: boolean = false): Promise<boolean> {
     if (!notity) {
+      if (this.hasRelationAuth()) {
+        await this.createTargetMsg(OperateType.Delete);
+      }
       const res = await kernel.deleteTarget({
         id: this.id,
-        page: PageAll,
       });
       notity = res.success;
     }
     return notity;
   }
+  async loadContent(reload: boolean = false): Promise<boolean> {
+    await this.directory.loadContent(reload);
+    return true;
+  }
+  operates(): model.OperateModel[] {
+    const operates = super.operates();
+    if (this.hasRelationAuth()) {
+      operates.unshift(entityOperates.Update, teamOperates.Pull);
+    }
+    return operates;
+  }
+  abstract get chats(): IMsgChat[];
   abstract deepLoad(reload?: boolean): Promise<void>;
   abstract createTarget(data: model.TargetModel): Promise<ITeam | undefined>;
   abstract teamChangedNotity(target: schema.XTarget): Promise<boolean>;
+  loadMemberChats(_newMembers: schema.XTarget[], _isAdd: boolean): void {
+    this.memberChats = [];
+  }
   hasRelationAuth(): boolean {
     return this.hasAuthoritys([orgAuth.RelationAuthId]);
   }
@@ -150,5 +199,18 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
     authIds = this.space.superAuth?.loadParentAuthIds(authIds) ?? authIds;
     const orgIds = [this.metadata.belongId, this.id];
     return this.space.user.authenticate(orgIds, authIds);
+  }
+  async createTargetMsg(operate: OperateType, sub?: schema.XTarget): Promise<void> {
+    await kernel.createTargetMsg({
+      targetId: sub && this.userId === this.id ? sub.id : this.id,
+      excludeOperater: false,
+      group: this.typeName === TargetType.Group,
+      data: JSON.stringify({
+        operate,
+        target: this.metadata,
+        subTarget: sub,
+        operater: this.space.user.metadata,
+      }),
+    });
   }
 }
