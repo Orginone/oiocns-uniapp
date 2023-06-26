@@ -5,14 +5,39 @@
         <view class="title">
           <view class="blueBox"></view>{{modalTitle}}
         </view>
-        <view class="content">
+        <view class="searchIpt">
           <u-input
             type="text"
             :placeholder="placeholder"
             placeholder-style="color:#999999"
             v-model="value"
+            @input="input"
+            :clearable="false"
           ></u-input>
-          <img src="../../../static/base/search2.png" alt="" class="rightImg" @click="search" />
+          <img src="../../../static/base/search2.png" alt="" class="rightImg"/>
+        </view>
+        <view class="content" v-if="dataList.length>0">
+          <view class="item" v-for="(item,index) in dataList" :key="index" @click="handleClick(index)" :class="{active:activeId == index}">
+            <view v-if="modalTitle == '添加好友'">
+              <view class="itemName">
+                <span>{{item.name}}</span>
+                <view class="itemCode">账号:{{item.code}}</view>
+              </view>
+              <view class="itemInfo">
+                <view>姓名:{{item.name}}</view>
+                <view>手机号:{{item.code}}</view>
+              </view>
+              <view class="remark">
+                <view>座右铭:{{item.remark}}</view>
+              </view>
+            </view>
+            <view v-if="modalTitle == '添加单位'">
+              <view class="itemName">{{item.name}}</view>
+              <view class="remark">
+                <view>集团简介:{{item.remark}}</view>
+              </view>
+            </view>
+          </view>
         </view>
         <view class="btns">
           <u-button :custom-style="customStyle" @click="closePop">取消</u-button>
@@ -69,11 +94,13 @@ export default {
       value:'',
       modalTitle:'',
       placeholder:'',
-      isShow:false
+      isShow:false,
+      dataList:[],
+      activeId:-1
     }
   },
   methods:{
-    async search(){
+    async input(){
       let res = []
       switch(this.mode){
         case 'joinFriend' :
@@ -85,13 +112,25 @@ export default {
         case 'joinCompany' :
           res = await orgCtrl.user.searchTargets(this.value, companyTypes)
       }
+      this.dataList = res
       console.log(res,'res')
     },
-    save(){
+    handleClick(index){
+      if(index == this.activeId){
+        this.activeId = -1
+      }else{
+        this.activeId = index
+      }
+    },
+    async save(){
+      // let res = await orgCtrl.user.directory.applyJoin([this.dataList[this.activeId]])
+      // console.log(res,'res')
       this.closePop()
     },
     closePop(){
-      this.$emit("uploadPop", false);
+      this.value = ''
+      this.dataList = []
+      this.$emit("uploadPop", 1);
     }
   }
 }
@@ -100,7 +139,7 @@ export default {
 <style lang="scss" scoped>
 .index{
   width: 100%;
-  height: 100vh;
+  height: auto;
   .info{
     padding: 20upx;
     .title{
@@ -115,7 +154,7 @@ export default {
         margin-right: 26upx;
       }
     }
-    .content{
+    .searchIpt{
       margin: 30upx 0;
       width: 600upx;
       height: 80upx;
@@ -130,6 +169,45 @@ export default {
         width: 36upx;
         height: 36upx;
         display: block;
+      }
+    }
+    .content{
+      margin: 30upx 0;
+      width: 600upx;
+      height: 500upx;
+      overflow-y: auto;
+      .item{
+        width: 100%;
+        height: auto;
+        padding: 30upx 24upx;
+        border: 2upx solid #dddddd;
+        font-size: 34upx;
+        border-radius: 16upx;
+        color: #000;
+        .itemName{
+          display: flex;
+          align-items: center;
+          margin-bottom: 20upx;
+          .itemCode{
+            margin-left: 20upx;
+            padding: 6upx;
+            background-color: rgb(211, 234, 253);
+            border: 1px solid rgb(110, 187, 247);
+            border-radius: 12upx;
+            font-size: 26upx;
+            color: rgb(110, 187, 247);
+          }
+        }
+        .itemInfo{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 20upx;
+        }
+      }
+      .active{
+        background-color: rgb(216, 223, 246) !important;
+        border:2upx solid rgb(120, 144, 223) !important
       }
     }
     .btns{

@@ -62,11 +62,13 @@
       <userApp :appList="appList"></userApp>
 	  </view>
     <popBox :show="isShow" :mode="mode" @uploadPop="uploadPop"/>
+    <formBox :show="isShow2" :mode="mode" @uploadPop="uploadPop"/>
   </view>
 </template>
 
 <script>
 import popBox from './components/pop';
+import formBox from './components/form';
 import { loadApps } from './config/config';
 export default {
   data() {
@@ -94,13 +96,15 @@ export default {
       todoList:[{name:'待办',number:''},{name:'已办',number:0},{name:'已完结',number:0},{name:'我发起的',number:0},],
       appList:[],
       isShowMask:false,
-      menuList:[{name:'添加朋友',value:'joinFriend'},{name:'加入群组',value:'joinCohort'},{name:'加入单位组织',value:'joinCompany'},{name:'发起群聊'}],
+      menuList:[{name:'添加朋友',value:'joinFriend'},{name:'加入群组',value:'joinCohort'},{name:'加入单位组织',value:'joinCompany'},{name:'发起群聊',value:'newCohort'}],
       isShow:false,
-      mode:''
+      mode:'',
+      isShow2:false,
     };
   },
   components:{
-    popBox
+    popBox,
+    formBox
   },
   async onLoad(options) {
     this.userInfo = uni.getStorageSync('currentUser')
@@ -148,13 +152,21 @@ export default {
     },
 
     handle(item,index){
-      this.mode = item.value
       this.isShowMask = false;
-      this.isShow = true
+      this.mode = item.value
+      if(index == 3){
+        this.isShow2 = true
+      }else{
+        this.isShow = true
+      }
     },
     
-    uploadPop(){
-      this.isShow = false
+    uploadPop(index){
+      if(index == 1){
+        this.isShow = false
+      }else{
+        this.isShow2 = false
+      }
     }
   }
 };

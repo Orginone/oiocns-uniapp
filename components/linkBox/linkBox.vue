@@ -2,7 +2,7 @@
 	<view class="baseLayout">
 		<view class="title">常用</view>
         <scroll-view class="box" scroll-x="true"  >
-		    <view class="item" :class="activeId == index?'active':''" v-for="(item,index) in linkList" :key="index" @click="handleShow(item,index)">
+		    <view class="item" :class="{active:activeId == index}" v-for="(item,index) in linkList" :key="index" @click="handleShow(item,index)">
                 <view class="item_btn">+</view>
                 <view class="item_name">{{item.name}}</view>
             </view>
@@ -15,8 +15,8 @@
 		name: "linkBox",
 		data() {
 			return {
-              linkList:[{name:'定标准'},{name:'加好友',value:'joinFriend'},{name:'建群组'},{name:'加群组',value:'joinCohort'},{name:'建单位'},{name:'加单位',value:'joinCompany'}],
-              activeId:''
+              linkList:[{name:'定标准'},{name:'加好友',value:'joinFriend'},{name:'建群组',value:'newCohort'},{name:'加群组',value:'joinCohort'},{name:'建单位',value:'newCompany'},{name:'加单位',value:'joinCompany'}],
+              activeId:-1
 			};
 		},
         methods: {
@@ -58,9 +58,9 @@
             border-radius: 16upx;
             background: rgba(223,224,239,.8);
             margin-right:20rpx ;
+            color: rgba(57,109,178,1);
             .item_btn{
                 font-size: 70upx;
-                color: rgba(57,109,178,1);
                 text-align: center;
                 margin-top: 0rpx;
                 margin-bottom: 0rpx
@@ -68,11 +68,11 @@
             .item_name{
                 font-size: 22upx; 
                 text-align: center;
-                color: rgba(57,109,178,1);
             }
         }
     }
     .active{
-        background-color: rgb(33, 150, 243);
+        background-color: rgb(33, 150, 243) !important;
+        color: #fff !important;
     }
 </style>
