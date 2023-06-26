@@ -14,7 +14,7 @@
 						<uni-tr>
 							<uni-th v-for="item,index in formTitle" :key="index" style="color: #333;font-weight: normal;">{{item.name}}</uni-th>
 						</uni-tr>
-						<uni-tr v-for="item,index in formList" :key="index" >
+						<uni-tr v-for="item,index in groupList" :key="index" >
 							<uni-td v-for="it,ind in Object.values(item)" :key="ind" style="color: #9A9A9A;">{{it}}</uni-td>
 						</uni-tr>
 					</uni-table>
@@ -67,6 +67,7 @@ export default {
 					value:''
 				}
 			],
+			groupList:[],
 			formTitle:[{
 					name: '账号',
 					value: 'code'
@@ -96,10 +97,13 @@ export default {
 	},
 	methods: {
 		findObject(arr,key){
+			let that = this;
 			if(arr && arr.length >0){
-				arr.forEach(element => {
+				arr.forEach(async element => {
 					if(element.key == key){
-						this.dataCompare(element)
+						let res =  await element.item.content();
+						console.log('groupList',res)
+						that.groupList = res
 						return
 					}
 					if(element.children && element.children.length>0){

@@ -70,7 +70,16 @@ export abstract class Target extends Team implements ITarget {
       return identity;
     }
   }
-
+  override operates(): model.OperateModel[] {
+    const operates = super.operates();
+    if (this.isMyChat) {
+      operates.unshift(targetOperates.Chat);
+    }
+    if (this.hasRelationAuth()) {
+      operates.unshift(targetOperates.NewIdentity);
+    }
+    return operates;
+  }
   protected async pullSubTarget(team: ITeam): Promise<boolean> {
     const res = await kernel.pullAnyToTeam({
       id: this.id,

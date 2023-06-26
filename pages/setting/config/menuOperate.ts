@@ -1,5 +1,6 @@
 import orgCtrl from '../../../ts/controller';
 import { MenuItemType } from '../../../typings/globelType';
+import { loadFileMenus } from '../../../executor/fileOperate';
 import { IDepartment, IGroup, ITarget, IDirectory } from '../../../ts/core';
 
 /** 创建团队菜单 */
@@ -9,7 +10,7 @@ const createMenu = (target: ITarget, children: MenuItemType[]) => {
     item: target.directory,
     label: target.name,
     itemType: target.directory.typeName,
-    menus: [],
+    menus: loadFileMenus(target.directory, 2),
     tag: [target.typeName],
     icon: '',
     children: children,
@@ -48,7 +49,7 @@ const buildDirectoryTree = (directorys: IDirectory[]): MenuItemType[] => {
       tag: [directory.typeName],
       icon: '',
       itemType: directory.typeName,
-      menus: [],
+      menus: loadFileMenus(directory, 2),
       children: buildDirectoryTree(directory.children),
       beforeLoad: async () => {
         await directory.loadContent();
@@ -87,12 +88,19 @@ const getTeamMenu = () => {
 };
 
 /** 加载设置模块菜单 */
-export const loadSettingMenu = () => {
-  return {
-    key: '设置',
-    label: '设置',
-    itemType: 'Tab',
-    children: [getUserMenu(), ...getTeamMenu()],
-    icon:'',
+export const loadSettingMenu = (() => {
+  let settingMenu:any = null;
+  return () => {
+    if (settingMenu !== null) {
+      return settingMenu;
+    }
+    settingMenu = {
+      key: '设置',
+      label: '设置',
+      itemType: 'Tab',
+      children: [getUserMenu(), ...getTeamMenu()],
+      icon: '',
+    };
+    return settingMenu;
   };
-};
+})();

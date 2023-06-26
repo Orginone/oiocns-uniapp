@@ -1,6 +1,6 @@
 <template>
   <view class="BaseLayout">
-    <headbar :localList="'设置'" :left="'none'"></headbar>
+    <headbar></headbar>
     <personList :listInfo="menu" :icon="['dotPlus', 'right']" ></personList>
   </view>
 </template>
@@ -58,13 +58,13 @@ export default {
     },
     async getMenu() {
       let res = await config.loadSettingMenu();
-      this.removeCircularReferences(res)
+      // this.removeCircularReferences(res)
+      console.log('res',res);
       // console.log('setting', JSON.parse(JSON.stringify(res)))
       let arr = []
       res.children.forEach(element => {
          let obj = {
           label:element.label,
-          itemType:element.itemType,
           key:element.key
          }
          arr.push(obj)

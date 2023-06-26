@@ -4,7 +4,9 @@ import { ITarget, Target } from '../base/target';
 import { ICompany } from '../team/company';
 import { TargetType } from '../../public/enums';
 import { PageAll } from '../../public/consts';
+import { IMsgChat } from '../../chat/message/msgchat';
 import { ITeam } from '../base/team';
+import { targetOperates } from '../../public';
 
 /** 单位内部机构（部门）接口 */
 export interface IDepartment extends ITarget {
@@ -68,11 +70,8 @@ export class Department extends Target implements IDepartment {
       });
       if (res.success) {
         this._childrenLoaded = true;
-		
         this.children = (res.data.result || []).map(
-          (i) => new Department(
-		  // @ts-ignore
-		  i, this.company, this),
+          (i) => new Department(i, this.company, this),
         );
       }
     }
@@ -125,6 +124,9 @@ export class Department extends Target implements IDepartment {
   get subTarget(): ITarget[] {
     return this.children;
   }
+  get chats(): IMsgChat[] {
+    return this.targets;
+  }
   get targets(): ITarget[] {
     const targets: ITarget[] = [this];
     for (const item of this.children) {
@@ -135,10 +137,16 @@ export class Department extends Target implements IDepartment {
   async deepLoad(reload: boolean = false): Promise<void> {
     await this.loadChildren(reload);
     await this.loadMembers(reload);
-    await this.loadSpecies(reload);
     for (const department of this.children) {
       await department.deepLoad(reload);
     }
+  }
+  override operates(): model.OperateModel[] {
+    const operates = super.operates();
+    if (this.hasRelationAuth()) {
+      operates.unshift(targetOperates.NewDepartment);
+    }
+    return operates;
   }
   async teamChangedNotity(target: schema.XTarget): Promise<boolean> {
     if (this.childrenTypes.includes(target.typeName as TargetType)) {

@@ -136,6 +136,14 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
     this.current.identitys = this.current.identitys.filter((i) => i.key != this.key);
     return true;
   }
+  override operates(mode: number = 0): model.OperateModel[] {
+    const operates: model.OperateModel[] = [];
+    if (mode == 0 && this.current.hasRelationAuth()) {
+      operates.push(entityOperates.Update, fileOperates.Rename, fileOperates.Delete);
+    }
+    operates.push(...super.operates(1));
+    return operates.sort((a, b) => (a.menus ? -10 : b.menus ? 10 : 0));
+  }
   async createIdentityMsg(
     operate: OperateType,
     subTarget?: schema.XTarget,

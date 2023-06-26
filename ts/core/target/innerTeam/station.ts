@@ -1,7 +1,9 @@
-// @ts-nocheck
 import {kernelApi as kernel} from '../../../../common/app';
 import { model, schema } from '../../../base';
+import { IMsgChat } from '../../chat/message/msgchat';
+import { OperateType, teamOperates } from '../../public';
 import { PageAll } from '../../public/consts';
+import { IDirectory } from '../../thing/directory';
 import { ITeam, Team } from '../base/team';
 import { ICompany } from '../team/company';
 
@@ -23,8 +25,10 @@ export class Station extends Team implements IStation {
   constructor(_metadata: schema.XTarget, _space: ICompany) {
     super(_metadata, [_metadata.belong?.name ?? '', _metadata.typeName + '群'], _space);
     this.company = _space;
+    this.directory = _space.directory;
   }
   company: ICompany;
+  directory: IDirectory;
   identitys: schema.XIdentity[] = [];
   private _identityLoaded: boolean = false;
   async loadIdentitys(reload?: boolean | undefined): Promise<schema.XIdentity[]> {
@@ -35,8 +39,7 @@ export class Station extends Team implements IStation {
       });
       if (res.success) {
         this._identityLoaded = true;
-        // @ts-ignore
-		this.identitys = res.data.result || [];
+        this.identitys = res.data.result || [];
       }
     }
     return this.identitys;
@@ -53,6 +56,7 @@ export class Station extends Team implements IStation {
           subIds: identitys.map((i) => i.id),
         });
         if (!res.success) return false;
+        identitys.forEach((a) => this.createIdentityMsg(OperateType.Add, a));
       }
       this.identitys.push(...identitys);
     }
@@ -71,10 +75,20 @@ export class Station extends Team implements IStation {
             subId: identity.id,
           });
           if (!res.success) return false;
+          this.createIdentityMsg(OperateType.Remove, identity);
         }
+        this.company.user.removeGivedIdentity(
+          identitys.map((a) => a.id),
+          this.id,
+        );
         this.identitys = this.identitys.filter((i) => i.id != identity.id);
       }
     }
+    return true;
+  }
+  override async loadContent(reload: boolean = false): Promise<boolean> {
+    await this.loadMembers(reload);
+    await this.loadIdentitys(reload);
     return true;
   }
   override async delete(notity: boolean = false): Promise<boolean> {
@@ -82,7 +96,14 @@ export class Station extends Team implements IStation {
     if (notity) {
       this.company.stations = this.company.stations.filter((i) => i.key != this.key);
     }
+    this.company.user.removeGivedIdentity(
+      this.identitys.map((a) => a.id),
+      this.id,
+    );
     return notity;
+  }
+  get chats(): IMsgChat[] {
+    return [this];
   }
   async deepLoad(reload: boolean = false): Promise<void> {
     await this.loadIdentitys(reload);
@@ -95,5 +116,29 @@ export class Station extends Team implements IStation {
   }
   async teamChangedNotity(target: schema.XTarget): Promise<boolean> {
     return await this.pullMembers([target], true);
+  }
+  override operates(): model.OperateModel[] {
+    const operates = super.operates();
+    if (this.hasRelationAuth()) {
+      operates.unshift(teamOperates.pullIdentity);
+    }
+    return operates;
+  }
+  async createIdentityMsg(
+    operate: OperateType,
+    identity: schema.XIdentity,
+  ): Promise<void> {
+    // await kernel.createIdentityMsg({
+    //   group: false,
+    //   stationId: this.id,
+    //   identityId: identity.id,
+    //   excludeOperater: true,
+    //   data: JSON.stringify({
+    //     operate,
+    //     station: this.metadata,
+    //     identity: identity,
+    //     operater: this.space.user.metadata,
+    //   }),
+    // });
   }
 }

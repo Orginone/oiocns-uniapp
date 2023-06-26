@@ -119,7 +119,7 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
       cnt.push(...this.propertys);
       cnt.push(...this.specieses);
       if (!this.parent) {
-        console.log('this.target',this.target);
+        console.log('this.target', this.target);
         cnt.push(...this.target.targets.filter((i) => i.id != this.target.id));
         if ('stations' in this.target) {
           cnt.push(...(this.target as ICompany).stations);
@@ -202,7 +202,7 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
     }
     return false;
   }
-  async loadFiles(reload: boolean = false): Promise<ISysFileInfo[]> {
+  async loadFiles(reload: boolean = false): Promise<any> {
     // if (this.files.length < 1 || reload) {
     //   const res = await kernel.anystore.bucketOpreate<model.FileItemModel[]>(
     //     this.metadata.belongId,
@@ -219,7 +219,7 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
     //       });
     //   }
     // }
-    return this.files;
+    // return this.files;
   }
   async createFile(file: Blob, p?: OnProgress): Promise<any> {
     // p?.apply(this, [0]);
@@ -350,7 +350,7 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
     if (this.parent) {
       operates.push(...super.operates(mode));
     } else if (mode % 2 === 0) {
-      // operates.push(...this.target.operates());
+      operates.push(...this.target.operates());
     } else {
       operates.push(...super.operates(1));
     }

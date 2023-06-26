@@ -1,10 +1,10 @@
 
 import {kernelApi as kernel} from '../../../../common/app';
 import { schema, model } from '../../../base';
-import { MessageType, OperateType, TargetType } from '../../public/enums';
+import { OperateType, TargetType } from '../../public/enums';
 import { PageAll, orgAuth } from '../../public/consts';
 import { IBelong } from './belong';
-import { IMsgChatT, MsgChat } from '../../chat/message/msgchat';
+import { IMsgChatT, IMsgChat, MsgChat } from '../../chat/message/msgchat';
 import { IFileInfo } from '../../thing/fileinfo';
 import { IDirectory } from '../../thing/directory';
 import { entityOperates, teamOperates } from '../../public';
@@ -14,6 +14,7 @@ export interface ITeam extends IMsgChatT<schema.XTarget>, IFileInfo<schema.XTarg
   /** 限定成员类型 */
   memberTypes: TargetType[];
   /** 用户相关的所有会话 */
+  chats: IMsgChat[];
   /** 深加载 */
   deepLoad(reload?: boolean): Promise<void>;
   /** 创建用户 */
@@ -45,12 +46,6 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
     super(_metadata, _labels, _space, _metadata.belong);
     this.memberTypes = _memberTypes;
   }
-  moreMessage(): Promise<number> {
-    throw new Error('Method not implemented.');
-  }
-  sendMessage(type: MessageType, text: string, mentions: string[], cite?: any): Promise<boolean> {
-    throw new Error('Method not implemented.');
-  }
   memberTypes: TargetType[];
   private _memberLoaded: boolean = false;
   get isInherited(): boolean {
@@ -70,13 +65,15 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
   move(destination: IDirectory): Promise<boolean> {
     throw new Error('暂不支持.');
   }
-  async loadMembers(reload: boolean = false): Promise<schema.XTarget[]> {
+  async loadMembers(reload: boolean = true): Promise<schema.XTarget[]> {
+  
     if (!this._memberLoaded || reload) {
       const res = await kernel.querySubTargetById({
         id: this.id,
         subTypeNames: this.memberTypes,
         page: PageAll,
       });
+      console.log('aaaaaaa',res);
       if (res.success) {
         this._memberLoaded = true;
         this.members = res.data.result || [];
@@ -184,6 +181,14 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
     await this.directory.loadContent(reload);
     return true;
   }
+  operates(): model.OperateModel[] {
+    const operates = super.operates();
+    if (this.hasRelationAuth()) {
+      operates.unshift(entityOperates.Update, teamOperates.Pull);
+    }
+    return operates;
+  }
+  abstract get chats(): IMsgChat[];
   abstract deepLoad(reload?: boolean): Promise<void>;
   abstract createTarget(data: model.TargetModel): Promise<ITeam | undefined>;
   abstract teamChangedNotity(target: schema.XTarget): Promise<boolean>;
