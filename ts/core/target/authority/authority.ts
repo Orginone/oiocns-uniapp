@@ -1,7 +1,7 @@
-import {kernelApi as kernel} from '../../../../common/app';
+import { kernelApi as kernel} from '../../../../common/app';
 import { model, schema } from '../../../base';
-import { IMsgChatT, MsgChat } from '../../chat/message/msgchat';
-import { PageAll } from '../../public/consts';
+import { IMsgChat, IMsgChatT, MsgChat } from '../../chat/message/msgchat';
+import { IDirectory } from '../../thing/directory';
 import { IBelong } from '../base/belong';
 
 /** 权限接口 */
@@ -12,6 +12,8 @@ export interface IAuthority extends IMsgChatT<schema.XAuthority> {
   parent: IAuthority | undefined;
   /** 子级权限 */
   children: IAuthority[];
+  /** 用户相关的所有会话 */
+  chats: IMsgChat[];
   /** 深加载 */
   deepLoad(reload?: boolean): Promise<void>;
   /** 加载成员用户实体 */
@@ -36,6 +38,7 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     super(
       {
         ..._metadata,
+        typeName: '权限',
       },
       [_space.name ?? '', '权限群'],
       _space,
@@ -45,10 +48,12 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     for (const node of _metadata.nodes || []) {
       this.children.push(new Authority(node, _space, this));
     }
+    this.directory = _space.directory;
   }
   members: schema.XTarget[] = [];
   parent: IAuthority | undefined;
   children: IAuthority[] = [];
+  directory: IDirectory;
   private _memberLoaded: boolean = false;
   async loadMembers(reload: boolean = false): Promise<schema.XTarget[]> {
     if (!this._memberLoaded || reload) {
@@ -58,7 +63,6 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
       });
       if (res.success) {
         this._memberLoaded = true;
-		// @ts-ignore
         this.members = res.data.result || [];
       }
     }
@@ -68,7 +72,6 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     data.parentId = this.id;
     const res = await kernel.createAuthority(data);
     if (res.success && res.data?.id) {
-		// @ts-ignore
       const authority = new Authority(res.data, this.space, this);
       this.children.push(authority);
       return authority;
@@ -84,6 +87,7 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     data.remark = data.remark || this.remark;
     const res = await kernel.updateAuthority(data);
     if (res.success && res.data?.id) {
+      res.data.typeName = '权限';
       this.setMetadata(res.data);
     }
     return res.success;
@@ -91,7 +95,6 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
   async delete(): Promise<boolean> {
     const res = await kernel.deleteAuthority({
       id: this.id,
-      page: PageAll,
     });
     if (res.success && this.parent) {
       this.parent.children = this.parent.children.filter((i) => i.key != this.key);
@@ -109,7 +112,7 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     return result;
   }
   findAuthById(authId: string, auth?: IAuthority): IAuthority | undefined {
-    auth = auth || this.space?.superAuth!;
+    auth = auth || this.space.superAuth!;
     if (auth.id === authId) {
       return auth;
     } else {
@@ -126,6 +129,13 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
     for (const item of this.children) {
       await item.deepLoad(reload);
     }
+  }
+  get chats(): IMsgChat[] {
+    const chats: IMsgChat[] = [this];
+    for (const item of this.children) {
+      chats.push(...item.chats);
+    }
+    return chats;
   }
   hasAuthoritys(authIds: string[]): boolean {
     authIds = this.loadParentAuthIds(authIds);

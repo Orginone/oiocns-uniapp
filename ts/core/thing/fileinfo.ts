@@ -136,7 +136,7 @@ export class SysFileInfo extends FileInfo<schema.XEntity> implements ISysFileInf
     //     return true;
     //   }
     // }
-    // return false;
+    return false;
   }
   async delete(): Promise<boolean> {
     // const res = await kernel.anystore.bucketOpreate<FileItemModel[]>(this.belongId, {
@@ -147,6 +147,7 @@ export class SysFileInfo extends FileInfo<schema.XEntity> implements ISysFileInf
     //   this.directory.files = this.directory.files.filter((i) => i.key != this.key);
     // }
     // return res.success;
+    return false;
   }
   async copy(destination: IDirectory): Promise<boolean> {
     // if (destination.id != this.directory.id) {
@@ -160,7 +161,7 @@ export class SysFileInfo extends FileInfo<schema.XEntity> implements ISysFileInf
     //   }
     //   return res.success;
     // }
-    // return false;
+    return false;
   }
   async move(destination: IDirectory): Promise<boolean> {
     // if (destination.id != this.directory.id) {
@@ -176,7 +177,7 @@ export class SysFileInfo extends FileInfo<schema.XEntity> implements ISysFileInf
     //   }
     //   return res.success;
     // }
-    // return false;
+    return false;
   }
   override operates(mode?: number): model.OperateModel[] {
     const operates = super.operates();

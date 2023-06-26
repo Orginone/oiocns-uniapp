@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {kernelApi as kernel} from '../../../../common/app';
 import { model, schema } from '../../../../ts/base';
 import { IBelong, Belong } from '../base/belong';
@@ -9,8 +8,10 @@ import { IStation, Station } from '../innerTeam/station';
 import { IPerson } from '../person';
 import { PageAll } from '../../public/consts';
 import { TargetType } from '../../public/enums';
+import { IMsgChat } from '../../chat/message/msgchat';
 import { ITarget } from '../base/target';
 import { ITeam } from '../base/team';
+import { targetOperates } from '../../public';
 
 /** 单位类型接口 */
 export interface ICompany extends IBelong {
@@ -43,11 +44,11 @@ export class Company extends Belong implements ICompany {
   constructor(_metadata: schema.XTarget, _user: IPerson) {
     super(_metadata, ['全员群'], _user);
     this.departmentTypes = [
+      TargetType.Department,
       TargetType.Office,
       TargetType.Working,
       TargetType.Research,
       TargetType.Laboratory,
-      TargetType.Department,
     ];
   }
   groups: IGroup[] = [];
@@ -198,12 +199,37 @@ export class Company extends Belong implements ICompany {
   get parentTarget(): ITarget[] {
     return this.groups;
   }
+  get chats(): IMsgChat[] {
+    const chats: IMsgChat[] = [this];
+    chats.push(...this.cohortChats);
+    chats.push(...this.memberChats);
+    return chats;
+  }
+  get cohortChats(): IMsgChat[] {
+    const chats: IMsgChat[] = [];
+    for (const item of this.departments) {
+      chats.push(...item.chats);
+    }
+    for (const item of this.stations) {
+      chats.push(...item.chats);
+    }
+    for (const item of this.cohorts) {
+      chats.push(...item.chats);
+    }
+    if (this.superAuth) {
+      chats.push(...this.superAuth.chats);
+    }
+    return chats;
+  }
   get targets(): ITarget[] {
     const targets: ITarget[] = [this];
     for (const item of this.groups) {
       targets.push(...item.targets);
     }
     for (const item of this.departments) {
+      targets.push(...item.targets);
+    }
+    for (const item of this.cohorts) {
       targets.push(...item.targets);
     }
     return targets;
@@ -215,7 +241,6 @@ export class Company extends Belong implements ICompany {
     await this.loadCohorts(reload);
     await this.loadMembers(reload);
     await this.loadSuperAuth(reload);
-    await this.loadSpecies(reload);
     for (const group of this.groups) {
       await group.deepLoad(reload);
     }
@@ -229,6 +254,32 @@ export class Company extends Belong implements ICompany {
       await cohort.deepLoad(reload);
     }
     this.superAuth?.deepLoad(reload);
+  }
+
+  override operates(): model.OperateModel[] {
+    const operates = super.operates();
+    if (this.hasRelationAuth()) {
+      operates.unshift(
+        {
+          sort: 3,
+          cmd: 'setNew',
+          label: '设立更多',
+          iconType: 'setNew',
+          menus: [
+            targetOperates.NewGroup,
+            targetOperates.NewDepartment,
+            targetOperates.NewStation,
+          ],
+        },
+        {
+          sort: 13,
+          cmd: 'joinGroup',
+          label: '加入集群',
+          iconType: 'joinGroup',
+        },
+      );
+    }
+    return operates;
   }
 
   override async removeMembers(

@@ -4,6 +4,7 @@ import { ITarget, Target } from '../base/target';
 import { PageAll, companyTypes } from '../../public/consts';
 import { TargetType } from '../../public/enums';
 import { ICompany } from '../team/company';
+import { IMsgChat } from '../../chat/message/msgchat';
 import { ITeam } from '../base/team';
 import { targetOperates } from '../../public';
 
@@ -85,6 +86,9 @@ export class Group extends Target implements IGroup {
   }
   get subTarget(): ITarget[] {
     return this.children;
+  }
+  get chats(): IMsgChat[] {
+    return [];
   }
   get targets(): ITarget[] {
     const targets: ITarget[] = [this];
