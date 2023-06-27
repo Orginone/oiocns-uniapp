@@ -22,7 +22,7 @@ export default {
       const queue = [obj];
       const visited = new Set();
       visited.add(obj);
-
+      let flag = 0;
       while (queue.length > 0) {
         const currentObj = queue.shift();
 
@@ -40,6 +40,9 @@ export default {
                 json.belong = value?.belong
                 json.id = value?.id
                 json.creater = value?.creater
+                json.target = value?.target
+                json.targets = value?.targets
+            
                 for (const key in json.members) {
                   if (Object.hasOwnProperty.call(json.members, key)) {
                    json.members[key].icon = ""

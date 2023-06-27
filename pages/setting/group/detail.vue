@@ -1,6 +1,6 @@
 <template>
 	<view class="BaseLayout">
-    <headbar :localList="'组织,浙江省财政厅'" :left="'none'"></headbar>
+    <headbar :localList="'组织,浙江省财政厅'" ></headbar>
 		<view class="main">
 			<basicForm :formData="datalist" :title="title"></basicForm>
 			<!-- 子表信息 -->
@@ -14,7 +14,7 @@
 						<uni-tr>
 							<uni-th v-for="item,index in formTitle" :key="index" style="color: #333;font-weight: normal;">{{item.name}}</uni-th>
 						</uni-tr>
-						<uni-tr v-for="item,index in groupList" :key="index" >
+						<uni-tr v-for="item,index in formList" :key="index" >
 							<uni-td v-for="it,ind in Object.values(item)" :key="ind" style="color: #9A9A9A;">{{it}}</uni-td>
 						</uni-tr>
 					</uni-table>
@@ -32,22 +32,22 @@ export default {
 		return {
 			datalist:[
 				{
-					name:'名称',
+					name:'群组名称',
 					key:'name',
 					value:''
 				},
 				{
-					name:'代码',
+					name:'群组代码',
 					key:'code',
 					value:''
 				},
 				{
-					name:'加入',
+					name:'团队简称',
 					key:'public',
 					value:''
 				},
 				{
-					name:'归属',
+					name:'团队标识',
 					key:'belongName',
 					value:''
 				},
@@ -62,11 +62,12 @@ export default {
 					value:''
 				},
 				{
-					name:'描述信息',
+					name:'简介',
 					key:'remark',
 					value:''
 				}
 			],
+			itemData:{},
 			groupList:[],
 			formTitle:[{
 					name: '账号',
@@ -75,6 +76,14 @@ export default {
 				{
 					name: '昵称',
 					value: 'name'
+				},
+				{
+					name: '姓名',
+					value: 'name'
+				},
+				{
+					name: '手机号',
+					value: 'code'
 				},
 				{
 					name: '签名',
@@ -90,6 +99,7 @@ export default {
 		
 	},
 	async onLoad(option){
+		console.log('detail',option)
 		let key = option.key
 		let res = await config.loadSettingMenu();
 		this.findObject(res.children,key)
@@ -99,15 +109,17 @@ export default {
 		findObject(arr,key){
 			let that = this;
 			if(arr && arr.length >0){
-				arr.forEach(async element => {
+				arr.forEach(element => {
+					element.directory = null;
+					element.item.directory = null;
+					element.item.space = null;
 					if(element.key == key){
-						let res =  await element.item.content();
-						console.log('groupList',res)
-						that.groupList = res
-						return
+						console.log('element',element.item.content())
+						that.dataCompare(element,element.item.content());
+						// return
 					}
 					if(element.children && element.children.length>0){
-						this.findObject(element.children,key)
+						that.findObject(element.children,key)
 					}
 				});
 			}
@@ -125,33 +137,25 @@ export default {
 				});
 			}
 		},
-		dataCompare(data){
-			this.title = this.type + '[' + data?.item?.metadata.name + ']基本信息'
-			this.datalist.forEach(element => {
-				for(var item in data?.item?.metadata){
-					if(element.key == item){
-						element.value = data?.item?.metadata[item]
-					}
-					if(element.key == 'belongName'){
-						element.value = data?.item?.belong.name
-					}
-					if(element.key == 'creater'){
-						element.value = data?.item?.creater.name
-					}
-					if(element.key == 'public'){
-						element.value = data?.item?.metadata['public']?'开放加入':'需申请加入'
-					}
-				}
-			});
+		dataCompare(formData,list){
+			this.title = this.type + '[' + formData?.item?._metadata.name + ']基本信息'
+			this.datalist[0].value = formData.item._metadata.name 
+			this.datalist[1].value = formData?.item?._metadata.code 
+			this.datalist[2].value = formData?.item?._metadata.name 
+			this.datalist[3].value = formData?.item?._metadata.code 
+			this.datalist[4].value = formData?.item?._metadata.belong.name 
+			this.datalist[5].value = formData?.item?._metadata.belong.updateTime.slice(0, 10);
+			this.datalist[6].value = formData?.item?._metadata.remark;
             let arr =[];
-			data?.item?.members.forEach(item=>{
+			list.forEach(item=>{
+				console.log('item',item)
                 let json = {}
-				json.code = item.code
-				json.name = item.name
-				json.remark = item.remark
+				json.code = item._metadata.code
+				json.name = item._metadata.name
+				json.remark = item._metadata.remark
                 arr.push(json)
 			})
-            this.formList = arr;
+			this.formList = arr;
 		},
 		addTeam(){
 			uni.navigateTo({ url: '/pages/setting/group/addPerson?groupId='+this.groupId})

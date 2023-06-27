@@ -50,18 +50,6 @@
           </view>
         </view>
       </view>
-      <!-- 右侧标签 -->
-      <view class="right">
-        <view class="search">
-          <img src="../../static/base/search2.png" alt="" />
-        </view>
-        <view class="add" v-if="right">
-          <img src="../../static/base/add.png" alt="" />
-        </view>
-        <view class="dotPlus" v-if="right">
-          <img src="../../static/base/dotPlus.png" alt="" />
-        </view>
-      </view>
     </view>
   </view>
 </template>

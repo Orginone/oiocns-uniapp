@@ -105,11 +105,11 @@ export default {
     turnDetailPage(item) {
       if (item.url) {
        uni.navigateTo({
-          url: item.url+ "?data=" + JSON.stringify(item.key),
+          url: item.url+ "?data=" +item.key,
         });
       }else{
         uni.navigateTo({
-          url: "/pages/setting/group/index"+ "?data=" + JSON.stringify(item.key),
+          url: "/pages/setting/group/index"+ "?data=" + item.key,
         });
       }
     },

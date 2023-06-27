@@ -16,7 +16,7 @@
 		async onLoad(option) {			
 			console.log('option',option);
 			let res = await config.loadSettingMenu();
-			let list = this.searchObjectByKey(res.children,'key',JSON.parse(option.data))
+			let list = this.searchObjectByKey(res.children,'key',option.data)
 			let arr =[];
 			console.log('list',list)
 			list.children.forEach((element,index) => {
@@ -32,38 +32,28 @@
 			
 		},
 		methods: {
-			searchObjectByKey(obj, key, value) {
-				let that = this;
-				if (obj.hasOwnProperty(key) && obj[key] === value) {
-					return obj;
+			 searchObjectByKey(obj, key, value) {
+				if (key === 'icon') {
+					obj[key] = '';
 				}
-				// 遍历所有属性
-				for (var prop in obj) {
-					if (obj.hasOwnProperty(prop) && typeof obj[prop] === 'object') {
-					// 对于值为对象的属性，递归调用 searchObjectByKey 函数
-						var result = that.searchObjectByKey(obj[prop], key, value);
-						if (result) {
-							return result;
-						}
+
+				let queue = [obj];
+
+				while (queue.length > 0) {
+					let currentObj = queue.shift();
+
+					if (currentObj.hasOwnProperty(key) && currentObj[key] === value) {
+					return currentObj;
+					}
+
+					for (let prop in currentObj) {
+					if (currentObj.hasOwnProperty(prop) && typeof currentObj[prop] === 'object') {
+						queue.push(currentObj[prop]);
+					}
 					}
 				}
-				return null; // 如果整个对象都被遍历完了，仍然没有找到相应的属性，则返回 null
-			},
-			getParam(){
-                let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
-                let curParam = routes[routes.length - 1].options; //获取路由参数
-                // 拼接参数
-                let param = ''
-                for (let key in curParam) {
-                    param += '&' + key + '=' + curParam[key]
-                }
-                // 把参数保存为对像
-                let obj = {}
-                for (let key in curParam) {
-                    obj[key] = curParam[key]
-                }
-                return obj
-            },
+				return null;
+			}
 		}
 	}
 </script>
