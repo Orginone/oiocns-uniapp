@@ -74,6 +74,7 @@ export default {
 					url: '/pages/work/page5/page5' + '?data=' + JSON.stringify(item)
 				})
 			} else {
+				console.log(item,'item')
 				uni.navigateTo({
 					url: this.url + '?data=' + JSON.stringify(item)
 				})

@@ -276,10 +276,10 @@
     reflect-metadata "^0.1.13"
     tiny-emitter "^2.1.0"
 
-"@orginone/core@^0.2.6":
-  version "0.2.8"
-  resolved "https://registry.npmmirror.com/@orginone/core/-/core-0.2.8.tgz#94efb467a1ccc7de3cf2aa3b5202a815d028ae6e"
-  integrity sha512-y0yVDEPWFVSYmOB2baWqI09j61u8Iq3ng+x/kfayamiCvBn0kaZQkcRJN8T/cYy3Xwa6DGoEX9S0fZAEpdRBVg==
+"@orginone/core@^0.2.8":
+  version "0.2.9"
+  resolved "https://registry.npmmirror.com/@orginone/core/-/core-0.2.9.tgz#ec652d40d92f898ccafbc17d42d22b5517bfa642"
+  integrity sha512-5Vkpu3I5dRSQfW9Ml1kWDEMrLFybB5yEXrXnEpcDk1FDTDkBuEig9tB+0WwEfBjcXLSvG+cKp7x05OAswYSe7Q==
   dependencies:
     "@babel/core" "^7.21.8"
     "@babel/standalone" "^7.21.8"

@@ -67,16 +67,13 @@ export default {
   methods: {
     // 发起办事
     async getStartInfo() {
-      let params = {
-        id: this.userInfo.id,
-        belongId: this.baseInfo.id,
-        speciesId: '453840712455294976',
-        sid: '449324682009776128'
-      };
+      let params = this.userInfo.id
       let res = await loadSpecies(params);
       console.log(res, '办事列表');
-      this.baseInfo.StartInfo = res.data.result
-      this.listInfo1[0].data = this.baseInfo
+      // this.baseInfo.StartInfo = res.data.result
+      // this.listInfo1[0].data = this.baseInfo
+
+
       // let resNode = await loadWorkNode(params)
       // let resWorkNode = await loadWorkDefines(params)
       // console.log(resWorkNode, '');
@@ -84,15 +81,15 @@ export default {
     //待办事项
     async getWaitInfo() {
       let res = await WaitInfo(this.baseInfo.id);
-      console.log(res.data.result, '待办事项');
-      this.baseInfo.WaitInfo = res.data.result
-      this.listInfo1[1].data = this.baseInfo
+      console.log(res, '待办事项');
+      // this.baseInfo.WaitInfo = res.data.result
+      // this.listInfo1[1].data = this.baseInfo
     },
     //已办事项
     async getDoneInfo() {
       let res = await DoneInfo(this.baseInfo.id);
-      this.baseInfo.DoneInfo = res.data.result
-      this.listInfo1[2].data = this.baseInfo
+      // this.baseInfo.DoneInfo = res.data.result
+      // this.listInfo1[2].data = this.baseInfo
       console.log(res, '已办事项');
 
     },

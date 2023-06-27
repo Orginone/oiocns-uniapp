@@ -1,20 +1,9 @@
 <template>
   <view class="baseLayout">
-    <headbar
-      right
-      :left="'more'"
-      :url="'/pages/work/work'"
-      last
-      basic="办事"
-    ></headbar>
+    <headbar right :left="'more'" :url="'/pages/work/work'" last basic="办事"></headbar>
     <view class="main">
       <selectBar @change="change" style="width: 100%"></selectBar>
-      <view
-        class="dealList"
-        v-for="(item, index) in dealList"
-        :key="index"
-        @click="turnpage()"
-      >
+      <view class="dealList" v-for="(item, index) in dealList" :key="index" @click="turnpage()">
         <dealItem :itemInfo="item" :btn="false"></dealItem>
       </view>
     </view>
@@ -64,14 +53,15 @@ export default {
       });
       this.dealList = arr;
     }
-     if (data.name == "我发起的" && data.data.MyInfo) {
+    if (data.name == "我发起的" && data.data.MyInfo) {
+      console.log(data)
       data.data.MyInfo.forEach((el) => {
-        el.content = JSON.parse(el.content);
-        let content = `${el.content[0].name}[${el.content[0].typeName}]申请加入${el.content[1].name}[${el.content[1].typeName}]`;
+        // el.content = JSON.parse(el.content);
+        // let content = `${el.content[0].name}[${el.content[0].typeName}]申请加入${el.content[1].name}[${el.content[1].typeName}]`;
         arr.push({
           title: el.title,
           titleType: el.taskType,
-          sub: content,
+          sub: el.remark||'无',
           type: el.status == 1 ? "待审批" : "已同意",
           workData: data,
           time: el.createTime,
@@ -104,6 +94,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   .dealList {
     margin-top: 20upx;
   }
