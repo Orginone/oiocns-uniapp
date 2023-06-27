@@ -106,7 +106,7 @@ export class Message implements IMessage {
   mentions: string[] = [];
   user: IPerson;
   _chat: IMsgChat;
-  _msgBody: string;
+  // _msgBody: string;
   labels: IMessageLabel[] = [];
   metadata: model.MsgSaveModel;
   get id(): string {
@@ -203,11 +203,11 @@ export class Message implements IMessage {
     if (this.msgType === MessageType.Recall) {
       return (this.isMySend ? '我' : this.from.name) + '撤回了一条消息';
     }
-    return this._msgBody;
+    // return this._msgBody;
   }
-  get msgSource(): string {
-    return this._msgBody;
-  }
+  // get msgSource(): string {
+    // return this._msgBody;
+  // }
   recall(): void {
     this.metadata.msgType = MessageType.Recall;
   }
