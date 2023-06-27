@@ -13,26 +13,26 @@
             </u-form-item>
             <u-form-item prop="name">
               <view class="contentName"><span class="redColor">*</span>代码</view>
-              <u-input v-model="form.name" />
+              <u-input v-model="form.code" />
             </u-form-item>
             <u-form-item prop="name">
               <view class="contentName">简称</view>
-              <u-input v-model="form.name" />
+              <u-input v-model="form.teamName" />
             </u-form-item>
-            <u-form-item prop="name">
+            <u-form-item prop="typeName">
               <view class="contentName"><span class="redColor">*</span>选择制定组织</view>
               <view @click="show2 = true" class="selectBox">
-                <view>群组</view>
+                <view>{{form.typeName}}</view>
                 <img src="../../../static/base/right.png" alt="" class="rightImg"/>
               </view>
             </u-form-item>
             <u-form-item>
-              <view class="contentName">标注</view>
-              <u-input v-model="form.name" />
+              <view class="contentName">标识</view>
+              <u-input v-model="form.teamCode" />
             </u-form-item>
             <u-form-item prop="name">
               <view class="contentName"><span class="redColor">*</span>备注</view>
-              <u-input v-model="form.name" />
+              <u-input v-model="form.remark" />
             </u-form-item>
           </u-form>
         </view>
@@ -47,8 +47,7 @@
 </template>
 
 <script>
-import orgCtrl from '@/ts/controller';
-import { TargetType, companyTypes } from '@/ts/core';
+import orgCtrl from '../../../ts/controller';
 export default {
   name: "formBox",
   props: {
@@ -65,20 +64,21 @@ export default {
     mode(newValue){
       if(newValue){
         switch (newValue) {
-          case 'joinFriend':
-            this.modalTitle = '添加好友';
-            this.placeholder = '请输入用户的账号'
+          case 'newCohort':
+            this.form.typeName = '群组';
+            this.list = [
+              {
+                label: '群组'
+              },
+            ]
             break;
-          case 'joinCohort':
-            this.modalTitle = '添加群组';
-            this.placeholder = '请输入群组的编码'
-            break;
-          case 'joinCompany':
-            this.modalTitle = '添加单位';
-            this.placeholder = '请输入单位的社会统一代码'
-            break;
-          case 'joinGroup':
-            this.modalTitle = '申请加入集团';
+          case 'newCompany':
+            this.form.typeName = '单位';
+            this.list = [
+              {
+                label: '单位'
+              },
+            ]
             break;
         }
       }
@@ -91,7 +91,12 @@ export default {
 			},
       form: {
 				name: '',
-				intro: '',
+				code: '',
+        typeName:'群组',
+        public:false,
+        teamName:'',
+        teamCode:'',
+        remark:''
 			},
 			rules: {
 				name: [
@@ -112,29 +117,14 @@ export default {
       show2:false,
       list:[
         {
-          value: '1',
           label: '群组'
         },
       ]
     }
   },
   methods:{
-    async input(){
-      let res = []
-      switch(this.mode){
-        case 'joinFriend' :
-          res = await orgCtrl.user.searchTargets(this.value, [TargetType.Person])
-          break;
-        case 'joinCohort' :
-          res = await orgCtrl.user.searchTargets(this.value, [TargetType.Cohort])
-          break;
-        case 'joinCompany' :
-          res = await orgCtrl.user.searchTargets(this.value, companyTypes)
-      }
-      this.dataList = res
-      console.log(res,'res')
-    },
     async save(){
+      await orgCtrl.user.createTarget(this.form);
       this.closePop()
     },
     closePop(){

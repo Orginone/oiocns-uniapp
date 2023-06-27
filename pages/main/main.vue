@@ -154,7 +154,7 @@ export default {
     handle(item,index){
       this.isShowMask = false;
       this.mode = item.value
-      if(index == 3){
+      if(item.value == 'newCohort' || item.value == 'newCompany'){
         this.isShow2 = true
       }else{
         this.isShow = true
