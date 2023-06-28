@@ -131,7 +131,7 @@ export default {
           res = await orgCtrl.user.searchTargets(this.value, [TargetType.Cohort])
           break;
         case 'joinCompany' :
-          res = await orgCtrl.user.searchTargets(this.value, companyTypes)
+          await orgCtrl.user.applyJoin([this.dataList[this.activeId]])
       }
       this.closePop()
     },
