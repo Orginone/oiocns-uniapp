@@ -123,8 +123,16 @@ export default {
       }
     },
     async save(){
-      // let res = await orgCtrl.user.directory.applyJoin([this.dataList[this.activeId]])
-      // console.log(res,'res')
+      switch(this.mode){
+        case 'joinFriend' :
+          await orgCtrl.user.applyJoin([this.dataList[this.activeId]])
+          break;
+        case 'joinCohort' :
+          res = await orgCtrl.user.searchTargets(this.value, [TargetType.Cohort])
+          break;
+        case 'joinCompany' :
+          res = await orgCtrl.user.searchTargets(this.value, companyTypes)
+      }
       this.closePop()
     },
     closePop(){

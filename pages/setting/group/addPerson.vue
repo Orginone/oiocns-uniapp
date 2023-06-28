@@ -61,8 +61,8 @@
 			async addTeam(){
 				if(this.selected != -1){
 					let res = await kernelApi.pullAnyToTeam({
-                        id: this.groupId,
-                        subId: this.selected,
+						id: this.groupId,
+						subId: this.selected,
 					});
 					uni.showToast({
 						title:'添加成功',

@@ -43,7 +43,7 @@
 					this.selected = id;
 				}
 			},
-			 searchCompany(e){
+			searchCompany(e){
 				this.inputcontent = e.detail.value
 			},
 			async getList(){
