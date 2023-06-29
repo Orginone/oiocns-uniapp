@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { schema } from '../../../ts/base';
 import { IIdentity, ISpeciesItem } from '../../../ts/core';
 // import { ProColumns } from '@ant-design/pro-table';

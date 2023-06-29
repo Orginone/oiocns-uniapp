@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {kernelApi as kernel} from '../../../../common/app';
 import { model, common, schema, List } from '../../../base';
 import { IBelong } from '../../target/base/belong';

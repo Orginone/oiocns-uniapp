@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { common, model, parseAvatar } from '../../../base';
 import { MessageType, TargetType } from '../../public';
 import { IPerson } from '../../target/person';

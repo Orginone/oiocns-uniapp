@@ -7,6 +7,7 @@
         </view>
         <view class="searchIpt">
           <u-input
+            class="u-input"
             type="text"
             :placeholder="placeholder"
             placeholder-style="color:#999999"
@@ -173,6 +174,9 @@ export default {
       justify-content: space-between;
       padding: 20upx;
       font-size: 32upx;
+      .u-input{
+        width: 500upx;
+      }
       .rightImg{
         width: 36upx;
         height: 36upx;

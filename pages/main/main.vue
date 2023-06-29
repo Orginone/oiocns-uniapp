@@ -50,7 +50,7 @@
       <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :indicator-color='color' :easing-function="'easeInOutCubic'">  
         <swiper-item v-for="(item,index) in imgList" :key="index">  
           <view class='li'>
-            <img :src="'../../static/banner/' + item + '.png'" class="itemSrc" />
+            <img :src="'../../static/banner/' + item + '.jpg'" class="itemSrc" />
           </view> 
         </swiper-item>  
       </swiper> 
