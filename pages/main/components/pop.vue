@@ -37,6 +37,12 @@
                 <view>集团简介:{{item.remark}}</view>
               </view>
             </view>
+            <view v-if="modalTitle == '添加群组'">
+              <view class="itemName">{{item.name}}</view>
+              <view class="remark">
+                <view>群组简介:{{item.remark}}</view>
+              </view>
+            </view>
           </view>
         </view>
         <view class="btns">
@@ -123,16 +129,7 @@ export default {
       }
     },
     async save(){
-      switch(this.mode){
-        case 'joinFriend' :
-          await orgCtrl.user.applyJoin([this.dataList[this.activeId]])
-          break;
-        case 'joinCohort' :
-          res = await orgCtrl.user.searchTargets(this.value, [TargetType.Cohort])
-          break;
-        case 'joinCompany' :
-          await orgCtrl.user.applyJoin([this.dataList[this.activeId]])
-      }
+      await orgCtrl.user.applyJoin([this.dataList[this.activeId]])
       this.closePop()
     },
     closePop(){
