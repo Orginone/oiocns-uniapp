@@ -318,8 +318,8 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
       if (res.success) {
         const data = res.data.result || [];
         this.applications = data
-          .filter((i) => !i.parentId || i.parentId.length < 1)
-          .map((i) => new Application(i, this, undefined, data));
+          .filter((i:any) => !i.parentId || i.parentId.length < 1)
+          .map((i:any) => new Application(i, this, undefined, data));
       }
     }
     return this.applications;

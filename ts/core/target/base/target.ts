@@ -86,7 +86,6 @@ export abstract class Target extends Team implements ITarget {
       subIds: [team.id],
     });
     if (res.success) {
-      this.createTargetMsg(OperateType.Add, team.metadata);
     }
     return res.success;
   }

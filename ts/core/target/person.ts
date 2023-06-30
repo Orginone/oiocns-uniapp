@@ -80,7 +80,7 @@ export class Person extends Belong implements IPerson {
       });
       if (res.success) {
         this._cohortLoaded = true;
-        this.cohorts = (res.data.result || []).map((i) => new Cohort(i, this));
+        this.cohorts = (res.data.result || []).map((i:any) => new Cohort(i, this));
       }
     }
     return this.cohorts;
@@ -94,7 +94,7 @@ export class Person extends Belong implements IPerson {
       });
       if (res.success) {
         this._companyLoaded = true;
-        this.companys = (res.data.result || []).map((i) => createCompany(i, this));
+        this.companys = (res.data.result || []).map((i:any) => createCompany(i, this));
       }
     }
     return this.companys;
@@ -164,7 +164,6 @@ export class Person extends Belong implements IPerson {
     return false;
   }
   override async delete(): Promise<boolean> {
-    await this.createTargetMsg(OperateType.Remove, this.metadata);
     const res = await kernel.deleteTarget({
       id: this.id,
     });
