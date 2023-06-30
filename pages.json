@@ -1,415 +1,356 @@
 {
-	"easycom": {
-		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
-	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-		    "path" : "pages/login/login",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "登录界面",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		},
-		{
-			"path": "pages/connect/connect",
-			"style": {
-				"navigationBarTitleText": "沟通",
-				"enablePullDownRefresh": false
-			}
-
-		},
-		{
-			"path": "pages/work/work",
-			"style": {
-				"navigationBarTitleText": "办事",
-				"enablePullDownRefresh": false
-			}
-
-		},
-		{
-		    "path" : "pages/main/main",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "资产共享云",
-		        "enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#3D5ED1",
-				"navigationBarTextStyle": "#fff"
-		    }
-		    
-		},
-		{
-			"path": "pages/warehouse/warehouse",
-			"style": {
-				"navigationBarTitleText": "仓库",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/shop/shop",
-			"style": {
-				"navigationBarTitleText": "商店",
-				"enablePullDownRefresh": false
-			}
-		}
-		 , {
-			"path": "pages/warehouse/page2/page2",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-
-			}
-		}, {
-			"path": "pages/warehouse/page3/page3",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-
-			}
-		}
-        ,{
-            "path" : "pages/warehouse/menu/menu",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
+    "easycom": {
+        "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+    },
+    "pages": [
+        {
+            "path": "pages/login/login",
+            "style": {
+                "navigationBarTitleText": "登录界面",
                 "enablePullDownRefresh": false
             }
-            
-        }
-        
-        ,{
-            "path" : "pages/work/menu/menu",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "待办详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/work/page2/page2",
-            "style" :                                                                                    
-            {
+        },
+        {
+            "path": "pages/work/work",
+            "style": {
                 "navigationBarTitleText": "办事",
                 "enablePullDownRefresh": false
             }
-            
-        }
-        ,{
-            "path" : "pages/work/page3/page3",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "办事",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-
-        ,{
-            "path" : "pages/work/page4/page4",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "资产处置",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/shop/menu/menu",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/shop/page2/page2",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/shop/appList/appList",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/shop/appDetail/appDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "应用详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,
+        },
         {
-            "path" : "pages/setting/index",
-            "style" :                                                                                    
-            {
+            "path": "pages/main/main",
+            "style": {
+                "navigationBarTitleText": "资产共享云",
+                "enablePullDownRefresh": false,
+                "navigationBarBackgroundColor": "#3D5ED1",
+                "navigationBarTextStyle": "#fff"
+            }
+        },
+        {
+            "path": "pages/warehouse/warehouse",
+            "style": {
+                "navigationBarTitleText": "仓库",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/setting/index",
+            "style": {
                 "navigationBarTitleText": "设置",
                 "enablePullDownRefresh": false
             }
-            
         },
         {
-            "path" : "pages/setting/baseForm/index",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/baseForm/index",
+            "style": {
                 "navigationBarTitleText": "设置",
                 "enablePullDownRefresh": false
             }
-            
         },
         {
-            "path" : "pages/setting/group/index",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/group/index",
+            "style": {
                 "navigationBarTitleText": "群组",
                 "enablePullDownRefresh": false
             }
-            
         },
         {
-            "path" : "pages/setting/orgGroup/index",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/orgGroup/index",
+            "style": {
                 "navigationBarTitleText": "组织群组",
                 "enablePullDownRefresh": false
             }
         },
         {
-            "path" : "pages/setting/group/addGroup",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/group/addGroup",
+            "style": {
                 "navigationBarTitleText": "加入群组",
                 "enablePullDownRefresh": false
             }
         },
         {
-            "path" : "pages/setting/group/addPerson",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/group/addPerson",
+            "style": {
                 "navigationBarTitleText": "添加成员",
                 "enablePullDownRefresh": false
             }
         },
         {
-            "path" : "pages/setting/group/detail",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/group/detail",
+            "style": {
                 "navigationBarTitleText": "群组详情",
                 "enablePullDownRefresh": false
             }
-            
         },
         {
-            "path" : "pages/setting/tree/index",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/tree/index",
+            "style": {
                 "navigationBarTitleText": "详情",
                 "enablePullDownRefresh": false
             }
-            
         },
         {
-            "path" : "pages/setting/person/index",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/person/index",
+            "style": {
                 "navigationBarTitleText": "个人设置",
                 "enablePullDownRefresh": false
             }
-            
         },
         {
-            "path" : "pages/setting/company/index",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/company/index",
+            "style": {
                 "navigationBarTitleText": "组织设置",
                 "enablePullDownRefresh": false
             }
-            
         },
         {
-            "path" : "pages/setting/company/detail",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/company/detail",
+            "style": {
                 "navigationBarTitleText": "组织详情",
                 "enablePullDownRefresh": false
             }
-            
         },
         {
-            "path" : "pages/setting/company/edit",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/company/edit",
+            "style": {
                 "navigationBarTitleText": "组织设置",
                 "enablePullDownRefresh": false
             }
-            
         },
         {
-            "path" : "pages/setting/authority/index",
-            "style" :                                                                                    
-            {
+            "path": "pages/setting/authority/index",
+            "style": {
                 "navigationBarTitleText": "权限标准",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/setPage/member/member",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "部门成员",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/transPage/transPage",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false,
-				"navigationStyle":"custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/cardPage/index/index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "卡包",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/cardPage/itemDetail/itemDetail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "卡包",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/cardPage/search/search",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "通用-添加",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/cardPage/transfer/transfer",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "转账",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/cardPage/create/create",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "创建",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/setting/agency/agency",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "当前信息",
-                "enablePullDownRefresh": false
-            }
-        }
-        ,{
-            "path" : "pages/setting/agency/detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "部门成员",
                 "enablePullDownRefresh": false
             }
         }
     ],
-	"globalStyle": {
-		"pageOrientation": "portrait",
-		"navigationBarTitleText": "Hello uniapp",
-		"navigationBarTextStyle": "white",
-		"navigationBarBackgroundColor": "#F5F4FB",
-		"backgroundColor": "#F5F4FB",
-		"backgroundColorTop": "#F5F4FB",
-		"backgroundColorBottom": "#F5F4FB",
-		"enablePullDownRefresh": true,
-		"onReachBottomDistance": 1,
-		"mp-360": {
-			"navigationStyle": "custom"
-		},
-		"mp-weixin": {
-			"navigationStyle": "default",
-			"navigationBarTextStyle": "black"
-		},
-		"app-plus": {
-			"navigationStyle": "default",
-			"navigationBarTextStyle": "black"
-		},
-		"h5": {
-			"navigationBarTextStyle": "black",
-			"navigationBarBackgroundColor": "#FFFFFF"
-		},
-		"navigationStyle": "default",
-		"style": {
-			"app-plus": {
-				"titleNView": false
-			}
-		}
-
-	},
-	"tabBar": {
-		"color": "#7A7E83",
-		"selectedColor": "#007AFF",
-		"borderStyle": "black",
-		"backgroundColor": "#FFFFFF",
-		"list": [			
-			{
-				"pagePath": "pages/work/work",
-				"iconPath": "static/tabbar-ico/bs.png",
-				"selectedIconPath": "static/tabbar-ico/bs1.png",
-				"text": "办事"
-			},
-			{
-				"pagePath": "pages/warehouse/warehouse",
-				"iconPath": "static/tabbar-ico/cc.png",
-				"selectedIconPath": "static/tabbar-ico/cc1.png",
-				"text": "存储"
-			},
-			{
-				"pagePath": "pages/main/main",
-				"iconPath": "static/tabbar-ico/mh.png",
-				"selectedIconPath": "static/tabbar-ico/mh1.png",
-				"text": "门户"
-			},
-			{
-				"pagePath": "pages/setting/index",
-				"iconPath": "static/tabbar-ico/lt.png",
-				"selectedIconPath": "static/tabbar-ico/lt1.png",
-				"text": "设置"
-			}
-		]
-	}
+    "subPackages": [
+        {
+            "root": "",
+            "pages": [
+                {
+                    "path": "pages/work/menu/menu",
+                    "style": {
+                        "navigationBarTitleText": "待办详情",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/connect/connect",
+                    "style": {
+                        "navigationBarTitleText": "沟通",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/work/page2/page2",
+                    "style": {
+                        "navigationBarTitleText": "办事",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/work/page3/page3",
+                    "style": {
+                        "navigationBarTitleText": "办事",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/shop/shop",
+                    "style": {
+                        "navigationBarTitleText": "商店",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/warehouse/page2/page2",
+                    "style": {
+                        "navigationBarTitleText": "",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/warehouse/page3/page3",
+                    "style": {
+                        "navigationBarTitleText": "",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/warehouse/menu/menu",
+                    "style": {
+                        "navigationBarTitleText": "",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/work/page4/page4",
+                    "style": {
+                        "navigationBarTitleText": "资产处置",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/shop/menu/menu",
+                    "style": {
+                        "navigationBarTitleText": "",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/shop/page2/page2",
+                    "style": {
+                        "navigationBarTitleText": "",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/shop/appList/appList",
+                    "style": {
+                        "navigationBarTitleText": "",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/shop/appDetail/appDetail",
+                    "style": {
+                        "navigationBarTitleText": "应用详情",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                
+                {
+                    "path": "pages/setPage/member/member",
+                    "style": {
+                        "navigationBarTitleText": "部门成员",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/transPage/transPage",
+                    "style": {
+                        "navigationBarTitleText": "",
+                        "enablePullDownRefresh": false,
+                        "navigationStyle": "custom"
+                    }
+                },
+                {
+                    "path": "pages/cardPage/index/index",
+                    "style": {
+                        "navigationBarTitleText": "卡包",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/cardPage/itemDetail/itemDetail",
+                    "style": {
+                        "navigationBarTitleText": "卡包",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/cardPage/search/search",
+                    "style": {
+                        "navigationBarTitleText": "通用-添加",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/cardPage/transfer/transfer",
+                    "style": {
+                        "navigationBarTitleText": "转账",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/cardPage/create/create",
+                    "style": {
+                        "navigationBarTitleText": "创建",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/setting/agency/agency",
+                    "style": {
+                        "navigationBarTitleText": "当前信息",
+                        "enablePullDownRefresh": false
+                    }
+                },
+                {
+                    "path": "pages/setting/agency/detail",
+                    "style": {
+                        "navigationBarTitleText": "部门成员",
+                        "enablePullDownRefresh": false
+                    }
+                }
+            ]
+        }
+    ],
+    "globalStyle": {
+        "lazyCodeLoading": "requiredComponents",
+        "pageOrientation": "portrait",
+        "navigationBarTitleText": "Hello uniapp",
+        "navigationBarTextStyle": "white",
+        "navigationBarBackgroundColor": "#F5F4FB",
+        "backgroundColor": "#F5F4FB",
+        "backgroundColorTop": "#F5F4FB",
+        "backgroundColorBottom": "#F5F4FB",
+        "enablePullDownRefresh": true,
+        "onReachBottomDistance": 1,
+        "mp-360": {
+            "navigationStyle": "custom"
+        },
+        "mp-weixin": {
+            "navigationStyle": "default",
+            "navigationBarTextStyle": "black"
+        },
+        "app-plus": {
+            "navigationStyle": "default",
+            "navigationBarTextStyle": "black"
+        },
+        "h5": {
+            "navigationBarTextStyle": "black",
+            "navigationBarBackgroundColor": "#FFFFFF"
+        },
+        "navigationStyle": "default",
+        "style": {
+            "app-plus": {
+                "titleNView": false
+            }
+        }
+    },
+    "tabBar": {
+        "color": "#7A7E83",
+        "selectedColor": "#007AFF",
+        "borderStyle": "black",
+        "backgroundColor": "#FFFFFF",
+        "list": [
+            {
+                "pagePath": "pages/work/work",
+                "iconPath": "static/tabbar-ico/bs.png",
+                "selectedIconPath": "static/tabbar-ico/bs1.png",
+                "text": "办事"
+            },
+            {
+                "pagePath": "pages/warehouse/warehouse",
+                "iconPath": "static/tabbar-ico/cc.png",
+                "selectedIconPath": "static/tabbar-ico/cc1.png",
+                "text": "存储"
+            },
+            {
+                "pagePath": "pages/main/main",
+                "iconPath": "static/tabbar-ico/mh.png",
+                "selectedIconPath": "static/tabbar-ico/mh1.png",
+                "text": "门户"
+            },
+            {
+                "pagePath": "pages/setting/index",
+                "iconPath": "static/tabbar-ico/lt.png",
+                "selectedIconPath": "static/tabbar-ico/lt1.png",
+                "text": "设置"
+            }
+        ]
+    }
 }
