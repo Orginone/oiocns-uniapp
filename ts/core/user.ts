@@ -26,7 +26,6 @@ export class UserProvider {
       const userJson = uni.getStorageSync(sessionUserName);
       if (userJson) {
         clearInterval(timeIndex);
-        console.log('_loadUser',userJson);
         this._loadUser(userJson);
       }
     })

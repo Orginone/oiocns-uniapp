@@ -99,21 +99,21 @@
         {
             "path": "pages/setting/company/index",
             "style": {
-                "navigationBarTitleText": "组织设置",
+                "navigationBarTitleText": "单位",
                 "enablePullDownRefresh": false
             }
         },
         {
             "path": "pages/setting/company/detail",
             "style": {
-                "navigationBarTitleText": "组织详情",
+                "navigationBarTitleText": "单位详情",
                 "enablePullDownRefresh": false
             }
         },
         {
             "path": "pages/setting/company/edit",
             "style": {
-                "navigationBarTitleText": "组织设置",
+                "navigationBarTitleText": "单位设置",
                 "enablePullDownRefresh": false
             }
         },

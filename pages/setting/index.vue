@@ -7,6 +7,8 @@
 
 <script>
 import * as config from "./config/menuOperate";
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   data() {
     return {
@@ -17,7 +19,11 @@ export default {
   onLoad() {
     this.getMenu();
   },
+  onShow() {
+    this.setSetting([{name:'设置'}]);
+  },
   methods: {
+     ...mapMutations(['setSetting']),
     removeCircularReferences(obj) {
       const queue = [obj];
       const visited = new Set();
@@ -62,7 +68,6 @@ export default {
     async getMenu() {
       let res = await config.loadSettingMenu();
       // this.removeCircularReferences(res)
-      console.log('res',res);
       // console.log('setting', JSON.parse(JSON.stringify(res)))
       let arr = []
       res.children.forEach(element => {
@@ -74,6 +79,7 @@ export default {
       });
       // store.setting = res;
       this.menu = arr;
+      console.log('this.menu', this.menu);
       // this.showMenu = true;
       // console.log(res,'res')
     },

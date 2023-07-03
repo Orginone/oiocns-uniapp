@@ -1,14 +1,6 @@
 <template>
   <view class="baseLayout">
     <view class="header">
-      <!-- 返回 -->
-      <!-- <view class="back" @tap="back()" v-if="left=='back'">
-				<img :src="'../../static/base/back.png'" alt="" >
-			</view> -->
-      <!-- 更多 -->
-      <view class="more" v-if="left == 'more'" @tap="turnUrl()">
-        <img :src="'../../static/base/more.png'" alt="" />
-      </view>
       <!-- 文字内容 -->
       <view class="content">
         <view
@@ -19,7 +11,7 @@
           <!-- 连接点 -->
           <view
             class="dot"
-            :style="{ color: color ? '#000000' : '#9A9A9A' }"
+            :style="{ color:'#000000'}"
             v-if="index"
           >
             .
@@ -28,23 +20,19 @@
           <view v-if="index !== localListPlus.length - 1">
             <view
               class="main"
-              :style="{ color: color ? '#000000' : '#9A9A9A' }"
+              :style="{ color: '#000000' }"
               @click="turnHeadPage(index)"
             >
               {{ item }}
             </view>
           </view>
           <!-- 末尾文字颜色 -->
-          <view v-if="index == localListPlus.length - 1 && !last">
+          <view v-if="index == localListPlus.length - 1">
             <view
               class="main"
-              :style="{ color: color ? '#000000' : '#9A9A9A' }"
+              @click="turnHeadPage(index)"
+              :style="{ color:'#3d5ed1' }"
             >
-              {{ item }}
-            </view>
-          </view>
-          <view v-if="index == localListPlus.length - 1 && last">
-            <view class="main">
               {{ item }}
             </view>
           </view>
@@ -55,6 +43,8 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   name: "headbar",
   props: {
@@ -80,6 +70,9 @@ export default {
       default: "",
     }, //面包屑基础路径
   },
+  computed: {
+    ...mapState(['setting'])
+  },
   data() {
     return {
       localListPlus: [], //面包屑数组
@@ -89,11 +82,25 @@ export default {
     this.loadHeader();
   },
   methods: {
+     ...mapMutations(['setSetting']),
     //跳转面包屑页面
     turnHeadPage(index) {
-      uni.navigateBack({
-        delta: this.localListPlus.length - index - 1,
-      });
+      console.log(index);
+      let arr = []
+      for(let i = 0; i <= index;i++){
+        arr.push(this.setting[i])
+      }
+      this.setSetting(arr);
+      if(this.localListPlus.length  == 1){
+        uni.navigateBack({
+          delta: this.localListPlus.length ,
+        });
+      }else{
+        uni.navigateBack({
+          delta: this.localListPlus.length - index -1,
+        });
+      }
+      
     },
     // 跳转路由
     turnUrl() {
@@ -118,23 +125,9 @@ export default {
     },
     //加载处理面包屑
     loadHeader() {
-      if (this.localList) {
-        return (this.localListPlus = this.localList.split(","));
-      }
-      let comps = getCurrentPages();
       let arr = [];
-      comps.forEach((item, index) => {
-        //访问历史前两级固定不带参数不用判断，若携带basic,手动添加面包屑路径
-        if (index <= 1 && this.basic !== "") {
-          arr = [this.basic];
-        }
-        // 判断路径是否携带name参数，携带则添加面包屑路径
-        if (index > 1) {
-          let data = JSON.parse(item.options.data);
-          if ("name" in data) {
-            arr.push(data.name);
-          }
-        }
+      this.setting.forEach((item, index) => {
+        arr.push(item.name)
       });
       this.localListPlus = arr;
     },
@@ -185,7 +178,7 @@ export default {
     text-overflow: ellipsis;
 
     .dot {
-      margin: 0 10upx;
+      margin: 0 15upx;
       transform: translateY(-20upx) scale(2);
     }
 

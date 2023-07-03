@@ -9,7 +9,12 @@
           <!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
           <!-- <img :src="'../../static/base/add.png'" alt=""  v-if="icon.includes('add')" > -->
           <view class="dotPlus" @click="showTips($event)">
-            <img :src="'../../static/base/dotPlus.png'" alt=""  @tap="turnDetailPage(item)" v-if="icon.includes('dotPlus')" >
+            <img
+              :src="'../../static/base/dotPlus.png'"
+              alt=""
+              @tap="turnDetailPage(item)"
+              v-if="icon.includes('dotPlus')"
+            />
           </view>
           <img
             src="../../static/base/right.png"
@@ -20,22 +25,22 @@
         </view>
       </view>
     </view>
-    <view class="show-tips" v-if="show" @click="show=false">
+    <view class="show-tips" v-if="show" @click="show = false">
       <view class="show-box">
         <view class="show-list">
-            <view class="show-item">新建目录</view> 
-            <view class="show-item">新建应用</view>
-            <view class="show-item">新建分类</view>
-            <view class="show-item">新建字典</view>
-            <view class="show-item">新建属性</view>
-            <view class="show-item">新建实体配置</view>
-            <view class="show-item">新建事项配置</view>
-            <view class="show-item">新建群组</view>
-            <view class="show-item">新建单位</view>
-            <view class="show-item">更新信息</view>
-            <view class="show-item">上传文件</view>
-            <view class="show-item">打开回话</view>
-            <view class="show-item">分享二维码</view>
+          <view class="show-item">新建目录</view>
+          <view class="show-item">新建应用</view>
+          <view class="show-item">新建分类</view>
+          <view class="show-item">新建字典</view>
+          <view class="show-item">新建属性</view>
+          <view class="show-item">新建实体配置</view>
+          <view class="show-item">新建事项配置</view>
+          <view class="show-item">新建群组</view>
+          <view class="show-item">新建单位</view>
+          <view class="show-item">更新信息</view>
+          <view class="show-item">上传文件</view>
+          <view class="show-item">打开回话</view>
+          <view class="show-item">分享二维码</view>
         </view>
       </view>
     </view>
@@ -43,6 +48,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: "personList",
   props: {
@@ -71,10 +78,10 @@ export default {
     return {
       settingData: {},
       list: [],
-      leftNum:0,
-      topNum:0,
-      show:false,
-      dataList: ['选项1', '选项2', '选项3', '选项4']
+      leftNum: 0,
+      topNum: 0,
+      show: false,
+      dataList: ["选项1", "选项2", "选项3", "选项4"],
     };
   },
   // watch: {
@@ -97,19 +104,34 @@ export default {
     // this.list = arr;
   },
   methods: {
+     ...mapMutations(['pushSetting']),
+    flattenArray(arr) {
+      let result = [];
+      arr.forEach((item) => {
+        result.push(item);
+        if (item.children && item.children.length > 0) {
+          const children = flattenArray(item.children);
+          result = result.concat(children);
+        }
+      });
+
+      return result;
+    },
     showTips(e) {
       this.show = true;
       this.leftNum = e.detail.x;
       this.topNum = e.detail.y;
     },
     turnDetailPage(item) {
+      console.log('label',item.label)
+      this.pushSetting({name:item.label});
       if (item.url) {
-       uni.navigateTo({
-          url: item.url+ "?data=" +item.key,
-        });
-      }else{
         uni.navigateTo({
-          url: "/pages/setting/group/index"+ "?data=" + item.key,
+          url: item.url + "?data=" + item.key,
+        });
+      } else {
+        uni.navigateTo({
+          url: "/pages/setting/group/index" + "?data=" + item.key,
         });
       }
     },
@@ -177,29 +199,29 @@ export default {
       }
     }
   }
-  .show-tips{
+  .show-tips {
     width: 100%;
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
     z-index: 1;
-    background: rgba($color: #fff, $alpha: .1);
-    .show-box{
+    background: rgba($color: #fff, $alpha: 0.1);
+    .show-box {
       position: absolute;
       right: 110upx;
       top: 70upx;
       width: 240upx;
-      .show-list{
+      .show-list {
         width: 240upx;
         background: #fff;
         box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
         border-radius: 5upx;
         padding: 20upx 0;
-        .show-item{
-            padding: 10upx 25upx;
-            height: 65upx;
-            font-size: 32upx;
+        .show-item {
+          padding: 10upx 25upx;
+          height: 65upx;
+          font-size: 32upx;
         }
       }
     }
