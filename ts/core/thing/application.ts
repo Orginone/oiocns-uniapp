@@ -41,13 +41,13 @@ export class Application extends FileInfo<schema.XApplication> implements IAppli
     return await this.update({ ...this.metadata, name: name });
   }
   async copy(destination: IDirectory): Promise<boolean> {
-    if (destination.id != this.directory.id) {
-      const res = await destination.createApplication({
-        ...this.metadata,
-        directoryId: destination.id,
-      });
-      return res != undefined;
-    }
+    // if (destination.id != this.directory.id) {
+    //   const res = await destination.createApplication({
+    //     ...this.metadata,
+    //     directoryId: destination.id,
+    //   });
+    //   return res != undefined;
+    // }
     return false;
   }
   async move(destination: IDirectory): Promise<boolean> {

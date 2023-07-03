@@ -68,8 +68,6 @@ export interface IDirectory extends IFileInfo<schema.XDirectory> {
   applications: IApplication[];
   /** 加载应用 */
   loadApplications(reload?: boolean): Promise<IApplication[]>;
-  /** 新建应用 */
-  createApplication(data: model.ApplicationModel): Promise<IApplication | undefined>;
   /** 创建文件任务 */
   createTask(task: model.TaskModel): () => void;
 }
@@ -323,17 +321,6 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
       }
     }
     return this.applications;
-  }
-  async createApplication(
-    data: model.ApplicationModel,
-  ): Promise<IApplication | undefined> {
-    data.directoryId = this.id;
-    const res = await kernel.createApplication(data);
-    if (res.success && res.data.id) {
-      const application = new Application(res.data, this);
-      this.applications.push(application);
-      return application;
-    }
   }
   override operates(mode: number = 0): model.OperateModel[] {
     const operates: model.OperateModel[] = [
