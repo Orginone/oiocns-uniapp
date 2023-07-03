@@ -124,7 +124,20 @@ export default {
   },
   methods:{
     async save(){
-      await orgCtrl.user.createTarget(this.form);
+      let res = await orgCtrl.user.createTarget(this.form);
+      if(res != undefined){
+        uni.showToast({
+          title: '添加成功~',
+          icon: 'none',
+          duration: 2000
+        })
+      }else{
+        uni.showToast({
+          title: '添加失败~',
+          icon: 'none',
+          duration: 2000
+        })
+      }
       this.closePop()
     },
     closePop(){

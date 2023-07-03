@@ -251,7 +251,7 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
         page: PageAll,
       });
       if (res.success) {
-        this.forms = (res.data.result || []).map((i) => new Form(i, this));
+        this.forms = (res.data.result || []).map((i:any) => new Form(i, this));
       }
     }
     return this.forms;

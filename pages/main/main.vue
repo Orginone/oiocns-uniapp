@@ -5,14 +5,14 @@
         <img src="../../static/base/setting.png" alt="" class="leftBoxSrc" />
       </view>
       <view class="rightBox">
-        <img src="../../static/base/search2.png" alt="" class="rightBoxSrc"/>
+        <img src="../../static/base/search2.png" alt="" class="rightBoxSrc mr20"/>
         <img src="../../static/base/add.png" alt="" class="rightBoxSrc" @click.stop="openEvent" />
         <!-- <img src="../../static/base/dotPlus.png" alt="" class="dotPlusSrc"/> -->
-        <view class="more">
+        <!-- <view class="more">
           <view class="more_point"></view>
           <view class="more_point"></view>
           <view class="more_point"></view>
-        </view>
+        </view> -->
         <view class="menu-box" v-show="isShowMask == true">
           <div class="menu-item" v-for="(item,index) in menuList" :key="index" @click.stop="handle(item,index)">
             <view class="item_btn">+</view>
@@ -197,11 +197,13 @@ page {
         display: flex;
         align-items: center;
         position: relative;
+        .mr20{
+          margin-right: 20upx;
+        }
         .rightBoxSrc{
           width: 36upx;
           height: 36upx;
           display: block;
-          margin-right:20upx;
         }
         .more {
           margin-top: 12upx;

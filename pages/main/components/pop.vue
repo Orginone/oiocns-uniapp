@@ -58,6 +58,7 @@
 <script>
 import orgCtrl from '@/ts/controller';
 import { TargetType, companyTypes } from '@/ts/core';
+import { kernelApi } from "common/app";
 export default {
   name: "popBox",
   props: {
@@ -120,7 +121,6 @@ export default {
           res = await orgCtrl.user.searchTargets(this.value, companyTypes)
       }
       this.dataList = res
-      console.log(res,'res')
     },
     handleClick(index){
       if(index == this.activeId){
@@ -130,7 +130,24 @@ export default {
       }
     },
     async save(){
-      await orgCtrl.user.applyJoin([this.dataList[this.activeId]])
+      this.userInfo = uni.getStorageSync('currentUser')
+      let res = await kernelApi.applyJoinTeam({
+        id: this.dataList[this.activeId].id,
+        subId: this.userInfo.id,
+      });
+      if(res.code == '200'){
+        uni.showToast({
+          title: '添加成功~',
+          icon: 'none',
+          duration: 2000
+        })
+      }else{
+        uni.showToast({
+          title: res.msg,
+          icon: 'none',
+          duration: 2000
+        })
+      }
       this.closePop()
     },
     closePop(){
@@ -193,6 +210,7 @@ export default {
         font-size: 34upx;
         border-radius: 16upx;
         color: #000;
+        margin-bottom: 20upx;
         .itemName{
           display: flex;
           align-items: center;
