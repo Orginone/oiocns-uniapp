@@ -48,9 +48,23 @@
             }
         },
         {
-            "path": "pages/setting/group/index",
+            "path": "pages/setting/group/addGroup",
             "style": {
-                "navigationBarTitleText": "群组",
+                "navigationBarTitleText": "加入群组",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/setting/qrcode/index",
+            "style": {
+                "navigationBarTitleText": "生成二维码",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/setting/scanCode/index",
+            "style": {
+                "navigationBarTitleText": "获取二维码",
                 "enablePullDownRefresh": false
             }
         },
@@ -58,13 +72,6 @@
             "path": "pages/setting/orgGroup/index",
             "style": {
                 "navigationBarTitleText": "组织群组",
-                "enablePullDownRefresh": false
-            }
-        },
-        {
-            "path": "pages/setting/group/addGroup",
-            "style": {
-                "navigationBarTitleText": "加入群组",
                 "enablePullDownRefresh": false
             }
         },

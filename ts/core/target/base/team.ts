@@ -73,7 +73,6 @@ export abstract class Team extends MsgChat<schema.XTarget> implements ITeam {
         subTypeNames: this.memberTypes,
         page: PageAll,
       });
-      console.log('aaaaaaa',res);
       if (res.success) {
         this._memberLoaded = true;
         this.members = res.data.result || [];

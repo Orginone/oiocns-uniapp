@@ -64,11 +64,20 @@
 						id: this.groupId,
 						subId: this.selected,
 					});
-					uni.showToast({
-						title:'添加成功',
-						icon: 'none',
-						duration: 2000
-					})
+					if(res.data){
+						uni.showToast({
+							title:'添加成功',
+							icon: 'none',
+							duration: 2000
+						})
+					}else{
+						uni.showToast({
+							title:res.msg,
+							icon: 'none',
+							duration: 2000
+						})
+					}
+					
 				}else{
 					uni.showToast({
 						title: '请选择人员',

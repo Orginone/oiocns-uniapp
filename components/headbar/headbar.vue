@@ -85,7 +85,6 @@ export default {
      ...mapMutations(['setSetting']),
     //跳转面包屑页面
     turnHeadPage(index) {
-      console.log(index);
       let arr = []
       for(let i = 0; i <= index;i++){
         arr.push(this.setting[i])

@@ -10,7 +10,6 @@ const store = new Vuex.Store({
 	},
 	mutations: {
 		pushSetting(state,data){
-			console.log('satate',state,data)
 			state.setting.push(data)
 		},
 		setSetting (state,data) {

@@ -3,7 +3,6 @@ import { IFileInfo } from '../ts/core';
 
 /** 加载文件菜单 */
 export const loadFileMenus = (file: IFileInfo<schema.XEntity>, mode: number = 0) => {
-  console.log('file',file)
   return file
     .operates(mode)
     .sort((a, b) => a.sort - b.sort)
@@ -26,7 +25,6 @@ export const loadFileMenus = (file: IFileInfo<schema.XEntity>, mode: number = 0)
               label: s.label,
               icon: '',
               beforeLoad: async () => {
-                console.log('ssssss',s);
                 if (s.cmd === 'open') {
                   await file.loadContent();
                 }
