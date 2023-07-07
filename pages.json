@@ -55,6 +55,13 @@
             }
         },
         {
+            "path": "pages/setting/group/index",
+            "style": {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
             "path": "pages/setting/qrcode/index",
             "style": {
                 "navigationBarTitleText": "生成二维码",

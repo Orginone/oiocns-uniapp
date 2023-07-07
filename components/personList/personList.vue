@@ -32,7 +32,7 @@
       <view class="show-box">
         <view class="show-list">
           <view class="show-item" @click="showadd()">新建群组</view>
-          <view class="show-item" @click="showadd()">查看信息</view>
+          <view class="show-item" @click="showdetail()">查看信息</view>
           <view class="show-item" @click="showadd()">上传文件</view>
           <view class="show-item" @click="jumpqrCode()">分享二维码</view>
         </view>
@@ -44,11 +44,14 @@
       :itemKey="itemKey"
       @uploadPop="uploadPop"
     />
+
   </view>
 </template>
 
 <script>
 import formBox from "./box/form.vue";
+// import formdetail from "./box/detail.vue";
+
 import { mapMutations } from "vuex";
 import * as config from "../../pages/setting/config/menuOperate";
 export default {
@@ -86,6 +89,7 @@ export default {
       topNum: 0,
       show: false,
       isShow2: false,
+      isShow3:false,
       itemKey: "",
       mode: "",
       belongId: "",
@@ -128,6 +132,9 @@ export default {
     showadd(item) {
       this.isShow2 = true;
     },
+    showdetail(){
+      this.isShow3 = true;
+    },
     async jumpqrCode() {
       let res = await config.loadSettingMenu();
       let itemx = this.searchObjectByKey(res.children, "key", this.itemKey);
@@ -143,6 +150,7 @@ export default {
     },
     uploadPop() {
       this.isShow2 = false;
+      this.isShow3 = false;
     },
     async showTips(e, item) {
       this.itemKey = item.key;
@@ -172,6 +180,7 @@ export default {
       return null;
     },
     turnDetailPage(item) {
+      console.log('aa',item);
       this.pushSetting({ name: item.label });
       if (item.url) {
         uni.navigateTo({

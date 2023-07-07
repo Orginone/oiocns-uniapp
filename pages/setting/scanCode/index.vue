@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { kernelApi } from "common/app";
+
 export default {
   data() {
     return {
@@ -27,8 +29,12 @@ export default {
   async onLoad() {
     const _this = this;
     let res = await uni.authorize({ scope: "scope.camera" });
-    console.log(res);
-    if (!res) {
+    var errMsgArr = res.map(function (obj) {
+      return obj?.errMsg || "";
+    });
+
+    var hasAuthorizeOk = errMsgArr.includes("authorize:ok");
+    if (!hasAuthorizeOk) {
       // 用户还没有授权，向用户发起授权请求
       _this.openSetting().then((res) => {
         this.isAuth = true;
@@ -95,15 +101,27 @@ export default {
     scanQRCode() {
       uni.scanCode({
         onlyFromCamera: true,
-        success: (res) => {
+        success: async (res) => {
           // 扫码成功，处理扫描结果
-          const content = res.result;
-
-          // 可以将扫码结果展示给用户
-          uni.showToast({
-            title: `扫码结果：${content}`,
-            icon: "none",
-          });
+          let content = res.result;
+          var lastSlashIndex = content.lastIndexOf("/");
+          if (lastSlashIndex !== -1) {
+            var numberString = content.slice(lastSlashIndex + 1);
+            let userInfo =JSON.parse(uni.getStorageSync('currentUser'));
+            let res = await kernelApi.applyJoinTeam({
+              id: numberString,
+              subId: userInfo.id,
+            });
+            console.log('res',res);
+            if(res){
+               uni.showToast({
+                title: res.msg,
+                icon: "none",
+              });
+            }
+          } else {
+            console.log("未找到斜杠");
+          }
           this.clearScanQRCode();
         },
         fail: (err) => {

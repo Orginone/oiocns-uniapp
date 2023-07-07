@@ -5,6 +5,7 @@
         <img src="../../static/base/setting.png" alt="" class="leftBoxSrc" />
       </view>
       <view class="rightBox">
+        <img src="../../static/base/sao.png" @click="jumosys()" alt="" class="rightBoxSrc mr20"/>
         <img src="../../static/base/search2.png" alt="" class="rightBoxSrc mr20"/>
         <img src="../../static/base/add.png" alt="" class="rightBoxSrc" @click.stop="openEvent" />
         <!-- <img src="../../static/base/dotPlus.png" alt="" class="dotPlusSrc"/> -->
@@ -141,6 +142,11 @@ export default {
     jump(){
       uni.switchTab({
         url: '/pages/setting/index'
+      })
+    },
+    jumosys(){
+      uni.navigateTo({
+        url: '/pages/setting/scanCode/index'
       })
     },
     //下拉选项打开时
