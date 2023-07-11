@@ -2,6 +2,7 @@
 
 // export const kernel = KernelApi.getInstance();
 export * as common from './common';
+export { command } from './common/command';
 export { List } from './common/linq';
 export * as model from './model';
 export * as schema from './schema';

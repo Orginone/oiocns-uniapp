@@ -3,46 +3,45 @@
     <u-popup v-model="show" mode="center" border-radius="16">
       <view class="info">
         <view class="title">
-          <view class="blueBox"></view>新建
+          <view class="blueBox"></view>详情信息
         </view>
         <view class="content">
           <u-form :model="form" ref="uForm">
             <u-form-item prop="name" class="contentInfo">
               <view class="contentName"><span class="redColor">*</span>名称</view>
-              <u-input v-model="form.name" />
+              <u-input :readonly="true" v-model="form.name" />
             </u-form-item>
             <u-form-item prop="name">
               <view class="contentName"><span class="redColor">*</span>代码</view>
-              <u-input v-model="form.code" />
+              <u-input readonly="readonly" v-model="form.code" />
             </u-form-item>
             <u-form-item prop="name">
               <view class="contentName">简称</view>
-              <u-input v-model="form.teamName" />
-            </u-form-item>
-            <u-form-item prop="typeName">
-              <view class="contentName"><span class="redColor">*</span>选择制定组织</view>
-              <view @click="show2 = true" class="selectBox">
-                <view>{{form.typeName}}</view>
-                <img src="../../../static/base/right.png" alt="" class="rightImg"/>
-              </view>
+              <u-input readonly="readonly" v-model="form.team.name" />
             </u-form-item>
             <u-form-item>
               <view class="contentName">标识</view>
-              <u-input v-model="form.teamCode" />
+              <u-input readonly="readonly" v-model="form.team.code" />
+            </u-form-item>
+            <u-form-item>
+              <view class="contentName">创建时间</view>
+              <u-input readonly="readonly" v-model="form.createTime" />
+            </u-form-item>
+            <u-form-item>
+              <view class="contentName">更新时间</view>
+              <u-input readonly="readonly" v-model="form.updateTime" />
             </u-form-item>
             <u-form-item prop="name">
               <view class="contentName"><span class="redColor">*</span>备注</view>
-              <u-input v-model="form.remark" />
+              <u-input readonly="readonly" v-model="form.remark" />
             </u-form-item>
           </u-form>
         </view>
         <view class="btns">
-          <u-button :custom-style="customStyle" @click="closePop">取消</u-button>
           <u-button type="primary" :custom-style="customStyle" @click="save">确定</u-button>
         </view>
       </view>
     </u-popup>
-    <u-select v-model="show2" :list="list"></u-select>
   </view>  
 </template>
 
@@ -131,8 +130,9 @@ export default {
   },
   async created() {
     let res = await config.loadSettingMenu();
-    let itemx = this.searchObjectByKey(res.children, "key", this.newItemKey);
+    let itemx = this.searchObjectByKey(res.children, "key", this.itemKey);
     console.log('itemx', itemx);
+    this.form = itemx.item._metadata
   },
   methods:{
      searchObjectByKey(obj, key, value) {
@@ -217,7 +217,7 @@ export default {
     .btns{
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
     }
   }
 }

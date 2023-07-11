@@ -201,6 +201,7 @@
 </template>
 
 <script>
+// import orgCtrl from '../../ts/controller';
 import { accountApi,storage,store } from "common/app";
 export default {
   data() {
@@ -285,6 +286,7 @@ export default {
       uni.showLoading({
         title: "加载中",
       });
+      // const res = await orgCtrl.provider.login(this.account, this.pwd);
       let res = await accountApi.login(this.account, this.pwd);
       if (res.code == 200) {
         uni.showToast({

@@ -123,12 +123,11 @@ export default {
     findObject(arr, key) {
       let that = this;
       if (arr && arr.length > 0) {
-        arr.forEach((element) => {
+        arr.forEach(async (element) => {
           element.directory = null;
           element.item.directory = null;
           element.item.space = null;
           if (element.key == key) {
-            console.log("element", element.item.content());
             that.dataCompare(element, element.item.content());
             // return
           }
@@ -152,6 +151,7 @@ export default {
       }
     },
     dataCompare(formData, list) {
+      console.log('dataCompare', formData);
       this.title =
         this.type + "[" + formData?.item?._metadata.name + "]基本信息";
       this.datalist[0].value = formData.item._metadata.name;
@@ -164,7 +164,6 @@ export default {
       this.datalist[6].value = formData?.item?._metadata.remark;
       let arr = [];
       list.forEach((item) => {
-        console.log("item", item);
         let json = {};
         json.code = item._metadata.code;
         json.name = item._metadata.name;

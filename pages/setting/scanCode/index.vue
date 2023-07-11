@@ -1,12 +1,12 @@
 <template>
   <view class="camera">
     <!-- <image src="/images/border.png" mode="widthFix"></image> -->
-    <camera
+    <!-- <camera
       device-position="back"
       flash="off"
       binderror="error"
       :style="cameraStyle"
-    ></camera>
+    ></camera> -->
   </view>
 </template>
 
@@ -38,31 +38,32 @@ export default {
       // 用户还没有授权，向用户发起授权请求
       _this.openSetting().then((res) => {
         this.isAuth = true;
+        this.scanQRCode();
       });
     } else {
       this.isAuth = true;
+      this.scanQRCode();
     }
   },
   onShow() {
     // 页面显示时启动扫码定时器
-    this.startScanQRCode();
   },
   onHide() {
     // 页面隐藏时清除定时器
-    this.clearScanQRCode();
+    // this.clearScanQRCode();
   },
 
   methods: {
-    startScanQRCode() {
-      // 启动定时器，每隔一段时间执行扫码操作
-      this.timer = setInterval(() => {
-        this.scanQRCode();
-      }, 2000); // 每2秒自动扫码一次，你可以根据需要调整时间间隔
-    },
-    clearScanQRCode() {
-      // 清除定时器
-      clearInterval(this.timer);
-    },
+    // startScanQRCode() {
+    //     // 启动定时器，每隔一段时间执行扫码操作
+    //     this.timer = setInterval(() => {
+    //       this.scanQRCode();
+    //     }, 1000); // 每2秒自动扫码一次，你可以根据需要调整时间间隔
+    // },
+    // clearScanQRCode() {
+    //   // 清除定时器
+    //   clearInterval(this.timer);
+    // },
     // 打开授权设置界面
     openSetting() {
       const _this = this;
@@ -122,7 +123,7 @@ export default {
           } else {
             console.log("未找到斜杠");
           }
-          this.clearScanQRCode();
+          // this.clearScanQRCode();
         },
         fail: (err) => {
           // 扫码失败，处理错误
@@ -133,7 +134,7 @@ export default {
             title: "扫码失败",
             icon: "none",
           });
-          this.clearScanQRCode();
+          // this.clearScanQRCode();
         },
       });
     },
