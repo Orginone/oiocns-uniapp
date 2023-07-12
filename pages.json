@@ -46,11 +46,30 @@
                 "navigationBarTitleText": "设置",
                 "enablePullDownRefresh": false
             }
+<<<<<<< HEAD
         },
         {
             "path": "pages/setting/baseForm/index",
             "style": {
                 "navigationBarTitleText": "设置",
+=======
+            
+        }
+        ,{
+            "path" : "pages/work/page5/page5",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "发起事项",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/menu/menu",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+>>>>>>> ea74ec07bb3add403fba16f178531356ad9d2402
                 "enablePullDownRefresh": false
             }
         },
@@ -307,6 +326,15 @@
                     }
                 }
             ]
+        }
+        ,{
+            "path" : "pages/work/addPage/addPage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "事项",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
     "globalStyle": {

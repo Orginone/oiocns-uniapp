@@ -3,11 +3,7 @@
     <view class="header">
       <!-- 文字内容 -->
       <view class="content">
-        <view
-          class="append"
-          v-for="(item, index) in localListPlus"
-          :key="index"
-        >
+        <view class="append" v-for="(item, index) in localListPlus" :key="index">
           <!-- 连接点 -->
           <view
             class="dot"
@@ -16,7 +12,7 @@
           >
             .
           </view>
-          <!-- 文字颜色 -->
+          <!-- 默认文字颜色 -->
           <view v-if="index !== localListPlus.length - 1">
             <view
               class="main"
@@ -51,12 +47,6 @@ export default {
     localList: {
       defalut: "",
     }, //面包屑静态路径
-    color: {
-      default: false,
-    }, //是否为深色
-    left: {
-      default: "back",
-    }, //左侧标签
     right: {
       default: false,
     }, //右侧标签展示
@@ -64,7 +54,7 @@ export default {
       default: false,
     }, //文字末位蓝色展示
     url: {
-      default: "",
+      default: "back",
     }, //图标跳转链接
     basic: {
       default: "",
@@ -138,23 +128,24 @@ export default {
 .baseLayout {
   width: 100%;
 }
+
 .header {
   width: 100%;
   display: flex;
   padding: 10upx 10upx;
+  height: 80upx;
   box-sizing: border-box;
   align-items: center;
   background-color: #fff;
   position: relative;
   z-index: 999;
 
-  .back,
-  .more {
+  .menu {
     padding-left: 20upx;
 
     img {
-      height: 40upx;
-      width: 42upx;
+      height: 48upx;
+      width: 48upx;
     }
 
     transform: translateY(5upx);
@@ -169,12 +160,15 @@ export default {
   .content {
     display: flex;
     margin-left: 20upx;
-    color: #9a9a9a;
+    color: #333;
     font-size: 26upx;
     align-items: center;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: auto;
     text-overflow: ellipsis;
+    &::-webkit-scrollbar{
+      display: none;
+    }
 
     .dot {
       margin: 0 15upx;
@@ -196,24 +190,30 @@ export default {
     flex: 1;
     display: flex;
     justify-content: flex-end;
-    padding-right: 20upx;
+    align-items: center;
 
+   
     img {
-      height: 40upx;
-      width: 40upx;
+      height: 52upx;
+      width: 52upx;
       margin: 0 15upx;
     }
 
-    .search {
-      transform: translateY(2upx);
-    }
-
-    .dotPlus {
-      img {
-        width: 10upx;
-        height: 42upx;
+    .add{
+      img{
+        height: 36upx;
+      width: 36upx;
       }
     }
+
+    .more{
+      img{
+        height: 52upx;
+      width: 52upx;
+      }
+    }
+
+   
   }
 }
 </style>

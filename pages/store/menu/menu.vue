@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<headbar :localList="'仓库'" color="deep" :left="'more'" :url="'back'"></headbar>
-		<personList :listInfo='listInfo' :title="'个人'" :chat="false"  :localList="'仓库'"  :url="'/pages/warehouse/page2/page2'" icon="dotPlus right"></personList>
-		<personList :listInfo='listInfo2' :title="'组织'" :chat="false" :localList="'仓库'"   :url="'/pages/warehouse/page2/page2'" icon="dotPlus right"></personList>
+		<headbar :localList="'仓库'" ></headbar>
+		<personList :listInfo="listInfo" :title="'个人'"   :url="'/pages/warehouse/page2/page2'" ></personList>
+		<personList :listInfo="listInfo2" :title="'组织'"   :url="'/pages/warehouse/page2/page2'" ></personList>
 	</view>
 </template>
 
@@ -45,5 +45,7 @@
 </script>
 
 <style lang="scss">
-
+page{
+	background-color: #f2f4f9;
+}
 </style>

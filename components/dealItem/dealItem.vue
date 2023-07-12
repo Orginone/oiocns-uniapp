@@ -3,16 +3,16 @@
 		<view class="dealCard">
 			<view class="left">
 				<view class="top">
-					<view class="title">{{itemInfo.title}}
+					<view class="title">{{itemInfo.titleType}}|{{itemInfo.title}}
 						<view class="tag">{{itemInfo.type}}</view>
 					</view>
-					<view class="sub">{{itemInfo.sub}}</view>
+					<view class="sub">内容:{{itemInfo.sub}}</view>
 				</view>
 				<view class="remain">
-					剩余时间：{{'14小时23分钟'}}
+				   {{itemInfo.time}}
 				</view>
 			</view>
-			<view class="right" v-if="btn">
+			<view class="right" v-if="itemInfo.btn">
 				<view class="pass">通过</view>
 				<view class="reject">退回</view>
 			</view>
@@ -41,7 +41,7 @@
 			return {
 
 			};
-		}
+		},
 	}
 </script>
 

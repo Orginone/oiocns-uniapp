@@ -16,61 +16,33 @@
         <view class="mode1" v-if="switchMode">
           <view class="username">
             <view class="name">用户名</view>
-            <view class="input"
-              ><input
-                type="text"
-                placeholder="请输入用户名和手机号码"
-                v-model="account"
-            /></view>
+            <view class="input"><input type="text" placeholder="请输入用户名和手机号码" v-model="account" /></view>
           </view>
           <view class="password">
             <view class="name">密码</view>
-            <view class="input"
-              ><u-input
-                type="password"
-                placeholder="请设置密码"
-                :password-icon="passwordIcon"
-                placeholder-style="color:#808080"
-                v-model="pwd"
-            /></view>
+            <view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"
+                placeholder-style="color:#808080" v-model="pwd" /></view>
           </view>
         </view>
         <view class="mode2" v-if="!switchMode">
           <view class="select">
-            <uni-data-select
-              v-model="selectValue"
-              :localdata="actionSheetList"
-              :clear="false"
-              @change="changeSelect"
-            ></uni-data-select>
+            <uni-data-select v-model="selectValue" :localdata="actionSheetList" :clear="false"
+              @change="changeSelect"></uni-data-select>
           </view>
-          <view class="input"
-            ><input type="text" v-model="phoneNumber" placeholder="输入手机号"
-          /></view>
+          <view class="input"><input type="text" v-model="phoneNumber" placeholder="输入手机号" /></view>
         </view>
       </view>
       <!-- 切换登录 -->
       <view class="switch">
-        <view class="ico"
-          ><img src="../../static/base/switch.png" alt=""
-        /></view>
-        <view
-          class="item1"
-          v-if="switchMode"
-          @click="
-            switchMode = !switchMode;
-            haveCatpcha = 0;
-          "
-          >手机号码登录</view
-        >
-        <view
-          class="item2"
-          v-if="!switchMode"
-          @click="
-            switchMode = !switchMode;
-            haveCatpcha = 0;
-          "
-        >
+        <view class="ico"><img src="../../static/base/switch.png" alt="" /></view>
+        <view class="item1" v-if="switchMode" @click="
+          switchMode = !switchMode;
+        haveCatpcha = 0;
+        ">手机号码登录</view>
+        <view class="item2" v-if="!switchMode" @click="
+          switchMode = !switchMode;
+        haveCatpcha = 0;
+        ">
           账号密码登录
           <view class="warning" v-show="!phonePass">手机号码无法使用</view>
         </view>
@@ -80,28 +52,16 @@
     <view class="captcha" v-show="stepState == 1">
       <view class="title">
         <view class="back" @click="turnBack">
-          <uni-icons
-            type="arrow-left"
-            size="30"
-            style="color: #d8d8d8"
-          ></uni-icons>
+          <uni-icons type="arrow-left" size="30" style="color: #d8d8d8"></uni-icons>
         </view>
         <view class="textArea">
           <view class="main">请输入验证码</view>
-          <view class="sub"
-            >验证码会发送至 {{ "+86" }} {{ "12312341234" }}</view
-          >
+          <view class="sub">验证码会发送至 {{ "+86" }} {{ "12312341234" }}</view>
         </view>
       </view>
       <view class="input">
-        <u-message-input
-          mode="bottomLine"
-          @finish="finishCaptcha"
-          :maxlength="6"
-          :focus="true"
-          :bold="false"
-          :breathe="false"
-        ></u-message-input>
+        <u-message-input mode="bottomLine" @finish="finishCaptcha" :maxlength="6" :focus="true" :bold="false"
+          :breathe="false"></u-message-input>
       </view>
       <view class="tip">
         <view class="error" v-if="captchaRight == 1">
@@ -130,12 +90,7 @@
         <view class="mode1">
           <view class="username">
             <view class="name">姓名</view>
-            <view class="input"
-              ><input
-                type="text"
-                placeholder="请输入姓名"
-                v-model="userInfo.name"
-            /></view>
+            <view class="input"><input type="text" placeholder="请输入姓名" v-model="userInfo.name" /></view>
           </view>
           <view class="username">
             <view class="name" style="border-right: 2upx solid #9a9a9a">{{
@@ -145,15 +100,8 @@
           </view>
           <view class="username">
             <view class="name">密码 </view>
-            <view class="input"
-              ><u-input
-                type="password"
-                placeholder="请设置密码"
-                :password-icon="passwordIcon"
-                placeholder-style="color:#808080"
-                v-model="userInfo.password"
-              ></u-input
-            ></view>
+            <view class="input"><u-input type="password" placeholder="请设置密码" :password-icon="passwordIcon"
+                placeholder-style="color:#808080" v-model="userInfo.password"></u-input></view>
           </view>
         </view>
       </view>
@@ -172,10 +120,7 @@
         </view>
       </view>
       <!-- 下一步 -->
-      <view
-        :class="checked ? 'btn-area' : 'btn-area notready'"
-        v-if="stepState != 1"
-      >
+      <view :class="checked ? 'btn-area' : 'btn-area notready'" v-if="stepState != 1">
         <view class="btns" v-if="haveCatpcha == 0">
           <view class="btn1" v-show="switchMode" @click="turnPage()">
             下一步
@@ -189,10 +134,7 @@
           <view class="btn1" @click="turnPagePlus()"> 下一步 </view>
         </view>
 
-        <view
-          class="slider"
-          v-if="!switchMode && haveCatpcha == 1 && stepState == 0"
-        >
+        <view class="slider" v-if="!switchMode && haveCatpcha == 1 && stepState == 0">
           <moveVerify @result="verifyResult" ref="verifyElement"></moveVerify>
         </view>
       </view>
@@ -201,12 +143,16 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 // import orgCtrl from '../../ts/controller';
 import { accountApi,storage,store } from "common/app";
+=======
+import { accountApi, storage, store } from "common/app";
+>>>>>>> ea74ec07bb3add403fba16f178531356ad9d2402
 export default {
   data() {
     return {
-      checked: false, //勾选标识
+      checked: true, //勾选标识
       showtip: 0, //未勾选提示框
       ready: 1, //判断表示/下一步
       switchMode: 1, //账号密码登录模式
@@ -294,18 +240,19 @@ export default {
           icon: "none",
         });
         storage.setItem(`currentUser`, res.data.target)
+        console.log(store);
         store.setAccessToken(res.data.accessToken)
         // uni.setStorageSync("currentUser", res.data.target);
         uni.hideLoading();
         uni.switchTab({
           url: "/pages/main/main",
         });
-      }else{
-		uni.showToast({
+      } else {
+        uni.showToast({
           title: "登录失败",
           icon: "none",
         });
-	  }
+      }
     },
     // 首次登录跳转页面
     turnPagePlus() {
@@ -637,7 +584,7 @@ page {
       display: flex;
       position: relative;
       padding-left: 20upx;
-
+      align-items: center;
       .tip {
         position: absolute;
         top: -90upx;
