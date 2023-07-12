@@ -154,6 +154,7 @@ export default {
       }
     },
     dataCompare(formData, list) {
+      console.log('dataCompare', formData);
       this.title =
         this.type + "[" + formData?.item?._metadata.name + "]基本信息";
       this.datalist[0].value = formData.item._metadata.name;

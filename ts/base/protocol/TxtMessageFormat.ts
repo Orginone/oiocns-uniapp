@@ -1,8 +1,39 @@
+import { Encoder, Decoder } from '@msgpack/msgpack';
+/** @private */
 export class TxtMessageFormat {
   public static RecordSeparatorCode = 0x1e;
   public static RecordSeparator = String.fromCharCode(
     TxtMessageFormat.RecordSeparatorCode,
   );
+  private static readonly _encoder: Encoder<undefined> = new Encoder();
+  private static readonly _decoder: Decoder<undefined> = new Decoder();
+
+  public static write(out: string): ArrayBuffer {
+    const output = this._encoder.encode(out);
+    let size = output.byteLength || output.length;
+    const lenBuffer: any = [];
+    do {
+      let sizePart = size & 0x7f;
+      size = size >> 7;
+      if (size > 0) {
+        sizePart |= 0x80;
+      }
+      lenBuffer.push(sizePart);
+    } while (size > 0);
+
+    size = output.byteLength || output.length;
+
+    const buffer = new Uint8Array(lenBuffer.length + size);
+    buffer.set(lenBuffer, 0);
+    buffer.set(
+      output.map((item) => {
+        return 0xff - item;
+      }),
+      lenBuffer.length,
+    );
+    return buffer.buffer;
+  }
+
   public static parse(input: ArrayBuffer): string[] {
     const result: string[] = [];
     const uint8Array = new Uint8Array(input);
@@ -36,6 +67,11 @@ export class TxtMessageFormat {
           ? uint8Array.slice(offset + numBytes, offset + numBytes + size)
           : uint8Array.subarray(offset + numBytes, offset + numBytes + size);
         result.push(
+          this._decoder.decode(
+            buffer.map((item) => {
+              return 0xff - item;
+            }),
+          ) as string,
         );
       } else {
         throw new Error('Incomplete message.');

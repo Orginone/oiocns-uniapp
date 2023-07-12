@@ -18,7 +18,6 @@
 			let res = await config.loadSettingMenu();
 			let list = this.searchObjectByKey(res.children,'key',option.data)
 			let arr =[];
-			console.log('list',list)
 			list.children.forEach((element,index) => {
 				let obj = {
 					label:element.label,

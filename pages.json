@@ -27,9 +27,16 @@
             }
         },
         {
-            "path": "pages/warehouse/warehouse",
+            "path": "pages/store/store",
             "style": {
                 "navigationBarTitleText": "仓库",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/store/list/index",
+            "style": {
+                "navigationBarTitleText": "列表",
                 "enablePullDownRefresh": false
             }
         },
@@ -348,7 +355,7 @@
                 "text": "办事"
             },
             {
-                "pagePath": "pages/warehouse/warehouse",
+                "pagePath": "pages/store/store",
                 "iconPath": "static/tabbar-ico/cc.png",
                 "selectedIconPath": "static/tabbar-ico/cc1.png",
                 "text": "存储"

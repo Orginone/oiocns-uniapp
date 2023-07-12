@@ -268,7 +268,6 @@ export class Company extends Belong implements ICompany {
           menus: [
             targetOperates.NewGroup,
             targetOperates.NewDepartment,
-            targetOperates.NewStation,
           ],
         },
         {

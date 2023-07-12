@@ -1,18 +1,19 @@
 <template>
   <view class="BaseLayout">
     <headbar></headbar>
-    <personList :listInfo="menu" :icon="['dotPlus', 'right']" ></personList>
+    <storeList :listInfo="menu" :listType='"store"' :icon="['dotPlus', 'right']" ></storeList>
   </view>
 </template>
 
 <script>
-import * as config from "./config/menuOperate";
+import * as config from "../../setting/config/menuOperate";
 import { mapState, mapMutations } from 'vuex';
 
 export default {
   data() {
     return {
       menu: [],
+	  listType:'',
     };
   },
   watch: {},

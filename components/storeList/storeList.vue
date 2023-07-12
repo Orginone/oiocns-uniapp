@@ -13,13 +13,13 @@
         <view class="right">
           <!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
           <!-- <img :src="'../../static/base/add.png'" alt=""  v-if="icon.includes('add')" > -->
-          <view class="dotPlus" @click.stop="showTips($event, item)">
+          <!-- <view class="dotPlus" @click.stop="showTips($event, item)">
             <img
               :src="'../../static/base/dotPlus.png'"
               alt=""
               v-if="icon.includes('dotPlus')"
             />
-          </view>
+          </view> -->
           <img
             src="../../static/base/right.png"
             alt=""
@@ -38,35 +38,14 @@
         </view>
       </view>
     </view>
-    <formBox
-      :show="isShow2"
-      :mode="mode"
-      :itemKey="itemKey"
-      @uploadPop="uploadPop"
-    />
-    <formdetail
-      v-if="isShow3"
-      :show="isShow3"
-      :mode="mode"
-      :itemKey="itemKey"
-      @uploadPop="uploadPop"
-    />
-
   </view>
 </template>
 
 <script>
-import formBox from "./box/form.vue";
-import formdetail from "./box/detail.vue";
-
 import { mapMutations } from "vuex";
 import * as config from "../../pages/setting/config/menuOperate";
 export default {
-  name: "personList",
-  components: {
-    formBox,
-    formdetail
-  },
+  name: "storeList",
   props: {
     listInfo: {
       default: () => {
@@ -193,16 +172,10 @@ export default {
       return null;
     },
     turnDetailPage(item) {
-      this.pushSetting({ name: item.label });
-      if (item.url) {
+        this.pushSetting({ name: item.label });
         uni.navigateTo({
-          url: item.url + "?data=" + item.key,
+          url: "/pages/store/list/index" + "?data=" + item.key,
         });
-      } else {
-        uni.navigateTo({
-          url: "/pages/setting/group/index" + "?data=" + item.key,
-        });
-      }
     },
   },
 };
