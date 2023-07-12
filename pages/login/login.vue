@@ -143,8 +143,12 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 // import orgCtrl from '../../ts/controller';
 import { accountApi,storage,store } from "common/app";
+=======
+import { accountApi, storage, store } from "common/app";
+>>>>>>> ea74ec07bb3add403fba16f178531356ad9d2402
 export default {
   data() {
     return {
