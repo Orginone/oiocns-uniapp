@@ -1,4 +1,6 @@
+//@ts-nocheck
 import {kernelApi as kernel} from '../../../common/app';
+import {anyStoreApi as anyStore} from '../../../common/app';
 import { common, model, schema } from '../../base';
 import {
   PageAll,
@@ -201,23 +203,25 @@ export class Directory extends FileInfo<schema.XDirectory> implements IDirectory
     return false;
   }
   async loadFiles(reload: boolean = false): Promise<any> {
-    // if (this.files.length < 1 || reload) {
-    //   const res = await kernel.anystore.bucketOpreate<model.FileItemModel[]>(
-    //     this.metadata.belongId,
-    //     {
-    //       key: encodeKey(this.id),
-    //       operate: BucketOpreates.List,
-    //     },
-    //   );
-    //   if (res.success && res.data.length > 0) {
-    //     this.files = res.data
-    //       .filter((i) => !i.isDirectory)
-    //       .map((item) => {
-    //         return new SysFileInfo(item, this);
-    //       });
-    //   }
-    // }
-    // return this.files;
+    if (this.files.length < 1 || reload) {
+      const res = await anyStore.bucketOperate<model.FileItemModel[]>(
+        {
+          destination: this.metadata.belongId,
+          key: encodeKey(this.id),
+          operate: BucketOpreates.List,
+        },
+      );
+      console.log('files',res);
+      if (res.success && res.data.length > 0) {
+        this.files = res.data
+          .filter((i) => !i.isDirectory)
+          .map((item) => {
+            return new SysFileInfo(item, this);
+          });
+      }
+    }
+   
+    return this.files;
   }
   async createFile(file: Blob, p?: OnProgress): Promise<any> {
     // p?.apply(this, [0]);
