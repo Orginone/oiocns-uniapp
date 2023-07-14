@@ -128,9 +128,8 @@ export default {
           element.item.directory = null;
           element.item.space = null;
           if (element.key == key) {
-            let res =  await element.item.loadContent(1);
-            console.log("111", res)
-            console.log("element", element.item.content());
+            let res =  await element.item.loadFiles();
+            // console.log("111", res)
             that.dataCompare(element, element.item.content());
             // return
           }
@@ -161,10 +160,9 @@ export default {
       this.datalist[1].value = formData?.item?._metadata.code;
       this.datalist[2].value = formData?.item?._metadata.name;
       this.datalist[3].value = formData?.item?._metadata.code;
-      this.datalist[4].value = formData?.item?._metadata.belong.name;
-      this.datalist[5].value =
-        formData?.item?._metadata.belong.updateTime.slice(0, 10);
-      this.datalist[6].value = formData?.item?._metadata.remark;
+      this.datalist[4].value = formData?.item?.creater.name;
+      this.datalist[5].value = formData?.item?.metadata.createTime.slice(0, 10);
+      this.datalist[6].value = formData?.item?.remark;
       let arr = [];
       list.forEach((item) => {
         let json = {};

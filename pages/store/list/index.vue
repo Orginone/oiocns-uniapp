@@ -1,11 +1,12 @@
 <template>
   <view class="BaseLayout">
     <headbar :localList="'存储'" :left="'none'"></headbar>
-    <personList
+    <storeList
       :listInfo="listInfo"
+      :fileList="fileList"
       :icon="['dotPlus', 'right']"
       :url="'/pages/shop/page2/page2'"
-    ></personList>
+    ></storeList>
   </view>
 </template>
 
@@ -15,16 +16,42 @@ export default {
   data() {
     return {
       listInfo: [],
+      fileList: [],
     };
   },
   async onLoad(option) {
     console.log("option", option);
     let res = await config.loadSettingMenu();
-    let list = this.searchObjectByKey(res.children, "key", option.data);
-    console.log('list',list)
-    let rex = await list.item.loadContent(1);
-      console.log('rex',rex);
-    // this.listInfo = arr;
+    let item = this.searchObjectByKey(res.children, "key", option.data);
+    await item.item.loadFilesContent();
+    let arrs = [];
+    item.item.files.forEach((element) => {
+      let obj = element.filedata;
+      obj.id = element.metadata.id;
+      arrs.push(obj);
+    });
+    this.fileList = arrs
+    let arr = [];
+
+    console.log('===>',item.item.files)
+    if(item.children.length ==0){
+      item.item.children.forEach((element) => {
+        let obj = {
+          label: element.label ||element.name,
+          key: element.key,
+        };
+        arr.push(obj);
+      });
+    }else{
+      item.children.forEach((element) => {
+        let obj = {
+          label: element.label||element.name,
+          key: element.key,
+        };
+        arr.push(obj);
+      });
+    }
+    this.listInfo = arr;
   },
   watch: {},
   methods: {

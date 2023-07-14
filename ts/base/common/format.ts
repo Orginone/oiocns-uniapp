@@ -16,41 +16,41 @@ export function formatSize(size: number, unit: string = ""): string {
   return size + unit;
 }
 /** 编码路径 */
-export function encodeKey(key: string): string {
+export function encodeKey(key: any): any {
   return base64_encode(unescape(encodeURIComponent(`${key}`)));
 }
-function base64_encode(str) {
+function base64_encode(str:any) {
   var c1, c2, c3;
   var base64EncodeChars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   var i = 0,
     len = str.length,
-    string = "";
+    strs = "";
   while (i < len) {
     c1 = str.charCodeAt(i++) & 0xff;
     if (i == len) {
-      string += base64EncodeChars.charAt(c1 >> 2);
-      string += base64EncodeChars.charAt((c1 & 0x3) << 4);
-      string += "==";
+      strs += base64EncodeChars.charAt(c1 >> 2);
+      strs += base64EncodeChars.charAt((c1 & 0x3) << 4);
+      strs += "==";
       break;
     }
     c2 = str.charCodeAt(i++);
     if (i == len) {
-      string += base64EncodeChars.charAt(c1 >> 2);
-      string += base64EncodeChars.charAt(
+      strs += base64EncodeChars.charAt(c1 >> 2);
+      strs += base64EncodeChars.charAt(
         ((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4)
       );
-      string += base64EncodeChars.charAt((c2 & 0xf) << 2);
-      string += "=";
+      strs += base64EncodeChars.charAt((c2 & 0xf) << 2);
+      strs += "=";
       break;
     }
     c3 = str.charCodeAt(i++);
-    string += base64EncodeChars.charAt(c1 >> 2);
-    string += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4));
-    string += base64EncodeChars.charAt(((c2 & 0xf) << 2) | ((c3 & 0xc0) >> 6));
-    string += base64EncodeChars.charAt(c3 & 0x3f);
+    strs += base64EncodeChars.charAt(c1 >> 2);
+    strs += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4));
+    strs += base64EncodeChars.charAt(((c2 & 0xf) << 2) | ((c3 & 0xc0) >> 6));
+    strs += base64EncodeChars.charAt(c3 & 0x3f);
   }
-  return string;
+  return strs;
 }
 /** 将文件切片 */
 export function sliceFile(file: Blob, chunkSize: number): Blob[] {

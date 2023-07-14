@@ -67,7 +67,6 @@ export default {
     async getMenu() {
       let res = await config.loadSettingMenu();
       // this.removeCircularReferences(res)
-      console.log('res',res);
       let arr = []
       res.children.forEach(element => {
          let obj = {

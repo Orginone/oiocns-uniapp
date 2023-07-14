@@ -154,10 +154,11 @@ export default {
     async save(){
       let res = await config.loadSettingMenu();
       let itemx = this.searchObjectByKey(res.children, "key", this.newItemKey);
+      console.log('itemx',itemx);
       this.belongId = itemx.item.belongId;
       this.form.belongId = itemx.item.belongId;
-      itemx.item.target.createTarget(this.form)
-      if(res != undefined){
+      let rex = await itemx.item.target.createTarget(this.form)
+      if(rex != undefined){
         uni.showToast({
           title: '添加成功~',
           icon: 'none',

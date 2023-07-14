@@ -1,6 +1,17 @@
 <template>
   <view class="listArea">
-    <view class="total" v-if="title">{{ title }}</view>
+    <view class="itemArea">
+      <view
+        class="listItem"
+        v-for="(item, index) in fileList"
+        :key="index"
+        @click="downloadFile(item.name,item.id)"
+      >
+        <view class="box"></view>
+        <view class="name">{{ item.name }}</view>
+        <view class="right"> </view>
+      </view>
+    </view>
     <view class="itemArea">
       <view
         class="listItem"
@@ -28,7 +39,12 @@
         </view>
       </view>
     </view>
-    <view class="show-tips" v-if="show" :style="{top:(topNum+50)+'rpx'}" @click="show = false">
+    <view
+      class="show-tips"
+      v-if="show"
+      :style="{ top: topNum + 50 + 'rpx' }"
+      @click="show = false"
+    >
       <view class="show-box">
         <view class="show-list">
           <view class="show-item" @click="showadd()">新建群组</view>
@@ -52,6 +68,11 @@ export default {
         return [];
       },
     },
+    fileList: {
+      default: () => {
+        return [];
+      },
+    },
     localList: {
       default: "",
     },
@@ -67,9 +88,9 @@ export default {
     icon: {
       default: "right",
     },
-    listType:{
-      default:""
-    }
+    listType: {
+      default: "",
+    },
   },
   data() {
     return {
@@ -79,7 +100,7 @@ export default {
       topNum: 0,
       show: false,
       isShow2: false,
-      isShow3:false,
+      isShow3: false,
       itemKey: "",
       mode: "",
       belongId: "",
@@ -93,6 +114,14 @@ export default {
   // 	},
   // 	deep:true
   // },
+  onShow() {
+    var localImgUrl = this.data.localImgUrl;
+    if (localImgUrl) {
+      var fs = wx.getFileSystemManager();
+      fs.unlinkSync(localImgUrl);
+      fs.closeSync();
+    }
+  },
   created() {
     // this.settingData = this.$store.setting
     // let arr = []
@@ -123,14 +152,63 @@ export default {
     showadd(item) {
       this.isShow2 = true;
     },
-    showdetail(){
+    showdetail() {
       this.isShow3 = true;
+    },
+    async lookImg(url) {
+      try {
+        uni.previewImage({
+          urls: ['https://orginone.cn/'+url],
+          current: 'https://orginone.cn/'+url,
+          success() {
+            // 预览成功后的操作
+          },
+          fail(error) {
+            // 预览失败后的操作
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    downloadFile(name,url) {
+      const fileExt = name.match(/\.([^/.]+)$/)[1].toLowerCase(); // 获取文件的扩展名
+      if (fileExt === 'jpg'||fileExt === 'png'||fileExt === 'jpeg'||fileExt === 'webp') {
+        this.lookImg(url);
+        return;
+      }
+     if (fileExt === 'docx' || fileExt === 'xlsx') {
+      uni.downloadFile({
+        url: 'https://orginone.cn/'+url,
+        success(res) {
+          if (res.statusCode === 200) {
+              const filePath = res.tempFilePath; // 下载成功后的临时文件路径
+              uni.openDocument({
+                filePath: filePath,//指定文件名
+                showMenu: true,
+                success: function (res) {
+                    //console.log('打开文档成功');
+                }
+            });
+          }
+        },
+        fail(error) {
+          console.error('文件下载失败', error);
+        }
+      });
+     }else{
+       uni.showToast({
+          title: '暂不支持该类型~',
+          icon: 'none',
+          duration: 2000
+        })
+     }
     },
     async jumpqrCode() {
       let res = await config.loadSettingMenu();
       let itemx = this.searchObjectByKey(res.children, "key", this.itemKey);
       this.belongId = itemx.item.belongId;
-      console.log('itemx',itemx)
+      console.log("itemx", itemx);
       uni.navigateTo({
         url:
           "/pages/setting/qrcode/index?id=" +
@@ -172,10 +250,10 @@ export default {
       return null;
     },
     turnDetailPage(item) {
-        this.pushSetting({ name: item.label });
-        uni.navigateTo({
-          url: "/pages/store/list/index" + "?data=" + item.key,
-        });
+      this.pushSetting({ name: item.label });
+      uni.navigateTo({
+        url: "/pages/store/list/index" + "?data=" + item.key,
+      });
     },
   },
 };

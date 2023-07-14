@@ -113,7 +113,6 @@ export default {
               id: numberString,
               subId: userInfo.id,
             });
-            console.log('res',res);
             if(res){
                uni.showToast({
                 title: res.msg,
