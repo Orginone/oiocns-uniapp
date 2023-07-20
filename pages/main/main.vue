@@ -3,6 +3,7 @@
     <view class="tabBox">
       <view class="leftBox" @click="jump">
         <img src="../../static/base/setting.png" alt="" class="leftBoxSrc" />
+        <view class="title">门户</view>
       </view>
       <view class="rightBox">
         <img src="../../static/base/sao.png" @click="jumosys()" alt="" class="rightBoxSrc mr20"/>
@@ -47,7 +48,7 @@
         <view class="more_point"></view>
       </view>
     </view> -->
-    <view class="banner">
+    <!-- <view class="banner">
       <swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" :indicator-color='color' :easing-function="'easeInOutCubic'">  
         <swiper-item v-for="(item,index) in imgList" :key="index">  
           <view class='li'>
@@ -61,7 +62,17 @@
     </view>
     <view class="mune inlet">
       <userApp :appList="appList"></userApp>
-	  </view>
+	  </view> -->
+    <view class="tabsBox">
+      <scroll-view class="scroll-view_H" scroll-x="true" @scroll="scroll">
+        <view class="scroll-view-item_H" :class="{active:activeIndex==0}" @click="handClick(0)">动态</view>
+        <view class="scroll-view-item_H" :class="{active:activeIndex==1}" @click="handClick(1)">共享软件</view>
+        <view class="scroll-view-item_H" :class="{active:activeIndex==2}" @click="handClick(2)">公物仓</view>
+        <view class="scroll-view-item_H" :class="{active:activeIndex==3}" @click="handClick(3)">公益仓</view>
+        <view class="scroll-view-item_H" :class="{active:activeIndex==4}" @click="handClick(4)">数据资产</view>
+      </scroll-view>
+      <img src="../../static/base/sao.png" alt="" class="moreIcon"/>
+    </view>
     <popBox :show="isShow" :mode="mode" @uploadPop="uploadPop"/>
     <formBox :show="isShow2" :mode="mode" @uploadPop="uploadPop"/>
   </view>
@@ -101,6 +112,7 @@ export default {
       isShow:false,
       mode:'',
       isShow2:false,
+      activeIndex:0
     };
   },
   components:{
@@ -173,7 +185,15 @@ export default {
       }else{
         this.isShow2 = false
       }
-    }
+    },
+
+    handClick(index){
+      this.activeIndex = index
+    },
+
+    scroll: function(e) {
+      console.log(e)
+    },
   }
 };
 </script>
@@ -193,11 +213,20 @@ page {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      .leftBoxSrc{
-        width: 62upx;
-        height: 62upx;
-        border-radius: 50%;
-        display: block;
+      border-bottom: 2upx solid #dddddd;
+      .leftBox{
+        display: flex;
+        align-items: center;
+        .title{
+          margin-left: 10upx;
+          font-size: 32upx;
+        }
+        .leftBoxSrc{
+          width: 62upx;
+          height: 62upx;
+          border-radius: 50%;
+          display: block;
+        }
       }
       .rightBox{
         display: flex;
@@ -225,6 +254,48 @@ page {
         .dotPlusSrc{
           width: 10upx;
           height: 36upx;
+        }
+      }
+    }
+    .tabsBox{
+      width: 100%;
+      height: 88upx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .moreIcon{
+        width: 32upx;
+        height: 32upx;
+        display: block;
+        padding: 0 32upx 0 20upx;
+      }
+      .scroll-view_H {
+        white-space: nowrap;
+        width: calc(100% - 132upx);
+        padding: 0 0 0 32upx;
+      }
+      .scroll-view-item_H {
+        display: inline-block;
+        width: auto;
+        height: 88upx;
+        line-height: 88upx;
+        text-align: center;
+        font-size: 28upx;
+        margin: 0 64upx 0 0;
+        position: relative;
+      }
+      .active{
+        font-size: 30upx;
+        color: #3d5ed1;
+        font-weight: bold;
+        &::after{
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 4upx;
+          width: 100%;
+          height: 4upx;
+          background-color: #3d5ed1;
         }
       }
     }
