@@ -28,9 +28,6 @@
               >
             </uni-tr>
           </uni-table>
-          <view class="more" v-if="formTitle.length > 0" @click="getMore"
-            >更多</view
-          >
         </view>
       </view>
     </view>
@@ -83,6 +80,10 @@ export default {
       itemData: {},
       groupList: [],
       formTitle: [
+        {
+          name: "头像",
+          value: "icon",
+        },
         {
           name: "账号",
           value: "code",

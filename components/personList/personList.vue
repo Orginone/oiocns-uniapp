@@ -4,11 +4,11 @@
     <view class="itemArea">
       <view
         class="listItem"
-        v-for="(item, index) in listInfo"
+        v-for="(item, index) in listInfos"
         :key="index"
         @tap="turnDetailPage(item)"
       >
-        <view class="box"></view>
+        <img class="box" :src="'' + item.icon + ''" />
         <view class="name">{{ item.label }}</view>
         <view class="right">
           <!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
@@ -28,30 +28,6 @@
         </view>
       </view>
     </view>
-    <view class="show-tips" v-if="show" :style="{top:(topNum+50)+'rpx'}" @click="show = false">
-      <view class="show-box">
-        <view class="show-list">
-          <view class="show-item" @click="showadd()">新建群组</view>
-          <view class="show-item" @click="showdetail()">查看信息</view>
-          <view class="show-item" @click="showadd()">上传文件</view>
-          <view class="show-item" @click="jumpqrCode()">分享二维码</view>
-        </view>
-      </view>
-    </view>
-    <formBox
-      :show="isShow2"
-      :mode="mode"
-      :itemKey="itemKey"
-      @uploadPop="uploadPop"
-    />
-    <formdetail
-      v-if="isShow3"
-      :show="isShow3"
-      :mode="mode"
-      :itemKey="itemKey"
-      @uploadPop="uploadPop"
-    />
-
   </view>
 </template>
 
@@ -65,7 +41,7 @@ export default {
   name: "personList",
   components: {
     formBox,
-    formdetail
+    formdetail,
   },
   props: {
     listInfo: {
@@ -88,9 +64,9 @@ export default {
     icon: {
       default: "right",
     },
-    listType:{
-      default:""
-    }
+    listType: {
+      default: "",
+    },
   },
   data() {
     return {
@@ -99,13 +75,26 @@ export default {
       leftNum: 0,
       topNum: 0,
       show: false,
+      listInfos: this.listInfo,
       isShow2: false,
-      isShow3:false,
+      isShow3: false,
       itemKey: "",
       mode: "",
       belongId: "",
       dataList: ["选项1", "选项2", "选项3", "选项4"],
     };
+  },
+  watch: {
+    listInfo(newVal) {
+      this.listInfos = newVal;
+      
+      this.listInfos.forEach((element) => {
+        if (!element.icon) {
+          this.getIcon(element.key, element.itemType);
+        }
+      });
+    },
+    deep: true,
   },
   // watch: {
   // 	listType(newVal) {
@@ -141,17 +130,36 @@ export default {
 
       return result;
     },
+    getIcon(key, itemType) {
+      this.listInfos.forEach((element, index) => {
+        if (element.key == key) {
+          console.log("itemType", itemType);
+          if (itemType == "目录") {
+            this.listInfos[index].icon = "../../static/base/folder-fill.png";
+          } else if (itemType == "单位") {
+            this.listInfos[index].icon = "../../static/base/office.png";
+          } else if (itemType == "人员") {
+            this.listInfos[index].icon = "../../static/base/user-tie.png";
+          } else if (itemType == "群组") {
+            this.listInfos[index].icon = "../../static/base/chat.png";
+          } else {
+            this.listInfos[index].icon = "";
+          }
+        }
+      });
+      this.showList = true;
+    },
     showadd(item) {
       this.isShow2 = true;
     },
-    showdetail(){
+    showdetail() {
       this.isShow3 = true;
     },
     async jumpqrCode() {
       let res = await config.loadSettingMenu();
       let itemx = this.searchObjectByKey(res.children, "key", this.itemKey);
       this.belongId = itemx.item.belongId;
-      console.log('itemx',itemx)
+      console.log("itemx", itemx);
       uni.navigateTo({
         url:
           "/pages/setting/qrcode/index?id=" +
@@ -229,15 +237,14 @@ export default {
       padding: 16upx 30upx;
       align-items: center;
       box-sizing: border-box;
-
+      border-bottom: 1px solid #eee;
       &:active {
         background-color: #edeffc;
         border-radius: 10upx;
       }
       .box {
-        width: 84upx;
-        height: 84upx;
-        background-color: #3d5ed1;
+        width: 72upx;
+        height: 72upx;
         margin-right: 25upx;
         border-radius: 8upx;
       }

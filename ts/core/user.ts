@@ -21,24 +21,14 @@ export class UserProvider {
   private _emiter: common.Emitter;
   constructor(emiter: common.Emitter) {
     this._emiter = emiter;
-    
+
     let timeIndex = setInterval(() => {
       const userJson = uni.getStorageSync(sessionUserName);
       if (userJson) {
         clearInterval(timeIndex);
-        this._loadUser(userJson);
+        this._loadUser(userJson);  // 使用箭头函数绑定this
       }
-    })
-    // kernel.on('RecvTarget', (data) => {
-    //   if (this._inited) {
-    //     this._updateTarget(data);
-    //   }
-    // });
-    // kernel.on('RecvIdentity', (data) => {
-    //   if (this._inited) {
-    //     this._updateIdentity(data);
-    //   }
-    // });
+    },100);
   }
   /** 当前用户 */
   get user(): IPerson | undefined {

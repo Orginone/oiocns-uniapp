@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<view class="title" v-if="title">
+		<!-- <view class="title" v-if="title">
 			{{title}}
-		</view>
+		</view> -->
 		<view class="BasicForm">
 			<view class="formItem" v-for="item,key in formData" :key="key">
 				<view class="name">

@@ -5,21 +5,28 @@
         class="listItem"
         v-for="(item, index) in fileList"
         :key="index"
-        @click="downloadFile(item.name,item.id)"
+        @click="downloadFile(item.name, item.id)"
       >
-        <view class="box"></view>
+        <div class="box-wrap">
+          <div
+            v-if="item.thumbnail"
+            class="box"
+            :style="{ 'background-image': 'url(' + item.thumbnail + ')' }"
+          />
+          <img v-else class="box" src="../../static/base/app-store-ios.png" />
+        </div>
         <view class="name">{{ item.name }}</view>
         <view class="right"> </view>
       </view>
     </view>
-    <view class="itemArea">
+    <view class="itemArea" v-if="showList">
       <view
         class="listItem"
-        v-for="(item, index) in listInfo"
+        v-for="(item, index) in listInfos"
         :key="index"
         @tap="turnDetailPage(item)"
       >
-        <view class="box"></view>
+        <img class="box" :src="'' + item.icon + ''" />
         <view class="name">{{ item.label }}</view>
         <view class="right">
           <!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
@@ -97,7 +104,10 @@ export default {
       settingData: {},
       list: [],
       leftNum: 0,
+      shows: false,
       topNum: 0,
+      showList: false,
+      listInfos: this.listInfo,
       show: false,
       isShow2: false,
       isShow3: false,
@@ -107,13 +117,17 @@ export default {
       dataList: ["选项1", "选项2", "选项3", "选项4"],
     };
   },
-  // watch: {
-  // 	listType(newVal) {
-  //     console.log(newV)
-  // 		this.showList = newVal;
-  // 	},
-  // 	deep:true
-  // },
+  watch: {
+    listInfo(newVal) {
+      this.listInfos = newVal;
+      this.listInfos.forEach((element) => {
+        if (!element.icon) {
+          this.getIcon(element.key, element.itemType);
+        }
+      });
+    },
+    deep: true,
+  },
   onShow() {
     var localImgUrl = this.data.localImgUrl;
     if (localImgUrl) {
@@ -142,12 +156,31 @@ export default {
       arr.forEach((item) => {
         result.push(item);
         if (item.children && item.children.length > 0) {
-          const children = flattenArray(item.children);
+          const children = flattenArray(item.childrean);
           result = result.concat(children);
         }
       });
 
       return result;
+    },
+    getIcon(key, itemType) {
+      this.listInfos.forEach((element, index) => {
+        if (element.key == key) {
+          console.log("itemType", itemType);
+          if (itemType == "目录") {
+            this.listInfos[index].icon = "../../static/base/folder-fill.png";
+          } else if (itemType == "单位") {
+            this.listInfos[index].icon = "../../static/base/office.png";
+          } else if (itemType == "人员") {
+            this.listInfos[index].icon = "../../static/base/user-tie.png";
+          } else if (itemType == "群组") {
+            this.listInfos[index].icon = "../../static/base/chat.png";
+          } else {
+            this.listInfos[index].icon = "";
+          }
+        }
+      });
+      this.showList = true;
     },
     showadd(item) {
       this.isShow2 = true;
@@ -156,53 +189,63 @@ export default {
       this.isShow3 = true;
     },
     async lookImg(url) {
-      try {
-        uni.previewImage({
-          urls: ['https://orginone.cn/'+url],
-          current: 'https://orginone.cn/'+url,
-          success() {
-            // 预览成功后的操作
-          },
-          fail(error) {
-            // 预览失败后的操作
-          }
-        });
-      } catch (error) {
-        console.error(error);
-      }
+      console.log("查看图片", "https://orginone.cn/" + url);
+      uni.previewImage({
+        urls: ["https://orginone.cn/" + url],
+        current: "https://orginone.cn/" + url,
+        success() {
+          // 预览成功后的操作
+        },
+        fail(error) {
+          // 预览失败后的操作
+        },
+      });
     },
-    downloadFile(name,url) {
+    downloadFile(name, url) {
       const fileExt = name.match(/\.([^/.]+)$/)[1].toLowerCase(); // 获取文件的扩展名
-      if (fileExt === 'jpg'||fileExt === 'png'||fileExt === 'jpeg'||fileExt === 'webp') {
+      if (
+        fileExt === "jpg" ||
+        fileExt === "png" ||
+        fileExt === "jpeg" ||
+        fileExt === "webp"
+      ) {
         this.lookImg(url);
         return;
       }
-     if (fileExt === 'docx' || fileExt === 'xlsx') {
-      uni.downloadFile({
-        url: 'https://orginone.cn/'+url,
-        success(res) {
-          if (res.statusCode === 200) {
+      if (fileExt === "docx" || fileExt === "xlsx") {
+        uni.downloadFile({
+          url: "https://orginone.cn/" + url,
+          success(res) {
+            if (res.statusCode === 200) {
               const filePath = res.tempFilePath; // 下载成功后的临时文件路径
+              console.log("临时地址", filePath);
               uni.openDocument({
-                filePath: filePath,//指定文件名
+                filePath: filePath, //指定文件名
                 showMenu: true,
                 success: function (res) {
-                    //console.log('打开文档成功');
-                }
-            });
+                  console.log("打开文档成功");
+                },
+              });
+            }
+          },
+          fail(error) {
+            console.error("文件下载失败", error);
+          },
+        });
+      } else {
+         wx.setClipboardData({
+          data: "https://orginone.cn/" + url,
+          success: function (res) {
+            wx.getClipboardData({
+              success: function (res) {
+                wx.showToast({
+                  title: '链接已复制,请在浏览器中打开'
+                })
+              }
+            })
           }
-        },
-        fail(error) {
-          console.error('文件下载失败', error);
-        }
-      });
-     }else{
-       uni.showToast({
-          title: '暂不支持该类型~',
-          icon: 'none',
-          duration: 2000
         })
-     }
+      }
     },
     async jumpqrCode() {
       let res = await config.loadSettingMenu();
@@ -285,16 +328,37 @@ export default {
         background-color: #edeffc;
         border-radius: 10upx;
       }
-      .box {
-        width: 84upx;
-        height: 84upx;
-        background-color: #3d5ed1;
+      .box-wrap {
+        width: 72upx;
+        height: 72upx;
         margin-right: 25upx;
         border-radius: 8upx;
+        overflow: hidden;
+        .box {
+          width: 100%;
+          height: 100%;
+          background-size: cover;
+          background-position: center;
+          // background: #9499da;
+        }
+      }
+      .box {
+        width: 72upx;
+        height: 72upx;
+        margin-right: 25upx;
+        border-radius: 8upx;
+        object-fit: cover;
+        // background: #9499da;
       }
 
       .name {
         font-size: 32upx;
+        max-width: 500upx;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .right {

@@ -33,12 +33,14 @@ export default {
     this.fileList = arrs
     let arr = [];
 
-    console.log('===>',item.item.files)
     if(item.children.length ==0){
       item.item.children.forEach((element) => {
         let obj = {
           label: element.label ||element.name,
           key: element.key,
+          id:element?.item?.id,
+          itemType:element?.item?.metadata?.typeName || element?.metadata?.typeName,
+          icon:element?.item?.share?.avatar?.thumbnail
         };
         arr.push(obj);
       });
@@ -47,6 +49,9 @@ export default {
         let obj = {
           label: element.label||element.name,
           key: element.key,
+          id:element?.item?.target?.id,
+          itemType: element?.item?.target?.metadata?.typeName || element?.metadata?.typeName ,
+          icon:element?.item?.share?.avatar?.thumbnail
         };
         arr.push(obj);
       });

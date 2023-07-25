@@ -1,0 +1,36 @@
+.tab_wrap{
+	width: 100%;
+	height: 80rpx;
+	::-webkit-scrollbar {
+	  width: 0;
+	  height: 0;
+	  color: transparent;
+	}
+	.top_wrap {
+		width: 100%;
+		height: 80rpx;
+		display: flex;
+		justify-content: space-evenly;
+		white-space: nowrap;
+	
+		.top_item {
+			margin: 0 25rpx;
+			height: 100%;
+			text-align: center;
+			line-height: 80rpx;
+			display: inline-block;
+			font-size: 25rpx;
+			font-weight: 400;
+		}
+	
+		.top_item_active {
+			height: 100%;
+			margin: 0 25rpx;
+			text-align: center;
+			line-height: 80rpx;
+			display: inline-block;
+			font-size: 28rpx;
+			font-weight: 600;
+		}
+	}
+}

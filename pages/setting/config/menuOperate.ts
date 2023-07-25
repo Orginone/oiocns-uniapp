@@ -47,7 +47,7 @@ const buildDirectoryTree = (directorys: IDirectory[]): MenuItemType[] => {
       label: directory.name,
       tag: [directory.typeName],
       icon: '',
-      itemType: directory.typeName,
+      itemType: directory.id,
       menus: loadFileMenus(directory, 2),
       children: buildDirectoryTree(directory.children),
       beforeLoad: async () => {
@@ -97,7 +97,7 @@ export const loadSettingMenu = (() => {
       label: '设置',
       itemType: 'Tab',
       children: [getUserMenu(), ...getTeamMenu()],
-      icon: '',
+      icon:'',
     };
     return settingMenu;
   };

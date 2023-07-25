@@ -21,7 +21,9 @@
 			list.children.forEach((element,index) => {
 				let obj = {
 					label:element.label,
-					url:"/pages/setting/group/detail?key="+element.key
+					url:"/pages/setting/group/detail?key="+element.key,
+					itemType:element.item.target.metadata.typeName,
+					icon:element?.item?.share?.avatar?.thumbnail
 				}
 				arr.push(obj)
 			});
