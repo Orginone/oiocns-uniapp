@@ -1,51 +1,29 @@
 <template>
-  <view
-    class="wly-tabnav"
-    :style="(fixed == true ? 'position: fixed;' : 'position: relative;') + tabStyle +'width:650rpx'"
-  >
-    <!-- 导航 -->
-    <view
-      class="tabs"
-      data-ind="0"
-      v-for="(item, indexNav) in tabnav"
-      :key="item.name"
-      :class="type === item.type ? 'tabss' : ''"
-      @click="typefun(indexNav, item.type)"
-    >
-      <text
-        class="text"
-        :style="type === item.type ? optStyle : optStyleElse"
-        >{{ item.name }}</text
-      >
-    </view>
-
-    <!-- 进度 -->
-    <view
-      class="speed"
-      :style="
-        'left:' +
-        dataInd * (tabWid / tabnav.length) +
-        'px;width:' +
-        tabWid / tabnav.length +
-        'px'
-      "
-    >
-      <view
-        class="speed-box"
-        :style="
-          'width:' +
-          (lineW || (tabWid / tabnav.length) * 0.5) +
-          'px;' +
-          lineStyle
-        "
-      ></view>
-    </view>
+  <view class="container">
+    <scroll-view class="scroll-view" scroll-x="true">
+      <view class="list">
+        <view
+          v-for="(item, index) in tabnav"
+          class="item"
+          :key="item"
+          @click="typefun(index)"
+        >
+          <view
+            class="text"
+            :style="selectItem === item ? optStyle : optStyleElse"
+          >
+            {{ item }}
+            <view class="line-bottom"></view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
   </view>
 </template>
 
 <script>
 export default {
-  name: "wly-tabnav",
+  name: "mainTag",
   props: {
     // 线条宽度 单位px
     lineW: {
@@ -55,11 +33,11 @@ export default {
     // 选中的文字样式
     optStyle: {
       type: [String],
-      default: "color: #333333;",
+      default: "color: #154ab8;font-size:32rpx;border-bottom:1px solid #154ab8",
     }, // 其他未选中的文字样式
     optStyleElse: {
       type: [String],
-      default: "color: #999999;",
+      default: "color: #888;",
     },
     // 自定义样式
     tabStyle: {
@@ -100,7 +78,7 @@ export default {
       userId: "",
       pageSize: 10,
       pageNum: 1,
-      type: "", //当前选择类型
+      selectItem: "", //当前选择类型
       dataInd: 0, //当前选择的索引
       orderStatus: "",
       deliveryId: "",
@@ -110,93 +88,43 @@ export default {
   },
   created() {
     let that = this;
-    setTimeout(() => {
-      if (that.defaultKey) {
-        that.type = that.defaultKey;
-        that.dataInd = that.tabnav.findIndex(
-          (item) => item.type == this.defaultKey
-        );
-      } else {
-        that.type = that.tabnav[0].type;
-      }
-    }, 50);
-
-    setTimeout(() => {
-      let info = uni.createSelectorQuery().in(that).select(".wly-tabnav");
-      info
-        .boundingClientRect(function (data) {
-          that.tabWid = data.width;
-        })
-        .exec(function (res) {
-          // 注意：exec方法必须执行，即便什么也不做，否则不会获取到任何数据
-        });
-    }, 50);
+     this.selectItem = this.tabnav[0];
   },
   methods: {
-    typefun(ind) {
-      this.dataInd = ind;
-      this.type = this.tabnav[ind].type;
-      this.pageNum = 1;
+    typefun(index) {
+      this.selectItem = this.tabnav[index];
 
-      // 判断当前有没有数据
-      if (this.tabnav[ind].list.length == 0) {
-      }
-
-      this.$emit("ontype_", this.tabnav[ind]);
+      this.$emit("ontype_", this.tabnav[index]);
     },
   },
 };
 </script>
 
 <style lang="scss">
-.wly-tabnav {
-  height: 80rpx;
-  line-height: 80rpx;
-  background: #fff;
-  position: relative;
-  left: 0rpx;
-  top: 0rpx;
-  z-index: 1;
+.container {
+  width: 640rpx;
+  height: 60rpx;
+  margin-right: 25rpx;
+}
 
+.scroll-view {
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.list {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+}
+.text {
+  text-align: center;
+  font-size: 28rpx;
+  padding: 6rpx 0;
+  height: 60rpx;
+  display: flex;
   align-items: center;
-  justify-content: space-around;
-  position: relative !important;
-  .speed {
-    position: absolute;
-    bottom: 0rpx;
-    left: 0;
-    width: 150rpx;
-    transition: left 0.3s;
-
-    align-items: center;
-
-    .speed-box {
-      margin: auto;
-      height: 6rpx;
-      background: #154ab8;
-      border-radius: 10rpx;
-    }
-  }
-
-  .tabs {
-    width: 150rpx;
-    text-align: center;
-
-    .text {
-      text-align: center;
-      font-size: 28rpx;
-      transition: all 0.3s;
-    }
-  }
-
-  // .tabss {
-  // 	.text {
-  // 		font-size: 28rpx;
-  // 		font-weight: 600;
-  // 	}
-  // }
+  justify-content: center;
+  margin:0 20rpx;
+  position: relative;
 }
 </style>

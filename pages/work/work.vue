@@ -1,53 +1,134 @@
 <template>
   <view>
-    <headbar  url="/pages/work/menu/menu" basic="办事" right></headbar>
+    <appHead :text="'办事'"></appHead>
     <view class="main">
-      <lostPage mode="noContent"></lostPage>
+      <mainTag
+        ref="mainTag"
+        v-if="showTag"
+        :tabnav="tabnav"
+        @ontype_="ontype"
+      ></mainTag>
+      <view class="more">
+        <img src="../../static/base/menu.png" @click="showPop = true" alt="" />
+      </view>
+      <showBox v-if="showPop" :showType="'work'" @childShow= childShow()></showBox>
     </view>
+    <workList
+      v-show="showType == '0'"
+      :listInfo="menu"
+      :listType="listType"
+      model="1"
+      :icon="['dotPlus', 'right']"
+    ></workList>
   </view>
 </template>
 
 <script>
+import * as config from "./config/menuOperate";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      dealList: [
-        {
-          title: "这是一张审批单",
-          sub: "资金审批，望通过",
-          type: "单位审批",
-        },
-        {
-          title: "“张三”想加入单位",
-          sub: "你好，我是市场部新员工张三",
-          type: "好友申请",
-        },
-        {
-          title: "“张三”想加入单位",
-          sub: "你好，我是市场部新员工张三",
-          type: "好友申请",
-        },
-        {
-          title: "“张三”想加入单位",
-          sub: "你好，我是市场部新员工张三",
-          type: "好友申请",
-        },
-      ],
+      menu: [],
+      showType: "0",
+      showTag: false,
+      tabnav: [],
+      showPop:false,
     };
   },
-  methods: {},
+  onLoad() {
+    this.getMenu();
+  },
+  onShow() {
+    this.org_tag = uni.getStorageSync("org_tag");
+    this.tabnav = this.org_tag.work.select;
+    this.showTag = true;
+  },
+  methods: {
+    ...mapMutations(["setSetting"]),
+    removeCircularReferences(obj) {
+      const queue = [obj];
+      const visited = new Set();
+      visited.add(obj);
+      let flag = 0;
+      while (queue.length > 0) {
+        const currentObj = queue.shift();
+
+        for (let key in currentObj) {
+          if (currentObj.hasOwnProperty(key)) {
+            const value = currentObj[key];
+
+            if (typeof value === "object" && value !== null) {
+              if (visited.has(value)) {
+                // 如果该对象已经被访问过，则表示存在循环引用
+                let json = {};
+                json.memberTypes = value?.memberTypes;
+                json.metadata = value?.metadata;
+                json.members = value?.members;
+                json.belong = value?.belong;
+                json.id = value?.id;
+                json.creater = value?.creater;
+                json.target = value?.target;
+                json.targets = value?.targets;
+
+                for (const key in json.members) {
+                  if (Object.hasOwnProperty.call(json.members, key)) {
+                    json.members[key].icon = "";
+                  }
+                }
+                currentObj[key] = json;
+              } else {
+                queue.push(value); // 将该对象加入队列中
+                visited.add(value); // 将该对象加入已访问列表中
+              }
+            }
+          }
+        }
+      }
+    },
+    ontype(index) {
+      this.showType = index.type;
+    },
+    childShow(){
+      this.showPop = false;
+    },
+    async getMenu() {
+      let res = await config.loadWorkMenu();
+      // this.removeCircularReferences(res)
+      console.log("res", res);
+      let arr = [];
+      res.children.forEach((element) => {
+        let obj = {
+          label: element.label,
+          key: element.key,
+          id: element.item.id,
+          itemType: element.item.typeName,
+          icon: element?.item?.share?.avatar?.thumbnail,
+        };
+        arr.push(obj);
+      });
+      // store.setting = res;
+      this.menu = arr;
+      console.log("this.menu", this.menu);
+      // this.showMenu = true;
+      // console.log(res,'res')
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .main {
-  margin-top: 20upx;
   display: flex;
-  flex-direction: column;
   align-items: center;
-
-  .dealList {
-    margin-top: 20upx;
+  padding: 15rpx;
+  .more {
+    width: 48rpx;
+    height: 48rpx;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

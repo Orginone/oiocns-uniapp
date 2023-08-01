@@ -1,26 +1,22 @@
 <template>
-  <view
-    class="wly-tabnav"
-    :style="
-      (fixed == true ? 'position: fixed;' : 'position: relative;') +
-      tabStyle +
-      'width:650rpx'
-    "
-  >
-    <view
-      class="tabs"
-      data-ind="0"
-      v-for="(item, indexNav) in tabnav"
-      :key="item.name"
-      :class="type === item.type ? 'tabss' : ''"
-      @click="typefun(indexNav, item.type)"
-    >
-      <text
-        class="text"
-        :style="type === item.type ? optStyle : optStyleElse"
-        >{{ item.name }}</text
-      >
-    </view>
+  <view class="container">
+    <scroll-view class="scroll-view" scroll-x="true">
+      <view class="list">
+        <view
+          v-for="(item, index) in tabnav"
+          class="item"
+          :key="item"
+          @click="typefun(index)"
+        >
+          <view
+            class="text"
+            :style="selectItem === item ? optStyle : optStyleElse"
+          >
+            {{ item }}
+          </view>
+        </view>
+      </view>
+    </scroll-view>
   </view>
 </template>
 
@@ -81,7 +77,7 @@ export default {
       userId: "",
       pageSize: 10,
       pageNum: 1,
-      type: "", //当前选择类型
+      selectItem: "", //当前选择类型
       dataInd: 0, //当前选择的索引
       orderStatus: "",
       deliveryId: "",
@@ -91,93 +87,40 @@ export default {
   },
   created() {
     let that = this;
-    setTimeout(() => {
-      if (that.defaultKey) {
-        that.type = that.defaultKey;
-        that.dataInd = that.tabnav.findIndex(
-          (item) => item.type == this.defaultKey
-        );
-      } else {
-        that.type = that.tabnav[0].type;
-      }
-    }, 50);
-
-    setTimeout(() => {
-      let info = uni.createSelectorQuery().in(that).select(".wly-tabnav");
-      info
-        .boundingClientRect(function (data) {
-          that.tabWid = data.width;
-        })
-        .exec(function (res) {
-          // 注意：exec方法必须执行，即便什么也不做，否则不会获取到任何数据
-        });
-    }, 50);
+    this.selectItem = this.tabnav[0];
   },
   methods: {
-    typefun(ind) {
-      this.dataInd = ind;
-      this.type = this.tabnav[ind].type;
-      this.pageNum = 1;
+    typefun(index) {
+      this.selectItem = this.tabnav[index];
 
-      // 判断当前有没有数据
-      if (this.tabnav[ind].list.length == 0) {
-      }
-
-      this.$emit("ontype_", this.tabnav[ind]);
+      this.$emit("ontype_", this.tabnav[index]);
     },
   },
 };
 </script>
 
 <style lang="scss">
-.wly-tabnav {
-  height: 80rpx;
-  line-height: 80rpx;
-  background: #fff;
-  position: relative;
-  left: 0rpx;
-  top: 0rpx;
-  z-index: 1;
+.container {
+  width: 640rpx;
+  height: 60rpx;
+  margin-right: 25rpx;
+}
 
+.scroll-view {
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.list {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: relative !important;
-  padding-left: 20rpx;
-  .speed {
-    position: absolute;
-    bottom: 0rpx;
-    left: 0;
-    width: 150rpx;
-    transition: left 0.3s;
-
-    align-items: center;
-
-    .speed-box {
-      margin: auto;
-      height: 6rpx;
-      background: #154ab8;
-      border-radius: 10rpx;
-    }
-  }
-
-  .tabs {
-    text-align: center;
-    margin-right: 20rpx;
-    .text {
-      text-align: center;
-      font-size: 28rpx;
-      transition: all 0.3s;
-      padding: 12rpx 24rpx;
-      border-radius:80rpx;
-    }
-  }
-
-  // .tabss {
-  // 	.text {
-  // 		font-size: 28rpx;
-  // 		font-weight: 600;
-  // 	}
-  // }
+}
+.text {
+  text-align: center;
+  font-size: 28rpx;
+  transition: all 0.3s;
+  padding: 6rpx 24rpx;
+  border-radius: 80rpx;
+  margin-right: 20rpx;
 }
 </style>

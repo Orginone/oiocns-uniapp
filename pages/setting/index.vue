@@ -1,14 +1,24 @@
 <template>
   <view class="BaseLayout">
-    <appHead :text='"设置"'></appHead>
+    <appHead :text="'设置'"></appHead>
     <view class="main">
-      <mainTag ref="mainTag"  :tabnav="tabnav" @ontype_="ontype"></mainTag>
+      <mainTag
+        ref="mainTag"
+        v-if="showTag"
+        :tabnav="tabnav"
+        @ontype_="ontype"
+      ></mainTag>
       <view class="more">
-        <img src="../../static/base/menu.png" alt="" />
+        <img src="../../static/base/menu.png" @click="showPop = true" alt="" />
       </view>
+      <showBox v-if="showPop" :showType="'setting'" @childShow= childShow()></showBox>
     </view>
-    <personList v-show="showType =='0'" :listInfo="menu" :icon="['dotPlus', 'right']"></personList>
-    <settingEdit v-show="showType =='1'" ></settingEdit>
+    <personList
+      v-show="showType == '全部'"
+      :listInfo="menu"
+      :icon="['dotPlus', 'right']"
+    ></personList>
+    <settingEdit v-show="showType == '常用'"></settingEdit>
   </view>
 </template>
 
@@ -21,41 +31,27 @@ import { storage } from "common/app";
 export default {
   data() {
     return {
-      showType:0,//显示状态
+      showType: '全部',
       menu: [],
       // 线条宽度
       lineW: 10,
       // 是否固定
       fixed: false,
       // 菜单导航
-      tabnav: [
-        {
-          type: '0', //状态值
-          name: "全部",
-          list: [], //数据
-        },
-        {
-          type: "1", //状态值
-          name: "常用",
-          list: [], //数据
-        },
-        {
-          type: "2", //状态值
-          name: "最近",
-          list: [], //数据
-        },
-      ],
+      showTag: false,
+      tabnav: [],
+      showPop:false,
     };
   },
   watch: {},
   onLoad() {
     this.getMenu();
-    let that = this;
-    // this.userInfo = storage.getItem("currentUser");
-    // that.getMyInfo();
   },
   onShow() {
     this.setSetting([{ name: "设置" }]);
+    this.org_tag = uni.getStorageSync("org_tag");
+    this.tabnav = this.org_tag.setting.select;
+    this.showTag = true;
   },
   methods: {
     ...mapMutations(["setSetting"]),
@@ -69,8 +65,8 @@ export default {
         let obj = {
           label: element.label,
           key: element.key,
-          itemType:element.item.target.metadata.typeName,
-          icon:element?.item?.share?.avatar?.thumbnail
+          itemType: element.item.target.metadata.typeName,
+          icon: element?.item?.share?.avatar?.thumbnail,
         };
         arr.push(obj);
       });
@@ -80,8 +76,11 @@ export default {
       // this.showMenu = true;
       // console.log(res,'res')
     },
-    ontype(index){
-      this.showType = index.type;
+    childShow(){
+      this.showPop = false;
+    },
+    ontype(item) {
+      this.showType = item;
     },
     async getMyInfo() {
       // let res = await loadApply({ id: this.userInfo.id,userId: this.userInfo.id });
@@ -95,7 +94,7 @@ export default {
 .main {
   display: flex;
   align-items: center;
-  padding-right: 15upx;
+  padding: 15rpx;
   .more {
     width: 48rpx;
     height: 48rpx;

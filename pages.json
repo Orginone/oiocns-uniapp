@@ -11,7 +11,35 @@
             }
         },
         {
+            "path": "pages/tagEdit/tagEdit",
+            "style": {
+                "navigationBarTitleText": "管理分组",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
             "path": "pages/work/work",
+            "style": {
+                "navigationBarTitleText": "办事",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/work/menu/menu",
+            "style": {
+                "navigationBarTitleText": "办事",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/work/list/list",
+            "style": {
+                "navigationBarTitleText": "办事",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/work/detail/detail",
             "style": {
                 "navigationBarTitleText": "办事",
                 "enablePullDownRefresh": false

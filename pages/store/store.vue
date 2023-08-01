@@ -2,10 +2,16 @@
   <view class="BaseLayout">
     <appHead :text="'存储'"></appHead>
     <view class="main">
-      <mainTag ref="mainTag" :tabnav="tabnav" @ontype_="ontype"></mainTag>
+      <mainTag
+        ref="mainTag"
+        v-if="showTag"
+        :tabnav="tabnav"
+        @ontype_="ontype"
+      ></mainTag>
       <view class="more">
-        <img src="../../static/base/menu.png" alt="" />
+        <img src="../../static/base/menu.png" @click="showPop = true" alt="" />
       </view>
+      <showBox v-if="showPop" :showType="'store'" @childShow= childShow()></showBox>
     </view>
     <storeList
       :listInfo="menu"
@@ -27,38 +33,9 @@ export default {
       listType: "store",
       showType: "0",
       // 菜单导航
-      tabnav: [
-        {
-          type: "0", //状态值
-          name: "全部",
-          list: [], //数据
-        },
-        {
-          type: "1", //状态值
-          name: "常用",
-          list: [], //数据
-        },
-        {
-          type: "2", //状态值
-          name: "文件",
-          list: [], //数据
-        },
-        {
-          type: "3", //状态值
-          name: "数据",
-          list: [], //数据
-        },
-        {
-          type: "4", //状态值
-          name: "应用",
-          list: [], //数据
-        },
-        {
-          type: "5", //状态值
-          name: "资源",
-          list: [], //数据
-        },
-      ],
+      showTag: false,
+      showPop: false,
+      tabnav: [],
     };
   },
   watch: {},
@@ -67,6 +44,9 @@ export default {
   },
   onShow() {
     this.setSetting([{ name: "存储" }]);
+    this.org_tag = uni.getStorageSync("org_tag");
+    this.tabnav = this.org_tag.store.select;
+    this.showTag = true;
   },
   methods: {
     ...mapMutations(["setSetting"]),
@@ -110,6 +90,9 @@ export default {
         }
       }
     },
+    childShow(){
+      this.showPop = false;
+    },
     // 切换tag
     ontype(index) {
       this.showType = index.type;
@@ -138,4 +121,18 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.main {
+  display: flex;
+  align-items: center;
+  padding: 15rpx;
+  .more {
+    width: 48rpx;
+    height: 48rpx;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+</style>

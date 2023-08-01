@@ -1,50 +1,68 @@
 <template>
-  <view class="index">
-    <appHead :text="'门户'"></appHead>
-    <view class="main">
-      <!-- <appHead></appHead> -->
-      <mainnav
-        ref="tabnav"
-        v-if="showTag"
-        :tabnav="tabnav"
-        @ontype_="ontype"
-      ></mainnav>
-      <view class="more" @click="showPop = true">
-        <img src="../../static/base/menu.png" alt="" />
+  <view class="show-box" v-if="showPop" @click="open()">
+    <view class="pop-box">
+      <view class="pop-head">
+        <img
+          src="../../static/base/backs.png"
+          class="head-icon"
+          @click="open()"
+          alt=""
+        />
+        <view class="pop-title">{{ titleText }}分组</view>
+        <view class="pop-edit" @click="jumpEdit()">分组</view>
       </view>
-      <showBox v-if="showPop" :showType="'main'" @childShow= childShow()></showBox>
+      <view class="pop-main">
+        <view class="pop-list">
+          <view class="pop-item" v-for="(item, index) in tabnav" :key="index">{{
+            item
+          }}</view>
+        </view>
+      </view>
     </view>
   </view>
 </template>
 
 <script>
-import { loadApps } from "./config/config";
 export default {
+  name: "showBox",
+  props: {
+    showType: {
+      default: "",
+    },
+  },
   data() {
     return {
       // 线条宽度
       lineW: 10,
       // 是否固定
       fixed: false,
-      showPop: false, //弹出层状态
+      showPop: true, //弹出层状态
       // 菜单导航
       tabnav: [],
       showTag: false, //显示tag
       org_tag: {},
+      titleText: "",
     };
   },
   components: {},
-  onShow() {
+  mounted() {
+    console.log(this.showType);
+    if (this.showType == "main") {
+      this.titleText = "门户";
+    } else if ((this.showType == "store")) {
+      this.titleText = "存储";
+    } else if ((this.showType == "setting")) {
+      this.titleText = "设置";
+    } else if ((this.showType == "work")) {
+      this.titleText = "办事";
+    }
     this.org_tag = uni.getStorageSync("org_tag");
     if (this.org_tag?.main) {
-      this.tabnav = this.org_tag.main.select;
+      this.tabnav = this.org_tag[this.showType].select;
     } else {
       this.setOrgTag();
     }
     this.showTag = true;
-  },
-  async onLoad(options) {
-    this.userInfo = uni.getStorageSync("currentUser");
   },
   methods: {
     setOrgTag() {
@@ -75,8 +93,8 @@ export default {
       };
       uni.setStorageSync("org_tag", obj);
     },
-    childShow(){
-      this.showPop = false;
+    open() {
+      this.$emit('childShow');
     },
     async loadAppList() {
       let arr = [];
@@ -99,36 +117,13 @@ export default {
         url: "/pages/setting/scanCode/index",
       });
     },
-    //下拉选项打开时
-    openEvent() {
-      this.isShowMask = true;
-    },
-    closeEvent() {
-      this.isShowMask = false;
-    },
     ontype(index) {
       console.log(index);
     },
-    handle(item, index) {
-      this.isShowMask = false;
-      this.mode = item.value;
-      if (item.value == "newCohort" || item.value == "newCompany") {
-        this.isShow2 = true;
-      } else {
-        this.isShow = true;
-      }
-    },
     jumpEdit() {
       uni.navigateTo({
-        url: "/pages/tagEdit/tagEdit?type=main",
+        url: "/pages/tagEdit/tagEdit?type=" + this.showType,
       });
-    },
-    uploadPop(index) {
-      if (index == 1) {
-        this.isShow = false;
-      } else {
-        this.isShow2 = false;
-      }
     },
   },
 };

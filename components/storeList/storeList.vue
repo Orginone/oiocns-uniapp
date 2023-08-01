@@ -323,7 +323,7 @@ export default {
       padding: 16upx 30upx;
       align-items: center;
       box-sizing: border-box;
-
+      border-bottom: 1px solid #eee;
       &:active {
         background-color: #edeffc;
         border-radius: 10upx;
@@ -332,7 +332,6 @@ export default {
         width: 72upx;
         height: 72upx;
         margin-right: 25upx;
-        border-radius: 8upx;
         overflow: hidden;
         .box {
           width: 100%;

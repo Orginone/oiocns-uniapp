@@ -11,15 +11,6 @@
         <img class="box" :src="'' + item.icon + ''" />
         <view class="name">{{ item.label }}</view>
         <view class="right">
-          <!-- <img src="../../static/base/chat.png" alt="" v-if="chat"> -->
-          <!-- <img :src="'../../static/base/add.png'" alt=""  v-if="icon.includes('add')" > -->
-          <!-- <view class="dotPlus" @click.stop="showTips($event, item)">
-            <img
-              :src="'../../static/base/dotPlus.png'"
-              alt=""
-              v-if="icon.includes('dotPlus')"
-            />
-          </view> -->
           <img
             src="../../static/base/right.png"
             alt=""
@@ -32,17 +23,11 @@
 </template>
 
 <script>
-import formBox from "./box/form.vue";
-import formdetail from "./box/detail.vue";
-
 import { mapMutations } from "vuex";
 import * as config from "../../pages/setting/config/menuOperate";
 export default {
-  name: "personList",
-  components: {
-    formBox,
-    formdetail,
-  },
+  name: "workList",
+  components: {},
   props: {
     listInfo: {
       default: () => {
@@ -54,9 +39,6 @@ export default {
     },
     title: {
       default: "",
-    },
-    chat: {
-      default: false,
     },
     url: {
       default: "/pages/warehouse/page2/page2",
@@ -78,16 +60,12 @@ export default {
       listInfos: this.listInfo,
       isShow2: false,
       isShow3: false,
-      itemKey: "",
-      mode: "",
-      belongId: "",
-      dataList: ["选项1", "选项2", "选项3", "选项4"],
     };
   },
   watch: {
     listInfo(newVal) {
       this.listInfos = newVal;
-      
+
       this.listInfos.forEach((element) => {
         if (!element.icon) {
           this.getIcon(element.key, element.itemType);
@@ -96,26 +74,7 @@ export default {
     },
     deep: true,
   },
-  // watch: {
-  // 	listType(newVal) {
-  //     console.log(newV)
-  // 		this.showList = newVal;
-  // 	},
-  // 	deep:true
-  // },
-  created() {
-    // this.settingData = this.$store.setting
-    // let arr = []
-    // this.settingData.children.forEach(element => {
-    // 	let obj = {
-    // 		label:element.label,
-    // 		key:element.key,
-    // 	}
-    // 	arr.push(obj);
-    // });
-    // console.log('arr',arr);
-    // this.list = arr;
-  },
+  created() {},
   methods: {
     ...mapMutations(["pushSetting"]),
     flattenArray(arr) {
@@ -202,15 +161,9 @@ export default {
     },
     turnDetailPage(item) {
       this.pushSetting({ name: item.label });
-      if (item.url) {
-        uni.navigateTo({
-          url: item.url + "?data=" + item.key,
-        });
-      } else {
-        uni.navigateTo({
-          url: "/pages/setting/group/index" + "?data=" + item.key,
-        });
-      }
+      uni.navigateTo({
+        url: "/pages/work/menu/menu" + "?id=" + item.id,
+      });
     },
   },
 };
