@@ -95,7 +95,7 @@ import uQRCode from './common/uqrcode.js'
 	}
 </script>
 
-<style>
+<style lang="scss" >
 	page {
 		background-color: #FFFFFF;
 	}

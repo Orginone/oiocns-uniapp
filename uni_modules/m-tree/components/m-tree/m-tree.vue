@@ -187,7 +187,7 @@
 		}
 	}
 </script>
-<style scoped>
+<style lang="scss"  scoped>
     .leo-tree{
         padding-left:50rpx;
     }

@@ -36,7 +36,7 @@
 
 <script>
 import * as config from "../config/menuOperate";
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -81,10 +81,6 @@ export default {
       groupList: [],
       formTitle: [
         {
-          name: "头像",
-          value: "icon",
-        },
-        {
           name: "账号",
           value: "code",
         },
@@ -111,16 +107,24 @@ export default {
       groupId: "", //群组id
     };
   },
+  computed: {
+    ...mapState(["setting"]),
+  },
   watch: {},
   async onLoad(option) {
-    console.log("detail", option);
     let key = option.key;
     let res = await config.loadSettingMenu();
     this.findObject(res.children, key);
     this.keyFindid(res.children, key);
   },
+  onShow() {
+    if (this.setting.length >= 4) {
+      let obj = this.setting.slice(0, 2).concat(this.setting.slice(3));
+      this.setSetting(obj);
+    }
+  },
   methods: {
-	...mapMutations(['pushSetting']),
+    ...mapMutations(["pushSetting", "setSetting"]),
     findObject(arr, key) {
       let that = this;
       if (arr && arr.length > 0) {
@@ -129,7 +133,7 @@ export default {
           element.item.directory = null;
           element.item.space = null;
           if (element.key == key) {
-            let res =  await element.item.loadFiles();
+            let res = await element.item.loadFiles();
             // console.log("111", res)
             that.dataCompare(element, element.item.content());
             // return
@@ -154,7 +158,7 @@ export default {
       }
     },
     dataCompare(formData, list) {
-      console.log('dataCompare', formData);
+      console.log("dataCompare", formData);
       this.title =
         this.type + "[" + formData?.item?._metadata.name + "]基本信息";
       this.datalist[0].value = formData.item._metadata.name;

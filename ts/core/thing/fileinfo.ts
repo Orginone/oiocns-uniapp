@@ -72,7 +72,7 @@ export abstract class FileInfo<T extends schema.XEntity>
   abstract copy(destination: IDirectory): Promise<boolean>;
   abstract move(destination: IDirectory): Promise<boolean>;
   async loadContent(reload: boolean = false): Promise<boolean> {
-    return await sleep(reload ? 10 : 0);
+    return await sleep(reload ? 100 : 100);
   }
   content(_mode: number = 0): IFileInfo<schema.XEntity>[] {
     return [];

@@ -10,9 +10,13 @@
       >
         <view class="left">
           <view class="box"></view>
-          <view class="item-title">{{ item.title }}</view>
+          <view class="left-content">
+            <view class="item-title">{{ item.title }}</view>
+          </view>
         </view>
-        <view class="item-time">{{ item.createTime }}</view>
+        <!-- <view class="right"> -->
+          <view class="item-time">{{ item.createTime.substring(0, 10) }}</view>
+        <!-- </view> -->
       </view>
     </view>
   </view>
@@ -86,7 +90,6 @@ export default {
           limit: 20,
         });
       } else {
-       
       }
     },
     // 发起办事
@@ -144,7 +147,11 @@ export default {
     },
     jumpDetail(item) {
       uni.navigateTo({
-        url: "/pages/work/detail/detail?belongId=" + item.belongId+'&instanceId='+item.instanceId,
+        url:
+          "/pages/work/detail/detail?belongId=" +
+          item.belongId +
+          "&instanceId=" +
+          item.instanceId,
       });
     },
   },
@@ -175,6 +182,14 @@ export default {
   .left {
     display: flex;
     align-items: center;
+    .left-content {
+      display: flex;
+      flex-direction: column;
+      .item-content {
+        margin-top: 20rpx;
+        color: #666;
+      }
+    }
     .box {
       width: 72rpx;
       height: 72rpx;
@@ -187,5 +202,8 @@ export default {
     font-size: 32rpx;
     color: #333;
   }
+}
+.right {
+  align-self: flex-start;
 }
 </style>

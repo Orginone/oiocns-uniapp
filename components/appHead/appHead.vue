@@ -1,7 +1,7 @@
 <template>
   <view class="head" @click.stop="closeEvent">
     <view class="tabBox">
-      <view class="leftBox" @click="jump">
+      <view class="leftBox" @click="showItem">
         <img
           src="../../static/base/setting-select.svg"
           alt=""
@@ -33,52 +33,122 @@
           <view class="more_point"></view>
           <view class="more_point"></view>
         </view> -->
-        <view class="menu-box" v-show="isShowMask == true">
-          <div
-            class="menu-item"
-            v-for="(item, index) in menuList"
-            :key="index"
-            @click.stop="handle(item, index)"
-          >
-            <view class="item_btn">+</view>
-            <view class="item_name">{{ item.name }}</view>
-          </div>
+        <view class="menu-box-wrap" v-show="isShowMask == true">
+          <view class="menu-box">
+            <div
+              class="menu-item"
+              v-for="(item, index) in menuList"
+              :key="index"
+              @click.stop="handle(item, index)"
+            >
+              <view class="item_btn">+</view>
+              <view class="item_name">{{ item.name }}</view>
+            </div>
+          </view>
+        </view>
+        <view
+          class="menu-box-wrap"
+          v-show="infoType == true"
+          @click="infoType = false"
+        >
+          <view class="menu-boxs">
+            <view class="info-box">
+              <view class="left">
+                <img
+                  src="../../static/base/setting-select.svg"
+                  alt=""
+                  class="leftBoxSrc"
+                />
+                <view class="info-content">
+                  <view>{{ userInfo.name }}</view>
+                  <view>{{ userInfo.remark }}</view>
+                </view>
+              </view>
+              <view class="right-box">
+                <img
+                  src="../../static/base/ewm.png"
+                  @click="jumpewm()"
+                  alt=""
+                />
+              </view>
+            </view>
+            <div
+              class="menu-item"
+              v-for="(item, index) in infoList"
+              :key="index"
+            >
+              <view class="item_btn">+</view>
+              <view class="item_name">{{ item.name }}</view>
+            </div>
+          </view>
         </view>
       </view>
     </view>
+    <popBox :show="isShow" :mode="mode" @uploadPop="uploadPop" />
+    <formBox :show="isShow2" :mode="mode" @uploadPop="uploadPop" />
   </view>
 </template>
 
 <script>
+import popBox from "../settingEdit/components/pop";
+import formBox from "../settingEdit/components/form";
+import * as config from "../../pages/setting/config/menuOperate";
+
 export default {
   name: "appHead",
   data() {
-    return {};
+    return {
+      isShowMask: false,
+      menuList: [
+        { name: "添加朋友", value: "joinFriend" },
+        { name: "加入群组", value: "joinCohort" },
+        { name: "加入单位", value: "joinCompany" },
+        { name: "发起群聊", value: "newCohort" },
+      ],
+      infoList: [
+        { name: "账号与安全", value: "joinFriend" },
+        { name: "卡包设置", value: "joinCohort" },
+        { name: "门户设置", value: "joinCompany" },
+        { name: "主题设置", value: "newCohort" },
+        { name: "退出登录", value: "newCohort" },
+      ],
+      isShow: false,
+      mode: "",
+      isShow2: false,
+      infoType: false,
+      belongId: "",
+      belongName: "",
+      userInfo: {},
+    };
   },
   props: {
     text: {
       default: () => {
-        return '';
+        return "";
       },
     },
   },
-  components: {},
-  async onLoad(options) {},
+  components: { popBox, formBox },
+  async mounted(options) {
+    setTimeout(() => {
+      this.loadAppList();
+    }, 200);
+  },
   methods: {
     async loadAppList() {
-      let arr = [];
-      setTimeout(async () => {
-        let res = await loadApps();
-        res.forEach((item) => {
-          item.metadata.icon = JSON.parse(item.metadata.icon);
-          arr.push(item.metadata);
-        });
-        this.appList = arr;
-      }, 1000);
+      let res = await config.loadSettingMenu();
+      this.userInfo = uni.getStorageSync("currentUser")
+      console.log(this.userInfo);
+      this.belongId = res.children[0].item.belongId;
+      this.belongName = res.children[0].label;
     },
-    jump() {
-      uni.switchTab({
-        url: "/pages/setting/index",
+    jumpewm() {
+      uni.navigateTo({
+        url:
+          "/pages/setting/qrcode/index?id=" +
+          this.userInfo.id +
+          "&name=" +
+          this.userInfo.name,
       });
     },
     jumosys() {
@@ -93,7 +163,9 @@ export default {
     closeEvent() {
       this.isShowMask = false;
     },
-
+    showItem() {
+      this.infoType = true;
+    },
     handle(item, index) {
       this.isShowMask = false;
       this.mode = item.value;
@@ -115,7 +187,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 page {
   background: #fff;
   .head {
@@ -285,34 +357,33 @@ page {
     margin: 0 auto;
     border-radius: 12rpx;
   }
+  .menu-box-wrap {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+  }
   .menu-box {
     position: absolute;
-    top: 60upx;
-    right: 10upx;
-    width: 360upx;
-    height: 320upx;
-    background: rgba(76, 76, 76, 1);
+    top: 80upx;
+    right: 20upx;
+    width: 320upx;
+    background: #fff;
     border-radius: 16upx;
     z-index: 999;
-    :before {
-      content: "";
-      width: 0px;
-      height: 0px;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-bottom: 6px solid rgba(76, 76, 76, 1);
-      position: absolute;
-      top: -5px;
-      right: 16px;
-    }
+    color: #333;
     .menu-item {
       width: 100%;
-      padding: 4upx 60upx;
+      padding: 4upx 40upx;
       display: flex;
       align-items: center;
+      border-bottom: 1px solid #eee;
       .item_btn {
         font-size: 50upx;
-        color: #fff;
+        color: #333;
         text-align: center;
         margin-top: 0rpx;
         margin-bottom: 6rpx;
@@ -320,9 +391,68 @@ page {
       .item_name {
         font-size: 28upx;
         text-align: center;
-        color: #fff;
+        color: #333;
         margin-left: 16upx;
       }
+    }
+    .menu-item:last-child {
+      border-bottom: 0;
+    }
+  }
+  .menu-boxs {
+    position: absolute;
+    top: 80upx;
+    left: 20upx;
+    min-width: 400rpx;
+    background: #fff;
+    border-radius: 16upx;
+    z-index: 999;
+    color: #333;
+    .info-box {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20rpx;
+      padding-top: 20rpx;
+      .left {
+        display: flex;
+        align-items: center;
+        img {
+          width: 80rpx;
+          height: 80rpx;
+          margin-right: 20rpx;
+        }
+      }
+      .right-box {
+        margin-top: 20rpx;
+        margin-right: 20rpx;
+        img {
+          width: 48rpx;
+          height: 48rpx;
+        }
+      }
+    }
+    .menu-item {
+      width: 100%;
+      padding: 4upx 40upx;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      .item_btn {
+        font-size: 50upx;
+        color: #333;
+        text-align: center;
+        margin-top: 0rpx;
+        margin-bottom: 6rpx;
+      }
+      .item_name {
+        font-size: 28upx;
+        text-align: center;
+        color: #333;
+        margin-left: 16upx;
+      }
+    }
+    .menu-item:last-child {
+      border-bottom: 0;
     }
   }
 }

@@ -14,158 +14,18 @@
       </view>
       <showBox
         v-if="showPop"
-        :showType="'main'"
+        :showType="'showType'"
         @childShow="childShow()"
       ></showBox>
     </view>
-    <view class="qun" v-if="showType =='群动态'">
-      <view class="group-box">
-        <view class="main-box">
-          <view class="main-head">
-            <view class="main-title">最常浏览</view>
-            <view class="main-more"
-              >查看我的关注
-              <img src="../../static/base/right-arror.png" alt="" />
-            </view>
-          </view>
-          <view class="main-list">
-            <view class="main-item">
-              <img
-                src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
-                alt=""
-              />
-              <view class="item-text">名字</view>
-            </view>
-            <view class="main-item">
-              <img
-                src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
-                alt=""
-              />
-              <view class="item-text">名字</view>
-            </view>
-            <view class="main-item">
-              <img
-                src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
-                alt=""
-              />
-              <view class="item-text">名字</view>
-            </view>
-            <view class="main-item">
-              <img
-                src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
-                alt=""
-              />
-              <view class="item-text">名字</view>
-            </view>
-            <view class="main-item">
-              <img
-                src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
-                alt=""
-              />
-              <view class="item-text">名字</view>
-            </view>
-          </view>
-        </view>
-      </view>
-      <swiper
-        class="swiper"
-        circular
-        :indicator-dots="indicatorDots"
-        :autoplay="autoplay"
-        :interval="interval"
-        autoplay="true"
-        interval="5000"
-        duration="500"
-        indicator-dots="true"
-        indicator-color="rgba(255, 255, 255, .3)"
-        indicator-active-color="#fff"
-        :indicator-color="color"
-        :easing-function="'easeInOutCubic'"
-        next-margin="40px"
-        previous-margin="40px"
-      >
-        <swiper-item>
-          <view class="li">
-            <img
-              :src="'https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh'"
-              class="itemSrc"
-            />
-          </view>
-        </swiper-item>
-        <swiper-item>
-          <view class="li">
-            <img
-              :src="'https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh'"
-              class="itemSrc"
-            />
-          </view>
-        </swiper-item>
-        <swiper-item>
-          <view class="li">
-            <img
-              :src="'https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh'"
-              class="itemSrc"
-            />
-          </view>
-        </swiper-item>
-      </swiper>
-      <view class="trends-box">
-        <view class="main-head">
-          <view class="main-title">最新动态</view>
-          <view class="main-more"
-            >查看全部动态
-            <img src="../../static/base/right-arror.png" alt="" />
-          </view>
-        </view>
-        <view class="trends-list">
-          <view class="trends-item">
-            <img
-              src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
-              alt=""
-            />
-            <view class="trends-right">
-              <view class="tr-title">标题</view>
-              <view class="tr-tag">
-                <view class="tag-item">我是标签</view>
-                <view class="tag-item">我是标签</view>
-              </view>
-              <view class="tr-content"
-                >内容摘要内容摘要内容摘要内容摘要内容摘要内容摘要内容摘要内容摘要内容摘要</view
-              >
-              <view class="tr-foot">
-                <view class="look-more">查看详情</view>
-                <view class="tr-time">xxxxxxx</view>
-              </view>
-            </view>
-          </view>
-          <view class="trends-item">
-            <img
-              src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
-              alt=""
-            />
-            <view class="trends-right">
-              <view class="tr-title">标题</view>
-              <view class="tr-tag">
-                <view class="tag-item">我是标签</view>
-                <view class="tag-item">我是标签</view>
-              </view>
-              <view class="tr-content"
-                >内容摘要内容摘要内容摘要内容摘要内容摘要内容摘要内容摘要内容摘要内容摘要</view
-              >
-              <view class="tr-foot">
-                <view class="look-more">查看详情</view>
-                <view class="tr-time">xxxxxxx</view>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
+    <group v-if="showType == '群动态'"></group>
+    <yuanyi v-if="showType == '首页'"></yuanyi>
   </view>
 </template>
 
 <script>
-import { loadApps } from "./config/config";
+import group from "./pages/group.vue";
+import yuanyi from "./pages/yuanyi.vue";
 export default {
   data() {
     return {
@@ -181,7 +41,10 @@ export default {
       showType: "群动态",
     };
   },
-  components: {},
+  components: {
+    group,
+    yuanyi,
+  },
   onShow() {
     this.org_tag = uni.getStorageSync("org_tag");
     if (this.org_tag?.main) {
@@ -199,6 +62,7 @@ export default {
       let obj = {
         main: {
           select: [
+            "首页",
             "群动态",
             "好友圈",
             "共享软件",
@@ -226,17 +90,6 @@ export default {
     childShow() {
       this.showPop = false;
     },
-    async loadAppList() {
-      let arr = [];
-      setTimeout(async () => {
-        let res = await loadApps();
-        res.forEach((item) => {
-          item.metadata.icon = JSON.parse(item.metadata.icon);
-          arr.push(item.metadata);
-        });
-        this.appList = arr;
-      }, 1000);
-    },
     jump() {
       uni.switchTab({
         url: "/pages/setting/index",
@@ -254,8 +107,8 @@ export default {
     closeEvent() {
       this.isShowMask = false;
     },
-    ontype(index) {
-      console.log(index);
+    ontype(item) {
+      this.showType = item;
     },
     handle(item, index) {
       this.isShowMask = false;

@@ -33,7 +33,7 @@
         </view>
       </view>
       <!-- 切换登录 -->
-      <view class="switch">
+      <!-- <view class="switch">
         <view class="ico"><img src="../../static/base/switch.png" alt="" /></view>
         <view class="item1" v-if="switchMode" @click="
           switchMode = !switchMode;
@@ -46,10 +46,10 @@
           账号密码登录
           <view class="warning" v-show="!phonePass">手机号码无法使用</view>
         </view>
-      </view>
+      </view> -->
     </view>
     <!-- 输入验证码 -->
-    <view class="captcha" v-show="stepState == 1">
+    <!-- <view class="captcha" v-show="stepState == 1">
       <view class="title">
         <view class="back" @click="turnBack">
           <uni-icons type="arrow-left" size="30" style="color: #d8d8d8"></uni-icons>
@@ -77,7 +77,7 @@
       <view class="getCaptcha" v-if="showGetCaptcha" @click="getCaptcha">
         获取验证码
       </view>
-    </view>
+    </view> -->
     <!-- 首次使用注册 -->
     <view class="signup" v-show="stepState == 2">
       <view class="title">
@@ -109,7 +109,7 @@
 
     <!-- 勾选同意 -->
     <view class="nextstep">
-      <view class="agree">
+      <!-- <view class="agree">
         <view class="tip" v-show="showtip">请勾选后再登陆</view>
         <u-checkbox v-model="checked" shape="circle"></u-checkbox>
         <view class="text">
@@ -118,12 +118,12 @@
           与
           <view class="blue">《隐私条款》</view>
         </view>
-      </view>
+      </view> -->
       <!-- 下一步 -->
       <view :class="checked ? 'btn-area' : 'btn-area notready'" v-if="stepState != 1">
         <view class="btns" v-if="haveCatpcha == 0">
           <view class="btn1" v-show="switchMode" @click="turnPage()">
-            下一步
+            登录
           </view>
           <view class="btn2" v-show="!switchMode" @click="sendCaptcha()">
             发送验证码
@@ -138,6 +138,13 @@
           <moveVerify @result="verifyResult" ref="verifyElement"></moveVerify>
         </view>
       </view>
+      <view :class="checked ? 'btn-area' : 'btn-area notready'" v-if="stepState != 1">
+        <view class="btns" v-if="haveCatpcha == 0">
+          <view class="btn1" v-show="switchMode" @click="wxLogin()">
+            一键登录
+          </view>
+        </view>
+      </view>
     </view>
   </view>
 </template>
@@ -149,7 +156,7 @@ export default {
   data() {
     return {
       checked: true, //勾选标识
-      showtip: 0, //未勾选提示框
+      showtip: 1, //未勾选提示框
       ready: 1, //判断表示/下一步
       switchMode: 1, //账号密码登录模式
       showList: 0, //手机号前缀下拉
@@ -333,6 +340,17 @@ export default {
       this.timer = "";
       this.setCountdown();
       this.showGetCaptcha = 0;
+    },
+    wxLogin(){
+      uni.login({
+        success (res) {
+          if (res.code) {
+            console.log('res',res);
+          } else {
+            console.log('登录失败！' + res.errMsg)
+          }
+        }
+      })
     },
   },
 };

@@ -80,7 +80,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss" >
 	page {
 		background-color: #FFFFFF;
 	}

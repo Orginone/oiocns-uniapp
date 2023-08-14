@@ -50,7 +50,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .title {
   padding-left: 8upx;
   font-size: 28upx;

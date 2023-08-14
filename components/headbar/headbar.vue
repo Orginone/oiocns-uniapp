@@ -75,20 +75,20 @@ export default {
      ...mapMutations(['setSetting']),
     //跳转面包屑页面
     turnHeadPage(index) {
-      let arr = []
-      for(let i = 0; i <= index;i++){
-        arr.push(this.setting[i])
-      }
-      this.setSetting(arr);
-      if(this.localListPlus.length  == 1){
-        uni.navigateBack({
-          delta: this.localListPlus.length ,
-        });
-      }else{
-        uni.navigateBack({
-          delta: this.localListPlus.length - index -1,
-        });
-      }
+      // let arr = []
+      // for(let i = 0; i <= index;i++){
+      //   arr.push(this.setting[i])
+      // }
+      // this.setSetting(arr);
+      // if(this.localListPlus.length  == 1){
+      //   uni.navigateBack({
+      //     delta: this.localListPlus.length ,
+      //   });
+      // }else{
+      //   uni.navigateBack({
+      //     delta: this.localListPlus.length - index -1,
+      //   });
+      // }
       
     },
     // 跳转路由
@@ -115,6 +115,7 @@ export default {
     //加载处理面包屑
     loadHeader() {
       let arr = [];
+       console.log(this.setting)
       this.setting.forEach((item, index) => {
         arr.push(item.name)
       });

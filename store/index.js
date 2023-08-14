@@ -13,7 +13,7 @@ const store = new Vuex.Store({
 			state.setting.push(data)
 		},
 		setSetting (state,data) {
-			state.setting = data;
+			Vue.set(state, 'setting', data);
 		}
 	}
 })
