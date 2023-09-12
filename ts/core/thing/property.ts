@@ -1,6 +1,4 @@
-//@ts-nocheck
-import {kernelApi as kernel} from '../../../common/app';
-import { schema, model } from '../../base';
+import { schema, model, kernel } from '../../base';
 import { IDirectory } from './directory';
 import { FileInfo, IFileInfo } from './fileinfo';
 export interface IProperty extends IFileInfo<schema.XProperty> {
@@ -77,5 +75,21 @@ export class Property extends FileInfo<schema.XProperty> implements IProperty {
       return res.success;
     }
     return false;
+  }
+  async loadContent(reload: boolean = false): Promise<boolean> {
+    await this.loadAttributes(reload);
+    return true;
+  }
+  async loadAttributes(reload: boolean = false): Promise<schema.XAttribute[]> {
+    if (!this._attributeLoaded || reload) {
+      const res = await kernel.queryPropAttributes({
+        id: this.id,
+      });
+      if (res.success) {
+        this._attributeLoaded = true;
+        this.attributes = res.data.result || [];
+      }
+    }
+    return this.attributes;
   }
 }

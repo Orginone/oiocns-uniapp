@@ -1,10 +1,17 @@
 module.exports = {
-    configureWebpack: {
-      resolve: {
-        alias: {
-          '@': '@/'
-        }
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'https://orginone.cn/',
+        changeOrigin: true
+      }
+    }
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@': '@/'
       }
     }
   }
-  
+}

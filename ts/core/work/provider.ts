@@ -1,149 +1,138 @@
-// @ts-nocheck
-import {kernelApi as kernel} from '../../../common/app';
-import { common,schema  } from '../../base';
-import { PageAll } from '../public/consts';
-import { SpeciesType, TaskStatus } from '../public/enums';
-import { IPerson } from '../target/person';
-import { IApplication } from '../thing/app/application';
-import { IWorkDefine } from '../thing/base/work';
-// 历史任务存储集合名称
-const hisWorkCollName = 'work-task';
+import { common, kernel, model, schema } from '../../base';
+import { PageAll, storeCollName } from '../public/consts';
+import { TaskStatus } from '../public/enums';
+import { UserProvider } from '../user';
+import { IWorkTask, WorkTask } from './task';
 export interface IWorkProvider {
+  /** 用户ID */
+  userId: string;
   /** 当前用户 */
-  user: IPerson;
+  user: UserProvider;
   /** 待办 */
-  todos: schema.XWorkTask[];
+  todos: IWorkTask[];
   /** 变更通知 */
   notity: common.Emitter;
   /** 加载待办任务 */
-  loadTodos(reload?: boolean): Promise<schema.XWorkTask[]>;
+  loadTodos(reload?: boolean): Promise<IWorkTask[]>;
+  /** 加载已办任务 */
+  loadDones(req: model.IdPageModel): Promise<model.PageResult<IWorkTask>>;
+  /** 加载我发起的办事任务 */
+  loadApply(req: model.IdPageModel): Promise<model.PageResult<IWorkTask>>;
   /** 任务更新 */
   updateTask(task: schema.XWorkTask): void;
-  /** 任务审批 */
-  approvalTask(
-    tasks: schema.XWorkTask[],
-    status: number,
-    comment?: string,
-    data?: string,
-  ): Promise<void>;
-  /** 查询任务明细 */
-  loadTaskDetail(task: schema.XWorkTask): Promise<schema.XWorkInstance | undefined>;
-  /** 查询流程定义 */
-  findFlowDefine(defineId: string): Promise<IWorkDefine | undefined>;
-  /** 删除办事实例 */
-  deleteInstance(id: string): Promise<boolean>;
-  /** 根据字典id查询字典项 */
-  loadItems(id: string): Promise<schema.XDictItem[]>;
+  /** 根据表单id查询表单特性 */
+  loadAttributes(id: string, belongId: string): Promise<schema.XAttribute[]>;
+  /** 根据分类id查询分类项 */
+  loadItems(id: string): Promise<schema.XSpeciesItem[]>;
+  /** 加载实例详情 */
+  loadInstanceDetail(
+    id: string,
+    belongId: string,
+  ): Promise<schema.XWorkInstance | undefined>;
 }
 
 export class WorkProvider implements IWorkProvider {
-  constructor(_user: IPerson) {
+  constructor(_user: UserProvider) {
     this.user = _user;
+    this.userId = _user.user!.id;
     this.notity = new common.Emitter();
-    // kernel.on('RecvTask', (data: schema.XWorkTask) => {
-    //   if (this._todoLoaded) {
-    //     this.updateTask(data);
-    //   }
-    // });
+    kernel.on('RecvTask', (data: schema.XWorkTask) => {
+      if (this._todoLoaded) {
+        this.updateTask(data);
+      }
+    });
   }
-  user: IPerson;
+  userId: string;
+  user: UserProvider;
   notity: common.Emitter;
-  todos: schema.XWorkTask[] = [];
+  todos: IWorkTask[] = [];
   private _todoLoaded: boolean = false;
   updateTask(task: schema.XWorkTask): void {
-    const index = this.todos.findIndex((i) => i.id === task.id);
+    const index = this.todos.findIndex((i) => i.metadata.id === task.id);
     if (task.status < TaskStatus.ApprovalStart) {
       if (index < 0) {
-        this.todos.unshift(task);
+        this.todos.unshift(new WorkTask(task, this.user));
       } else {
-        this.todos[index] = task;
+        this.todos[index].updated(task);
       }
     } else if (index > -1) {
       this.todos.splice(index, 1);
     }
     this.notity.changCallback();
   }
-  async loadTodos(reload?: boolean): Promise<schema.XWorkTask[]> {
+  async loadTodos(reload?: boolean): Promise<IWorkTask[]> {
     if (!this._todoLoaded || reload) {
-      let res = await kernel.queryApproveTask({ id: '0', page: PageAll });
+      let res = await kernel.queryApproveTask({ id: '0' });
       if (res.success) {
         this._todoLoaded = true;
-        this.todos = res.data.result || [];
+        this.todos = (res.data.result || []).map((task) => new WorkTask(task, this.user));
         this.notity.changCallback();
       }
     }
     return this.todos;
   }
-  async approvalTask(
-    tasks: schema.XWorkTask[],
-    status: number,
-    comment: string,
-    data: any,
-  ): Promise<void> {
-    for (const task of tasks) {
-      if (task.status < TaskStatus.ApprovalStart) {
-        if (status === -1) {
-          await kernel.recallWorkInstance({
-            id: task.id,
-            page: PageAll,
-          });
-        } else {
-          const res = await kernel.approvalTask({
-            id: task.id,
-            status: status,
-            comment: comment,
-            data: data,
-          });
-          if (res.data && status < TaskStatus.RefuseStart && task.taskType == '加用户') {
-            let targets = <Array<schema.XTarget>>JSON.parse(task.content);
-            if (targets.length == 2) {
-              for (const item of this.user.targets) {
-                if (item.id === targets[1].id) {
-                  item.pullMembers([targets[0]]);
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+  async loadDones(req: model.IdPageModel): Promise<model.PageResult<IWorkTask>> {
+    const res = await kernel.collectionPageRequest<schema.XWorkTask>(
+      this.userId,
+      storeCollName.WorkTask,
+      {
+        match: {
+          belongId: req.id,
+          status: {
+            _gte_: 100,
+          },
+          records: {
+            _exists_: true,
+          },
+        },
+        sort: {
+          createTime: -1,
+        },
+      },
+      req.page || PageAll,
+    );
+    return {
+      ...res.data,
+      result: (res.data.result || [])
+        .filter((i) => i.records && i.records.length > 0)
+        .map((i) => new WorkTask(i, this.user)),
+    };
   }
-  async loadTaskDetail(
-    task: schema.XWorkTask,
-  ): Promise<schema.XWorkInstance | undefined> {
-    const res = await kernel.queryWorkInstanceById({
-      id: task.instanceId,
-      page: PageAll,
-    });
-    return res.data;
-  }
-  async findFlowDefine(defineId: string): Promise<IWorkDefine | undefined> {
-    for (const target of this.user.targets) {
-      for (const species of target.species) {
-        const defines: IWorkDefine[] = [];
-        switch (species.typeName) {
-          case SpeciesType.Market:
-          case SpeciesType.Application:
-            defines.push(...(await (species as IApplication).loadWorkDefines()));
-            break;
-        }
-        for (const define of defines) {
-          if (define.id === defineId) {
-            return define;
-          }
-        }
-      }
-    }
-  }
-  async deleteInstance(id: string): Promise<boolean> {
-    const res = await kernel.recallWorkInstance({ id, page: PageAll });
-    return res.success;
+  async loadApply(req: model.IdPageModel): Promise<model.PageResult<IWorkTask>> {
+    const res = await kernel.collectionPageRequest<schema.XWorkTask>(
+      this.userId,
+      storeCollName.WorkTask,
+      {
+        match: {
+          belongId: req.id,
+          createUser: this.userId,
+          nodeId: {
+            _exists_: false,
+          },
+        },
+        sort: {
+          createTime: -1,
+        },
+      },
+      req.page || PageAll,
+    );
+    return {
+      ...res.data,
+      result: (res.data.result || []).map((task) => new WorkTask(task, this.user)),
+    };
   }
   async loadAttributes(id: string, belongId: string): Promise<schema.XAttribute[]> {
+    const res = await kernel.queryFormAttributes({
+      id: id,
+      subId: belongId,
+    });
+    if (res.success) {
+      return res.data.result || [];
+    }
     return [];
   }
-  async loadItems(id: string): Promise<any> {
-    const res = await kernel.queryDictItems({
+  async loadItems(id: string): Promise<schema.XSpeciesItem[]> {
+    const res = await kernel.querySpeciesItems({
       id: id,
       page: PageAll,
     });
@@ -151,5 +140,25 @@ export class WorkProvider implements IWorkProvider {
       return res.data.result || [];
     }
     return [];
+  }
+  async loadInstanceDetail(
+    id: string,
+    belongId: string,
+  ): Promise<schema.XWorkInstance | undefined> {
+    const res = await kernel.collectionAggregate(belongId, storeCollName.WorkInstance, {
+      match: {
+        id: id,
+      },
+      limit: 1,
+      lookup: {
+        from: storeCollName.WorkTask,
+        localField: 'id',
+        foreignField: 'instanceId',
+        as: 'tasks',
+      },
+    });
+    if (res.data && res.data.length > 0) {
+      return res.data[0];
+    }
   }
 }

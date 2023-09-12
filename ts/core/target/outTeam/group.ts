@@ -1,5 +1,4 @@
-import {kernelApi as kernel} from '../../../../common/app';
-import { model, schema } from '../../../../ts/base';
+import { kernel, model, schema } from '@/ts/base';
 import { ITarget, Target } from '../base/target';
 import { PageAll, companyTypes } from '../../public/consts';
 import { TargetType } from '../../public/enums';
@@ -98,11 +97,16 @@ export class Group extends Target implements IGroup {
     return targets;
   }
   async deepLoad(reload: boolean = false): Promise<void> {
-    await this.loadChildren(reload);
-    await this.loadMembers(reload);
-    for (const group of this.children) {
-      await group.deepLoad(reload);
-    }
+    await Promise.all([
+      await this.directory.loadSubDirectory(),
+      await this.loadChildren(reload),
+      await this.loadMembers(reload),
+    ]);
+    await Promise.all(
+      this.children.map(async (group) => {
+        await group.deepLoad(reload);
+      }),
+    );
   }
   override operates(): model.OperateModel[] {
     const operates = super.operates();

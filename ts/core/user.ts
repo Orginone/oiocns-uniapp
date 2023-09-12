@@ -1,6 +1,5 @@
-import {kernelApi as kernel} from '../../common/app';
 import { IPerson, Person } from './target/person';
-import { common, model, schema } from '../base';
+import { common, kernel, model, schema } from '../base';
 import { IChatProvider, ChatProvider } from './chat/provider';
 import { IWorkProvider, WorkProvider } from './work/provider';
 import { OperateType } from './public/enums';
@@ -10,7 +9,7 @@ import { IIdentity, Identity } from './target/identity/identity';
 import { IStation } from './target/innerTeam/station';
 import { ITeam } from './target/base/team';
 import { ITarget } from './target/base/target';
-const sessionUserName = 'currentUser';
+const sessionUserName = 'sessionUser';
 
 /** 当前用户提供层 */
 export class UserProvider {
@@ -22,13 +21,20 @@ export class UserProvider {
   constructor(emiter: common.Emitter) {
     this._emiter = emiter;
 
-    let timeIndex = setInterval(() => {
-      const userJson = uni.getStorageSync(sessionUserName);
-      if (userJson) {
-        clearInterval(timeIndex);
-        this._loadUser(userJson);  // 使用箭头函数绑定this
-      }
-    },100);
+    const userJson = uni.getStorageSync(sessionUserName);
+    if (userJson && userJson.length > 0) {
+      this._loadUser(JSON.parse(userJson));
+    }
+    // kernel.on('RecvTarget', (data) => {
+    //   if (this._inited) {
+    //     this._updateTarget(data);
+    //   }
+    // });
+    // kernel.on('RecvIdentity', (data) => {
+    //   if (this._inited) {
+    //     this._updateIdentity(data);
+    //   }
+    // });
   }
   /** 当前用户 */
   get user(): IPerson | undefined {
@@ -57,26 +63,60 @@ export class UserProvider {
     }
     return targets;
   }
+  /**
+   * 登录
+   * @param account 账户
+   * @param password 密码
+   */
+  public async login(account: string, password: string): Promise<model.ResultType<any>> {
+    let res = await kernel.login(account, password);
+    console.log('res',res);
+    if (res.success) {
+      await this._loadUser(res.data.target);
+    }
+    return res;
+  }
+  /**
+   * 注册用户
+   * @param {RegisterType} params 参数
+   */
+  public async register(params: model.RegisterType): Promise<model.ResultType<any>> {
+    let res = await kernel.register(params);
+    if (res.success) {
+      await this._loadUser(res.data.target);
+    }
+    return res;
+  }
+  /**
+   * 变更密码
+   * @param account 账号
+   * @param password 密码
+   * @param privateKey 私钥
+   * @returns
+   */
+  public async resetPassword(
+    account: string,
+    password: string,
+    privateKey: string,
+  ): Promise<model.ResultType<any>> {
+    return await kernel.resetPassword(account, password, privateKey);
+  }
   /** 加载用户 */
   private _loadUser(person: schema.XTarget) {
     uni.setStorageSync(sessionUserName, JSON.stringify(person));
     this._user = new Person(person);
-    this._chat = new ChatProvider(this._user);
-    this._work = new WorkProvider(this._user);
+    this._chat = new ChatProvider(this._user!);
+    this._work = new WorkProvider(this);
     this.refresh();
-  }
-  /** 更新用户 */
-  public update(person: schema.XTarget) {
-    uni.setStorageSync(sessionUserName, JSON.stringify(person));
   }
   /** 重载数据 */
   public async refresh(): Promise<void> {
     this._inited = false;
-    // this._chat?.PreMessage();
+    this._chat?.PreMessage();
     await this._user?.deepLoad(true);
     await this.work?.loadTodos(true);
     this._inited = true;
-    // this._chat?.loadPreMessage();
+    this._chat?.loadPreMessage();
     this._emiter.changCallback();
   }
   /** 接受组织变更 */

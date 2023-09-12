@@ -1,23 +1,28 @@
-import {kernelApi as kernel} from '../../../../common/app';
-import { schema, model } from '../../../base';
+import { schema, kernel, model } from '../../../base';
 import { PageAll } from '../../public/consts';
 import { TargetType } from '../../public/enums';
 import { IAuthority, Authority } from '../authority/authority';
 import { Cohort, ICohort } from '../outTeam/cohort';
 import { IPerson } from '../person';
 import { ITarget, Target } from './target';
+import { IChatMessage, ChatMessage } from '../../chat/message/chatmsg';
+import { IMsgChat, PersonMsgChat } from '../../chat/message/msgchat';
 import { targetOperates } from '../../public';
 
 /** 自归属用户接口类 */
 export interface IBelong extends ITarget {
   /** 当前用户 */
   user: IPerson;
+  /** 归属的消息 */
+  message: IChatMessage;
   /** 超管权限，权限为树结构 */
   superAuth: IAuthority | undefined;
   /** 加入/管理的群 */
   cohorts: ICohort[];
   /** 上级用户 */
   parentTarget: ITarget[];
+  /** 群会话 */
+  cohortChats: IMsgChat[];
   /** 共享组织 */
   shareTarget: ITarget[];
   /** 加载群 */
@@ -40,9 +45,11 @@ export abstract class Belong extends Target implements IBelong {
   ) {
     super(_metadata, _labels, undefined, _memberTypes);
     this.user = _user || (this as unknown as IPerson);
+    this.message = new ChatMessage(this);
   }
   user: IPerson;
   cohorts: ICohort[] = [];
+  message: IChatMessage;
   superAuth: IAuthority | undefined;
   async loadSuperAuth(reload: boolean = false): Promise<IAuthority | undefined> {
     if (!this.superAuth || reload) {
@@ -72,6 +79,21 @@ export abstract class Belong extends Target implements IBelong {
       return cohort;
     }
   }
+  override loadMemberChats(_newMembers: schema.XTarget[], _isAdd: boolean): void {
+    _newMembers = _newMembers.filter((i) => i.id != this.userId);
+    if (_isAdd) {
+      const labels = this.id === this.user.id ? ['好友'] : [this.name, '同事'];
+      _newMembers.forEach((i) => {
+        if (!this.memberChats.some((a) => a.id === i.id)) {
+          this.memberChats.push(new PersonMsgChat(i, labels, this));
+        }
+      });
+    } else {
+      this.memberChats = this.memberChats.filter((i) =>
+        _newMembers.every((a) => a.id != i.chatId),
+      );
+    }
+  }
   async loadContent(reload: boolean = false): Promise<boolean> {
     await super.loadContent(reload);
     await this.loadSuperAuth(reload);
@@ -85,6 +107,7 @@ export abstract class Belong extends Target implements IBelong {
     return operates;
   }
   abstract get shareTarget(): ITarget[];
+  abstract cohortChats: IMsgChat[];
   abstract get parentTarget(): ITarget[];
   abstract applyJoin(members: schema.XTarget[]): Promise<boolean>;
   abstract loadCohorts(reload?: boolean | undefined): Promise<ICohort[]>;

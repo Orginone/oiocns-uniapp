@@ -59,6 +59,7 @@ const buildDirectoryTree = (directorys: IDirectory[]): MenuItemType[] => {
 
 /** 获取个人菜单 */
 const getUserMenu = () => {
+  console.log('orgCtrl',orgCtrl);
   return createMenu(orgCtrl.user, [
     ...buildDirectoryTree(orgCtrl.user.directory.children),
     ...orgCtrl.user.cohorts.map((i) =>

@@ -1,5 +1,4 @@
-import { kernelApi as kernel} from '../../../../common/app';
-import { model, schema } from '../../../base';
+import { kernel, model, schema } from '../../../base';
 import { IMsgChat, IMsgChatT, MsgChat } from '../../chat/message/msgchat';
 import { IDirectory } from '../../thing/directory';
 import { IBelong } from '../base/belong';
@@ -126,9 +125,11 @@ export class Authority extends MsgChat<schema.XAuthority> implements IAuthority 
   }
   async deepLoad(reload: boolean = false): Promise<void> {
     await this.loadMembers(reload);
-    for (const item of this.children) {
-      await item.deepLoad(reload);
-    }
+    await Promise.all(
+      this.children.map(async (item) => {
+        await item.deepLoad(reload);
+      }),
+    );
   }
   get chats(): IMsgChat[] {
     const chats: IMsgChat[] = [this];

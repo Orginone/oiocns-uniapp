@@ -19,13 +19,11 @@
       ></showBox>
     </view>
     <group v-if="showType == '群动态'"></group>
-    <yuanyi v-if="showType == '首页'"></yuanyi>
   </view>
 </template>
 
 <script>
 import group from "./pages/group.vue";
-import yuanyi from "./pages/yuanyi.vue";
 export default {
   data() {
     return {
@@ -38,21 +36,19 @@ export default {
       tabnav: [],
       showTag: false, //显示tag
       org_tag: {},
-      showType: "群动态",
     };
   },
   components: {
     group,
-    yuanyi,
   },
   onShow() {
     this.org_tag = uni.getStorageSync("org_tag");
     if (this.org_tag?.main) {
       this.tabnav = this.org_tag.main.select;
+      this.showTag = true;
     } else {
       this.setOrgTag();
     }
-    this.showTag = true;
   },
   async onLoad(options) {
     this.userInfo = uni.getStorageSync("currentUser");
@@ -85,7 +81,9 @@ export default {
           unSelect: [],
         },
       };
+      this.tabnav = obj.main.select;
       uni.setStorageSync("org_tag", obj);
+      this.showTag = true;
     },
     childShow() {
       this.showPop = false;

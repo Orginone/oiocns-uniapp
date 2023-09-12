@@ -58,7 +58,7 @@
 <script>
 import orgCtrl from '@/ts/controller';
 import { TargetType, companyTypes } from '@/ts/core';
-import { kernelApi } from "common/app";
+// import { kernelApi } from "common/app";
 export default {
   name: "popBox",
   props: {

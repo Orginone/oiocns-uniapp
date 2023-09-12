@@ -138,7 +138,6 @@ export default {
     async loadAppList() {
       let res = await config.loadSettingMenu();
       this.userInfo = uni.getStorageSync("currentUser")
-      console.log(this.userInfo);
       this.belongId = res.children[0].item.belongId;
       this.belongName = res.children[0].label;
     },

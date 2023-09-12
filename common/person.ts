@@ -1,10 +1,10 @@
 import { OperateType, TargetType } from "./enums";
-import { kernelApi } from "./app";
+import { kernel } from "../ts/base";
 import { PageAll } from "./consts";
 
 //获取组织单位列表
 const loadCohorts = async (data: any) => {
-  return await kernelApi.queryJoinedTargetById({
+  return await kernel.queryJoinedTargetById({
     id: data,
     typeNames: [TargetType.Company, TargetType.Hospital, TargetType.University],
     page: PageAll,
@@ -13,7 +13,7 @@ const loadCohorts = async (data: any) => {
 
 //我发起的
 const MyInfo = async (data: any) => {
-  return await kernelApi.queryMyApply({
+  return await kernel.queryMyApply({
     id: data,
     page: PageAll,
   });
@@ -21,7 +21,7 @@ const MyInfo = async (data: any) => {
 
 //待办事项
 const WaitInfo = async (data: any) => {
-  return await kernelApi.queryApproveTask({
+  return await kernel.queryApproveTask({
     id: data,
     // page: PageAll,
   });
@@ -29,7 +29,7 @@ const WaitInfo = async (data: any) => {
 
 //已办事项
 const DoneInfo = async (data: any) => {
-  return await kernelApi.queryWorkRecord({
+  return await kernel.queryWorkRecord({
     id: data,
     page: PageAll,
   });
@@ -37,7 +37,7 @@ const DoneInfo = async (data: any) => {
 
 //树
 const loadSpecies = async (data: any) => {
-  return await kernelApi.querySpecies({
+  return await kernel.querySpecies({
     id: data,
     page: PageAll,
   });
@@ -45,14 +45,14 @@ const loadSpecies = async (data: any) => {
 
 //办事节点
 const loadWorkNode = async (data: any) => {
-  return await kernelApi.queryWorkNodes({
+  return await kernel.queryWorkNodes({
     id: data.belongId,
   });
 };
 
 //加载办事
 const loadWorkDefines = async (data: any) => {
-  return await kernelApi.queryWorkDefine({
+  return await kernel.queryWorkDefine({
     id: data.id,
     page: PageAll,
   });

@@ -1,5 +1,4 @@
-import { kernelApi as kernel} from '../../../../common/app';
-import { model, schema } from '../../../base';
+import { kernel, model, schema } from '../../../base';
 import {
   Entity,
   IEntity,
@@ -154,17 +153,17 @@ export class Identity extends Entity<schema.XIdentity> implements IIdentity {
     operate: OperateType,
     subTarget?: schema.XTarget,
   ): Promise<void> {
-    // await kernel.createIdentityMsg({
-    //   stationId: '0',
-    //   identityId: this.id,
-    //   excludeOperater: false,
-    //   group: this.current.typeName == TargetType.Group,
-    //   data: JSON.stringify({
-    //     operate,
-    //     subTarget,
-    //     identity: this.metadata,
-    //     operater: this.current.space.user.metadata,
-    //   }),
-    // });
+    await kernel.createIdentityMsg({
+      stationId: '0',
+      identityId: this.id,
+      excludeOperater: false,
+      group: this.current.typeName == TargetType.Group,
+      data: JSON.stringify({
+        operate,
+        subTarget,
+        identity: this.metadata,
+        operater: this.current.space.user.metadata,
+      }),
+    });
   }
 }

@@ -73,6 +73,12 @@ export const directoryOperates = {
     label: '刷新目录',
     iconType: 'refresh',
   },
+  OpenFolderWithEditor: {
+    sort: 10,
+    cmd: 'openFolderWithEditor',
+    label: '打开项目',
+    iconType: 'open',
+  },
   NewFile: {
     sort: 5,
     cmd: 'newFile',
@@ -145,6 +151,48 @@ export const directoryOperates = {
     label: '新建事项配置',
     iconType: '事项配置',
   },
+  NewReport: {
+    sort: 7,
+    cmd: 'newReport',
+    label: '新建报表',
+    iconType: 'newDir',
+  },
+  NewRequest: {
+    sort: 10,
+    cmd: 'newRequest',
+    label: '新建请求配置',
+    iconType: '请求配置',
+  },
+  BatchRequest: {
+    sort: 10,
+    cmd: 'batchRequest',
+    label: '批量请求配置',
+    iconType: '批量请求配置',
+  },
+  NewLink: {
+    sort: 11,
+    cmd: 'newLink',
+    label: '新建链接配置',
+    iconType: '链接配置',
+  },
+  NewMapping: {
+    sort: 12,
+    cmd: 'newMapping',
+    label: '新建映射配置',
+    iconType: '映射配置',
+  },
+  NewExecutable: {
+    sort: 13,
+    cmd: 'newExecutable',
+    label: '新建脚本配置',
+    iconType: '脚本配置',
+  },
+  NewEnvironment: {
+    sort: 14,
+    cmd: 'newEnvironment',
+    label: '新建环境配置',
+    iconType: '环境配置',
+  },
 };
 
 /** 目录下新增 */
@@ -162,6 +210,23 @@ export const directoryNew = {
     directoryOperates.NewApp,
     directoryOperates.NewThingConfig,
     directoryOperates.NewWorkConfig,
+    directoryOperates.NewReport,
+  ],
+};
+
+/** 数据迁移 */
+export const transferNew = {
+  sort: 1,
+  cmd: 'transfer',
+  label: '迁移配置',
+  iconType: 'new',
+  menus: [
+    directoryOperates.NewRequest,
+    directoryOperates.BatchRequest,
+    directoryOperates.NewLink,
+    directoryOperates.NewMapping,
+    directoryOperates.NewExecutable,
+    directoryOperates.NewEnvironment
   ],
 };
 

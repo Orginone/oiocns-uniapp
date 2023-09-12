@@ -1,5 +1,4 @@
-import {kernelApi as kernel} from '../../../../common/app';
-import { model, schema } from '../../../../ts/base';
+import { kernel, model, schema } from '@/ts/base';
 import { ITarget, Target } from '../base/target';
 import { ICompany } from '../team/company';
 import { TargetType } from '../../public/enums';
@@ -135,11 +134,16 @@ export class Department extends Target implements IDepartment {
     return targets;
   }
   async deepLoad(reload: boolean = false): Promise<void> {
-    await this.loadChildren(reload);
-    await this.loadMembers(reload);
-    for (const department of this.children) {
-      await department.deepLoad(reload);
-    }
+    await Promise.all([
+      await this.directory.loadSubDirectory(),
+      await this.loadChildren(reload),
+      await this.loadMembers(reload),
+    ]);
+    await Promise.all(
+      this.children.map(async (department) => {
+        await department.deepLoad(reload);
+      }),
+    );
   }
   override operates(): model.OperateModel[] {
     const operates = super.operates();

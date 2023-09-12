@@ -1,5 +1,5 @@
-import { IPerson, ITarget, UserProvider } from '../../ts/core';
-import * as common from '../base/common';
+import { IPerson, ITarget, UserProvider } from '@/ts/core';
+import { common } from '@/ts/base';
 import { IWorkProvider } from '../core/work/provider';
 import { IChatProvider } from '../core/chat/provider';
 

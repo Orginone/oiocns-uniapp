@@ -1,6 +1,4 @@
-// @ts-nocheck
-import {kernelApi as kernel} from '../../../common/app';
-import { model, schema } from '../../base';
+import { kernel, model, schema } from '../../base';
 import { PageAll } from '../public';
 import { IDirectory } from './directory';
 import { FileInfo, IFileInfo } from './fileinfo';

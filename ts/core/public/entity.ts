@@ -1,10 +1,11 @@
-import { Emitter } from '../../../ts/base/common';
+import { Emitter } from '@/ts/base/common';
 import { schema, model, parseAvatar } from '../../base';
 import { generateUuid } from '../../base/common/uuid';
 import { entityOperates } from './operates';
 
 /** 共享信息数据集 */
 export const ShareIdSet = new Map<string, any>();
+export const ShareSet = new Map<string, IEntity<schema.XEntity>>(); 
 
 /** 实体类接口 */
 export interface IEntity<T> extends Emitter {
@@ -51,6 +52,7 @@ export abstract class Entity<T extends schema.XEntity>
     this.key = generateUuid();
     this._metadata = _metadata;
     ShareIdSet.set(_metadata.id, _metadata);
+    ShareSet.set(_metadata.id, this);
   }
   _metadata: T;
   key: string;

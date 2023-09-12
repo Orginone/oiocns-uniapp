@@ -30,8 +30,8 @@ import {
   loadWorkNode,
   loadWorkDefines,
 } from "common/person";
+import { kernel } from '@/ts/base'
 import { loadApply } from "common/provider";
-import { anyStoreApi } from "../../../common/app";
 
 export default {
   data() {
@@ -64,7 +64,7 @@ export default {
       const hisWorkCollName = "work-task";
       console.log("data", data);
       if (infoType == "Done") {
-        return await anyStoreApi.aggregate(data.id, hisWorkCollName, {
+        return await kernel.aggregate(data.id, hisWorkCollName, {
           match: {
             belongId: data.belongId,
             status: { _gte_: 100 },
@@ -77,7 +77,7 @@ export default {
           limit: 20,
         });
       } else if (infoType == "myInfo") {
-        return await anyStoreApi.aggregate(data.id, hisWorkCollName, {
+        return await kernel.aggregate(data.id, hisWorkCollName, {
           match: {
             belongId: data.belongId,
             createUser: data.belongId,

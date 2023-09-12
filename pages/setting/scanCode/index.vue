@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { kernelApi } from "common/app";
+// import { kernelApi } from "common/app";
 
 export default {
   data() {

@@ -1,5 +1,4 @@
-import {kernelApi as kernel} from '../../../common/app';
-import { model, parseAvatar, schema } from '../../../ts/base';
+import { kernel, model, parseAvatar, schema } from '@/ts/base';
 import { IBelong, Belong } from './base/belong';
 import { ICohort, Cohort } from './outTeam/cohort';
 import { createCompany } from './team';
@@ -80,7 +79,7 @@ export class Person extends Belong implements IPerson {
       });
       if (res.success) {
         this._cohortLoaded = true;
-        this.cohorts = (res.data.result || []).map((i:any) => new Cohort(i, this));
+        this.cohorts = (res.data.result || []).map((i) => new Cohort(i, this));
       }
     }
     return this.cohorts;
@@ -94,7 +93,7 @@ export class Person extends Belong implements IPerson {
       });
       if (res.success) {
         this._companyLoaded = true;
-        this.companys = (res.data.result || []).map((i:any) => createCompany(i, this));
+        this.companys = (res.data.result || []).map((i) => createCompany(i, this));
       }
     }
     return this.companys;
@@ -131,6 +130,9 @@ export class Person extends Belong implements IPerson {
         .filter((i) => authIds.includes(i.identity!.authId)).length > 0
     );
   }
+  async pullMembers(members: schema.XTarget[]): Promise<boolean> {
+    return await this.applyJoin(members);
+  }
   async applyJoin(members: schema.XTarget[]): Promise<boolean> {
     members = members.filter(
       (i) =>
@@ -140,7 +142,7 @@ export class Person extends Belong implements IPerson {
     );
     for (const member of members) {
       if (member.typeName === TargetType.Person) {
-        await this.pullMembers([member]);
+        await super.pullMembers([member]);
       }
       await kernel.applyJoinTeam({
         id: member.id,
@@ -164,6 +166,7 @@ export class Person extends Belong implements IPerson {
     return false;
   }
   override async delete(): Promise<boolean> {
+    await this.createTargetMsg(OperateType.Remove, this.metadata);
     const res = await kernel.deleteTarget({
       id: this.id,
     });
@@ -210,17 +213,24 @@ export class Person extends Belong implements IPerson {
     return targets;
   }
   async deepLoad(reload: boolean = false): Promise<void> {
-    await this.loadGivedIdentitys(reload);
-    await this.loadCompanys(reload);
-    await this.loadCohorts(reload);
-    await this.loadMembers(reload);
-    await this.loadSuperAuth(reload);
-    for (const company of this.companys) {
-      await company.deepLoad(reload);
-    }
-    for (const cohort of this.cohorts) {
-      await cohort.deepLoad(reload);
-    }
+    await Promise.all([
+      await this.loadGivedIdentitys(reload),
+      await this.directory.loadSubDirectory(),
+      await this.loadCompanys(reload),
+      await this.loadCohorts(reload),
+      await this.loadMembers(reload),
+      await this.loadSuperAuth(reload),
+    ]);
+    await Promise.all(
+      this.companys.map(async (company) => {
+        await company.deepLoad(reload);
+      }),
+    );
+    await Promise.all(
+      this.cohorts.map(async (cohort) => {
+        await cohort.deepLoad(reload);
+      }),
+    );
     this.superAuth?.deepLoad(reload);
   }
   async teamChangedNotity(target: schema.XTarget): Promise<boolean> {
@@ -263,19 +273,8 @@ export class Person extends Belong implements IPerson {
   }
   findShareById(id: string): model.ShareIcon {
     const metadata = this.findMetadata<schema.XEntity>(id);
-    if (!metadata) {
-      kernel
-        .queryTargetById({
-          ids: [id],
-          page: PageAll,
-        })
-        .then((res) => {
-          if (res.success && res.data.result) {
-            res.data.result.forEach((item) => {
-              this.updateMetadata(item);
-            });
-          }
-        });
+    if (metadata === undefined) {
+      this.findEntityAsync(id);
     }
     return {
       name: metadata?.name ?? '请稍后...',

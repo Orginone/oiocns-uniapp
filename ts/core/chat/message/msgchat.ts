@@ -1,10 +1,8 @@
-// @ts-nocheck
-import {kernelApi as kernel} from '../../../../common/app';
-import { model, common, schema, List } from '../../../base';
+import { model, common, schema, kernel, List } from '../../../base';
 import { IBelong } from '../../target/base/belong';
 import { IMessage, Message } from './message';
 import { IEntity, Entity, MessageType, TargetType, storeCollName } from '../../public';
-import { XTarget } from '../../../../ts/base/schema';
+import { XTarget } from '@/ts/base/schema';
 import { IDirectory } from '../../thing/directory';
 // 空时间
 const nullTime = new Date('2022-07-01').getTime();
@@ -121,8 +119,8 @@ export abstract class MsgChat<T extends schema.XEntity>
     this.findMe = _isFindMe;
     this.chatdata = {
       noReadCount: 0,
-      isToping: false,
       labels: _labels,
+      isToping: _labels.includes('置顶'),
       chatRemark: _metadata.remark,
       chatName: _metadata.name,
       lastMsgTime: nullTime,
@@ -192,22 +190,32 @@ export abstract class MsgChat<T extends schema.XEntity>
     });
   }
   cache(): void {
-    // this.chatdata.labels = this.labels.ToArray();
-    // kernel.anystore.set(
-    //   this.userId,
-    //   storeCollName.ChatMessage + '.T' + this.chatdata.fullId,
-    //   {
-    //     operation: 'replaceAll',
-    //     data: this.chatdata,
-    //   },
-    // );
+    this.chatdata.labels = this.labels.ToArray();
+    kernel.objectSet(
+      this.userId,
+      storeCollName.ChatMessage + '.T' + this.chatdata.fullId,
+      {
+        operation: 'replaceAll',
+        data: this.chatdata,
+      },
+    );
+    if (this.chatdata.noReadCount === 0) {
+      kernel.objectSet(this.userId, storeCollName.ChatMessage + '.Changed', {
+        operation: 'replaceAll',
+        data: this.chatdata,
+      });
+    }
   }
   loadCache(cache: MsgChatData): void {
     if (this.chatdata.fullId === cache.fullId) {
       this.labels = this.labels.Union(new List<string>(cache.labels ?? []));
       this.chatdata.chatName = cache.chatName || this.chatdata.chatName;
+      this.chatdata.labels = this.labels.ToArray();
+      this.chatdata.isToping = this.chatdata.labels.includes('置顶');
       this.share.name = this.chatdata.chatName;
-      cache.noReadCount = cache.noReadCount || this.chatdata.noReadCount;
+      if (cache.noReadCount === undefined) {
+        cache.noReadCount = this.chatdata.noReadCount;
+      }
       if (this.chatdata.noReadCount != cache.noReadCount) {
         this.chatdata.noReadCount = cache.noReadCount;
         msgChatNotify.changCallback();
@@ -219,26 +227,26 @@ export abstract class MsgChat<T extends schema.XEntity>
     }
   }
   async moreMessage(): Promise<number> {
-    // const res = await kernel.anystore.aggregate(this.userId, storeCollName.ChatMessage, {
-    //   match: {
-    //     sessionId: this.chatId,
-    //     belongId: this.belongId,
-    //   },
-    //   sort: {
-    //     createTime: -1,
-    //   },
-    //   skip: this.messages.length,
-    //   limit: 30,
-    // });
-    // if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
-    //   res.data.forEach((msg) => {
-    //     this.messages.unshift(new Message(msg, this));
-    //   });
-    //   if (this.chatdata.lastMsgTime === nullTime) {
-    //     this.chatdata.lastMsgTime = new Date(res.data[0].createTime).getTime();
-    //   }
-    //   return res.data.length;
-    // }
+    const res = await kernel.collectionAggregate(this.userId, storeCollName.ChatMessage, {
+      match: {
+        sessionId: this.chatId,
+        belongId: this.belongId,
+      },
+      sort: {
+        createTime: -1,
+      },
+      skip: this.messages.length,
+      limit: 30,
+    });
+    if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+      res.data.forEach((msg) => {
+        this.messages.unshift(new Message(msg, this));
+      });
+      if (this.chatdata.lastMsgTime === nullTime) {
+        this.chatdata.lastMsgTime = new Date(res.data[0].createTime).getTime();
+      }
+      return res.data.length;
+    }
     return 0;
   }
   abstract loadMembers(reload?: boolean): Promise<schema.XTarget[]>;
@@ -255,17 +263,16 @@ export abstract class MsgChat<T extends schema.XEntity>
     //   msgType: type,
     //   toId: this.chatId,
     //   belongId: this.belongId,
-    //   msgBody: common.StringPako.deflate(
-    //     '[obj]' +
-    //       JSON.stringify({
-    //         body: text,
-    //         mentions: mentions,
-    //         cite: cite?.metadata,
-    //       }),
-    //   ),
+      // msgBody: common.StringPako.deflate(
+      //   '[obj]' +
+      //     JSON.stringify({
+      //       body: text,
+      //       mentions: mentions,
+      //       cite: cite?.metadata,
+      //     }),
+      // ),
     // });
-    // return res.success;
-    return false;
+    return true;
   }
   async recallMessage(id: string): Promise<void> {
     for (const item of this.messages) {
@@ -286,38 +293,37 @@ export abstract class MsgChat<T extends schema.XEntity>
     }
   }
   async deleteMessage(id: string): Promise<boolean> {
-    // const res = await kernel.anystore.remove(this.userId, storeCollName.ChatMessage, {
-    //   chatId: id,
-    // });
-    // if (res.success && res.data > 0) {
-    //   const index = this.messages.findIndex((i) => {
-    //     return i.id === id;
-    //   });
-    //   if (index > -1) {
-    //     this.messages.splice(index, 1);
-    //   }
-    //   this.chatdata.lastMsgTime = new Date().getTime();
-    //   this.messageNotify?.apply(this, [this.messages]);
-    //   return true;
-    // }
+    const res = await kernel.collectionRemove(this.userId, storeCollName.ChatMessage, {
+      chatId: id,
+    });
+    if (res.success && res.data > 0) {
+      const index = this.messages.findIndex((i) => {
+        return i.id === id;
+      });
+      if (index > -1) {
+        this.messages.splice(index, 1);
+      }
+      this.chatdata.lastMsgTime = new Date().getTime();
+      this.messageNotify?.apply(this, [this.messages]);
+      return true;
+    }
     return false;
   }
   async clearMessage(): Promise<boolean> {
-    // const res = await kernel.anystore.remove(this.userId, storeCollName.ChatMessage, {
-    //   sessionId: this.chatId,
-    //   belongId: this.belongId,
-    // });
-    // if (res.success) {
-    //   this.messages = [];
-    //   this.chatdata.lastMsgTime = new Date().getTime();
-    //   this.messageNotify?.apply(this, [this.messages]);
-    //   return true;
-    // }
+    const res = await kernel.collectionRemove(this.userId, storeCollName.ChatMessage, {
+      sessionId: this.chatId,
+      belongId: this.belongId,
+    });
+    if (res.success) {
+      this.messages = [];
+      this.chatdata.lastMsgTime = new Date().getTime();
+      this.messageNotify?.apply(this, [this.messages]);
+      return true;
+    }
     return false;
   }
   receiveMessage(msg: model.MsgSaveModel): void {
     const imsg = new Message(msg, this);
-    // 撤回走这里
     if (imsg.msgType === MessageType.Recall) {
       this.messages
         .find((m) => {
@@ -328,7 +334,7 @@ export abstract class MsgChat<T extends schema.XEntity>
       this.messages.push(imsg);
     }
     if (!this.messageNotify) {
-      this.chatdata.noReadCount += 1;
+      this.chatdata.noReadCount += imsg.isMySend ? 0 : 1;
       if (!this.chatdata.mentionMe) {
         this.chatdata.mentionMe = imsg.mentions.includes(this.userId);
       }

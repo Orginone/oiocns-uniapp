@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { common, model, parseAvatar } from '../../../base';
 import { MessageType, TargetType } from '../../public';
 import { IPerson } from '../../target/person';
@@ -14,12 +13,12 @@ export interface IMessageLabel {
   userId: string;
 }
 export class MessageLabel implements IMessageLabel {
-  constructor(_matedata: model.MsgTagLabel, _user: IPerson) {
+  constructor(_matedata: model.CommentType, _user: IPerson) {
     this.user = _user;
     this.metadata = _matedata;
   }
   user: IPerson;
-  metadata: model.MsgTagLabel;
+  metadata: model.CommentType;
   get label(): string {
     return this.metadata.label;
   }
@@ -98,10 +97,10 @@ export class Message implements IMessage {
     // } else {
     //   this._msgBody = txt;
     // }
-    this.metadata = _metadata;
-    _metadata.tags?.map((tag) => {
-      this.labels.push(new MessageLabel(tag, this.user));
-    });
+    // this.metadata = _metadata;
+    // _metadata.tags?.map((tag) => {
+    //   this.labels.push(new MessageLabel(tag, this.user));
+    // });
   }
   cite: IMessage | undefined;
   mentions: string[] = [];
@@ -109,7 +108,7 @@ export class Message implements IMessage {
   _chat: IMsgChat;
   // _msgBody: string;
   labels: IMessageLabel[] = [];
-  metadata: model.MsgSaveModel;
+  metadata: any;
   get id(): string {
     return this.metadata.id;
   }
@@ -182,33 +181,36 @@ export class Message implements IMessage {
   get allowEdit(): boolean {
     return this.isMySend && this.msgType === MessageType.Recall;
   }
-  get msgTitle(): string {
-    let header = ``;
-    if (this._chat.metadata.typeName != TargetType.Person) {
-      header += `${this.from.name}: `;
-    }
-    switch (this.msgType) {
-      case MessageType.Text:
-      case MessageType.Recall:
-        return `${header}${this.msgBody.substring(0, 50)}`;
-      case MessageType.Voice:
-        return `${header}[${MessageType.Voice}]`;
-    }
-    const file: model.FileItemShare = parseAvatar(this.msgBody);
-    if (file) {
-      return `${header}[${this.msgType}]:${file.name}(${common.formatSize(file.size)})`;
-    }
-    return `${header}[${this.msgType}]:解析异常`;
+  get msgTitle(): any {
+    // let header = ``;
+    // if (this._chat.metadata.typeName != TargetType.Person) {
+    //   header += `${this.from.name}: `;
+    // }
+    // switch (this.msgType) {
+      // case MessageType.Text:
+      // case MessageType.Recall:
+      //   return `${header}${this.msgBody.substring(0, 50)}`;
+      // case MessageType.Voice:
+      //   return `${header}[${MessageType.Voice}]`;
+    // }
+    // const file: model.FileItemShare = parseAvatar(this.msgBody);
+    // if (file) {
+    //   return `${header}[${this.msgType}]:${file.name}(${common.formatSize(file.size)})`;
+    // }
+    // return `${header}[${this.msgType}]:解析异常`;
+	return "";
   }
   get msgBody(): string {
-    if (this.msgType === MessageType.Recall) {
-      return (this.isMySend ? '我' : this.from.name) + '撤回了一条消息';
-    }
+    // if (this.msgType === MessageType.Recall) {
+    //   return (this.isMySend ? '我' : this.from.name) + '撤回了一条消息';
+    // }
     // return this._msgBody;
+	return "";
   }
-  // get msgSource(): string {
+  get msgSource(): string {
     // return this._msgBody;
-  // }
+	return "";
+  }
   recall(): void {
     this.metadata.msgType = MessageType.Recall;
   }

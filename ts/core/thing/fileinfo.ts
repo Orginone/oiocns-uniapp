@@ -1,7 +1,6 @@
-import {kernelApi as kernel} from '../../../common/app';
 import { encodeKey, sleep } from '../../base/common';
 import { BucketOpreates, FileItemModel } from '../../base/model';
-import { model, schema } from '../../base';
+import { model, kernel, schema } from '../../base';
 import { FileItemShare } from '../../base/model';
 import { IDirectory } from './directory';
 import { Entity, IEntity, entityOperates } from '../public';
@@ -72,7 +71,7 @@ export abstract class FileInfo<T extends schema.XEntity>
   abstract copy(destination: IDirectory): Promise<boolean>;
   abstract move(destination: IDirectory): Promise<boolean>;
   async loadContent(reload: boolean = false): Promise<boolean> {
-    return await sleep(reload ? 100 : 100);
+    return await sleep(reload ? 10 : 0);
   }
   content(_mode: number = 0): IFileInfo<schema.XEntity>[] {
     return [];
@@ -135,63 +134,64 @@ export class SysFileInfo extends FileInfo<schema.XEntity> implements ISysFileInf
       size: this.filedata.size,
       name: this.filedata.name,
       extension: this.filedata.extension,
+      contentType: this.filedata.contentType,
       shareLink:
         location.origin + '/orginone/anydata/bucket/load/' + this.filedata.shareLink,
       thumbnail: this.filedata.thumbnail,
     };
   }
   async rename(name: string): Promise<boolean> {
-    // if (this.filedata.name != name) {
-    //   const res = await kernel.anystore.bucketOpreate<FileItemModel>(this.belongId, {
-    //     name: name,
-    //     key: encodeKey(this.filedata.key),
-    //     operate: BucketOpreates.Rename,
-    //   });
-    //   if (res.success && res.data) {
-    //     this.filedata = res.data;
-    //     return true;
-    //   }
-    // }
+    if (this.filedata.name != name) {
+      const res = await kernel.bucketOpreate<FileItemModel>(this.belongId, {
+        name: name,
+        key: encodeKey(this.filedata.key),
+        operate: BucketOpreates.Rename,
+      });
+      if (res.success && res.data) {
+        this.filedata = res.data;
+        return true;
+      }
+    }
     return false;
   }
   async delete(): Promise<boolean> {
-    // const res = await kernel.anystore.bucketOpreate<FileItemModel[]>(this.belongId, {
-    //   key: encodeKey(this.filedata.key),
-    //   operate: BucketOpreates.Delete,
-    // });
-    // if (res.success) {
-    //   this.directory.files = this.directory.files.filter((i) => i.key != this.key);
-    // }
-    return true;
+    const res = await kernel.bucketOpreate<FileItemModel[]>(this.belongId, {
+      key: encodeKey(this.filedata.key),
+      operate: BucketOpreates.Delete,
+    });
+    if (res.success) {
+      this.directory.files = this.directory.files.filter((i) => i.key != this.key);
+    }
+    return res.success;
   }
   async copy(destination: IDirectory): Promise<boolean> {
-    // if (destination.id != this.directory.id) {
-    //   const res = await kernel.anystore.bucketOpreate<FileItemModel[]>(this.belongId, {
-    //     key: encodeKey(this.filedata.key),
-    //     destination: destination.id,
-    //     operate: BucketOpreates.Copy,
-    //   });
-    //   if (res.success) {
-    //     destination.files.push(this);
-    //   }
-    //   return res.success;
-    // }
+    if (destination.id != this.directory.id) {
+      const res = await kernel.bucketOpreate<FileItemModel[]>(this.belongId, {
+        key: encodeKey(this.filedata.key),
+        destination: destination.id,
+        operate: BucketOpreates.Copy,
+      });
+      if (res.success) {
+        destination.files.push(this);
+      }
+      return res.success;
+    }
     return false;
   }
   async move(destination: IDirectory): Promise<boolean> {
-    // if (destination.id != this.directory.id) {
-    //   const res = await kernel.anystore.bucketOpreate<FileItemModel[]>(this.belongId, {
-    //     key: encodeKey(this.filedata.key),
-    //     destination: destination.id,
-    //     operate: BucketOpreates.Move,
-    //   });
-    //   if (res.success) {
-    //     this.directory.files = this.directory.files.filter((i) => i.key != this.key);
-    //     this.directory = destination;
-    //     destination.files.push(this);
-    //   }
-    //   return res.success;
-    // }
+    if (destination.id != this.directory.id) {
+      const res = await kernel.bucketOpreate<FileItemModel[]>(this.belongId, {
+        key: encodeKey(this.filedata.key),
+        destination: destination.id,
+        operate: BucketOpreates.Move,
+      });
+      if (res.success) {
+        this.directory.files = this.directory.files.filter((i) => i.key != this.key);
+        this.directory = destination;
+        destination.files.push(this);
+      }
+      return res.success;
+    }
     return false;
   }
   override operates(_mode?: number): model.OperateModel[] {

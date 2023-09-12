@@ -25,9 +25,6 @@
 <script>
 import * as config from "./config/menuOperate";
 import { mapState, mapMutations } from "vuex";
-import { loadApply } from "common/provider";
-import { storage } from "common/app";
-
 export default {
   data() {
     return {
@@ -61,7 +58,7 @@ export default {
       // this.removeCircularReferences(res)
       let arr = [];
       res.children.forEach((element) => {
-        console.log("item", element?.item?.share?.avatar?.thumbnail);
+       
         let obj = {
           label: element.label,
           key: element.key,

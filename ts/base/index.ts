@@ -1,6 +1,6 @@
-// import KernelApi from './api/kernelapi';
+import KernelApi from './api/kernelapi';
 
-// export const kernel = KernelApi.getInstance();
+export const kernel = KernelApi.getInstance();
 export * as common from './common';
 export { command } from './common/command';
 export { List } from './common/linq';

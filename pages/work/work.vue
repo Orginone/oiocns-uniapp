@@ -48,7 +48,7 @@
 import { WaitInfo, loadSpecies } from "common/person";
 import * as config from "./config/menuOperate";
 import { mapState, mapMutations } from "vuex";
-import { anyStoreApi } from "../../common/app";
+// import { anyStoreApi } from "../../common/app";
 
 export default {
   data() {
