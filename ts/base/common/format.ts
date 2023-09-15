@@ -14,7 +14,7 @@ export function formatSize(size: number, unit: string = ''): string {
 }
 /** 编码路径 */
 export function encodeKey(key: string): string {
-  return btoa(unescape(encodeURIComponent(`${key}`)));
+  return base64_encode(unescape(encodeURIComponent(`${key}`)));
 }
 
 /** 将文件切片 */
@@ -37,12 +37,40 @@ export function blobToDataUrl(file: Blob): Promise<string> {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onloadend = () => {
-      resolve(btoa(reader.result as string));
+      resolve(base64_encode(reader.result as string));
     };
     reader.readAsBinaryString(file);
   });
 }
-
+function base64_encode(str:string){
+    var c1, c2, c3;
+    var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    var i = 0, len = str.length, string = '';
+  
+    while (i < len) {
+      c1 = str.charCodeAt(i++) & 0xff;
+      if (i == len) {
+        string += base64EncodeChars.charAt(c1 >> 2);
+        string += base64EncodeChars.charAt((c1 & 0x3) << 4);
+        string += "==";
+        break;
+      }
+      c2 = str.charCodeAt(i++);
+      if (i == len) {
+        string += base64EncodeChars.charAt(c1 >> 2);
+        string += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+        string += base64EncodeChars.charAt((c2 & 0xF) << 2);
+        string += "=";
+        break;
+      }
+      c3 = str.charCodeAt(i++);
+      string += base64EncodeChars.charAt(c1 >> 2);
+      string += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+      string += base64EncodeChars.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
+      string += base64EncodeChars.charAt(c3 & 0x3F)
+    }
+    return string
+}
 /** 将文件读成字节数组 */
 export function blobToNumberArray(file: Blob): Promise<number[]> {
   return new Promise((resolve) => {
@@ -80,7 +108,7 @@ export class StringPako {
    */
   public static deflate(input: string) {
     input = encodeURIComponent(input);
-    let output = btoa(this.arrToString(pako.deflate(input)));
+    let output = base64_encode(this.arrToString(pako.deflate(input)));
     return '^!:' + this.randomStr(5) + output.replaceAll('=', '*') + this.randomStr(5);
   }
   /**

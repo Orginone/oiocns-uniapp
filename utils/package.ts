@@ -23,7 +23,7 @@ export class StringPako {
    */
   public static deflate(input: string) {
     input = encodeURIComponent(input);
-    let output = btoa(this.arrToString(pako.deflate(input)));
+    let output = base64_encode(this.arrToString(pako.deflate(input)));
     return '^!:' + this.randomStr(5) + output.replaceAll('=', '*') + this.randomStr(5);
   }
   /**

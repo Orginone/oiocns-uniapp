@@ -129,11 +129,11 @@ export default {
       let that = this;
       if (arr && arr.length > 0) {
         arr.forEach(async (element) => {
-          element.directory = null;
-          element.item.directory = null;
-          element.item.space = null;
+          // element.directory = null;
+          // element.item.directory = null;
+          // element.item.space = null;
           if (element.key == key) {
-            let res = await element.item.loadFiles();
+            // let res = await element.item.loadFiles();
             // console.log("111", res)
             that.dataCompare(element, element.item.content());
             // return
@@ -168,15 +168,8 @@ export default {
       this.datalist[4].value = formData?.item?.creater.name;
       this.datalist[5].value = formData?.item?.metadata.createTime.slice(0, 10);
       this.datalist[6].value = formData?.item?.remark;
-      let arr = [];
-      list.forEach((item) => {
-        let json = {};
-        json.code = item._metadata.code;
-        json.name = item._metadata.name;
-        json.remark = item._metadata.remark;
-        arr.push(json);
-      });
-      this.formList = arr;
+      console.log('members',formData.item.target.members)
+      this.formList = formData.item.target.members;
     },
     addTeam() {
       uni.navigateTo({
