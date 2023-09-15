@@ -1,6 +1,5 @@
-import { kernel, model } from '@/ts/base';
 // import * as XLSX from 'xlsx';
-import { DataHandler, ReadConfig, RequestIndex, SheetConfig } from './types';
+import { DataHandler, ReadConfig, SheetConfig } from './types';
 
 /**
  * 生成一份 Excel 文件
@@ -35,7 +34,6 @@ const generateXlsx = (sheetConfigs: SheetConfig<any>[], filename: string) => {
   // } catch (err) {
   //   return false;
   // }
-  return false;
 };
 
 /**
@@ -70,42 +68,42 @@ const dataHandling = async <T>(
   dataHandler: DataHandler,
   readConfigs: ReadConfig<any, any, SheetConfig<any>>[],
 ) => {
-  try {
-    // 总行数
-    let totalRows = readConfigs
-      .map((item) => item.sheetConfig)
-      .map((item) => item.data.length)
-      .reduce((f, s) => f + s);
+  // try {
+  //   // 总行数
+  //   let totalRows = readConfigs
+  //     .map((item) => item.sheetConfig)
+  //     .map((item) => item.data.length)
+  //     .reduce((f, s) => f + s);
 
-    // 初始化
-    dataHandler.initialize?.apply(dataHandler, [totalRows]);
+  //   // 初始化
+  //   dataHandler.initialize?.apply(dataHandler, [totalRows]);
 
-    // 处理数据
-    for (let index = 0; index < readConfigs.length; index++) {
-      let sheetConfig = readConfigs[index].sheetConfig;
-      await operating(sheetConfig.sheetName, context, dataHandler, readConfigs);
-      if (readConfigs[index].errors.length > 0) {
-        dataHandler.onReadError?.apply(dataHandler, [readConfigs[index].errors]);
-        throw new Error();
-      }
-    }
+  //   // 处理数据
+  //   for (let index = 0; index < readConfigs.length; index++) {
+  //     let sheetConfig = readConfigs[index].sheetConfig;
+  //     await operating(sheetConfig.sheetName, context, dataHandler, readConfigs);
+  //     if (readConfigs[index].errors.length > 0) {
+  //       dataHandler.onReadError?.apply(dataHandler, [readConfigs[index].errors]);
+  //       throw new Error();
+  //     }
+  //   }
 
-    // 完成回调
-    dataHandler.onCompleted?.apply(dataHandler);
-  } catch (error: any) {
-    // 错误处理
-    console.log(error);
-    dataHandler.onError?.apply(dataHandler, ['数据处理异常']);
-  }
+  //   // 完成回调
+  //   dataHandler.onCompleted?.apply(dataHandler);
+  // } catch (error: any) {
+  //   // 错误处理
+  //   console.log(error);
+  //   dataHandler.onError?.apply(dataHandler, ['数据处理异常']);
+  // }
 };
 
 /**
  * 数据收集，将中文名称转换为英文名称
  */
 const collecting = (
-  key: string,
-  sheets: { [sheet: string]:'' },
-  readConfigs: ReadConfig<any, any, SheetConfig<any>>[],
+  // key: string,
+  // sheets: { [sheet: string]: XLSX.WorkSheet },
+  // readConfigs: ReadConfig<any, any, SheetConfig<any>>[],
 ): void => {
   // for (let readConfig of readConfigs) {
   //   let sheetConfig = readConfig.sheetConfig;
@@ -137,14 +135,14 @@ let operating = async (
   dataHandler: DataHandler,
   readConfigs: ReadConfig<any, any, SheetConfig<any>>[],
 ) => {
-  for (let readConfig of readConfigs) {
-    if (readConfig.sheetConfig.sheetName == key) {
-      await readConfig.operating(context, () => {
-        dataHandler.onItemCompleted?.apply(dataHandler);
-      });
-      await readConfig.completed?.apply(readConfig, [readConfigs, context]);
-    }
-  }
+  // for (let readConfig of readConfigs) {
+  //   if (readConfig.sheetConfig.sheetName == key) {
+  //     await readConfig.operating(context, () => {
+  //       dataHandler.onItemCompleted?.apply(dataHandler);
+  //     });
+  //     await readConfig.completed?.apply(readConfig, [readConfigs, context]);
+  //   }
+  // }
 };
 
 /**
@@ -159,20 +157,4 @@ function assignment(oldObj: { [key: string]: any }, newObj: { [key: string]: any
   });
 }
 
-/**
- * 批量请求
- */
-async function batchRequests(
-  requests: RequestIndex[],
-  onItemCompleted: (request: RequestIndex, result: model.ResultType<any>) => void,
-) {
-  if (requests.length == 0) return;
-  await Promise.all(
-    requests.map(async (item) => {
-      const result = await kernel.request(item.request);
-      onItemCompleted(item, result);
-    }),
-  );
-}
-
-export { assignment, batchRequests, dataHandling, generateXlsx, readXlsx };
+export { assignment, dataHandling, generateXlsx, readXlsx };

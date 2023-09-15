@@ -151,47 +151,11 @@ export const directoryOperates = {
     label: '新建事项配置',
     iconType: '事项配置',
   },
-  NewReport: {
-    sort: 7,
-    cmd: 'newReport',
-    label: '新建报表',
-    iconType: 'newDir',
-  },
-  NewRequest: {
+  NewTransferConfig: {
     sort: 10,
-    cmd: 'newRequest',
-    label: '新建请求配置',
-    iconType: '请求配置',
-  },
-  BatchRequest: {
-    sort: 10,
-    cmd: 'batchRequest',
-    label: '批量请求配置',
-    iconType: '批量请求配置',
-  },
-  NewLink: {
-    sort: 11,
-    cmd: 'newLink',
-    label: '新建链接配置',
-    iconType: '链接配置',
-  },
-  NewMapping: {
-    sort: 12,
-    cmd: 'newMapping',
-    label: '新建映射配置',
-    iconType: '映射配置',
-  },
-  NewExecutable: {
-    sort: 13,
-    cmd: 'newExecutable',
-    label: '新建脚本配置',
-    iconType: '脚本配置',
-  },
-  NewEnvironment: {
-    sort: 14,
-    cmd: 'newEnvironment',
-    label: '新建环境配置',
-    iconType: '环境配置',
+    cmd: 'newTransferConfig',
+    label: '新建迁移配置',
+    iconType: '迁移配置',
   },
 };
 
@@ -210,23 +174,23 @@ export const directoryNew = {
     directoryOperates.NewApp,
     directoryOperates.NewThingConfig,
     directoryOperates.NewWorkConfig,
-    directoryOperates.NewReport,
+    directoryOperates.NewTransferConfig,
   ],
 };
 
-/** 数据迁移 */
-export const transferNew = {
-  sort: 1,
-  cmd: 'transfer',
-  label: '迁移配置',
-  iconType: 'new',
+/** 新建仓库 */
+export const newWarehouse = {
+  sort: 0,
+  cmd: 'newWarehouses',
+  label: '仓库管理',
+  iconType: 'newWarehouses',
   menus: [
-    directoryOperates.NewRequest,
-    directoryOperates.BatchRequest,
-    directoryOperates.NewLink,
-    directoryOperates.NewMapping,
-    directoryOperates.NewExecutable,
-    directoryOperates.NewEnvironment
+    {
+      sort: -1,
+      cmd: 'newWarehouse',
+      label: '新建仓库',
+      iconType: 'newWarehouse',
+    },
   ],
 };
 
@@ -249,10 +213,16 @@ export const teamOperates = {
 /** 用户的操作 */
 export const targetOperates = {
   NewCohort: {
-    sort: 33,
+    sort: 32,
     cmd: 'newCohort',
     label: '设立群组',
     iconType: '群组',
+  },
+  NewStorage: {
+    sort: 33,
+    cmd: 'newStorage',
+    label: '设立存储资源',
+    iconType: '存储资源',
   },
   NewCompany: {
     sort: 34,
@@ -277,6 +247,12 @@ export const targetOperates = {
     cmd: 'openChat',
     label: '打开会话',
     iconType: '群组',
+  },
+  Activate: {
+    sort: 15,
+    cmd: 'activate',
+    label: '激活存储',
+    iconType: '激活',
   },
 };
 
@@ -304,6 +280,34 @@ export const personJoins = {
       cmd: 'joinCompany',
       label: '加入单位',
       iconType: 'joinCompany',
+    },
+    {
+      sort: 43,
+      cmd: 'joinStorage',
+      label: '加入存储资源群',
+      iconType: '存储资源',
+    },
+  ],
+};
+
+/** 单位的申请 */
+export const companyJoins = {
+  sort: 1,
+  cmd: 'join',
+  label: '申请加入',
+  iconType: 'join',
+  menus: [
+    {
+      sort: 42,
+      cmd: 'joinGroup',
+      label: '加入集群',
+      iconType: 'joinGroup',
+    },
+    {
+      sort: 43,
+      cmd: 'joinStorage',
+      label: '加入存储资源群',
+      iconType: '存储资源',
     },
   ],
 };
@@ -339,5 +343,11 @@ export const memberOperates = {
     cmd: 'remove',
     label: '移除成员',
     iconType: 'remove',
+  },
+  Exit: {
+    sort: 60,
+    cmd: 'exit',
+    label: '退出',
+    iconType: 'exit',
   },
 };

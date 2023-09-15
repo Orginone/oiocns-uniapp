@@ -8,14 +8,21 @@ export {
 } from './consts';
 export type { IEntity } from './entity';
 export { Entity } from './entity';
-export { MessageType, OperateType, SpeciesType, TargetType, TaskStatus } from './enums';
+export {
+  MessageType,
+  OperateType,
+  RuleTriggers,
+  SpeciesType,
+  TargetType,
+  TaskStatus,
+} from './enums';
 export {
   directoryNew,
   directoryOperates,
-  transferNew,
   entityOperates,
   fileOperates,
   memberOperates,
+  newWarehouse,
   personJoins,
   targetOperates,
   teamOperates,

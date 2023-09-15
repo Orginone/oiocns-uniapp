@@ -1,57 +1,22 @@
-const sizeUnits = ["", "KB", "MB", "GB", "TB", "PB"];
+const sizeUnits = ['', 'KB', 'MB', 'GB', 'TB', 'PB'];
 /**
  * 格式化大小
  * @param size 大小
  */
-export function formatSize(size: number, unit: string = ""): string {
+export function formatSize(size: number, unit: string = ''): string {
   if (size > 1024) {
     const index = sizeUnits.indexOf(unit);
     if (index + 2 < sizeUnits.length) {
-      return formatSize(
-        parseInt((size / 1024.0).toFixed(0)),
-        sizeUnits[index + 1]
-      );
+      return formatSize(parseInt((size / 1024.0).toFixed(0)), sizeUnits[index + 1]);
     }
   }
   return size + unit;
 }
 /** 编码路径 */
-export function encodeKey(key: any): any {
-  return base64_encode(unescape(encodeURIComponent(`${key}`)));
+export function encodeKey(key: string): string {
+  return btoa(unescape(encodeURIComponent(`${key}`)));
 }
-function base64_encode(str:any) {
-  var c1, c2, c3;
-  var base64EncodeChars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-  var i = 0,
-    len = str.length,
-    strs = "";
-  while (i < len) {
-    c1 = str.charCodeAt(i++) & 0xff;
-    if (i == len) {
-      strs += base64EncodeChars.charAt(c1 >> 2);
-      strs += base64EncodeChars.charAt((c1 & 0x3) << 4);
-      strs += "==";
-      break;
-    }
-    c2 = str.charCodeAt(i++);
-    if (i == len) {
-      strs += base64EncodeChars.charAt(c1 >> 2);
-      strs += base64EncodeChars.charAt(
-        ((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4)
-      );
-      strs += base64EncodeChars.charAt((c2 & 0xf) << 2);
-      strs += "=";
-      break;
-    }
-    c3 = str.charCodeAt(i++);
-    strs += base64EncodeChars.charAt(c1 >> 2);
-    strs += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4));
-    strs += base64EncodeChars.charAt(((c2 & 0xf) << 2) | ((c3 & 0xc0) >> 6));
-    strs += base64EncodeChars.charAt(c3 & 0x3f);
-  }
-  return strs;
-}
+
 /** 将文件切片 */
 export function sliceFile(file: Blob, chunkSize: number): Blob[] {
   const slices: Blob[] = [];
@@ -88,4 +53,74 @@ export function blobToNumberArray(file: Blob): Promise<number[]> {
     };
     reader.readAsArrayBuffer(file);
   });
+}
+import pako from 'pako';
+
+/** 字符串压缩解压缩 */
+export class StringPako {
+  /**
+   * 解压缩
+   * @param input 输入字符串（明文）
+   */
+  public static inflate(input: string) {
+    if (input.startsWith('^!:')) {
+      try {
+        input = atob(input.substring(8, input.length - 5).replaceAll('*', '='));
+        let output = this.arrToString(pako.inflate(this.stringToArr(input)));
+        return decodeURIComponent(output);
+      } catch (err) {
+        return input;
+      }
+    }
+    return input;
+  }
+  /**
+   * 压缩
+   * @param input 输入字符串（密文）
+   */
+  public static deflate(input: string) {
+    input = encodeURIComponent(input);
+    let output = btoa(this.arrToString(pako.deflate(input)));
+    return '^!:' + this.randomStr(5) + output.replaceAll('=', '*') + this.randomStr(5);
+  }
+  /**
+   * 数组转字符串
+   * @param arr 数组
+   * @returns 字符串
+   */
+  private static arrToString(arr: Uint8Array) {
+    var dataString = '';
+    for (var i = 0; i < arr.length; i++) {
+      dataString += String.fromCharCode(arr[i]);
+    }
+    return dataString;
+  }
+  /**
+   * 字符串转数组
+   * @param str 字符串
+   * @returns 数组
+   */
+  private static stringToArr(str: string) {
+    var arr = [];
+    for (var i = 0, j = str.length; i < j; ++i) {
+      arr.push(str.charCodeAt(i));
+    }
+    var tmpUint8Array = new Uint8Array(arr);
+    return tmpUint8Array;
+  }
+  /**
+   * 生成随机字符串
+   * @param num 长度
+   * @returns 随机字符串
+   */
+  private static randomStr(len: number) {
+    len = len || 32;
+    var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+    var maxPos = chars.length;
+    var str = '';
+    for (var i = 0, j = len; i < j; ++i) {
+      str += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return str;
+  }
 }

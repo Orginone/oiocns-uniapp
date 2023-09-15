@@ -1,15 +1,17 @@
 import { model } from '@/ts/base';
 import moment from 'moment';
+// import { message } from 'antd';
 import { formatDate } from '@/utils/index';
+import { DataType, MenuItemType, PageData } from 'typings/globelType';
 
 const dateFormat: string = 'YYYY-MM-DD';
 
 const showMessage = (response: any) => {
-  // if (response.success) {
-  //   message.success('操作成功！');
-  // } else {
-  //   message.error('操作失败！发生错误：  ' + response.msg);
-  // }
+  if (response.success) {
+    // message.success('操作成功！');
+  } else {
+    // message.error('操作失败！发生错误：  ' + response.msg);
+  }
 };
 
 const debounce = (fun: any, delay?: number) => {
@@ -40,6 +42,25 @@ const resetParams = (params: any) => {
   };
 };
 
+/**
+ * 后台响应 => 前端业务结果(分页)
+ * @param res 后台分页响应
+ * @returns
+ */
+export function toPageData<T extends DataType>(res: model.ResultType<T>): PageData<T> {
+  if (res.success) {
+    return {
+      success: true,
+      data: res.data?.result || [],
+      total: res.data?.total || 0,
+      msg: res.msg,
+    };
+  } else {
+    console.error(res?.msg);
+    return { success: false, data: [], total: 0, msg: res.msg };
+  }
+}
+
 // m--n 之间的数字
 const renderNum = (m: number, n: number) => {
   return Math.floor(Math.random() * (n + 1 - m) + m);
@@ -69,22 +90,22 @@ const validIsSocialCreditCode = (code: string) => {
  * @return {*}
  */
 const showChatTime = (chatDate: moment.MomentInput) => {
-  // const cdate = moment(chatDate);
-  // const date = moment(cdate.format('yyyy-MM-DD'));
-  // const days = moment().diff(date, 'day');
-  // switch (days) {
-  //   case 0:
-  //     return cdate.format('H:mm:ss');
-  //   case 1:
-  //     return '昨天 ' + cdate.format('H:mm:ss');
-  //   case 2:
-  //     return '前天 ' + cdate.format('H:mm:ss');
-  // }
-  // const year = moment().diff(cdate, 'year');
-  // if (year == 0) {
-  //   return cdate.format('M月D日 H:mm');
-  // }
-  // return cdate.format('yy年 M月D日 H:mm');
+  const cdate = moment(chatDate);
+  const date = moment(cdate.format('yyyy-MM-DD'));
+  const days = moment().diff(date, 'day');
+  switch (days) {
+    case 0:
+      return cdate.format('H:mm:ss');
+    case 1:
+      return '昨天 ' + cdate.format('H:mm:ss');
+    case 2:
+      return '前天 ' + cdate.format('H:mm:ss');
+  }
+  const year = moment().diff(cdate, 'year');
+  if (year == 0) {
+    return cdate.format('M月D日 H:mm');
+  }
+  return cdate.format('yy年 M月D日 H:mm');
 };
 
 /**
@@ -244,7 +265,7 @@ const pySegSortObj = (objArr: any[], field: string) => {
   return segs;
 };
 
-const findMenuItemByKey = (item: any, key: string): any | undefined => {
+const findMenuItemByKey = (item: MenuItemType, key: string): MenuItemType | undefined => {
   for (const node of item.children || []) {
     if (node.key === key) {
       node.parentMenu = item;
@@ -260,13 +281,13 @@ const findMenuItemByKey = (item: any, key: string): any | undefined => {
 
 /** url下载 */
 const downloadByUrl = (url: string) => {
-  // if (!url) {
-  //   return message.error('资源路径不存在，请重试！');
-  // }
-  // const DownA = document.createElement('a'); // 创建a标签
-  // DownA.setAttribute('download', url); // download属性(为下载的文件起个名)
-  // DownA.setAttribute('href', url); // href链接（文件的url地址）（如果是下载图片需要使用代理，不然图片不会是下载而是打开）
-  // DownA.click(); // 自执行点击事件
+  if (!url) {
+    // return message.error('资源路径不存在，请重试！');
+  }
+  const DownA = document.createElement('a'); // 创建a标签
+  DownA.setAttribute('download', url); // download属性(为下载的文件起个名)
+  DownA.setAttribute('href', url); // href链接（文件的url地址）（如果是下载图片需要使用代理，不然图片不会是下载而是打开）
+  DownA.click(); // 自执行点击事件
 };
 
 const truncateString = (str: string, maxLength: number) => {

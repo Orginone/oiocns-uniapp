@@ -1,7 +1,7 @@
-import { common, model, parseAvatar } from '../../../base';
-import { MessageType, TargetType } from '../../public';
-import { IPerson } from '../../target/person';
-import { IMsgChat } from './msgchat';
+import { common, model, parseAvatar } from '../../base';
+import { MessageType, TargetType } from '../public';
+import { IPerson } from '../target/person';
+import { ISession } from './session';
 export interface IMessageLabel {
   /** 标签名称 */
   label: string;
@@ -36,7 +36,7 @@ export interface IMessage {
   /** 消息id */
   id: string;
   /** 元数据 */
-  metadata: model.MsgSaveModel;
+  metadata: model.ChatMessageType;
   /** 发送方 */
   from: model.ShareIcon;
   /** 接收方 */
@@ -73,47 +73,41 @@ export interface IMessage {
   unreadInfo: IMessageLabel[];
   /** 评论数 */
   comments: number;
-  /** 消息撤回 */
-  recall(): void;
-  /** 接收标签 */
-  receiveTags(tags: string[]): void;
 }
 
 export class Message implements IMessage {
-  constructor(_metadata: model.MsgSaveModel, _chat: IMsgChat) {
+  constructor(_metadata: model.ChatMessageType, _chat: ISession) {
     this._chat = _chat;
-    this.user = _chat.space.user;
-    if (_metadata.msgType === 'recall') {
-      _metadata.msgType = MessageType.Recall;
+    this.user = _chat.target.user;
+    _metadata.comments = _metadata.comments || [];
+    const txt = common.StringPako.inflate(_metadata.content);
+    if (txt.startsWith('[obj]')) {
+      const content = JSON.parse(txt.substring(5));
+      this._msgBody = content.body;
+      this.mentions = content.mentions;
+      if (content.cite) {
+        this.cite = new Message(content.cite, _chat);
+      }
+    } else {
+      this._msgBody = txt;
     }
-    // const txt = common.StringPako.inflate(_metadata.msgBody);
-    // if (txt.startsWith('[obj]')) {
-    //   const content = JSON.parse(txt.substring(5));
-    //   this._msgBody = content.body;
-    //   this.mentions = content.mentions;
-    //   if (content.cite) {
-    //     this.cite = new Message(content.cite, _chat);
-    //   }
-    // } else {
-    //   this._msgBody = txt;
-    // }
-    // this.metadata = _metadata;
-    // _metadata.tags?.map((tag) => {
-    //   this.labels.push(new MessageLabel(tag, this.user));
-    // });
+    this.metadata = _metadata;
+    _metadata.comments.map((tag) => {
+      this.labels.push(new MessageLabel(tag, this.user));
+    });
   }
   cite: IMessage | undefined;
   mentions: string[] = [];
   user: IPerson;
-  _chat: IMsgChat;
-  // _msgBody: string;
+  _chat: ISession;
+  _msgBody: string;
   labels: IMessageLabel[] = [];
-  metadata: any;
+  metadata: model.ChatMessageType;
   get id(): string {
     return this.metadata.id;
   }
   get msgType(): string {
-    return this.metadata.msgType;
+    return this.metadata.typeName;
   }
   get createTime(): string {
     return this.metadata.createTime;
@@ -139,7 +133,8 @@ export class Message implements IMessage {
     if (this._chat.metadata.typeName === TargetType.Person) {
       return ids.length === 1 ? '已读' : '未读';
     }
-    const mCount = this._chat.members.filter((i) => i.id != this.user.id).length || 1;
+    const mCount =
+      this._chat.members.filter((i) => i.id != this.metadata.fromId).length || 1;
     if (ids.length === mCount) {
       return '全部已读';
     }
@@ -181,42 +176,31 @@ export class Message implements IMessage {
   get allowEdit(): boolean {
     return this.isMySend && this.msgType === MessageType.Recall;
   }
-  get msgTitle(): any {
-    // let header = ``;
-    // if (this._chat.metadata.typeName != TargetType.Person) {
-    //   header += `${this.from.name}: `;
-    // }
-    // switch (this.msgType) {
-      // case MessageType.Text:
-      // case MessageType.Recall:
-      //   return `${header}${this.msgBody.substring(0, 50)}`;
-      // case MessageType.Voice:
-      //   return `${header}[${MessageType.Voice}]`;
-    // }
-    // const file: model.FileItemShare = parseAvatar(this.msgBody);
-    // if (file) {
-    //   return `${header}[${this.msgType}]:${file.name}(${common.formatSize(file.size)})`;
-    // }
-    // return `${header}[${this.msgType}]:解析异常`;
-	return "";
+  get msgTitle(): string {
+    let header = ``;
+    if (this._chat.metadata.typeName != TargetType.Person) {
+      header += `${this.from.name}: `;
+    }
+    switch (this.msgType) {
+      case MessageType.Text:
+      case MessageType.Recall:
+        return `${header}${this.msgBody.substring(0, 50)}`;
+      case MessageType.Voice:
+        return `${header}[${MessageType.Voice}]`;
+    }
+    const file: model.FileItemShare = parseAvatar(this.msgBody);
+    if (file) {
+      return `${header}[${this.msgType}]:${file.name}(${common.formatSize(file.size)})`;
+    }
+    return `${header}[${this.msgType}]:解析异常`;
   }
   get msgBody(): string {
-    // if (this.msgType === MessageType.Recall) {
-    //   return (this.isMySend ? '我' : this.from.name) + '撤回了一条消息';
-    // }
-    // return this._msgBody;
-	return "";
+    if (this.msgType === MessageType.Recall) {
+      return (this.isMySend ? '我' : this.from.name) + '撤回了一条消息';
+    }
+    return this._msgBody;
   }
   get msgSource(): string {
-    // return this._msgBody;
-	return "";
-  }
-  recall(): void {
-    this.metadata.msgType = MessageType.Recall;
-  }
-  receiveTags(tags: string[]): void {
-    tags.forEach((tag) => {
-      this.labels.push(new MessageLabel(JSON.parse(tag), this.user));
-    });
+    return this._msgBody;
   }
 }

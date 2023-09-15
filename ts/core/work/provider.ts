@@ -20,10 +20,6 @@ export interface IWorkProvider {
   loadApply(req: model.IdPageModel): Promise<model.PageResult<IWorkTask>>;
   /** 任务更新 */
   updateTask(task: schema.XWorkTask): void;
-  /** 根据表单id查询表单特性 */
-  loadAttributes(id: string, belongId: string): Promise<schema.XAttribute[]>;
-  /** 根据分类id查询分类项 */
-  loadItems(id: string): Promise<schema.XSpeciesItem[]>;
   /** 加载实例详情 */
   loadInstanceDetail(
     id: string,
@@ -74,6 +70,7 @@ export class WorkProvider implements IWorkProvider {
   async loadDones(req: model.IdPageModel): Promise<model.PageResult<IWorkTask>> {
     const res = await kernel.collectionPageRequest<schema.XWorkTask>(
       this.userId,
+      [this.userId],
       storeCollName.WorkTask,
       {
         match: {
@@ -101,6 +98,7 @@ export class WorkProvider implements IWorkProvider {
   async loadApply(req: model.IdPageModel): Promise<model.PageResult<IWorkTask>> {
     const res = await kernel.collectionPageRequest<schema.XWorkTask>(
       this.userId,
+      [this.userId],
       storeCollName.WorkTask,
       {
         match: {
@@ -121,26 +119,6 @@ export class WorkProvider implements IWorkProvider {
       result: (res.data.result || []).map((task) => new WorkTask(task, this.user)),
     };
   }
-  async loadAttributes(id: string, belongId: string): Promise<schema.XAttribute[]> {
-    const res = await kernel.queryFormAttributes({
-      id: id,
-      subId: belongId,
-    });
-    if (res.success) {
-      return res.data.result || [];
-    }
-    return [];
-  }
-  async loadItems(id: string): Promise<schema.XSpeciesItem[]> {
-    const res = await kernel.querySpeciesItems({
-      id: id,
-      page: PageAll,
-    });
-    if (res.success) {
-      return res.data.result || [];
-    }
-    return [];
-  }
   async loadInstanceDetail(
     id: string,
     belongId: string,
@@ -156,7 +134,7 @@ export class WorkProvider implements IWorkProvider {
         foreignField: 'instanceId',
         as: 'tasks',
       },
-    });
+    }, PageAll,);
     if (res.data && res.data.length > 0) {
       return res.data[0];
     }

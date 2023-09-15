@@ -1,26 +1,24 @@
 import { IPerson, Person } from './target/person';
 import { common, kernel, model, schema } from '../base';
-import { IChatProvider, ChatProvider } from './chat/provider';
 import { IWorkProvider, WorkProvider } from './work/provider';
 import { OperateType } from './public/enums';
 import { logger } from '../base/common';
-import { msgChatNotify } from './chat/message/msgchat';
 import { IIdentity, Identity } from './target/identity/identity';
 import { IStation } from './target/innerTeam/station';
 import { ITeam } from './target/base/team';
+import { msgChatNotify } from './chat/session';
 import { ITarget } from './target/base/target';
+
 const sessionUserName = 'sessionUser';
 
 /** 当前用户提供层 */
 export class UserProvider {
   private _user: IPerson | undefined;
   private _work: IWorkProvider | undefined;
-  private _chat: IChatProvider | undefined;
   private _inited: boolean = false;
   private _emiter: common.Emitter;
   constructor(emiter: common.Emitter) {
     this._emiter = emiter;
-
     const userJson = uni.getStorageSync(sessionUserName);
     if (userJson && userJson.length > 0) {
       this._loadUser(JSON.parse(userJson));
@@ -44,10 +42,6 @@ export class UserProvider {
   get work(): IWorkProvider | undefined {
     return this._work;
   }
-  /** 会话 */
-  get chat(): IChatProvider | undefined {
-    return this._chat;
-  }
   /** 是否完成初始化 */
   get inited(): boolean {
     return this._inited;
@@ -70,7 +64,6 @@ export class UserProvider {
    */
   public async login(account: string, password: string): Promise<model.ResultType<any>> {
     let res = await kernel.login(account, password);
-    console.log('res',res);
     if (res.success) {
       await this._loadUser(res.data.target);
     }
@@ -104,19 +97,17 @@ export class UserProvider {
   /** 加载用户 */
   private _loadUser(person: schema.XTarget) {
     uni.setStorageSync(sessionUserName, JSON.stringify(person));
+    kernel.userId = person.id;
     this._user = new Person(person);
-    this._chat = new ChatProvider(this._user!);
     this._work = new WorkProvider(this);
     this.refresh();
   }
   /** 重载数据 */
   public async refresh(): Promise<void> {
     this._inited = false;
-    this._chat?.PreMessage();
     await this._user?.deepLoad(true);
     await this.work?.loadTodos(true);
     this._inited = true;
-    this._chat?.loadPreMessage();
     this._emiter.changCallback();
   }
   /** 接受组织变更 */
