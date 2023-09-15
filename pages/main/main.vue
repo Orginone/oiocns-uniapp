@@ -32,6 +32,7 @@ export default {
       // 是否固定
       fixed: false,
       showPop: false, //弹出层状态
+      showType:'群动态',
       // 菜单导航
       tabnav: [],
       showTag: false, //显示tag
