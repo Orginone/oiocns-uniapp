@@ -22,9 +22,9 @@ export class StringPako {
    * @param input 输入字符串（密文）
    */
   public static deflate(input: string) {
-    input = encodeURIComponent(input);
-    let output = base64_encode(this.arrToString(pako.deflate(input)));
-    return '^!:' + this.randomStr(5) + output.replaceAll('=', '*') + this.randomStr(5);
+    // input = encodeURIComponent(input);
+    // let output = base64_encode(this.arrToString(pako.deflate(input)));
+    // return '^!:' + this.randomStr(5) + output.replaceAll('=', '*') + this.randomStr(5);
   }
   /**
    * 数组转字符串

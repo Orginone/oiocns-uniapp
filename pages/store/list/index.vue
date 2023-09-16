@@ -23,7 +23,7 @@ export default {
     console.log("option", option);
     let res = await config.loadSettingMenu();
     let item = this.searchObjectByKey(res.children, "key", option.data);
-    await item.item.loadFilesContent();
+    await item.item.loadFiles();
     let arrs = [];
     item.item.files.forEach((element) => {
       let obj = element.filedata;
