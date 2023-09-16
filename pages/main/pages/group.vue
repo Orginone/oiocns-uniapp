@@ -12,35 +12,35 @@
         <view class="main-list">
           <view class="main-item">
             <img
-              src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
+              src=""
               alt=""
             />
             <view class="item-text">名字</view>
           </view>
           <view class="main-item">
             <img
-              src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
+              src=""
               alt=""
             />
             <view class="item-text">名字</view>
           </view>
           <view class="main-item">
             <img
-              src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
+              src=""
               alt=""
             />
             <view class="item-text">名字</view>
           </view>
           <view class="main-item">
             <img
-              src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
+              src=""
               alt=""
             />
             <view class="item-text">名字</view>
           </view>
           <view class="main-item">
             <img
-              src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
+              src=""
               alt=""
             />
             <view class="item-text">名字</view>
@@ -68,7 +68,7 @@
       <swiper-item>
         <view class="li">
           <img
-            :src="'https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh'"
+            :src="''"
             class="itemSrc"
           />
         </view>
@@ -76,7 +76,7 @@
       <swiper-item>
         <view class="li">
           <img
-            :src="'https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh'"
+            :src="''"
             class="itemSrc"
           />
         </view>
@@ -84,7 +84,7 @@
       <swiper-item>
         <view class="li">
           <img
-            :src="'https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh'"
+            :src="''"
             class="itemSrc"
           />
         </view>
@@ -101,7 +101,7 @@
       <view class="trends-list">
         <view class="trends-item">
           <img
-            src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
+            src=""
             alt=""
           />
           <view class="trends-right">
@@ -121,7 +121,7 @@
         </view>
         <view class="trends-item">
           <img
-            src="https://orginone.cn/orginone/anydata/bucket/load/6q6s2qnazonfzgezdjnzrhmz2zpj_gw22kontwsx2umnxhe-2hof-hi6lomjys9znewtsyhdzpobxxiylun6xgu6dfmh"
+            src=""
             alt=""
           />
           <view class="trends-right">
@@ -169,6 +169,7 @@ export default {
 .swiper .li img {
   width: 100%;
   border-radius: 8rpx;
+  background: #aaa;
 }
 .group-box {
   margin: 20rpx;
@@ -208,6 +209,7 @@ export default {
         border-radius: 10rpx;
         width: 84rpx;
         height: 84rpx;
+        background: #aaa;
       }
     }
   }
@@ -245,6 +247,7 @@ export default {
         width: 300rpx;
         height: 250rpx;
         border-radius: 16rpx;
+        background: #aaa;
       }
       .trends-right {
         width: calc(100% - 200rpx);
