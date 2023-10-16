@@ -26,7 +26,7 @@
     ></workList>
     <view class="myList" v-if="workMyShow.includes(showType)">
       <lostPage v-show="!list.length" mode="noContent"></lostPage>
-      <view v-show="list.length" class="thing-list">
+      <view v-show="list.length" v-if="showType =='待办'" class="thing-list">
         <view
           class="item"
           v-for="(item, index) in list"
@@ -35,7 +35,21 @@
         >
           <view class="left">
             <view class="box"></view>
-            <view class="item-title">{{ item.title }}</view>
+            <view class="item-title">{{ item.title}}</view>
+          </view>
+          <view class="item-time">{{ item.createTime }}</view>
+        </view>
+      </view>
+      <view v-show="list.length" v-if="showType =='发起'" class="thing-list">
+        <view
+          class="item"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="jumpApp(item)"
+        >
+          <view class="left">
+            <view class="box"></view>
+            <view class="item-title">{{ item.name }}</view>
           </view>
           <view class="item-time">{{ item.createTime }}</view>
         </view>
@@ -49,12 +63,14 @@ import { WaitInfo, loadSpecies } from "common/person";
 import * as config from "./config/menuOperate";
 import { mapState, mapMutations } from "vuex";
 // import { anyStoreApi } from "../../common/app";
+import orgCtrl from '@/ts/controller';
 
 export default {
   data() {
     return {
       menu: [],
-      list: [],
+      list: [], //待办
+      appList:[],//办事列表
       showType: "全部",
       workMyShow: ["待办", "已办", "发起", "已发起"],
       showTag: false,
@@ -190,16 +206,16 @@ export default {
     },
     // 发起办事
     async getStartInfo() {
-      let params = this.userInfo.id;
-      let res = await loadSpecies(this.id);
-      console.log(res, "办事列表");
-      this.list = res.data;
-      // this.baseInfo.StartInfo = res.data.result
-      // this.listInfo1[0].data = this.baseInfo
-
-      // let resNode = await loadWorkNode(params)
-      // let resWorkNode = await loadWorkDefines(params)
-      // console.log(resWorkNode, '');
+      let apps = [];
+      let appList = []; 
+      for (const target of orgCtrl.targets) {
+        apps.push(...(await target.directory.loadAllApplication()));
+      }
+      apps.forEach(element => {
+        appList.push(element._metadata);
+      });
+      this.appList = appList;//牵扯到循环引用，作废
+      this.list = appList;
     },
     //待办事项
     async getWaitInfo() {
@@ -239,7 +255,6 @@ export default {
       this.list = res.data;
       // this.baseInfo.MyInfo = res.data
       // this.listInfo1[3].data = this.baseInfo
-      console.log(res, "我发起的");
     },
     jumpDetail(item) {
       uni.navigateTo({
@@ -247,9 +262,29 @@ export default {
           "/pages/work/detail/detail?belongId=" +
           item.belongId +
           "&instanceId=" +
-          item.instanceId,
+          item.instanceId+"&id="+item.id
       });
     },
+    async jumpApp(item){
+      let apps = [];
+      for (const target of orgCtrl.targets) {
+        apps.push(...(await target.directory.loadAllApplication()));
+      }
+      apps.forEach(element => {
+        if(item.id == element._metadata.id){
+          if(element.children.length>0){
+            uni.navigateTo({
+              url:"/pages/work/app/list?key="+element.key
+            });
+          }else{
+            uni.navigateTo({
+              url:"/pages/work/app/workList?id="+element._metadata.id
+            });
+            }
+        }
+
+      });
+    }
   },
 };
 </script>

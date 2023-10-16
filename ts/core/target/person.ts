@@ -75,6 +75,7 @@ export class Person extends Belong implements IPerson {
   }
   async loadCohorts(reload?: boolean | undefined): Promise<ICohort[]> {
     if (!this._cohortLoaded || reload) {
+      console.log('aaa');
       const res = await kernel.queryJoinedTargetById({
         id: this.id,
         typeNames: [TargetType.Cohort, TargetType.Storage, ...companyTypes],

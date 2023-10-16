@@ -926,6 +926,16 @@ export default class KernelApi {
       params: data,
     });
   }
+  // 给物添加属性
+  public async ThingSetProperty(
+    params: any,
+  ): Promise<model.ResultType<model.PageResult<schema.XTarget>>> {
+    return await this.request({
+      module: 'thing',
+      action: 'ThingSetProperty',
+      params: params,
+    });
+  }
   /**
    * 加载物
    * @param  过滤参数

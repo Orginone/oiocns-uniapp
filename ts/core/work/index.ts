@@ -1,10 +1,10 @@
-import { kernel, model, schema } from '../../base';
-import { IApplication } from '../thing/standard/application';
-import { IForm, Form } from '../thing/standard/form';
-import { FileInfo, IFileInfo } from '../thing/fileinfo';
-import { IDirectory } from '../thing/directory';
-import { IWorkApply, WorkApply } from './apply';
-import { fileOperates } from '../public';
+import { kernel, model, schema } from "../../base";
+import { IApplication } from "../thing/standard/application";
+import { IForm, Form } from "../thing/standard/form";
+import { FileInfo, IFileInfo } from "../thing/fileinfo";
+import { IDirectory } from "../thing/directory";
+import { IWorkApply, WorkApply } from "./apply";
+import { fileOperates } from "../public";
 
 export interface IWork extends IFileInfo<schema.XWorkDefine> {
   /** 主表 */
@@ -27,13 +27,13 @@ export const fullDefineRule = (data: schema.XWorkDefine) => {
   data.allowAdd = true;
   data.allowEdit = true;
   data.allowSelect = true;
-  if (data.rule && data.rule.includes('{') && data.rule.includes('}')) {
+  if (data.rule && data.rule.includes("{") && data.rule.includes("}")) {
     const rule = JSON.parse(data.rule);
     data.allowAdd = rule.allowAdd;
     data.allowEdit = rule.allowEdit;
     data.allowSelect = rule.allowSelect;
   }
-  data.typeName = '办事';
+  data.typeName = "办事";
   return data;
 };
 
@@ -58,7 +58,9 @@ export class Work extends FileInfo<schema.XWorkDefine> implements IWork {
         id: this.id,
       });
       if (res.success) {
-        this.application.works = this.application.works.filter((a) => a.id != this.id);
+        this.application.works = this.application.works.filter(
+          (a) => a.id != this.id
+        );
       }
       return res.success;
     }
@@ -74,7 +76,7 @@ export class Work extends FileInfo<schema.XWorkDefine> implements IWork {
   }
   async copy(destination: IDirectory): Promise<boolean> {
     if (destination.id != this.application.id) {
-      if ('works' in destination) {
+      if ("works" in destination) {
         const app = destination as unknown as IApplication;
         const node = await this.loadWorkNode();
         const res = await app.createWork({
@@ -93,7 +95,7 @@ export class Work extends FileInfo<schema.XWorkDefine> implements IWork {
       destination.id != this.directory.id &&
       destination.metadata.belongId === this.application.metadata.belongId
     ) {
-      if ('works' in destination) {
+      if ("works" in destination) {
         const app = destination as unknown as IApplication;
         this.setMetadata({ ...this.metadata, applicationId: app.id });
         const node = await this.loadWorkNode();
@@ -103,12 +105,15 @@ export class Work extends FileInfo<schema.XWorkDefine> implements IWork {
         });
         if (success) {
           this.directory.propertys = this.directory.propertys.filter(
-            (i) => i.key != this.key,
+            (i) => i.key != this.key
           );
           this.application = app;
           app.works.push(this);
         } else {
-          this.setMetadata({ ...this.metadata, applicationId: this.application.id });
+          this.setMetadata({
+            ...this.metadata,
+            applicationId: this.application.id,
+          });
         }
         return success;
       }
@@ -118,9 +123,7 @@ export class Work extends FileInfo<schema.XWorkDefine> implements IWork {
   content(_mode: number = 0): IFileInfo<schema.XEntity>[] {
     if (this.node) {
       return this.forms.filter(
-        (a) =>
-          this.node?.primaryFormIds?.includes(a.id) ||
-          this.node?.detailFormIds?.includes(a.id),
+        (a) => this.node!.forms.findIndex((s) => s.id == a.id) > -1,
       );
     }
     return [];
@@ -140,7 +143,9 @@ export class Work extends FileInfo<schema.XWorkDefine> implements IWork {
     }
     return res.success;
   }
-  async loadWorkNode(reload: boolean = false): Promise<model.WorkNodeModel | undefined> {
+  async loadWorkNode(
+    reload: boolean = false
+  ): Promise<model.WorkNodeModel | undefined> {
     if (this.node === undefined || reload) {
       const res = await kernel.queryWorkNodes({ id: this.id });
       if (res.success) {
@@ -185,19 +190,30 @@ export class Work extends FileInfo<schema.XWorkDefine> implements IWork {
     return super
       .operates(mode)
       .filter(
-        (a) => ![fileOperates.Copy, fileOperates.Move, fileOperates.Download].includes(a),
+        (a) =>
+          ![
+            fileOperates.Copy,
+            fileOperates.Move,
+            fileOperates.Download,
+          ].includes(a)
       );
   }
   private async recursionForms(node: model.WorkNodeModel) {
-    node.detailForms = await this.directory.resource.formColl.find(node.detailFormIds);
-    node.primaryForms = await this.directory.resource.formColl.find(node.primaryFormIds);
+    node.detailForms = await this.directory.resource.formColl.find(
+      node.forms?.filter((a) => a.typeName == '子表').map((s) => s.id),
+    );
+    node.primaryForms = await this.directory.resource.formColl.find(
+      node.forms?.filter((a) => a.typeName == '主表').map((s) => s.id),
+    );
+
     node.primaryForms.forEach(async (a) => {
-      const form = new Form({ ...a, id: a.id + '_' }, this.directory);
+      const form = new Form({ ...a, id: a.id + "_" }, this.directory);
+      console.log('form',form);
       this.primaryForms.push(form);
       await form.loadFields();
     });
     node.detailForms.forEach(async (a) => {
-      const form = new Form({ ...a, id: a.id + '_' }, this.directory);
+      const form = new Form({ ...a, id: a.id + "_" }, this.directory);
       this.detailForms.push(form);
       await form.loadFields();
     });

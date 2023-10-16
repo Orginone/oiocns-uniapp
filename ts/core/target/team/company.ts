@@ -58,6 +58,7 @@ export class Company extends Belong implements ICompany {
   private _departmentLoaded: boolean = false;
   async loadGroups(reload: boolean = false): Promise<IGroup[]> {
     if (!this._groupLoaded || reload) {
+      console.log('aaa');
       const res = await kernel.queryJoinedTargetById({
         id: this.id,
         typeNames: [TargetType.Group, TargetType.Storage],

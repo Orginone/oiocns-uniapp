@@ -1,9 +1,9 @@
-import { IWork } from '.';
-import { schema, model, kernel } from '../../base';
-import { TaskStatus, storeCollName } from '../public';
-import { IBelong } from '../target/base/belong';
-import { UserProvider } from '../user';
-import { IWorkApply, WorkApply } from './apply';
+import { IWork } from ".";
+import { schema, model, kernel } from "../../base";
+import { TaskStatus, storeCollName } from "../public";
+import { IBelong } from "../target/base/belong";
+import { UserProvider } from "../user";
+import { IWorkApply, WorkApply } from "./apply";
 
 export interface IWorkTask {
   /** 唯一标识 */
@@ -63,7 +63,7 @@ export class WorkTask implements IWorkTask {
     return this.user.user!;
   }
   get targets(): schema.XTarget[] {
-    if (this.metadata.taskType == '加用户') {
+    if (this.metadata.taskType == "加用户") {
       try {
         return JSON.parse(this.metadata.content) || [];
       } catch (ex) {
@@ -84,32 +84,35 @@ export class WorkTask implements IWorkTask {
     return false;
   }
   async loadInstance(reload: boolean = false): Promise<boolean> {
-    // if (this.instanceData !== undefined && !reload) return true;
-    // const res = await kernel.collectionAggregate(
-    //   this.metadata.belongId,
-    //   storeCollName.WorkInstance,
-    //   {
-    //     match: {
-    //       id: this.metadata.instanceId,
-    //     },
-    //     limit: 1,
-    //     lookup: {
-    //       from: storeCollName.WorkTask,
-    //       localField: 'id',
-    //       foreignField: 'instanceId',
-    //       as: 'tasks',
-    //     },
-    //   },
-    // );
-    // if (res.data && res.data.length > 0) {
-    //   try {
-    //     this.instance = res.data[0];
-    //     this.instanceData = this.instance ? JSON.parse(this.instance.data) : undefined;
-    //     return this.instanceData !== undefined;
-    //   } catch (ex) {
-    //     console.log(ex);
-    //   }
-    // }
+    if (this.instanceData !== undefined && !reload) return true;
+    const res = await kernel.collectionAggregate(
+      this.metadata.belongId,
+      [this.metadata.belongId],
+      storeCollName.WorkInstance,
+      {
+        match: {
+          id: this.metadata.instanceId,
+        },
+        limit: 1,
+        lookup: {
+          from: storeCollName.WorkTask,
+          localField: "id",
+          foreignField: "instanceId",
+          as: "tasks",
+        },
+      }
+    );
+    if (res.data && res.data.length > 0) {
+      try {
+        this.instance = res.data[0];
+        this.instanceData = this.instance
+          ? JSON.parse(this.instance.data)
+          : undefined;
+        return this.instanceData !== undefined;
+      } catch (ex) {
+        console.log(ex);
+      }
+    }
     return false;
   }
   async recallApply(): Promise<boolean> {
@@ -127,7 +130,10 @@ export class WorkTask implements IWorkTask {
       if (status === -1) {
         return await this.recallApply();
       }
-      if (this.metadata.taskType === '加用户' || (await this.loadInstance(true))) {
+      if (
+        this.metadata.taskType === "加用户" ||
+        (await this.loadInstance(true))
+      ) {
         const res = await kernel.approvalTask({
           id: this.metadata.id,
           status: status,
@@ -148,35 +154,35 @@ export class WorkTask implements IWorkTask {
     return false;
   }
   async createApply(): Promise<IWorkApply | undefined> {
-    // if (this.metadata.approveType == '子流程') {
-    //   var define = await this.findWorkById(this.metadata.defineId);
-    //   if (define && (await define.loadWorkNode())) {
-    //     const data: model.InstanceDataModel = {
-    //       data: this.instanceData?.data!,
-    //       fields: {},
-    //       primary: {},
-    //       node: define.node!,
-    //       allowAdd: define.metadata.allowAdd,
-    //       allowEdit: define.metadata.allowEdit,
-    //       allowSelect: define.metadata.allowSelect,
-    //     };
-    //     define.primaryForms.forEach((form) => {
-    //       data.fields[form.id] = form.fields;
-    //     });
+    if (this.metadata.approveType == "子流程") {
+      var define = await this.findWorkById(this.metadata.defineId);
+      if (define && (await define.loadWorkNode())) {
+        const data: model.InstanceDataModel = {
+          data: this.instanceData?.data!,
+          fields: {},
+          primary: {},
+          node: define.node!,
+          allowAdd: define.metadata.allowAdd,
+          allowEdit: define.metadata.allowEdit,
+          allowSelect: define.metadata.allowSelect,
+        };
+        define.primaryForms.forEach((form) => {
+          data.fields[form.id] = form.fields;
+        });
       //   return new WorkApply(
       //     {
-      //       hook: '',
+      //       hook: "",
       //       taskId: this.id,
       //       title: define.name,
       //       defineId: define.id,
       //       applyId: this.instance!.shareId,
       //     } as model.WorkInstanceModel,
       //     data,
-      //     define.application.directory.target.space,
+      //     define.application.directory.target.space
       //   );
-      // }
-    // }
-	return undefined;
+      }
+    }
+    return undefined;
   }
 
   private async findWorkById(wrokId: string): Promise<IWork | undefined> {

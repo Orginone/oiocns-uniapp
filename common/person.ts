@@ -4,11 +4,11 @@ import { PageAll } from "./consts";
 
 //获取组织单位列表
 const loadCohorts = async (data: any) => {
-  return await kernel.queryJoinedTargetById({
-    id: data,
-    typeNames: [TargetType.Company, TargetType.Hospital, TargetType.University],
-    page: PageAll,
-  });
+  // return await kernel.queryJoinedTargetById({
+  //   id: data,
+  //   typeNames: [TargetType.Company, TargetType.Hospital, TargetType.University],
+  //   page: PageAll,
+  // });
 };
 
 //我发起的

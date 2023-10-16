@@ -189,6 +189,8 @@
 
 <script>
 import orgCtrl from "@/ts/controller";
+import { kernel } from "../../ts/base";
+
 export default {
   data() {
     return {
@@ -290,6 +292,7 @@ export default {
         });
       }
     },
+
     // 首次登录跳转页面
     turnPagePlus() {
       if (!this.checked) {
@@ -375,16 +378,39 @@ export default {
       this.showGetCaptcha = 0;
     },
     wxLogin() {
+      let that = this;
       uni.login({
         success(res) {
           if (res.code) {
-            console.log("res", res);
+            that.httpForward(res.code)
           } else {
             console.log("登录失败！" + res.errMsg);
           }
         },
       });
     },
+    async httpForward(code) {
+      let parse = "appid=wx9de4d17864f44e3d&secret=78fd75e9f77a4d6963d78e67107e03ec&grant_type=authorization_code&js_code="+code
+      let obj = {
+        uri: "https://api.weixin.qq.com/sns/jscode2session?"+parse,
+        method: "GET",
+        Header: {
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        content: "",
+      };
+      let res = await kernel.httpForward(obj);
+      this.sendThing(res);
+    },
+    async sendThing(query){
+      console.log('query',query);
+      let obj = {
+        id: '11',
+        data:{},
+      }
+      let res = await kernel.ThingSetProperty(obj);
+      console.log('res',res);
+    }
   },
 };
 </script>

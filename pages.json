@@ -39,6 +39,27 @@
             }
         },
         {
+            "path": "pages/work/app/list",
+            "style": {
+                "navigationBarTitleText": "应用模块",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/work/app/workList",
+            "style": {
+                "navigationBarTitleText": "应用办事",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
+            "path": "pages/work/app/detail",
+            "style": {
+                "navigationBarTitleText": "发起办事",
+                "enablePullDownRefresh": false
+            }
+        },
+        {
             "path": "pages/work/detail/detail",
             "style": {
                 "navigationBarTitleText": "办事",
