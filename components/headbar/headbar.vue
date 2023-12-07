@@ -1,65 +1,37 @@
 <template>
   <view class="baseLayout">
     <view class="header">
-      <!-- 返回 -->
-      <!-- <view class="back" @tap="back()" v-if="left=='back'">
-				<img :src="'../../static/base/back.png'" alt="" >
-			</view> -->
-      <!-- 更多 -->
-      <view class="more" v-if="left == 'more'" @tap="turnUrl()">
-        <img :src="'../../static/base/more.png'" alt="" />
-      </view>
       <!-- 文字内容 -->
       <view class="content">
-        <view
-          class="append"
-          v-for="(item, index) in localListPlus"
-          :key="index"
-        >
+        <view class="append" v-for="(item, index) in localListPlus" :key="index">
           <!-- 连接点 -->
           <view
             class="dot"
-            :style="{ color: color ? '#000000' : '#9A9A9A' }"
+            :style="{ color:'#000000'}"
             v-if="index"
           >
             .
           </view>
-          <!-- 文字颜色 -->
+          <!-- 默认文字颜色 -->
           <view v-if="index !== localListPlus.length - 1">
             <view
               class="main"
-              :style="{ color: color ? '#000000' : '#9A9A9A' }"
+              :style="{ color: '#000000' }"
               @click="turnHeadPage(index)"
             >
               {{ item }}
             </view>
           </view>
           <!-- 末尾文字颜色 -->
-          <view v-if="index == localListPlus.length - 1 && !last">
+          <view v-if="index == localListPlus.length - 1">
             <view
               class="main"
-              :style="{ color: color ? '#000000' : '#9A9A9A' }"
+              @click="turnHeadPage(index)"
+              :style="{ color:'#3d5ed1' }"
             >
               {{ item }}
             </view>
           </view>
-          <view v-if="index == localListPlus.length - 1 && last">
-            <view class="main">
-              {{ item }}
-            </view>
-          </view>
-        </view>
-      </view>
-      <!-- 右侧标签 -->
-      <view class="right">
-        <view class="search">
-          <img src="../../static/base/search2.png" alt="" />
-        </view>
-        <view class="add" v-if="right">
-          <img src="../../static/base/add.png" alt="" />
-        </view>
-        <view class="dotPlus" v-if="right">
-          <img src="../../static/base/dotPlus.png" alt="" />
         </view>
       </view>
     </view>
@@ -67,18 +39,14 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   name: "headbar",
   props: {
     localList: {
       defalut: "",
     }, //面包屑静态路径
-    color: {
-      default: false,
-    }, //是否为深色
-    left: {
-      default: "back",
-    }, //左侧标签
     right: {
       default: false,
     }, //右侧标签展示
@@ -86,11 +54,14 @@ export default {
       default: false,
     }, //文字末位蓝色展示
     url: {
-      default: "",
+      default: "back",
     }, //图标跳转链接
     basic: {
       default: "",
     }, //面包屑基础路径
+  },
+  computed: {
+    ...mapState(['setting'])
   },
   data() {
     return {
@@ -101,11 +72,24 @@ export default {
     this.loadHeader();
   },
   methods: {
+     ...mapMutations(['setSetting']),
     //跳转面包屑页面
     turnHeadPage(index) {
-      uni.navigateBack({
-        delta: this.localListPlus.length - index - 1,
-      });
+      // let arr = []
+      // for(let i = 0; i <= index;i++){
+      //   arr.push(this.setting[i])
+      // }
+      // this.setSetting(arr);
+      // if(this.localListPlus.length  == 1){
+      //   uni.navigateBack({
+      //     delta: this.localListPlus.length ,
+      //   });
+      // }else{
+      //   uni.navigateBack({
+      //     delta: this.localListPlus.length - index -1,
+      //   });
+      // }
+      
     },
     // 跳转路由
     turnUrl() {
@@ -130,23 +114,10 @@ export default {
     },
     //加载处理面包屑
     loadHeader() {
-      if (this.localList) {
-        return (this.localListPlus = this.localList.split(","));
-      }
-      let comps = getCurrentPages();
       let arr = [];
-      comps.forEach((item, index) => {
-        //访问历史前两级固定不带参数不用判断，若携带basic,手动添加面包屑路径
-        if (index <= 1 && this.basic !== "") {
-          arr = [this.basic];
-        }
-        // 判断路径是否携带name参数，携带则添加面包屑路径
-        if (index > 1) {
-          let data = JSON.parse(item.options.data);
-          if ("name" in data) {
-            arr.push(data.name);
-          }
-        }
+       console.log(this.setting)
+      this.setting.forEach((item, index) => {
+        arr.push(item.name)
       });
       this.localListPlus = arr;
     },
@@ -158,23 +129,24 @@ export default {
 .baseLayout {
   width: 100%;
 }
+
 .header {
   width: 100%;
   display: flex;
   padding: 10upx 10upx;
+  height: 80upx;
   box-sizing: border-box;
   align-items: center;
   background-color: #fff;
   position: relative;
   z-index: 999;
 
-  .back,
-  .more {
+  .menu {
     padding-left: 20upx;
 
     img {
-      height: 40upx;
-      width: 42upx;
+      height: 48upx;
+      width: 48upx;
     }
 
     transform: translateY(5upx);
@@ -189,15 +161,18 @@ export default {
   .content {
     display: flex;
     margin-left: 20upx;
-    color: #9a9a9a;
+    color: #333;
     font-size: 26upx;
     align-items: center;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: auto;
     text-overflow: ellipsis;
+    &::-webkit-scrollbar{
+      display: none;
+    }
 
     .dot {
-      margin: 0 10upx;
+      margin: 0 15upx;
       transform: translateY(-20upx) scale(2);
     }
 
@@ -216,24 +191,30 @@ export default {
     flex: 1;
     display: flex;
     justify-content: flex-end;
-    padding-right: 20upx;
+    align-items: center;
 
+   
     img {
-      height: 40upx;
-      width: 40upx;
+      height: 52upx;
+      width: 52upx;
       margin: 0 15upx;
     }
 
-    .search {
-      transform: translateY(2upx);
-    }
-
-    .dotPlus {
-      img {
-        width: 10upx;
-        height: 42upx;
+    .add{
+      img{
+        height: 36upx;
+      width: 36upx;
       }
     }
+
+    .more{
+      img{
+        height: 52upx;
+      width: 52upx;
+      }
+    }
+
+   
   }
 }
 </style>

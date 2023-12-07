@@ -78,7 +78,7 @@ export default {
 	data() {
 		return {
 			noData: true,
-			minWidth: 0,
+			minWidth: 500,
 			multiTableHeads: []
 		}
 	},

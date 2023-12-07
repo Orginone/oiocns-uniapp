@@ -1,6 +1,6 @@
 {
-    "name" : "ajn",
-    "appid" : "__UNI__7F0E3D4",
+    "name" : "资产共享云",
+    "appid" : "__UNI__3054AE6",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx25b80ef26618aaf7",
+        "appid" : "wx9de4d17864f44e3d",
         "setting" : {
             "urlCheck" : false
         },

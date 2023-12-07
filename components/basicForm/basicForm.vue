@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<view class="title" v-if="title">
+		<!-- <view class="title" v-if="title">
 			{{title}}
-		</view>
+		</view> -->
 		<view class="BasicForm">
-			<view class="formItem" v-for="item,index in formData" :key="index">
+			<view class="formItem" v-for="item,key in formData" :key="key">
 				<view class="name">
 					{{item.name}}
 				</view>
@@ -55,9 +55,9 @@
 	
 
 		.formItem {
+			padding: 10upx 0;
 			display: flex;
-			height: 70upx;
-			font-size: 20upx;
+			font-size: 26upx;
 			color: #666666;
 			border-bottom: 2upx solid #ebeef5;
 
@@ -65,9 +65,10 @@
 				height: 100%;
 				padding-left: 22upx;
 				display: flex;
+				height: 100%;
 				align-items: center;
 				width: 210upx;
-				background-color: #f5f6fc;
+				
 				border-right: 2upx solid #d9e3f5;
 			}
 
@@ -75,7 +76,6 @@
 				height: 100%;
 				padding-left: 22upx;
 				flex: 1;
-				background-color: #fff;
 				display: flex;
 				width: 100%;
 				align-items: center;

@@ -1,57 +1,129 @@
 <template>
-	<view>
-		<headbar   :left="'more'" :url="'back'" right basic="办事"></headbar>
-		<personList :listInfo='listInfo' :title="'个人'"  :localList="'办事'" :url="url"></personList>
-		<personList :listInfo='listInfo2' :title="'组织'" :localList="'办事'"  :url="url"> ></personList>
-	</view>
+  <view class="BaseLayout">
+    <view class="itemArea">
+      <view
+        class="listItem"
+        v-for="(item, index) in list"
+        :key="index"
+        @tap="turnDetailPage(item)"
+      >
+        <img class="box"  :src="'' + item.icon + ''" />
+        <view class="name">{{ item.label }}</view>
+        <view class="right">
+          <img src="../../../static/base/right.png" />
+        </view>
+      </view>
+    </view>
+  </view>
 </template>
+
 <script>
-import { kernelApi } from "common/app";
 export default {
   data() {
     return {
-      url: "/pages/work/page2/page2",
-      listInfo: [
+      menu: [],
+      listType: "store",
+      showType: "0",
+      list: [
         {
-          name: "加好友",
+          type:0,
+          icon: "../../../static/base/work.svg",
+          label: "待办事项",
         },
         {
-          name: "加单位",
+          type:1,
+          icon: "../../../static/base/workDone.svg",
+          label: "已办事项",
         },
         {
-          name: "加群",
+          type:2,
+          icon: "../../../static/base/myWork.svg",
+          label: "我发起的",
         },
         {
-          name: "办事",
+          type:3,
+          icon: "../../../static/base/myWork.svg",
+          label: "发起办事",
         },
       ],
-      listInfo2: [
-        {
-          name: "杭州电子科技大学",
-        },
-        {
-          name: "浙江省财政厅",
-        },
-        {
-          name: "浙江省教育局",
-        },
-      ],
-      userInfo: {},
     };
   },
-  async onLoad(options) {
-    this.userInfo = uni.getStorageSync("currentUser");
-    let params = {
-      id: this.userInfo.id,
-      page: { offset: 1, limit: 999, filter: "" },
-      typeNames: ["单位", "大学", "医院"],
-    };
-    let res = await kernelApi.queryJoinedTargetById(params);
-	this.listInfo2 = res.data.result
-	
+  watch: {},
+  onLoad(options) {
+    console.log(options.id);
+    this.id = options.id
+  },
+  onShow() {},
+  methods: {
+    turnDetailPage(item) {
+      uni.navigateTo({
+        url: "/pages/work/list/list" + "?type=" + item.type+'&id='+this.id,
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.main {
+  display: flex;
+  align-items: center;
+  padding: 15rpx;
+  .more {
+    width: 48rpx;
+    height: 48rpx;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.itemArea {
+  box-sizing: border-box;
+
+  .listItem {
+    display: flex;
+    padding: 16upx 30upx;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid #eee;
+    &:active {
+      background-color: #edeffc;
+      border-radius: 10upx;
+    }
+    .box {
+      width: 72upx;
+      height: 72upx;
+      margin-right: 25upx;
+    }
+
+    .name {
+      font-size: 32upx;
+    }
+
+    .right {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      transform: translateY(2upx);
+
+      img {
+        margin-left: 28upx;
+        height: 28upx;
+        width: 28upx;
+      }
+      .dotPlus {
+        position: relative;
+        padding: 5upx 10upx;
+        img {
+          height: 30upx;
+          width: 8upx;
+        }
+      }
+    }
+  }
+}
+.box{
+  color: #154ad8;
+}
 </style>

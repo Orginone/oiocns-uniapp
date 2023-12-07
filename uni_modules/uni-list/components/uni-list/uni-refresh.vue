@@ -57,7 +57,7 @@
     }
 </script>
 
-<style>
+<style lang="scss" >
     .uni-refresh {
         height: 0;
         overflow: hidden;

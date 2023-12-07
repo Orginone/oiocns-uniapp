@@ -50,58 +50,35 @@
         </view>
       </view>
       <!-- 切换登录 -->
-      <view class="switch">
-        <view class="ico"
-          ><img src="../../static/base/switch.png" alt=""
-        /></view>
-        <view
-          class="item1"
-          v-if="switchMode"
-          @click="
-            switchMode = !switchMode;
-            haveCatpcha = 0;
-          "
-          >手机号码登录</view
-        >
-        <view
-          class="item2"
-          v-if="!switchMode"
-          @click="
-            switchMode = !switchMode;
-            haveCatpcha = 0;
-          "
-        >
+      <!-- <view class="switch">
+        <view class="ico"><img src="../../static/base/switch.png" alt="" /></view>
+        <view class="item1" v-if="switchMode" @click="
+          switchMode = !switchMode;
+        haveCatpcha = 0;
+        ">手机号码登录</view>
+        <view class="item2" v-if="!switchMode" @click="
+          switchMode = !switchMode;
+        haveCatpcha = 0;
+        ">
           账号密码登录
           <view class="warning" v-show="!phonePass">手机号码无法使用</view>
         </view>
-      </view>
+      </view> -->
     </view>
     <!-- 输入验证码 -->
-    <view class="captcha" v-show="stepState == 1">
+    <!-- <view class="captcha" v-show="stepState == 1">
       <view class="title">
         <view class="back" @click="turnBack">
-          <uni-icons
-            type="arrow-left"
-            size="30"
-            style="color: #d8d8d8"
-          ></uni-icons>
+          <uni-icons type="arrow-left" size="30" style="color: #d8d8d8"></uni-icons>
         </view>
         <view class="textArea">
           <view class="main">请输入验证码</view>
-          <view class="sub"
-            >验证码会发送至 {{ "+86" }} {{ "12312341234" }}</view
-          >
+          <view class="sub">验证码会发送至 {{ "+86" }} {{ "12312341234" }}</view>
         </view>
       </view>
       <view class="input">
-        <u-message-input
-          mode="bottomLine"
-          @finish="finishCaptcha"
-          :maxlength="6"
-          :focus="true"
-          :bold="false"
-          :breathe="false"
-        ></u-message-input>
+        <u-message-input mode="bottomLine" @finish="finishCaptcha" :maxlength="6" :focus="true" :bold="false"
+          :breathe="false"></u-message-input>
       </view>
       <view class="tip">
         <view class="error" v-if="captchaRight == 1">
@@ -117,12 +94,12 @@
       <view class="getCaptcha" v-if="showGetCaptcha" @click="getCaptcha">
         获取验证码
       </view>
-    </view>
+    </view> -->
     <!-- 首次使用注册 -->
     <view class="signup" v-show="stepState == 2">
       <view class="title">
         <view class="account">
-          <view class="main">欢迎使用奥集能</view>
+          <view class="main">欢迎使用资产共享云</view>
           <view class="sun">请完善个人信息</view>
         </view>
       </view>
@@ -161,7 +138,7 @@
 
     <!-- 勾选同意 -->
     <view class="nextstep">
-      <view class="agree">
+      <!-- <view class="agree">
         <view class="tip" v-show="showtip">请勾选后再登陆</view>
         <u-checkbox v-model="checked" shape="circle"></u-checkbox>
         <view class="text">
@@ -170,7 +147,7 @@
           与
           <view class="blue">《隐私条款》</view>
         </view>
-      </view>
+      </view> -->
       <!-- 下一步 -->
       <view
         :class="checked ? 'btn-area' : 'btn-area notready'"
@@ -178,7 +155,7 @@
       >
         <view class="btns" v-if="haveCatpcha == 0">
           <view class="btn1" v-show="switchMode" @click="turnPage()">
-            下一步
+            登录
           </view>
           <view class="btn2" v-show="!switchMode" @click="sendCaptcha()">
             发送验证码
@@ -196,17 +173,29 @@
           <moveVerify @result="verifyResult" ref="verifyElement"></moveVerify>
         </view>
       </view>
+      <view
+        :class="checked ? 'btn-area' : 'btn-area notready'"
+        v-if="stepState != 1"
+      >
+        <view class="btns" v-if="haveCatpcha == 0">
+          <view class="btn1" v-show="switchMode" @click="wxLogin()">
+            一键登录
+          </view>
+        </view>
+      </view>
     </view>
   </view>
 </template>
 
 <script>
-import { accountApi } from "common/app";
+import orgCtrl from "@/ts/controller";
+import { kernel } from "../../ts/base";
+
 export default {
   data() {
     return {
-      checked: false, //勾选标识
-      showtip: 0, //未勾选提示框
+      checked: true, //勾选标识
+      showtip: 1, //未勾选提示框
       ready: 1, //判断表示/下一步
       switchMode: 1, //账号密码登录模式
       showList: 0, //手机号前缀下拉
@@ -238,11 +227,14 @@ export default {
           text: "+198",
         },
       ],
-      account: "15168347908",
-      pwd: "38179960Jzy~",
+      account: "18637079378",
+      pwd: "aB_111!",
     };
   },
-  onLoad() {},
+  onShow() {
+    uni.removeStorageSync("accessToken");
+    uni.removeStorageSync("sessionUser");
+  },
   destroyed() {
     clearInterval(this.timer);
   },
@@ -283,26 +275,24 @@ export default {
       uni.showLoading({
         title: "加载中",
       });
-      let res = await accountApi.login(this.account, this.pwd);
+      const res = await orgCtrl.provider.login(this.account, this.pwd);
       if (res.code == 200) {
         uni.showToast({
           title: "登录成功",
           icon: "none",
         });
-        console.log(this.$oapp);
-        uni.setStorageSync("currentUser", res.data.target);
-        uni.setStorageSync("accessToken", res.data.accessToken);
         uni.hideLoading();
         uni.switchTab({
           url: "/pages/main/main",
         });
-      }else{
-		uni.showToast({
+      } else {
+        uni.showToast({
           title: "登录失败",
           icon: "none",
         });
-	  }
+      }
     },
+
     // 首次登录跳转页面
     turnPagePlus() {
       if (!this.checked) {
@@ -387,6 +377,40 @@ export default {
       this.setCountdown();
       this.showGetCaptcha = 0;
     },
+    wxLogin() {
+      let that = this;
+      uni.login({
+        success(res) {
+          if (res.code) {
+            that.httpForward(res.code)
+          } else {
+            console.log("登录失败！" + res.errMsg);
+          }
+        },
+      });
+    },
+    async httpForward(code) {
+      let parse = "appid=wx9de4d17864f44e3d&secret=78fd75e9f77a4d6963d78e67107e03ec&grant_type=authorization_code&js_code="+code
+      let obj = {
+        uri: "https://api.weixin.qq.com/sns/jscode2session?"+parse,
+        method: "GET",
+        Header: {
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        content: "",
+      };
+      let res = await kernel.httpForward(obj);
+      this.sendThing(res);
+    },
+    async sendThing(query){
+      console.log('query',query);
+      let obj = {
+        id: '11',
+        data:{},
+      }
+      let res = await kernel.ThingSetProperty(obj);
+      console.log('res',res);
+    }
   },
 };
 </script>
@@ -633,7 +657,7 @@ page {
       display: flex;
       position: relative;
       padding-left: 20upx;
-
+      align-items: center;
       .tip {
         position: absolute;
         top: -90upx;
